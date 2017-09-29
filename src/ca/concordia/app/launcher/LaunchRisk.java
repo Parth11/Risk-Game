@@ -38,6 +38,7 @@ public class LaunchRisk implements ActionListener {
 	public static void main(String[] args) {
 
 		LaunchRisk launcher = new LaunchRisk();
+		//mychange
 	}
 
 }
