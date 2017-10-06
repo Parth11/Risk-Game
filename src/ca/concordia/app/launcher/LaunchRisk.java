@@ -6,7 +6,9 @@ package ca.concordia.app.launcher;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import ca.concordia.app.controller.MapCreatorController;
 import ca.concordia.app.view.MainView;
+import ca.concordia.app.view.MapCreaterView;
 
 /**
  * @author harvi
@@ -32,14 +34,16 @@ public class LaunchRisk implements ActionListener {
 		if(e.getSource().equals(mainView.createMap)){
 			
 			
+			showCreateMapView();
 			
-			mainView.dispose();
+			
 		}
 		
 	}
 
 	private void showCreateMapView(){
-		
+		new MapCreatorController();
+		mainView.dispose();
 	}
 
 	/**
