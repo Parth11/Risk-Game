@@ -28,8 +28,18 @@ public class LaunchRisk implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
+		
+		if(e.getSource().equals(mainView.createMap)){
+			
+			
+			
+			mainView.dispose();
+		}
+		
+	}
 
+	private void showCreateMapView(){
+		
 	}
 
 	/**

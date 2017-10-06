@@ -3,6 +3,7 @@
  */
 package ca.concordia.app.view;
 
+import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -19,6 +20,12 @@ public class MainView extends JFrame implements IView {
 
 	private static final String MAIN_WINDOW_TITLE = "Risk";
 	
+	public JMenuBar gameMenu;
+	
+	public JMenu fileMenu,optionsMenu,aboutMenu;
+	
+	public JMenuItem newGame,createMap,loadMap;
+	
 	public MainView() {
 		
 		this.setTitle(MAIN_WINDOW_TITLE);
@@ -27,44 +34,22 @@ public class MainView extends JFrame implements IView {
 		this.setLocation(100, 100);
 		this.setSize(500, 400);
 		
-		JMenuBar gameMenu = new JMenuBar();
+		gameMenu = new JMenuBar();
 		
-		JMenu fileMenu= new JMenu("File");
-		JMenuItem newGame = new JMenuItem("New Game");
-		
-		newGame.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				e.getActionCommand();
-				JMenuItem src = (JMenuItem) e.getSource();
-				src.getParent();
-			}
-		});
+		fileMenu= new JMenu("File");
+		newGame = new JMenuItem("New Game");
 		
 		fileMenu.add(newGame);
 		
-		JMenu optionsMenu = new JMenu("Options");
-		JMenuItem loadMap = new JMenuItem("Load Map");
-		optionsMenu.add(loadMap);
-		
-		JMenuItem createMap = new JMenuItem("Create Map");
+		optionsMenu = new JMenu("Options");
+		createMap = new JMenuItem("Create Map");
 		optionsMenu.add(createMap);
+		loadMap = new JMenuItem("Load Map");
+		optionsMenu.add(loadMap);
+
 		
-		createMap
-		.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				MapCreaterView mapCreateView= new MapCreaterView();
-				mapCreateView.setActionListener(this);
-				setContentPane(mapCreateView);
-				
-			}
-		});
-		JMenu aboutMenu = new JMenu("About");
-		
+		aboutMenu = new JMenu("About");
+
 		gameMenu.add(fileMenu);
 		gameMenu.add(optionsMenu);
 		gameMenu.add(aboutMenu);
@@ -73,6 +58,8 @@ public class MainView extends JFrame implements IView {
 		
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
+	
+	
 	
 	@Override
 	public void setActionListener(ActionListener actionListener) {
