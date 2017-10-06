@@ -17,7 +17,7 @@ import javax.swing.JMenuItem;
  */
 public class MainView extends JFrame implements IView {
 
-	private static final String MAIN_WINDOW_TITLE = "A Clash of Kings";
+	private static final String MAIN_WINDOW_TITLE = "Risk";
 	
 	public MainView() {
 		
@@ -48,6 +48,21 @@ public class MainView extends JFrame implements IView {
 		JMenuItem loadMap = new JMenuItem("Load Map");
 		optionsMenu.add(loadMap);
 		
+		JMenuItem createMap = new JMenuItem("Create Map");
+		optionsMenu.add(createMap);
+		
+		createMap
+		.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				MapCreaterView mapCreateView= new MapCreaterView();
+				mapCreateView.setActionListener(this);
+				setContentPane(mapCreateView);
+				
+			}
+		});
 		JMenu aboutMenu = new JMenu("About");
 		
 		gameMenu.add(fileMenu);
@@ -64,5 +79,6 @@ public class MainView extends JFrame implements IView {
 		// TODO Auto-generated method stub
 		
 	}
+	
 
 }
