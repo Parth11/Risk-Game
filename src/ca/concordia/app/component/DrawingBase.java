@@ -2,10 +2,13 @@ package ca.concordia.app.component;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.event.ActionListener;
 
 import javax.swing.JPanel;
 
-public class DrawingBase extends JPanel{
+import ca.concordia.app.view.IView;
+
+public class DrawingBase extends JPanel implements IView {
 	private String clickedAt = "";
     private int x = 0;
     private int y = 0;
@@ -44,6 +47,17 @@ public class DrawingBase extends JPanel{
 	public void setY(int y) {
 		this.y = y;
 	}
-    
+	
+	public String toString()
+	{
+		return "("+getX() +","+getY()+")";
+		
+	}
+
+	@Override
+	public void setActionListener(ActionListener actionListener) {
+		// TODO Auto-generated method stub
+//		this.add
+	}    
     
 }

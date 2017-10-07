@@ -7,6 +7,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.LayoutManager;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
@@ -14,11 +15,13 @@ import javax.imageio.ImageIO;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import ca.concordia.app.view.IView;
+
 /**
  * @author hardikfumakiya
  *
  */
-public class MapEditorPanel extends JPanel {
+public class MapEditorPanel extends JPanel implements IView{
 
 	public DrawingBase mapArea;
 	BufferedImage image;
@@ -35,6 +38,7 @@ public class MapEditorPanel extends JPanel {
 		
 		mapArea=new DrawingBase();
 		mapArea.setBounds(50, 50, w, h);
+		
 		setOpaque(false);
 		mapArea.setOpaque(false);
 		add(mapArea);
@@ -45,6 +49,11 @@ public class MapEditorPanel extends JPanel {
         super.paintComponent(g);
         g.drawImage(image,0,0,this);
    }
+	@Override
+	public void setActionListener(ActionListener actionListener) {
+		// TODO Auto-generated method stub
+		mapArea.setActionListener(actionListener);
+	}
 	
 
 }

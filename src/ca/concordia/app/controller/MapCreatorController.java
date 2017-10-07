@@ -24,7 +24,12 @@ public class MapCreatorController implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-
+		if(e.getSource().equals(mapCreaterView.mapEditor.mapArea)) {
+			System.out.println("at (x,y):"+mapCreaterView.mapEditor.mapArea.toString());
+		}
+		else {
+			System.out.println("you clicked me:"+e.getSource());
+		}
 	}
 
 }
