@@ -1,13 +1,20 @@
 package ca.concordia.app.view;
 
+import java.awt.Color;
 import java.awt.Component;
+import java.awt.ComponentOrientation;
 import java.awt.Container;
+import java.awt.FlowLayout;
+import java.awt.GridLayout;
 import java.awt.HeadlessException;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+
+import ca.concordia.app.component.MapEditorPanel;
 
 public class MapCreaterView extends MainView {
 
@@ -22,13 +29,30 @@ public class MapCreaterView extends MainView {
 		// TODO Auto-generated method stub
 
 		this.setTitle(title);
-
+		GridLayout layout= new GridLayout(0,2,10,10);
+		
+		setLayout(layout);
+		
+		setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
+		
 		JPanel mainPanel = new JPanel();
-		JButton jbtn = new JButton("Hi creator");
-		jbtn.setAlignmentX(Component.CENTER_ALIGNMENT);
-		mainPanel.add(jbtn);
-		Container contentPane = getContentPane();
-		contentPane.add(mainPanel);
+		
+
+		MapEditorPanel mapEditor;
+		try {
+			mapEditor = new MapEditorPanel();
+			mapEditor.setAlignmentX(LEFT_ALIGNMENT);
+			mapEditor.setAlignmentY(TOP_ALIGNMENT);
+			mainPanel.add(mapEditor);
+			Container contentPane = getContentPane();
+			contentPane.add(mainPanel);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		
 
 		this.pack();
 		this.setLocationRelativeTo(null);
