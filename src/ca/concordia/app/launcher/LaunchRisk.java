@@ -32,12 +32,9 @@ public class LaunchRisk implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		
 		if(e.getSource().equals(mainView.createMap)){
-			
-			
 			showCreateMapView();
-			
-			
 		}
+	
 		
 	}
 

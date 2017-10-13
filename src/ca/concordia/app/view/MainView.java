@@ -30,7 +30,6 @@ public class MainView extends JFrame implements IView {
 		
 		this.setTitle(MAIN_WINDOW_TITLE);
 		
-		
 		this.setLocation(100, 100);
 		this.setSize(500, 400);
 		
@@ -46,7 +45,6 @@ public class MainView extends JFrame implements IView {
 		optionsMenu.add(createMap);
 		loadMap = new JMenuItem("Load Map");
 		optionsMenu.add(loadMap);
-
 		
 		aboutMenu = new JMenu("About");
 
@@ -59,15 +57,12 @@ public class MainView extends JFrame implements IView {
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
 	
-	
-	
 	@Override
 	public void setActionListener(ActionListener actionListener) {
 		// TODO Auto-generated method stub
 		newGame.addActionListener(actionListener);
 		loadMap.addActionListener(actionListener);
 		createMap.addActionListener(actionListener);
-		
 	}
 	
 

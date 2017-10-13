@@ -8,7 +8,7 @@ import javax.swing.JPanel;
 
 import ca.concordia.app.view.IView;
 
-public class DrawingBase extends JPanel implements IView {
+public class DrawingBase extends JPanel{
 	private String clickedAt = "";
     private int x = 0;
     private int y = 0;
@@ -54,10 +54,4 @@ public class DrawingBase extends JPanel implements IView {
 		
 	}
 
-	@Override
-	public void setActionListener(ActionListener actionListener) {
-		// TODO Auto-generated method stub
-//		this.add
-	}    
-    
 }
