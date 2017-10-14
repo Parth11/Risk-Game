@@ -81,8 +81,6 @@ public class MapEditorController implements ActionListener, MouseListener{
 			
 			HashMap<Country, ArrayList<String>> territories = (HashMap<Country, ArrayList<String>>) gameMap.getTerritories().clone(); 
 			
-			
-			
 			ArrayList<String> selectedNeighbours = new ArrayList<>(selValues);
 			
 			territories.put(c, selectedNeighbours);

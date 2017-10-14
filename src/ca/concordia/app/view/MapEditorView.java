@@ -127,7 +127,6 @@ public class MapEditorView extends JFrame implements IView{
 		
 	}
 
-
 	@Override
 	public void setActionListener(ActionListener actionListener) {
 		next_button.addActionListener(actionListener);
