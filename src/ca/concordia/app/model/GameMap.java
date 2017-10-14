@@ -1,11 +1,13 @@
+
 /**
  * 
  */
 package ca.concordia.app.model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import java.util.TreeMap;
+import java.util.HashMap;
 
 import ca.concordia.app.util.CountryComparator;
 
@@ -21,12 +23,12 @@ public class GameMap {
 	
 	private List<Continent> continents;
 	
-	private TreeMap<Country, List<String>> territories;
+	private HashMap<Country, ArrayList<String>> territories;
 
 	private GameMap(){
 		this.countries = new ArrayList<Country>();
 		this.continents = new ArrayList<Continent>();
-		this.territories = new TreeMap<Country, List<String>>(new CountryComparator());
+		this.territories = new HashMap<Country, ArrayList<String>>();
 	}
 	
 	public static GameMap getInstance(){
@@ -54,12 +56,20 @@ public class GameMap {
 		this.continents = continents;
 	}
 
-	public TreeMap<Country, List<String>> getTerritories() {
+	public HashMap<Country, ArrayList<String>> getTerritories() {
 		return territories;
 	}
 
-	public void setTerritories(TreeMap<Country, List<String>> territories) {
+	public void setTerritories(HashMap<Country, ArrayList<String>> territories) {
 		this.territories = territories;
+	}
+	
+	public Country getCountryByName(String countryName){
+		Country c = new Country(countryName, 0, 0, "");
+		if(this.countries.indexOf(c)>=0){
+			return this.countries.get(this.countries.indexOf(c));
+		}
+		return null;
 	}
 	
 }

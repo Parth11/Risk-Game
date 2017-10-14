@@ -78,7 +78,7 @@ public class CreateMapService {
 			Country ctry = new Country(metaData[0].trim(), Integer.parseInt(metaData[1]), 
 					Integer.parseInt(metaData[2]), metaData[3].trim());
 			countries.add(ctry);
-			List<String> t = Arrays.asList(Arrays.copyOfRange(metaData, 4, metaData.length));
+			ArrayList<String> t = new ArrayList<String>(Arrays.asList(Arrays.copyOfRange(metaData, 4, metaData.length)));
 			gameMap.getTerritories().put(ctry,t);
 		}
 

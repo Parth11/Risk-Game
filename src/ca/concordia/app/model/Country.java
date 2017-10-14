@@ -56,5 +56,18 @@ public class Country {
 		this.continentName = continentName;
 	}
 
+	  public boolean equals(Object obj) {
+		  
+		  if(obj instanceof Country){
+			  if(this.countryName.equals(((Country) obj).getCountryName())){
+				return true;  
+			  }
+		  }
+	      return false;
+	  }
+	  
+	  public String toString(){
+		  return this.countryName;
+	  }
 
 }

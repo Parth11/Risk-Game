@@ -1,74 +1,68 @@
-/**
- * 
- */
 package ca.concordia.app.view;
 
-import java.awt.Container;
-import java.awt.event.ActionEvent;
+import java.awt.EventQueue;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseListener;
 
 import javax.swing.JFrame;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
+import javax.swing.JButton;
 
-/**
- * @author harvi
- *
- */
-public class MainView extends JFrame implements IView {
+public class MainView extends JFrame implements IView{
 
-	private static final String MAIN_WINDOW_TITLE = "Risk";
-	
-	public JMenuBar gameMenu;
-	
-	public JMenu fileMenu,optionsMenu,aboutMenu;
-	
-	public JMenuItem newGame,createMap,loadMap;
-	
-	public MainView() {
-		
-		this.setTitle(MAIN_WINDOW_TITLE);
-		
-		
-		this.setLocation(100, 100);
-		this.setSize(500, 400);
-		
-		gameMenu = new JMenuBar();
-		
-		fileMenu= new JMenu("File");
-		newGame = new JMenuItem("New Game");
-		
-		fileMenu.add(newGame);
-		
-		optionsMenu = new JMenu("Options");
-		createMap = new JMenuItem("Create Map");
-		optionsMenu.add(createMap);
-		loadMap = new JMenuItem("Load Map");
-		optionsMenu.add(loadMap);
 
-		
-		aboutMenu = new JMenu("About");
+	public JButton new_game,create_map,edit_map;
 
-		gameMenu.add(fileMenu);
-		gameMenu.add(optionsMenu);
-		gameMenu.add(aboutMenu);
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+			
 		
-		this.setJMenuBar(gameMenu);
-		
-		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		MainView window = new MainView();
+		window.setVisible(true);
+	
 	}
-	
-	
-	
+
+	/**
+	 * Create the application.
+	 */
+	public MainView() {
+		initialize();
+	}
+
+	/**
+	 * Initialize the contents of the frame.
+	 */
+	private void initialize() {
+		
+		this.setBounds(100, 100, 1280, 763);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.getContentPane().setLayout(null);
+		
+		new_game = new JButton("New Game");
+		new_game.setBounds(167, 185, 213, 109);
+		this.getContentPane().add(new_game);
+		
+		create_map = new JButton("Create Map");
+		create_map.setBounds(448, 185, 199, 109);
+		this.getContentPane().add(create_map);
+		
+		edit_map = new JButton("Edit Map");
+		edit_map.setBounds(716, 185, 213, 109);
+		this.getContentPane().add(edit_map);
+	}
+
 	@Override
 	public void setActionListener(ActionListener actionListener) {
+		new_game.addActionListener(actionListener);
+		create_map.addActionListener(actionListener);
+		edit_map.addActionListener(actionListener);
+	}
+
+	@Override
+	public void setMouseListener(MouseListener mouseListener) {
 		// TODO Auto-generated method stub
-		newGame.addActionListener(actionListener);
-		loadMap.addActionListener(actionListener);
-		createMap.addActionListener(actionListener);
 		
 	}
-	
 
 }
