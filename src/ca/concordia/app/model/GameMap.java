@@ -72,4 +72,11 @@ public class GameMap {
 		return null;
 	}
 	
+	public String getCountryNeighboursAsCSV(Country c){
+		StringBuffer sb = new StringBuffer();
+		for(String s : GameMap.getInstance().getTerritories().get(c)){
+			sb.append(s).append(",");
+		}
+		return sb.toString().substring(0, sb.length()-1);
+	}
 }
