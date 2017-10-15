@@ -64,11 +64,13 @@ public class MainController implements ActionListener, MouseListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		System.out.println(e);
-		
 		
 		if(e.getSource().equals(main_view.create_map)){
-			new MapEditorController();
+			new MapEditorController(false);
+			main_view.dispose();
+		}
+		else if(e.getSource().equals(main_view.edit_map)){
+			new MapEditorController(true);
 			main_view.dispose();
 		}
 	}

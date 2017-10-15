@@ -108,20 +108,46 @@ public class CreateMapService {
 				e.printStackTrace();
 			}
 
-			List<String> metaMap = list.subList(list.indexOf("[Map]") + 1, list.indexOf("[Continents]") - 1);
+			extractFileInformation(gameMap, list);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return gameMap;
+	}
 
-			List<String> metaContinents = list.subList(list.indexOf("[Continents]") + 1,
-					list.indexOf("[Territories]") - 1);
+	private void extractFileInformation(GameMap gameMap, List<String> list) {
+		
+		List<String> metaContinents = list.subList(list.indexOf("[Continents]") + 1,
+				list.indexOf("[Territories]") - 1);
 
-			List<String> metaTerritories = list.subList(list.indexOf("[Territories]") + 1, list.size());
+		List<String> metaTerritories = list.subList(list.indexOf("[Territories]") + 1, list.size());
 
-			parseContinents(metaContinents,gameMap);
+		parseContinents(metaContinents,gameMap);
 
-			parseCountries(metaTerritories,gameMap);
+		parseCountries(metaTerritories,gameMap);
 
-			for(Country c : gameMap.getCountries()){
-				System.out.println(c.getCountryName()+":"+gameMap.getTerritories().get(c));
+		for(Country c : gameMap.getCountries()){
+			System.out.println(c.getCountryName()+":"+gameMap.getTerritories().get(c));
+		}
+	}
+	
+	public GameMap loadMap(File mapFile){
+		GameMap gameMap = null;
+		try {
+			gameMap = GameMap.getInstance();
+			List<String> list = new ArrayList<>();
+
+			try (BufferedReader br = new BufferedReader(new FileReader(mapFile))) {
+
+				list = br.lines().collect(Collectors.toList());
+
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
+
+			extractFileInformation(gameMap, list);
 			
 		} catch (Exception e) {
 			e.printStackTrace();

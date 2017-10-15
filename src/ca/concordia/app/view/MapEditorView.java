@@ -22,6 +22,7 @@ import ca.concordia.app.model.GameMap;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 
 public class MapEditorView extends JFrame implements IView{
 
@@ -44,6 +45,8 @@ public class MapEditorView extends JFrame implements IView{
 	public JButton next_button;
 
 	private JScrollPane scrollPane;
+	
+	public JFileChooser open_dialog;
 
 	/**
 	 * Launch the application.
@@ -70,8 +73,8 @@ public class MapEditorView extends JFrame implements IView{
 		
 		try {
 			map_area = new MapEditorPanel();
+			map_area.mapArea.setBorder(new LineBorder(new Color(0, 0, 0), 2));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		map_area.setBounds(12, 24, 821, 666);
@@ -154,6 +157,18 @@ public class MapEditorView extends JFrame implements IView{
 
 	public void connectNeighbours(String name) {
 		map_area.mapArea.connectNeighbours(name);
+		
+	}
+
+	public void paintLoadedMap() {
+		GameMap gameMap = GameMap.getInstance();
+		
+		for(Country c : gameMap.getCountries()){
+			map_area.mapArea.drawCountry(c.getLocX(), c.getLocy());
+			map_area.mapArea.connectNeighbours(c.getCountryName());
+		}
+		
+		repaintNeighbours();
 		
 	}
 }

@@ -137,6 +137,8 @@ public class MapEditorContinentView extends JFrame implements IView {
 		controlValue.setColumns(10);
 
 		saveDialog = new JFileChooser();
+		
+		repaintContinents();
 
 	}
 
