@@ -7,13 +7,17 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.swing.JFileChooser;
+
 import ca.concordia.app.model.Continent;
 import ca.concordia.app.model.Country;
 import ca.concordia.app.model.GameMap;
+import ca.concordia.app.service.CreateMapService;
 import ca.concordia.app.view.MapEditorContinentView;
 
 /**
@@ -98,7 +102,13 @@ public class MapEditorContinentController implements ActionListener,MouseListene
 			map_continent_view.repaintAvailableCountries(selValue);
 		}
 		else if(e.getSource().equals(map_continent_view.next_button)){
+			int retVal = map_continent_view.saveDialog.showOpenDialog(map_continent_view);
 			
+			if(retVal == JFileChooser.APPROVE_OPTION){
+				File file = map_continent_view.saveDialog.getSelectedFile();
+				CreateMapService createMapService = new CreateMapService();
+				createMapService.createMap(file.getAbsolutePath());
+			}
 		}
 	}
 

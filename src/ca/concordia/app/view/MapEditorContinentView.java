@@ -14,6 +14,8 @@ import ca.concordia.app.model.GameMap;
 import javax.swing.JScrollPane;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
+
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
@@ -39,6 +41,7 @@ public class MapEditorContinentView extends JFrame implements IView {
 	DefaultListModel<String> available_countries=new DefaultListModel<String>();
 	DefaultListModel<String> continents=new DefaultListModel<String>();
 	public JTextField controlValue;
+	public JFileChooser saveDialog;
 	/**
 	 * Launch the application.
 	 */
@@ -55,6 +58,8 @@ public class MapEditorContinentView extends JFrame implements IView {
 		});
 	}
 
+	
+	
 	/**
 	 * Create the application.
 	 */
@@ -120,6 +125,7 @@ public class MapEditorContinentView extends JFrame implements IView {
 		remove_button.setBounds(604, 275, 68, 50);
 		getContentPane().add(remove_button);
 		
+
 		JLabel lblControlValue = new JLabel("Control Value");
 		lblControlValue.setBounds(684, 34, 91, 16);
 		getContentPane().add(lblControlValue);
@@ -129,6 +135,8 @@ public class MapEditorContinentView extends JFrame implements IView {
 		controlValue.setBounds(787, 29, 142, 26);
 		getContentPane().add(controlValue);
 		controlValue.setColumns(10);
+
+		saveDialog = new JFileChooser();
 
 	}
 
