@@ -1,3 +1,4 @@
+
 /**
  * 
  */
@@ -18,6 +19,7 @@ import ca.concordia.app.model.Continent;
 import ca.concordia.app.model.Country;
 import ca.concordia.app.model.GameMap;
 import ca.concordia.app.service.CreateMapService;
+import ca.concordia.app.view.MainView;
 import ca.concordia.app.view.MapEditorContinentView;
 
 /**
@@ -84,6 +86,10 @@ public class MapEditorContinentController implements ActionListener,MouseListene
 			gameMap.getContinents().add(continent);
 			map_continent_view.repaintContinents();
 			
+		}
+		else if(e.getSource().equals(map_continent_view.cancel_button)){
+			new MainController();
+			map_continent_view.dispose();
 		}
 		else if(e.getSource().equals(map_continent_view.add_button))
 		{	

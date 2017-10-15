@@ -51,25 +51,14 @@ public class MapEditorView extends JFrame implements IView{
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					MapEditorView window = new MapEditorView();
-					window.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
+		/**
 	 * Create the application.
 	 * @throws IOException 
 	 */
 	public MapEditorView()  {
 		getContentPane().setLayout(null);
+		
+		setExtendedState(MAXIMIZED_BOTH);
 		
 		try {
 			map_area = new MapEditorPanel();
@@ -77,11 +66,11 @@ public class MapEditorView extends JFrame implements IView{
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		map_area.setBounds(12, 24, 821, 666);
+		
 		getContentPane().add(map_area);
 		
 		country_editor_panel = new JPanel();
-		country_editor_panel.setBounds(845, 24, 418, 666);
+		country_editor_panel.setBounds(1470, 13, 418, 653);
 		getContentPane().add(country_editor_panel);
 		country_editor_panel.setLayout(null);
 		
@@ -123,7 +112,7 @@ public class MapEditorView extends JFrame implements IView{
 		next_button.setBounds(119, 611, 158, 25);
 		country_editor_panel.add(next_button);
 		
-		this.setBounds(100, 100, 1300, 800);
+		//this.setBounds(100, 100, 1300, 800);
 		this.setTitle(WINDOW_TITLE);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	

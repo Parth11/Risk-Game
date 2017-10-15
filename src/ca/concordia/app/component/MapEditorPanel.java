@@ -6,6 +6,7 @@ package ca.concordia.app.component;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -28,7 +29,7 @@ public class MapEditorPanel extends JPanel implements IView{
 
 	public DrawingBase mapArea;
 	
-	BufferedImage image;
+	Image image;
 	/**
 	 * @throws IOException 
 	 * 
@@ -36,17 +37,19 @@ public class MapEditorPanel extends JPanel implements IView{
 	public MapEditorPanel() throws IOException {
 		// TODO Auto-generated constructor stub
 		setLayout(new BorderLayout());
-		image = ImageIO.read(getClass().getResource("/images/grid_background.png"));
-        int w = image.getWidth();
-        int h = image.getHeight();
+		
+		setBounds(12, 13, 1446, 975);
 		
 		mapArea=new DrawingBase();
-		mapArea.setBounds(12, 24, 821, 666);
+		add(mapArea);
+		
+		mapArea.setBounds(12, 24, mapArea.getParent().getWidth(), mapArea.getParent().getHeight());
 		
 		setOpaque(false);
 		mapArea.setOpaque(false);
-		add(mapArea);
 		
+		BufferedImage imageOriginal = ImageIO.read(getClass().getResource("/images/grid_background.png"));
+		image = imageOriginal.getScaledInstance(mapArea.getParent().getWidth(), mapArea.getParent().getHeight(), Image.SCALE_SMOOTH);
 	}
 	@Override
     protected void paintComponent(Graphics g) {

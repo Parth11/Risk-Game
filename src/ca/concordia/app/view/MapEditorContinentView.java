@@ -42,6 +42,7 @@ public class MapEditorContinentView extends JFrame implements IView {
 	DefaultListModel<String> continents=new DefaultListModel<String>();
 	public JTextField controlValue;
 	public JFileChooser saveDialog;
+	public JButton cancel_button;
 	/**
 	 * Launch the application.
 	 */
@@ -135,6 +136,10 @@ public class MapEditorContinentView extends JFrame implements IView {
 		controlValue.setBounds(787, 29, 142, 26);
 		getContentPane().add(controlValue);
 		controlValue.setColumns(10);
+		
+		cancel_button = new JButton("Cancel");
+		cancel_button.setBounds(551, 467, 97, 25);
+		getContentPane().add(cancel_button);
 
 		saveDialog = new JFileChooser();
 		
@@ -148,6 +153,7 @@ public class MapEditorContinentView extends JFrame implements IView {
 		save_button.addActionListener(actionListener);
 		add_button.addActionListener(actionListener);
 		remove_button.addActionListener(actionListener);
+		cancel_button.addActionListener(actionListener);
 	}
 
 	@Override
