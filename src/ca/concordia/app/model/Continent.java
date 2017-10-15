@@ -33,5 +33,15 @@ public class Continent {
 	public void setControlValue(int controlValue) {
 		this.controlValue = controlValue;
 	}
+	public boolean equals(Object obj) {
+		  
+		  if(obj instanceof Country){
+			  if(this.continentName.equals(((Continent) obj).getContinentName())){
+				return true;  
+			  }
+		  }
+	      return false;
+	  }
+	  
 	
 }

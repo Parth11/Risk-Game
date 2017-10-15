@@ -38,6 +38,7 @@ public class MapEditorContinentView extends JFrame implements IView {
 	DefaultListModel<String> select_countries=new DefaultListModel<String>();
 	DefaultListModel<String> available_countries=new DefaultListModel<String>();
 	DefaultListModel<String> continents=new DefaultListModel<String>();
+	public JTextField controlValue;
 	/**
 	 * Launch the application.
 	 */
@@ -118,6 +119,16 @@ public class MapEditorContinentView extends JFrame implements IView {
 		remove_button = new JButton(">>");
 		remove_button.setBounds(604, 275, 68, 50);
 		getContentPane().add(remove_button);
+		
+		JLabel lblControlValue = new JLabel("Control Value");
+		lblControlValue.setBounds(684, 34, 91, 16);
+		getContentPane().add(lblControlValue);
+		
+		controlValue = new JTextField();
+		controlValue.setText("0");
+		controlValue.setBounds(787, 29, 142, 26);
+		getContentPane().add(controlValue);
+		controlValue.setColumns(10);
 
 	}
 
@@ -154,6 +165,8 @@ public class MapEditorContinentView extends JFrame implements IView {
 	public void loadContinent(String selected_continent) {
 		// TODO Auto-generated method stub
 		continent_name_value.setText(selected_continent);
+		Continent continent= gameMap.getContinentByName(selected_continent);
+		controlValue.setText(continent.getControlValue()+"");
 		
 		List<Country> countries_all = gameMap.getCountries();
 		for (Country c : countries_all) {
@@ -216,7 +229,6 @@ public class MapEditorContinentView extends JFrame implements IView {
 				available_countries.addElement(s);
 			}
 			available_countries.addElement(selValue);
-			
 			
 			select_countries.removeElement(selValue);
 			selected_country_list.setModel(select_countries);
