@@ -19,7 +19,6 @@ import ca.concordia.app.model.Continent;
 import ca.concordia.app.model.Country;
 import ca.concordia.app.model.GameMap;
 import ca.concordia.app.service.CreateMapService;
-import ca.concordia.app.util.RiskExceptionHandler;
 import ca.concordia.app.view.MainView;
 import ca.concordia.app.view.MapEditorContinentView;
 
@@ -40,9 +39,6 @@ public class MapEditorContinentController implements ActionListener,MouseListene
 		map_continent_view.setActionListener(this);
 		map_continent_view.setMouseListener(this);
 		map_continent_view.setVisible(true);
-		
-		Thread.setDefaultUncaughtExceptionHandler(new RiskExceptionHandler(map_continent_view));
-		
 	}
 
 	@Override
@@ -120,7 +116,8 @@ public class MapEditorContinentController implements ActionListener,MouseListene
 			
 			if(retVal == JFileChooser.APPROVE_OPTION){
 				File file = map_continent_view.saveDialog.getSelectedFile();
-				CreateMapService.createMap(file.getAbsolutePath());
+				CreateMapService createMapService = new CreateMapService();
+				createMapService.createMap(file.getAbsolutePath());
 			}
 		}
 	}
