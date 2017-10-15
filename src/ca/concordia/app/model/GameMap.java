@@ -71,6 +71,15 @@ public class GameMap {
 		}
 		return null;
 	}
+
+	public Continent getContinentByName(String continentName) {
+		// TODO Auto-generated method stub
+		Continent c = new Continent(continentName,0,null);
+		if(this.continents.indexOf(c)>=0){
+			return this.continents.get(this.continents.indexOf(c));
+		}
+		return null;
+	}
 	
 	public String getCountryNeighboursAsCSV(Country c){
 		StringBuffer sb = new StringBuffer();

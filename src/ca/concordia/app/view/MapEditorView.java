@@ -14,14 +14,18 @@ import javax.swing.ListModel;
 import javax.swing.ListSelectionModel;
 import javax.swing.JScrollPane;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.border.LineBorder;
 
 import ca.concordia.app.component.MapEditorPanel;
+import ca.concordia.app.model.Continent;
 import ca.concordia.app.model.Country;
 import ca.concordia.app.model.GameMap;
+import ca.concordia.app.util.ContinentColourMap;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 
 public class MapEditorView extends JFrame implements IView{
 
@@ -44,24 +48,13 @@ public class MapEditorView extends JFrame implements IView{
 	public JButton next_button;
 
 	private JScrollPane scrollPane;
+	
+	public JFileChooser open_dialog;
 
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					MapEditorView window = new MapEditorView();
-					window.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
+		/**
 	 * Create the application.
 	 * @throws IOException 
 	 */
@@ -70,15 +63,16 @@ public class MapEditorView extends JFrame implements IView{
 		
 		try {
 			map_area = new MapEditorPanel();
+			map_area.setBounds(12, 13, 1068, 813);
+			map_area.mapArea.setBorder(new LineBorder(new Color(0, 0, 0), 2));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		map_area.setBounds(12, 24, 821, 666);
+		
 		getContentPane().add(map_area);
 		
 		country_editor_panel = new JPanel();
-		country_editor_panel.setBounds(845, 24, 418, 666);
+		country_editor_panel.setBounds(1091, 101, 418, 653);
 		getContentPane().add(country_editor_panel);
 		country_editor_panel.setLayout(null);
 		
@@ -120,7 +114,7 @@ public class MapEditorView extends JFrame implements IView{
 		next_button.setBounds(119, 611, 158, 25);
 		country_editor_panel.add(next_button);
 		
-		this.setBounds(100, 100, 1300, 800);
+		this.setBounds(100, 100, 1550, 900);
 		this.setTitle(WINDOW_TITLE);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	
@@ -154,6 +148,26 @@ public class MapEditorView extends JFrame implements IView{
 
 	public void connectNeighbours(String name) {
 		map_area.mapArea.connectNeighbours(name);
+		
+	}
+
+	public void paintLoadedMap() {
+		GameMap gameMap = GameMap.getInstance();
+		
+		for(Continent c : gameMap.getContinents()){
+			try {
+				ContinentColourMap.setContinentColour(c.getContinentName());
+			} catch (Exception e) {
+				JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+			}
+		}
+		
+		for(Country c : gameMap.getCountries()){
+			map_area.mapArea.drawCountry(c.getCountryName(),c.getLocX(), c.getLocy(),ContinentColourMap.getContinentColour(c.getContinentName()));
+			map_area.mapArea.connectNeighbours(c.getCountryName());
+		}
+		
+		repaintNeighbours();
 		
 	}
 }

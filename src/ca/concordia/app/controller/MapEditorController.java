@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -11,10 +12,13 @@ import java.util.List;
 import java.util.HashMap;
 
 import javax.swing.DefaultListModel;
+import javax.swing.JFileChooser;
 import javax.swing.JList;
 
 import ca.concordia.app.model.Country;
 import ca.concordia.app.model.GameMap;
+import ca.concordia.app.service.CreateMapService;
+import ca.concordia.app.util.RiskExceptionHandler;
 import ca.concordia.app.view.MapEditorView;
 
 public class MapEditorController implements ActionListener, MouseListener{
@@ -25,7 +29,8 @@ public class MapEditorController implements ActionListener, MouseListener{
 	
 	int tempX,tempY;
 	
-	public MapEditorController() {
+	public MapEditorController(boolean edit) {
+		
 		
 		gameMap = GameMap.getInstance();
 		
@@ -33,6 +38,27 @@ public class MapEditorController implements ActionListener, MouseListener{
 		map_editor_view.setActionListener(this);
 		map_editor_view.setMouseListener(this);
 		map_editor_view.setVisible(true);
+		
+		Thread.setDefaultUncaughtExceptionHandler(new RiskExceptionHandler(map_editor_view));
+		
+		if(edit){
+			map_editor_view.open_dialog = new JFileChooser();
+			
+			int retVal = map_editor_view.open_dialog.showOpenDialog(map_editor_view);
+			
+			if(retVal == JFileChooser.APPROVE_OPTION){
+				
+				File file = map_editor_view.open_dialog.getSelectedFile();
+				
+				if(file.exists()){
+					CreateMapService.loadMap(file);
+					map_editor_view.paintLoadedMap();
+				}
+				
+			}
+			
+		}
+		
 	}
 
 	@Override
@@ -41,7 +67,7 @@ public class MapEditorController implements ActionListener, MouseListener{
 		if(e.getSource().equals(map_editor_view.map_area.mapArea)){
 			tempX = e.getX();
 			tempY = e.getY();
-			map_editor_view.map_area.mapArea.drawCountry(e.getX(),e.getY());
+			map_editor_view.map_area.mapArea.drawCountry("",e.getX(),e.getY(),null);
 			map_editor_view.save_button.setEnabled(true);
 		}
 		
@@ -112,6 +138,10 @@ public class MapEditorController implements ActionListener, MouseListener{
 			new MapEditorContinentController();
 			map_editor_view.dispose();
 			
+		}
+		else if(e.getSource().equals(map_editor_view.cancel_button)){
+			new MainController();
+			map_editor_view.dispose();
 		}
 	}
 

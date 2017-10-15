@@ -1,3 +1,4 @@
+
 /**
  * 
  */
@@ -7,13 +8,20 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+
 import ca.concordia.app.model.Continent;
 import ca.concordia.app.model.Country;
 import ca.concordia.app.model.GameMap;
+import ca.concordia.app.service.CreateMapService;
+import ca.concordia.app.util.ContinentColourMap;
+import ca.concordia.app.view.MainView;
 import ca.concordia.app.view.MapEditorContinentView;
 
 /**
@@ -76,10 +84,23 @@ public class MapEditorContinentController implements ActionListener,MouseListene
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		if(e.getSource().equals(map_continent_view.save_button)){
-			Continent continent = new Continent(map_continent_view.continent_name_value.getText().trim(),0);
-			gameMap.getContinents().add(continent);
+			String continent_name=map_continent_view.continent_name_value.getText().trim();
+			if(gameMap.getContinentByName(continent_name)==null) {
+				try {
+					ContinentColourMap.setContinentColour(continent_name);
+				} catch (Exception e1) {
+					JOptionPane.showMessageDialog(map_continent_view, e1.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+				}
+				Continent continent = new Continent(continent_name,Integer.parseInt(map_continent_view.controlValue.getText()),ContinentColourMap.getContinentColour(continent_name));
+				gameMap.getContinents().add(continent);
+				
+			}
 			map_continent_view.repaintContinents();
 			
+		}
+		else if(e.getSource().equals(map_continent_view.cancel_button)){
+			new MainController();
+			map_continent_view.dispose();
 		}
 		else if(e.getSource().equals(map_continent_view.add_button))
 		{	
@@ -98,7 +119,12 @@ public class MapEditorContinentController implements ActionListener,MouseListene
 			map_continent_view.repaintAvailableCountries(selValue);
 		}
 		else if(e.getSource().equals(map_continent_view.next_button)){
+			int retVal = map_continent_view.saveDialog.showOpenDialog(map_continent_view);
 			
+			if(retVal == JFileChooser.APPROVE_OPTION){
+				File file = map_continent_view.saveDialog.getSelectedFile();
+				CreateMapService.createMap(file.getAbsolutePath());
+			}
 		}
 	}
 

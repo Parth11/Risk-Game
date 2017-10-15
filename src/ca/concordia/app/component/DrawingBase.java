@@ -1,5 +1,6 @@
 package ca.concordia.app.component;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.ActionListener;
@@ -58,8 +59,14 @@ public class DrawingBase extends JPanel {
 		
 	}
 	
-	public void drawCountry(int x, int y){
-		this.getGraphics().drawOval(x-10, y-10, 20, 20);
+	public void drawCountry(String countryName,int x, int y, Color color){
+		Graphics g =  this.getGraphics();
+		if(color==null){
+			color = Color.BLACK;
+		}
+		g.setColor(color);
+		g.fillOval(x-10, y-10, 20, 20);
+		g.drawString(countryName, x+12, y);
 	}
 
 	public void connectNeighbours(String name) {
