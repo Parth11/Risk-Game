@@ -14,11 +14,14 @@ import javax.swing.ListModel;
 import javax.swing.ListSelectionModel;
 import javax.swing.JScrollPane;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.border.LineBorder;
 
 import ca.concordia.app.component.MapEditorPanel;
+import ca.concordia.app.model.Continent;
 import ca.concordia.app.model.Country;
 import ca.concordia.app.model.GameMap;
+import ca.concordia.app.util.ContinentColourMap;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -151,8 +154,16 @@ public class MapEditorView extends JFrame implements IView{
 	public void paintLoadedMap() {
 		GameMap gameMap = GameMap.getInstance();
 		
+		for(Continent c : gameMap.getContinents()){
+			try {
+				ContinentColourMap.setContinentColour(c.getContinentName());
+			} catch (Exception e) {
+				JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+			}
+		}
+		
 		for(Country c : gameMap.getCountries()){
-			map_area.mapArea.drawCountry(c.getCountryName(),c.getLocX(), c.getLocy());
+			map_area.mapArea.drawCountry(c.getCountryName(),c.getLocX(), c.getLocy(),ContinentColourMap.getContinentColour(c.getContinentName()));
 			map_area.mapArea.connectNeighbours(c.getCountryName());
 		}
 		

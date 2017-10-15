@@ -59,9 +59,12 @@ public class DrawingBase extends JPanel {
 		
 	}
 	
-	public void drawCountry(String countryName,int x, int y){
+	public void drawCountry(String countryName,int x, int y, Color color){
 		Graphics g =  this.getGraphics();
-		g.setColor(Color.BLACK);
+		if(color==null){
+			color = Color.BLACK;
+		}
+		g.setColor(color);
 		g.fillOval(x-10, y-10, 20, 20);
 		g.drawString(countryName, x+12, y);
 	}

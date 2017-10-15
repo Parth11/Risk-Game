@@ -74,7 +74,7 @@ public class GameMap {
 
 	public Continent getContinentByName(String continentName) {
 		// TODO Auto-generated method stub
-		Continent c = new Continent(continentName,0);
+		Continent c = new Continent(continentName,0,null);
 		if(this.continents.indexOf(c)>=0){
 			return this.continents.get(this.continents.indexOf(c));
 		}

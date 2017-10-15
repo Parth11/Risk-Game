@@ -14,11 +14,13 @@ import java.util.HashMap;
 import java.util.List;
 
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 
 import ca.concordia.app.model.Continent;
 import ca.concordia.app.model.Country;
 import ca.concordia.app.model.GameMap;
 import ca.concordia.app.service.CreateMapService;
+import ca.concordia.app.util.ContinentColourMap;
 import ca.concordia.app.view.MainView;
 import ca.concordia.app.view.MapEditorContinentView;
 
@@ -84,7 +86,12 @@ public class MapEditorContinentController implements ActionListener,MouseListene
 		if(e.getSource().equals(map_continent_view.save_button)){
 			String continent_name=map_continent_view.continent_name_value.getText().trim();
 			if(gameMap.getContinentByName(continent_name)==null) {
-				Continent continent = new Continent(continent_name,Integer.parseInt(map_continent_view.controlValue.getText()));
+				try {
+					ContinentColourMap.setContinentColour(continent_name);
+				} catch (Exception e1) {
+					JOptionPane.showMessageDialog(map_continent_view, e1.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+				}
+				Continent continent = new Continent(continent_name,Integer.parseInt(map_continent_view.controlValue.getText()),ContinentColourMap.getContinentColour(continent_name));
 				gameMap.getContinents().add(continent);
 				
 			}
@@ -116,8 +123,7 @@ public class MapEditorContinentController implements ActionListener,MouseListene
 			
 			if(retVal == JFileChooser.APPROVE_OPTION){
 				File file = map_continent_view.saveDialog.getSelectedFile();
-				CreateMapService createMapService = new CreateMapService();
-				createMapService.createMap(file.getAbsolutePath());
+				CreateMapService.createMap(file.getAbsolutePath());
 			}
 		}
 	}

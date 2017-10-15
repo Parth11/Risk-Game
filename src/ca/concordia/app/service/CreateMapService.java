@@ -176,7 +176,7 @@ public class CreateMapService {
 
 		for (String c : metaContinents) {
 			String[] metaData = c.split("=");
-			continents.add(new Continent(metaData[0].trim(), Integer.parseInt(metaData[1])));
+			continents.add(new Continent(metaData[0].trim(), Integer.parseInt(metaData[1]),null));
 		}
 
 		gameMap.setContinents(continents);
