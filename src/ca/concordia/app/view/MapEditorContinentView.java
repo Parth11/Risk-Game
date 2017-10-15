@@ -14,6 +14,8 @@ import ca.concordia.app.model.GameMap;
 import javax.swing.JScrollPane;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
+
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
@@ -38,22 +40,9 @@ public class MapEditorContinentView extends JFrame implements IView {
 	DefaultListModel<String> select_countries=new DefaultListModel<String>();
 	DefaultListModel<String> available_countries=new DefaultListModel<String>();
 	DefaultListModel<String> continents=new DefaultListModel<String>();
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					MapEditorContinentView window = new MapEditorContinentView();
-					window.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
+	
+	public JFileChooser saveDialog;
+	
 	/**
 	 * Create the application.
 	 */
@@ -118,6 +107,8 @@ public class MapEditorContinentView extends JFrame implements IView {
 		remove_button = new JButton(">>");
 		remove_button.setBounds(604, 275, 68, 50);
 		getContentPane().add(remove_button);
+		
+		saveDialog = new JFileChooser();
 
 	}
 
