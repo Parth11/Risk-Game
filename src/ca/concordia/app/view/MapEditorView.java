@@ -58,10 +58,9 @@ public class MapEditorView extends JFrame implements IView{
 	public MapEditorView()  {
 		getContentPane().setLayout(null);
 		
-		setExtendedState(MAXIMIZED_BOTH);
-		
 		try {
 			map_area = new MapEditorPanel();
+			map_area.setBounds(12, 13, 1068, 813);
 			map_area.mapArea.setBorder(new LineBorder(new Color(0, 0, 0), 2));
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -70,7 +69,7 @@ public class MapEditorView extends JFrame implements IView{
 		getContentPane().add(map_area);
 		
 		country_editor_panel = new JPanel();
-		country_editor_panel.setBounds(1470, 13, 418, 653);
+		country_editor_panel.setBounds(1091, 101, 418, 653);
 		getContentPane().add(country_editor_panel);
 		country_editor_panel.setLayout(null);
 		
@@ -112,7 +111,7 @@ public class MapEditorView extends JFrame implements IView{
 		next_button.setBounds(119, 611, 158, 25);
 		country_editor_panel.add(next_button);
 		
-		//this.setBounds(100, 100, 1300, 800);
+		this.setBounds(100, 100, 1550, 900);
 		this.setTitle(WINDOW_TITLE);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	
@@ -153,7 +152,7 @@ public class MapEditorView extends JFrame implements IView{
 		GameMap gameMap = GameMap.getInstance();
 		
 		for(Country c : gameMap.getCountries()){
-			map_area.mapArea.drawCountry(c.getLocX(), c.getLocy());
+			map_area.mapArea.drawCountry(c.getCountryName(),c.getLocX(), c.getLocy());
 			map_area.mapArea.connectNeighbours(c.getCountryName());
 		}
 		

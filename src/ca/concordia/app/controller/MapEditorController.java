@@ -63,7 +63,7 @@ public class MapEditorController implements ActionListener, MouseListener{
 		if(e.getSource().equals(map_editor_view.map_area.mapArea)){
 			tempX = e.getX();
 			tempY = e.getY();
-			map_editor_view.map_area.mapArea.drawCountry(e.getX(),e.getY());
+			map_editor_view.map_area.mapArea.drawCountry("",e.getX(),e.getY());
 			map_editor_view.save_button.setEnabled(true);
 		}
 		
