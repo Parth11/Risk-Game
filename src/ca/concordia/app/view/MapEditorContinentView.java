@@ -16,6 +16,8 @@ import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.awt.event.ActionEvent;
 import javax.swing.JList;
@@ -33,6 +35,9 @@ public class MapEditorContinentView extends JFrame implements IView {
 
 	public GameMap gameMap = GameMap.getInstance();
 
+	DefaultListModel<String> select_countries=new DefaultListModel<String>();
+	DefaultListModel<String> available_countries=new DefaultListModel<String>();
+	DefaultListModel<String> continents=new DefaultListModel<String>();
 	/**
 	 * Launch the application.
 	 */
@@ -69,7 +74,8 @@ public class MapEditorContinentView extends JFrame implements IView {
 
 		selected_country_list = new JList<String>();
 		selected_country_pane.setViewportView(selected_country_list);
-
+		selected_country_list.setVisibleRowCount(8);
+		
 		available_country_pane.setBounds(684, 107, 245, 316);
 		this.getContentPane().add(available_country_pane);
 
@@ -79,7 +85,6 @@ public class MapEditorContinentView extends JFrame implements IView {
 		}
 		available_country_list = new JList<String>(countries);
 		available_country_pane.setViewportView(available_country_list);
-		available_country_list.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		available_country_list.setVisibleRowCount(8);
 
 		add_button = new JButton("<<");
@@ -104,7 +109,8 @@ public class MapEditorContinentView extends JFrame implements IView {
 
 		continent_list = new JList<String>();
 		continent_pane.setViewportView(continent_list);
-
+		continent_list.setVisibleRowCount(8);
+		
 		next_button = new JButton("Next");
 		next_button.setBounds(826, 467, 103, 25);
 		this.getContentPane().add(next_button);
@@ -127,54 +133,28 @@ public class MapEditorContinentView extends JFrame implements IView {
 	public void setMouseListener(MouseListener mouseListener) {
 		// TODO Auto-generated method stub
 		continent_list.addMouseListener(mouseListener);
-
 	}
 
 	public void repaintContinents() {
 		// TODO Auto-generated method stub
-		DefaultListModel<String> continents = new DefaultListModel<String>();
 		for (Continent c : gameMap.getContinents()) {
 			continents.addElement(c.getContinentName());
 		}
-		continent_list = new JList<String>(continents);
-		continent_pane.setViewportView(continent_list);
-		continent_list.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
-		continent_list.setVisibleRowCount(8);
+		continent_list.setModel(continents);
 
-		selected_country_list = new JList<String>();
-		selected_country_pane.setViewportView(selected_country_list);
-	}
-
-	public void repaintSelectedCountries(List<String> selValues) {
-		// TODO Auto-generated method stub
-
-		DefaultListModel<String> select_countries = new DefaultListModel<String>();
-		for (String c : selValues) {
-			select_countries.addElement(c);
+		select_countries.removeAllElements();
+		available_countries.removeAllElements();
+		for (Country c : gameMap.getCountries()) {
+			if(c.getContinentName().isEmpty())
+				available_countries.addElement(c.getCountryName());
 		}
-		selected_country_list = new JList<String>(select_countries);
-		selected_country_pane.setViewportView(selected_country_list);
-		selected_country_list.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-		selected_country_list.setVisibleRowCount(8);
-
-		DefaultListModel<String> avail_countries = new DefaultListModel<String>();
-		List<Country> countries_all = gameMap.getCountries();
-		for (Country c : countries_all) {
-			if (c.getContinentName().isEmpty()) {
-				avail_countries.addElement(c.getCountryName());
-			}
-		}
-		available_country_list = new JList<String>(avail_countries);
-		available_country_pane.setViewportView(available_country_list);
-		available_country_list.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-		available_country_list.setVisibleRowCount(8);
+		available_country_list.setModel(available_countries);
 	}
-
+	
 	public void loadContinent(String selected_continent) {
 		// TODO Auto-generated method stub
 		continent_name_value.setText(selected_continent);
-		DefaultListModel<String> select_countries = new DefaultListModel<String>();
-		DefaultListModel<String> available_countries = new DefaultListModel<String>();
+		
 		List<Country> countries_all = gameMap.getCountries();
 		for (Country c : countries_all) {
 			if (c.getContinentName().equals(selected_continent)) {
@@ -183,43 +163,64 @@ public class MapEditorContinentView extends JFrame implements IView {
 				available_countries.addElement(c.getCountryName());
 			}
 		}
-		selected_country_list = new JList<String>(select_countries);
-		selected_country_pane.setViewportView(selected_country_list);
-		selected_country_list.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-		selected_country_list.setVisibleRowCount(8);
+		selected_country_list.setModel(select_countries);
 
-		available_country_list = new JList<String>(available_countries);
-		available_country_pane.setViewportView(available_country_list);
-		available_country_list.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-		available_country_list.setVisibleRowCount(8);
+		available_country_list.setModel(available_countries);
+	}
+	
+	public void repaintSelectedCountries(String selValue) {
+		for (Country c : gameMap.getCountries()) {
+			if(c.getContinentName().equals(selValue)) {
+				select_countries.addElement(c.getCountryName());
+			}
+		}
+		selected_country_list.setModel(select_countries);
+	
+		available_countries.removeAllElements();
+		ArrayList<String> neighbours=new ArrayList<>();
+		
+		for(int i = 0; i< select_countries.getSize();i++){
+			Country c=gameMap.getCountryByName(select_countries.get(i));
+			neighbours.addAll(gameMap.getTerritories().get(c));
+        }
+
+		for (String s : neighbours) {
+			available_countries.addElement(s);
+		}
+		available_country_list.setModel(available_countries);
 	}
 
-	public void repaintAvailableCountries(List<String> availValues) {
+	public void repaintAvailableCountries(String selValue) {
 		// TODO Auto-generated method stub
-
-		DefaultListModel<String> select_countries = new DefaultListModel<String>();
-		for(int i = 0; i< selected_country_list.getModel().getSize();i++){
-			select_countries.addElement(selected_country_list.getModel().getElementAt(i));
-        }
-		
-		DefaultListModel<String> avail_countries = new DefaultListModel<String>();
-		
-		for(int i = 0; i< available_country_list.getModel().getSize();i++){
-			avail_countries.addElement(available_country_list.getModel().getElementAt(i));
-        }
-		
-		for (String c : availValues) {
-			avail_countries.addElement(c);
-			select_countries.removeElement(c);
+		available_countries.removeAllElements();
+		if(select_countries.getSize()==1) {
+			for (Country c : gameMap.getCountries()) {
+				if(c.getContinentName().isEmpty()) {
+					available_countries.addElement(c.getCountryName());
+				}
+			}
+			available_country_list.setModel(available_countries);
+			
+			select_countries.removeElement(selValue);
+			selected_country_list.setModel(select_countries);
 		}
-		available_country_list = new JList<String>(avail_countries);
-		available_country_pane.setViewportView(available_country_list);
-		available_country_list.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-		available_country_list.setVisibleRowCount(8);
+		else {
+			ArrayList<String> neighbours=new ArrayList<>();
+			
+			for(int i = 0; i< select_countries.getSize();i++){
+				Country c=gameMap.getCountryByName(select_countries.get(i));
+				neighbours.addAll(gameMap.getTerritories().get(c));
+	        }
+			
+			for (String s : neighbours) {
+				available_countries.addElement(s);
+			}
+			available_countries.addElement(selValue);
+			
+			
+			select_countries.removeElement(selValue);
+			selected_country_list.setModel(select_countries);
+		}
 		
-		selected_country_list = new JList<String>(select_countries);
-		selected_country_pane.setViewportView(selected_country_list);
-		selected_country_list.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-		selected_country_list.setVisibleRowCount(8);
 	}
 }

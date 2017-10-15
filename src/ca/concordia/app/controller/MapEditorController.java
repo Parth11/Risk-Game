@@ -37,7 +37,7 @@ public class MapEditorController implements ActionListener, MouseListener{
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		System.out.println(e);
+		//System.out.println(e);
 		if(e.getSource().equals(map_editor_view.map_area.mapArea)){
 			tempX = e.getX();
 			tempY = e.getY();

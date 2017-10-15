@@ -78,51 +78,24 @@ public class MapEditorContinentController implements ActionListener,MouseListene
 		if(e.getSource().equals(map_continent_view.save_button)){
 			Continent continent = new Continent(map_continent_view.continent_name_value.getText().trim(),0);
 			gameMap.getContinents().add(continent);
-			
 			map_continent_view.repaintContinents();
 			
 		}
 		else if(e.getSource().equals(map_continent_view.add_button))
 		{	
-			List<String> selValues = map_continent_view.available_country_list.getSelectedValuesList();
+			String selValue = map_continent_view.available_country_list.getSelectedValue();
+			String continent=map_continent_view.continent_name_value.getText();
 			
-			HashMap<Country, ArrayList<String>> territories= gameMap.getTerritories();
+			gameMap.getCountryByName(selValue).setContinentName(continent);
 			
-			ArrayList<String> sNeighbours = null;
-			List<String> neighbour_all= new ArrayList<>();
-			for(String c:selValues) {
-				gameMap.getCountryByName(c).setContinentName(map_continent_view.continent_name_value.getText());
-				sNeighbours = (ArrayList<String>) territories.get(gameMap.getCountryByName(c));
-				for(String neighbour: sNeighbours) {
-					neighbour_all.add(neighbour);
-					gameMap.getCountryByName(neighbour).setContinentName(map_continent_view.continent_name_value.getText());
-				}
-				
-			}
-			
-			selValues.addAll(neighbour_all);
-			
-			map_continent_view.repaintSelectedCountries(selValues);
+			map_continent_view.repaintSelectedCountries(continent);
 		}
 		else if(e.getSource().equals(map_continent_view.remove_button)){
-			List<String> selValues = map_continent_view.selected_country_list.getSelectedValuesList();
-			
-			HashMap<Country, ArrayList<String>> territories= gameMap.getTerritories();
-			
-			ArrayList<String> sNeighbours = null;
-			List<String> neighbour_all= new ArrayList<>();
-			for(String c:selValues) {
-				gameMap.getCountryByName(c).setContinentName("");
-				sNeighbours = (ArrayList<String>) territories.get(gameMap.getCountryByName(c));
-				for(String neighbour: sNeighbours) {
-					neighbour_all.add(neighbour);
-					gameMap.getCountryByName(neighbour).setContinentName("");
-				}
-			}
-			
-			selValues.addAll(neighbour_all);
-			
-			map_continent_view.repaintAvailableCountries(selValues);
+			String selValue = map_continent_view.selected_country_list.getSelectedValue();
+	
+			gameMap.getCountryByName(selValue).setContinentName("");
+	
+			map_continent_view.repaintAvailableCountries(selValue);
 		}
 		else if(e.getSource().equals(map_continent_view.next_button)){
 			
