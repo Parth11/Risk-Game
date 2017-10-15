@@ -37,7 +37,7 @@ public class MapEditorController implements ActionListener, MouseListener{
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		System.out.println(e);
+		//System.out.println(e);
 		if(e.getSource().equals(map_editor_view.map_area.mapArea)){
 			tempX = e.getX();
 			tempY = e.getY();
@@ -80,8 +80,6 @@ public class MapEditorController implements ActionListener, MouseListener{
 			
 			
 			HashMap<Country, ArrayList<String>> territories = (HashMap<Country, ArrayList<String>>) gameMap.getTerritories().clone(); 
-			
-			
 			
 			ArrayList<String> selectedNeighbours = new ArrayList<>(selValues);
 			

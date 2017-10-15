@@ -1,31 +1,97 @@
 package ca.concordia.app.service;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.net.StandardSocketOptions;
+import java.nio.charset.Charset;
 import java.nio.file.Files;
+import java.nio.file.OpenOption;
+import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
-import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import ca.concordia.app.model.Continent;
 import ca.concordia.app.model.Country;
 import ca.concordia.app.model.GameMap;
+import ca.concordia.app.util.CountryComparator;
+import ca.concordia.app.util.MapEditorConstants;
+
 
 public class CreateMapService {
 
-	public void createMap(String path) {
+	public void createMap(String savePath) {
+		
+		GameMap gameMap = GameMap.getInstance();
+		
+		List<String> lines = new ArrayList<String>();
+		
+		lines.add(MapEditorConstants.MAP_HEADER_CONST);
+		lines.add("author="+MapEditorConstants.MAP_AUTHOR);
+		lines.add("warn=yes");
+		lines.add("image=noname.bmp");
+		lines.add("wrap=no");
+		lines.add("scroll=horizontal");
+		lines.add("");
+		lines.add(MapEditorConstants.CONTINENT_HEADER_CONST);
+		
+		for(Continent c : gameMap.getContinents()){
+		
+			lines.add(c.getContinentName()+"="+c.getControlValue());
+		}
+		
+		lines.add("");
+		
+		lines.add(MapEditorConstants.TERRITORY_HEADER_CONST);
+		
+		List<Country> countries = gameMap.getCountries();
+		
+		Collections.sort(countries, new CountryComparator());
+		
+		String previous = null;
+		
+		for(Country cn : countries){
+			if(countries.indexOf(cn)==0){
+				previous = cn.getContinentName();
+			}
+			else if(!previous.equals(cn.getContinentName())){
+				previous = cn.getContinentName();
+				lines.add("");
+			}
+			
+				StringBuffer sb = new StringBuffer(cn.getCountryName()).
+									append(",").append(cn.getLocX()).
+										append(",").append(cn.getLocy()).
+											append(",").append(cn.getContinentName()).
+												append(",").append(gameMap.getCountryNeighboursAsCSV(cn));
+				
+				lines.add(sb.toString());
+			
+		}
+		
+		Path path = Paths.get(savePath);
+		
+		try {
+			Files.write(path, lines,StandardOpenOption.CREATE,StandardOpenOption.WRITE);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
 
 	public static void main(String[] args) {
 
 		CreateMapService crm = new CreateMapService();
-		crm.loadMap("Europe.map");
+		GameMap gm = crm.loadMap("Europe.map");
+		crm.createMap("C:\\Users\\harvi\\Desktop\\test\\mine.map");
 	}
 
 	public GameMap loadMap(String path) {
