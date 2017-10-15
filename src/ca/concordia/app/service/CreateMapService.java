@@ -27,7 +27,7 @@ import ca.concordia.app.util.MapEditorConstants;
 
 public class CreateMapService {
 
-	public void createMap(String savePath) {
+	public static void createMap(String savePath) {
 		
 		GameMap gameMap = GameMap.getInstance();
 		
@@ -87,14 +87,7 @@ public class CreateMapService {
 
 	}
 
-	public static void main(String[] args) {
-
-		CreateMapService crm = new CreateMapService();
-		GameMap gm = crm.loadMap("Europe.map");
-		crm.createMap("C:\\Users\\harvi\\Desktop\\test\\mine.map");
-	}
-
-	public GameMap loadMap(String path) {
+	public static GameMap loadMap(String path) {
 		GameMap gameMap = null;
 		try {
 			gameMap = GameMap.getInstance();
@@ -117,7 +110,7 @@ public class CreateMapService {
 		return gameMap;
 	}
 
-	private void extractFileInformation(GameMap gameMap, List<String> list) {
+	private static void extractFileInformation(GameMap gameMap, List<String> list) {
 		
 		List<String> metaContinents = list.subList(list.indexOf("[Continents]") + 1,
 				list.indexOf("[Territories]") - 1);
@@ -133,7 +126,7 @@ public class CreateMapService {
 		}
 	}
 	
-	public GameMap loadMap(File mapFile){
+	public static GameMap loadMap(File mapFile){
 		GameMap gameMap = null;
 		try {
 			gameMap = GameMap.getInstance();
@@ -156,7 +149,7 @@ public class CreateMapService {
 		return gameMap;
 	}
 
-	private void parseCountries(List<String> metaTerritories, GameMap gameMap) {
+	private static void parseCountries(List<String> metaTerritories, GameMap gameMap) {
 		List<Country> countries = new ArrayList<>();
 
 		for (String c : metaTerritories) {
@@ -177,7 +170,7 @@ public class CreateMapService {
 		gameMap.setCountries(countries);
 	}
 
-	private void parseContinents(List<String> metaContinents, GameMap gameMap) {
+	private static void parseContinents(List<String> metaContinents, GameMap gameMap) {
 
 		List<Continent> continents = new ArrayList<>();
 

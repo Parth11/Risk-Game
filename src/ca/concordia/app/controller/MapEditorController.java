@@ -18,6 +18,7 @@ import javax.swing.JList;
 import ca.concordia.app.model.Country;
 import ca.concordia.app.model.GameMap;
 import ca.concordia.app.service.CreateMapService;
+import ca.concordia.app.util.RiskExceptionHandler;
 import ca.concordia.app.view.MapEditorView;
 
 public class MapEditorController implements ActionListener, MouseListener{
@@ -30,12 +31,15 @@ public class MapEditorController implements ActionListener, MouseListener{
 	
 	public MapEditorController(boolean edit) {
 		
+		
 		gameMap = GameMap.getInstance();
 		
 		map_editor_view = new MapEditorView();
 		map_editor_view.setActionListener(this);
 		map_editor_view.setMouseListener(this);
 		map_editor_view.setVisible(true);
+		
+		Thread.setDefaultUncaughtExceptionHandler(new RiskExceptionHandler(map_editor_view));
 		
 		if(edit){
 			map_editor_view.open_dialog = new JFileChooser();
@@ -47,14 +51,14 @@ public class MapEditorController implements ActionListener, MouseListener{
 				File file = map_editor_view.open_dialog.getSelectedFile();
 				
 				if(file.exists()){
-					CreateMapService createMapService = new CreateMapService();
-					GameMap gameMap = createMapService.loadMap(file);
+					CreateMapService.loadMap(file);
 					map_editor_view.paintLoadedMap();
 				}
 				
 			}
 			
 		}
+		
 	}
 
 	@Override
