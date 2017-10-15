@@ -176,6 +176,9 @@ public class MapEditorContinentView extends JFrame implements IView {
 		Continent continent= gameMap.getContinentByName(selected_continent);
 		controlValue.setText(continent.getControlValue()+"");
 		
+		select_countries.removeAllElements();
+		available_countries.removeAllElements();
+		
 		List<Country> countries_all = gameMap.getCountries();
 		for (Country c : countries_all) {
 			if (c.getContinentName().equals(selected_continent)) {

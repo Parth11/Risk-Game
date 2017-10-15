@@ -35,7 +35,7 @@ public class Continent {
 	}
 	public boolean equals(Object obj) {
 		  
-		  if(obj instanceof Country){
+		  if(obj instanceof Continent){
 			  if(this.continentName.equals(((Continent) obj).getContinentName())){
 				return true;  
 			  }
