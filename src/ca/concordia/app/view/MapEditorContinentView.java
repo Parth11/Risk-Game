@@ -164,6 +164,7 @@ public class MapEditorContinentView extends JFrame implements IView {
 
 	public void repaintContinents() {
 		// TODO Auto-generated method stub
+		continents.removeAllElements();
 		for (Continent c : gameMap.getContinents()) {
 			continents.addElement(c.getContinentName());
 		}
@@ -191,8 +192,8 @@ public class MapEditorContinentView extends JFrame implements IView {
 		for (Country c : countries_all) {
 			if (c.getContinentName().equals(selected_continent)) {
 				select_countries.addElement(c.getCountryName());
-			} else {
-				available_countries.addElement(c.getCountryName());
+			} else if (c.getContinentName().isEmpty()) {
+					available_countries.addElement(c.getCountryName());
 			}
 		}
 		selected_country_list.setModel(select_countries);
@@ -201,6 +202,8 @@ public class MapEditorContinentView extends JFrame implements IView {
 	}
 	
 	public void repaintSelectedCountries(String selValue) {
+		select_countries.removeAllElements();
+		available_countries.removeAllElements();
 		for (Country c : gameMap.getCountries()) {
 			if(c.getContinentName().equals(selValue)) {
 				select_countries.addElement(c.getCountryName());
@@ -208,50 +211,51 @@ public class MapEditorContinentView extends JFrame implements IView {
 		}
 		selected_country_list.setModel(select_countries);
 	
-		available_countries.removeAllElements();
-		ArrayList<String> neighbours=new ArrayList<>();
+		
+		ArrayList<String> neighbours;
 		
 		for(int i = 0; i< select_countries.getSize();i++){
 			Country c=gameMap.getCountryByName(select_countries.get(i));
-			neighbours.addAll(gameMap.getTerritories().get(c));
+			neighbours=gameMap.getTerritories().get(c);
+			for (String s : neighbours) {
+				if(gameMap.getCountryByName(s).getContinentName().isEmpty())
+					available_countries.addElement(s);
+			}
         }
 
-		for (String s : neighbours) {
-			available_countries.addElement(s);
-		}
+		
 		available_country_list.setModel(available_countries);
 	}
 
 	public void repaintAvailableCountries(String selValue) {
 		// TODO Auto-generated method stub
+		//select_countries.removeAllElements();
 		available_countries.removeAllElements();
+		
 		if(select_countries.getSize()==1) {
 			for (Country c : gameMap.getCountries()) {
 				if(c.getContinentName().isEmpty()) {
 					available_countries.addElement(c.getCountryName());
 				}
 			}
-			available_country_list.setModel(available_countries);
 			
-			select_countries.removeElement(selValue);
-			selected_country_list.setModel(select_countries);
 		}
 		else {
 			ArrayList<String> neighbours=new ArrayList<>();
 			
 			for(int i = 0; i< select_countries.getSize();i++){
 				Country c=gameMap.getCountryByName(select_countries.get(i));
-				neighbours.addAll(gameMap.getTerritories().get(c));
+				neighbours=gameMap.getTerritories().get(c);
+				for (String s : neighbours) {
+					if(gameMap.getCountryByName(s).getContinentName().isEmpty())
+						available_countries.addElement(s);
+				}
 	        }
-			
-			for (String s : neighbours) {
-				available_countries.addElement(s);
-			}
 			available_countries.addElement(selValue);
 			
-			select_countries.removeElement(selValue);
-			selected_country_list.setModel(select_countries);
 		}
-		
+		available_country_list.setModel(available_countries);
+		select_countries.removeElement(selValue);
+		selected_country_list.setModel(select_countries);
 	}
 }

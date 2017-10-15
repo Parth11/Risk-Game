@@ -38,7 +38,7 @@ public class MapEditorPanel extends JPanel implements IView{
 		// TODO Auto-generated constructor stub
 		setLayout(new BorderLayout());
 		
-		setBounds(12, 13, 1446, 975);
+		setBounds(12, 13, 1378, 768);
 		
 		mapArea=new DrawingBase();
 		add(mapArea);

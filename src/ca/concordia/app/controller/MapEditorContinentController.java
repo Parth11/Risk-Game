@@ -82,8 +82,12 @@ public class MapEditorContinentController implements ActionListener,MouseListene
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		if(e.getSource().equals(map_continent_view.save_button)){
-			Continent continent = new Continent(map_continent_view.continent_name_value.getText().trim(),Integer.parseInt(map_continent_view.controlValue.getText()));
-			gameMap.getContinents().add(continent);
+			String continent_name=map_continent_view.continent_name_value.getText().trim();
+			if(gameMap.getContinentByName(continent_name)==null) {
+				Continent continent = new Continent(continent_name,Integer.parseInt(map_continent_view.controlValue.getText()));
+				gameMap.getContinents().add(continent);
+				
+			}
 			map_continent_view.repaintContinents();
 			
 		}
