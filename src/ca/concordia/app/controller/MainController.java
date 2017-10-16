@@ -80,6 +80,10 @@ public class MainController implements ActionListener, MouseListener {
 			new MapEditorController(true);
 			main_view.dispose();
 		}
+		else if(e.getSource().equals(main_view.new_game)){
+			main_view.dispose();
+			new NewGameSelectorController();
+		}
 	}
 
 }
