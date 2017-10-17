@@ -5,10 +5,13 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.Color;
+import java.awt.ScrollPane;
+
+import javax.swing.JScrollPane;
 
 /**
  * 
- * @author Abhinavsingh
+ * @author Abhinav Parth
  *
  */
 public class NewGameFrame extends JFrame {
@@ -16,11 +19,6 @@ public class NewGameFrame extends JFrame {
 	public NewGameFrame() {
 		
 		getContentPane().setLayout(null);
-		JTextArea textArea = new JTextArea();
-		textArea.setBackground(Color.BLACK);
-		textArea.setForeground(Color.WHITE);
-		textArea.setBounds(69, 30, 429, 173);
-		getContentPane().add(textArea);
 		
 		textField = new JTextField();
 		textField.setBounds(107, 273, 216, 26);
@@ -34,6 +32,16 @@ public class NewGameFrame extends JFrame {
 		JButton btnFortify = new JButton("Fortify");
 		btnFortify.setBounds(403, 336, 117, 29);
 		getContentPane().add(btnFortify);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(97, 39, 392, 141);
+		getContentPane().add(scrollPane);
+		
+		JTextArea textArea = new JTextArea();
+		textArea.setForeground(Color.WHITE);
+		textArea.setBackground(Color.BLACK);
+		textArea.setSize(scrollPane.getSize());
+		scrollPane.setViewportView(textArea);
 		
 		initialize();
 	}
