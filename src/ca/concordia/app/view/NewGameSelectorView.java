@@ -10,6 +10,12 @@ import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import java.awt.event.ActionEvent;
 
+/**
+ * @author Abhinav
+ * 
+ */
+
+
 public class NewGameSelectorView extends JFrame implements IView{
 
 	public JTextField num_players;

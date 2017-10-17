@@ -1,0 +1,517 @@
+package lib;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import lib.Game.OnWarCallBacks;
+import lib.model.Continent;
+import lib.model.Country;
+import lib.model.DiceRoller;
+import lib.model.GameMap;
+import lib.model.Player;
+import lib.service.CreateMapService;
+
+
+/**
+ * @author parthnayak
+ * 
+ */
+
+public class Game {
+	private static Game game = null;
+	private String mapPath=null;
+	
+	private int numberOfPlayers=0;
+	
+	private GameMap gameMap;
+	
+	private List<Player> players;
+	
+	private Map<Player, List<Country>> playerCountryMap;
+	
+	private int turn = 0;
+	
+	private Game() {
+		gameMap = GameMap.getInstance();
+		players = new ArrayList<>();
+		playerCountryMap = new HashMap<>();
+	}
+	
+	// map APIs
+	
+	public static Game getInstance() {
+		if(game==null)
+			game = new Game();
+		return game;
+	}
+	
+	public void loadNewMap(String path) {
+		game.mapPath = path;
+		game.resetPlayersData();
+		CreateMapService.getInstance().loadMap(game.gameMap, game.mapPath);
+	}
+	
+	public void resetGame() {
+		numberOfPlayers = 0;
+		turn = 0;
+		players.clear();
+		playerCountryMap.clear();
+		mapPath = null;
+		System.gc();
+	}
+	
+	public List<Continent> getContinents() {
+		return gameMap.getContinents();
+	}
+	
+	public List<Country> getCountries() {
+		return gameMap.getCountries();
+	}
+	
+	public List<Country> getCountriesInContinent(Continent continent) {
+		return gameMap.getCountriesInContinent(continent);
+	}
+	
+	public Continent getContinent(String continent) {
+		return gameMap.getContinent(continent);
+	}
+
+	public Country getCountry(String country) {
+		return gameMap.getCountry(country);
+	}
+	
+	public List<Country> getNeighbours(Country country) {
+		return gameMap.getNeighbours(country);
+	}
+	
+	// player APIs
+	
+	private void resetPlayersData() {
+		turn = 0;
+		for(Player p : players) {
+			//p.addCard(null);
+			p.setTotalArmies(getInitialArmy());
+		}
+	}
+	
+	public int getInitialArmy() {
+		switch (numberOfPlayers) {
+		    case 2: return 40;
+		    case 3: return 35;
+		    case 4: return 30;
+		    case 5: return 25;
+		    case 6: return 20;
+		    default: return 10;
+	    }
+	}
+	
+	public boolean setPlayers(int numberOfPlayers) {
+		if(gameMap.getCountries().isEmpty())
+			return false;
+		
+		this.numberOfPlayers = numberOfPlayers;
+		
+		// generating players
+		for (int i=0; i < numberOfPlayers; i++) {
+			players.add(new Player("Player" + i));    
+		}
+		
+		// init players data
+		resetPlayersData();
+		
+		// allocate countries to players
+		allocateCountriesToPlayers();
+		
+		// add initial army using round-robin fashion
+		addInitialArmies();
+		
+		return true;
+	}
+	
+	private void allocateCountriesToPlayers() {
+		// allocate countries to the players in rpund-robin fashion
+		int j = 0;
+		for(Country c: gameMap.getCountries()) {
+			Player p = players.get(j % numberOfPlayers);
+			setNewCountryRuler(p,c,1);
+			j++;
+		}
+	}
+	
+	private void addInitialArmies() {
+		for(Player p : getPlayers()) {
+			List<Country> cList = getCountriesConqueredBy(p);
+			for(int i=0; i<getInitialArmy(); i++) {
+				int index = i % cList.size();
+				Country putArmyAt = cList.get(index);
+				addArmies(p, putArmyAt, 1);
+			}
+		}
+	}
+	
+	public int getNumberOfPlayers() {
+		return numberOfPlayers;
+	}
+	
+	public List<Player> getPlayers() {
+		return players;
+	}
+	
+	// Game Edit APIs
+	
+	// ...
+	// under construction
+	// ...
+	
+	// Game APIs
+	
+	public Player getCurrentTurnPlayer() {
+		return players.get(turn);
+	}
+	
+	public Player changeTurnToNextPlayer() {
+		turn = (turn+1) % numberOfPlayers;
+		return getCurrentTurnPlayer();
+	}
+	
+	public int getReinforcementArmyForPlayer(Player p) {
+		int countriesCounquered = getCountriesConqueredBy(p).size();
+		
+		if(countriesCounquered==0)
+			return 3;
+		
+		int count = (countriesCounquered / 3);
+		List<Continent> ruledContinents = getContinentsCounqueredBy(p);
+		for(Continent c : ruledContinents)
+			count += c.getControlValue();
+		
+		int army = count<3?3:count;
+		
+		return army;
+	}
+	
+	public List<Country> getCountriesConqueredBy(Player p) {
+		return playerCountryMap.get(p);
+	}
+	
+	public List<Continent> getContinentsCounqueredBy(Player p) {
+		List<Continent> lst = new ArrayList<>();
+		
+		for(Continent c : getContinents()) {
+			boolean isRuler = true;
+			for(Country country : c.getCountriesList()) {
+				if(!country.getRulerPlayer().equals(p)) {
+					isRuler = false;
+					break;
+				}
+					
+			}
+			if(isRuler)
+				lst.add(c);
+		}
+		
+		return lst;
+	}
+	
+	public boolean setNewCountryRuler(Player ruler, Country country, int numberOfArmies) {
+		if(country.getNoOfArmies()!=0) 
+			return false;
+		country.setPlayer(ruler, numberOfArmies);
+		pcmPut(ruler, country);
+		return true;
+	}
+	
+	public void captureCountry(Player ruler, Country country, Country fromCountry, int numberOfArmies) {
+		if(!setNewCountryRuler(ruler, fromCountry, numberOfArmies))
+		{
+			// remove defeated ruler from the country
+			Player defeatedRuler = country.getRulerPlayer();
+			pcmRemove(defeatedRuler, country);
+			defeatedRuler.subArmy(country.getNoOfArmies());
+			country.setPlayer(null, 0);
+			
+			// add new ruler
+			pcmPut(ruler, country);
+			country.setPlayer(ruler, numberOfArmies);
+			fromCountry.subtractArmy(numberOfArmies);
+		}
+	}
+
+	public boolean addArmies(Player p, Country c, int addAmount) {
+		if(c.getNoOfArmies()==0 || playerCountryMap.get(p).contains(c)) {
+			p.addArmy(addAmount);
+			c.addArmy(addAmount);
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean subArmies(Player p, Country c, int subAmount) {
+		if((c.getNoOfArmies()==0 || playerCountryMap.get(p).contains(c)) && ((c.getNoOfArmies()-subAmount)>=0)) {
+			p.subArmy(subAmount);
+			c.subtractArmy(subAmount);
+			if(c.getNoOfArmies()==0)
+				c.setPlayer(null, 0);
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean moveArmyFromTo(Player p, Country from, Country to, int noOfArmy) {
+		if(playerCountryMap.get(p).contains(from) && (to.getNoOfArmies()==0 || playerCountryMap.get(p).contains(to)) && (from.getNoOfArmies()-noOfArmy)>=1) {
+			from.subtractArmy(noOfArmy);
+			if(to.getNoOfArmies()==0)
+				to.setPlayer(p, noOfArmy);
+			else
+				to.addArmy(noOfArmy);
+			return true;
+		}
+		return false;
+	}
+	
+	/*
+	 * @return warResult
+	 * if warResult is a positive integer, means attacker wins
+	 * if it is negative, means defender wins
+	 * 0 means draw
+	 * 
+	 * */
+	public int whoWins(int[] attackResult, int[] defenceResult) {
+		Arrays.sort(attackResult);
+		Arrays.sort(defenceResult);
+		int n = attackResult.length>defenceResult.length?defenceResult.length:attackResult.length;
+		
+		int warResult = 0;
+		for(int i=0; i<n; i++) {
+			if(attackResult[i]>defenceResult[i])
+				warResult++;
+			else
+				warResult--;
+		}
+		
+		return warResult;
+	}
+	
+	public boolean canWar(Country fromCountry, Country toCountry) {
+		return gameMap.getNeighbours(fromCountry).contains(toCountry)		// should be neighbours
+				&& fromCountry.getRulerPlayer()!=toCountry.getRulerPlayer() // shouldn't both countries belong to same player
+				&& fromCountry.getNoOfArmies()>1		// attacker should have more than 1 army
+				&& toCountry.getNoOfArmies()>0;		// defence should have atleast 1 army to protect the country
+	}
+	
+	/*public void war(Player attackPlayer, Country fromCountry, Player defencePlayer, Country toCountry, int[] attackResult, int[] defenceResult) {
+		// can war
+		if(!canWar(fromCountry, toCountry))
+			return;
+		
+		// if yes, then start war
+		Arrays.sort(attackResult);
+		Arrays.sort(defenceResult);
+		int n = attackResult.length>defenceResult.length?defenceResult.length:attackResult.length;
+		
+		for(int i=0; i<n; i++) {
+			if(attackResult[i]>defenceResult[i]) {
+				toCountry.subtractArmy(1);
+				defencePlayer.subArmy(1);
+			} else {
+				fromCountry.subtractArmy(1);
+				attackPlayer.subArmy(1);
+			}
+		}
+		
+		// if defence country is completely defeated
+		if(toCountry.getNoOfArmies()<=0) {
+			toCountry.setPlayer(null, 0);
+			pcmRemove(defencePlayer, toCountry);
+			
+			// now attack player must move army
+			// ...
+		}
+	}*/
+	
+	public void war(OnWarCallBacks onWarCallBacks) {
+		
+		// get Data
+		Player attackPlayer = onWarCallBacks.getAttackPlayer(), defencePlayer = onWarCallBacks.getDefencePlayer();
+		Country fromCountry = onWarCallBacks.getFromCountry(), toCountry = onWarCallBacks.getToCountry();
+		
+		// can war
+		if(!canWar(fromCountry, toCountry)) {
+			onWarCallBacks.onWarStartFailure();
+			return;
+		}
+		
+		onWarCallBacks.beforeWarStart();
+		
+		DiceRoller attackDice = new DiceRoller(game, getAttackDiceLimit(attackPlayer, fromCountry));
+		DiceRoller defenceDice = new DiceRoller(game, getDefenceDiceLimit(defencePlayer, toCountry));
+		
+		attackDice.rollAll();
+		defenceDice.rollAll();
+		
+		int[] attackResult = attackDice.getResults();
+		int[] defenceResult = defenceDice.getResults();
+		
+		// if yes, then start war
+		Arrays.sort(attackResult);
+		Arrays.sort(defenceResult);
+		int n = attackResult.length>defenceResult.length?defenceResult.length:attackResult.length;
+		
+		int[] storeAttackResult = new int[n], storeDefenceResult = new int[n];
+		//int whoWins = 0;
+		for(int i=0; i<n; i++) {
+			storeAttackResult[i] = attackResult[i];
+			storeAttackResult[i] = defenceResult[i];
+			if(attackResult[i]>defenceResult[i]) {
+				toCountry.subtractArmy(1);
+				defencePlayer.subArmy(1);
+				onWarCallBacks.onAttackerWin((i+1), attackResult[i],defenceResult[i]);
+				//whoWins++;
+			} else {
+				fromCountry.subtractArmy(1);
+				attackPlayer.subArmy(1);
+				onWarCallBacks.onDefenderWin((i+1), attackResult[i],defenceResult[i]);
+				//whoWins--;
+			}
+		}
+		onWarCallBacks.setAttackDiceResult(storeAttackResult);
+		onWarCallBacks.setDefenceDiceResult(storeDefenceResult);
+		
+		onWarCallBacks.onWarFinished();
+		
+		// if defence country is completely defeated
+		if(toCountry.getNoOfArmies()<=0) {
+			toCountry.setPlayer(null, 0);
+			pcmRemove(defencePlayer, toCountry);
+			
+			onWarCallBacks.onCountryCaptured();
+			// now attack player must move army
+			// ...
+		}
+		else {
+			onWarCallBacks.setCanReWar(true);
+			onWarCallBacks.askForReWar();
+		}
+	}
+
+	// Dies APIs
+
+	public int getAttackDiceLimit(Player p, Country c) {
+		if(playerCountryMap.get(p).contains(c) && c.getNoOfArmies()>1)
+		{
+			// max 3 dies, min (c.getNoOfArmies()-1) dies
+			return c.getNoOfArmies()>3?3:c.getNoOfArmies()-1;
+		}
+		
+		return -1;
+	}
+	
+	public int getDefenceDiceLimit(Player p, Country c) {
+		if(playerCountryMap.get(p).contains(c))
+		{
+			// max 2 dies, min 1 dies
+			return c.getNoOfArmies()==1?1:2;
+		}
+		return -1;
+	}
+	
+	public DiceRoller getAttackDiceRoller(Player p, Country c) {
+		int n = getAttackDiceLimit(p, c);
+		if(n==-1)
+			return null;
+		else
+			return new DiceRoller(game, n);
+	}
+	
+	public DiceRoller getDefenceDiceRoller(Player p, Country c) {
+		int n = getDefenceDiceLimit(p, c);
+		if(n==-1)
+			return null;
+		else
+			return new DiceRoller(game, n);
+	}
+	
+	// PlayerCountryMap calls
+	
+	private void pcmPut(Player p, Country c) {
+		List<Country> cList = playerCountryMap.get(p);
+		if(cList==null) {
+			cList = new ArrayList<>();
+			playerCountryMap.put(p, cList);
+		}
+		cList.add(c);
+	}
+	
+	private void pcmRemove(Player p, Country c) {
+		List<Country> cList = playerCountryMap.get(p);
+		if(cList!=null) {
+			cList.remove(c);
+		}
+	}
+	
+	// CallBacks
+	
+	public static abstract class OnWarCallBacks {
+		private Game gameApi;
+		private Player attackPlayer, defencePlayer;
+		private Country fromCountry, toCountry;
+		private int[] attackDiceResult, defenceDiceResult;
+
+		private boolean canReWar = false;
+		
+		public OnWarCallBacks(Game gameApi, Player attackPlayer, Player defencePlayer, Country fromCountry, Country toCountry) {
+			super();
+			this.gameApi = gameApi;
+			this.attackPlayer = attackPlayer;
+			this.defencePlayer = defencePlayer;
+			this.fromCountry = fromCountry;
+			this.toCountry = toCountry;
+		}
+		
+		public final Player getAttackPlayer() {
+			return attackPlayer;
+		}
+		public final Player getDefencePlayer() {
+			return defencePlayer;
+		}
+		public final Country getFromCountry() {
+			return fromCountry;
+		}
+		public final Country getToCountry() {
+			return toCountry;
+		}
+		public final int[] getAttackDiceResult() {
+			return attackDiceResult;
+		}
+		public final int[] getDefenceDiceResult() {
+			return defenceDiceResult;
+		}
+		private void setAttackDiceResult(int[] attackDiceResult) {
+			this.attackDiceResult = attackDiceResult;
+		}
+		private void setDefenceDiceResult(int[] defenceDiceResult) {
+			this.defenceDiceResult = defenceDiceResult;
+		}
+		private void setCanReWar(boolean value) {
+			this.canReWar = value;
+		}
+		
+		public abstract void onWarStartFailure();
+		public abstract void beforeWarStart();
+		public abstract void onAttackerWin(int roundNumber, int attackDiceResult, int defenceDiceResult);
+		public abstract void onDefenderWin(int roundNumber, int attackDiceResult, int defenceDiceResult);
+		public abstract void onWarFinished();
+		public abstract void onCountryCaptured();
+		public abstract void askForReWar();
+		
+		public final void reWar() {
+			if(!canReWar)
+				onWarStartFailure();
+			else
+				gameApi.war(this);
+		}
+	}
+
+}

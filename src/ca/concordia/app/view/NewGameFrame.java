@@ -11,7 +11,7 @@ import javax.swing.JScrollPane;
 
 /**
  * 
- * @author Abhinav Parth
+ * @author Abhinav
  *
  */
 public class NewGameFrame extends JFrame {
