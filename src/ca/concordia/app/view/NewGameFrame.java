@@ -6,12 +6,16 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.Color;
 
+/**
+ * 
+ * @author Abhinavsingh
+ *
+ */
 public class NewGameFrame extends JFrame {
 	private JTextField textField;
 	public NewGameFrame() {
 		
 		getContentPane().setLayout(null);
-		
 		JTextArea textArea = new JTextArea();
 		textArea.setBackground(Color.BLACK);
 		textArea.setForeground(Color.WHITE);
