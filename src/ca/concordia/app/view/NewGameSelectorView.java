@@ -8,6 +8,7 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
+import java.awt.event.ActionEvent;
 
 public class NewGameSelectorView extends JFrame implements IView{
 
@@ -42,6 +43,11 @@ public class NewGameSelectorView extends JFrame implements IView{
 		getContentPane().add(browse_map);
 		
 		next_button = new JButton("Next");
+		next_button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				NewGameFrame newgameframe = new NewGameFrame();
+			}
+		});
 		next_button.setBounds(202, 237, 116, 25);
 		getContentPane().add(next_button);
 		
