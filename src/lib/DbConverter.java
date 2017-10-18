@@ -12,7 +12,8 @@ import ca.concordia.app.model.Country;
 import ca.concordia.app.model.GameMap;
 
 /**
- * @author parthnayak
+ * @author AbhinavSingh
+ * @author parthnayak 
  * 
  */
 
