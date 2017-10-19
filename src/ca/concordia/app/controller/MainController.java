@@ -110,8 +110,8 @@ public class MainController implements ActionListener, MouseListener {
 			main_view.dispose();
 		}
 		else if(e.getSource().equals(main_view.new_game)){
-			main_view.dispose();
 			new NewGameSelectorController();
+			main_view.dispose();
 		}
 	}
 

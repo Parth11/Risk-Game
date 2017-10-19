@@ -137,7 +137,7 @@ public class Game {
 	}
 	
 	private void allocateCountriesToPlayers() {
-		// allocate countries to the players in rpund-robin fashion
+		// allocate countries to the players in round-robin fashion
 		int j = 0;
 		for(Country c: gameMap.getCountries()) {
 			Player p = players.get(j % numberOfPlayers);
@@ -182,13 +182,23 @@ public class Game {
 		return getCurrentTurnPlayer();
 	}
 	
+	
+	//Change the whole mathematical calculation and add Cards Logics
 	public int getReinforcementArmyForPlayer(Player p) {
 		int countriesCounquered = getCountriesConqueredBy(p).size();
 		
 		if(countriesCounquered==0)
 			return 3;
 		
-		int count = (countriesCounquered / 3);
+		List<Continent> ruledContinents = getContinentsCounqueredBy(p);
+		for(Continent c : ruledContinents)
+			countArmy += c.getControlValue();
+		
+		if(countArmy > 3)
+			return countArmy;
+		else
+			return 3;
+		
 //		List<Continent> ruledContinents = getContinentsCounqueredBy(p);
 //		for(Continent c : ruledContinents)
 //			count += c.getControlValue();
