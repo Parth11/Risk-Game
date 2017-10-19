@@ -10,6 +10,14 @@ import ca.concordia.app.model.Continent;
 import ca.concordia.app.model.Country;
 import ca.concordia.app.model.GameMap;
 
+
+/**
+ * @author AbhinavSingh
+ * @author parthnayak 
+ * 
+ */
+
+
 public class DbConverter {
 
 	public static void convert(GameMap gm, lib.model.GameMap gameMap) {

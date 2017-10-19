@@ -32,21 +32,21 @@ public class NewGameFrame extends JFrame {
 	private Game gameAPI;
 	private MyLogger logger;
 	
-	public NewGameFrame(int finalPlayers) {
+	public NewGameFrame() {
 		
 		getContentPane().setLayout(null);
 		
 		textField = new JTextField();
-		textField.setBounds(107, 273, 216, 26);
+		textField.setBounds(37, 459, 216, 26);
 		getContentPane().add(textField);
 		textField.setColumns(10);
 		
 		btnNewButton = new JButton("Submit");
-		btnNewButton.setBounds(403, 273, 117, 29);
+		btnNewButton.setBounds(296, 459, 117, 29);
 		getContentPane().add(btnNewButton);
 		
 		btnFortify = new JButton("Fortify");
-		btnFortify.setBounds(403, 336, 117, 29);
+		btnFortify.setBounds(442, 459, 117, 29);
 		getContentPane().add(btnFortify);
 		
 		scrollPane = new JScrollPane();

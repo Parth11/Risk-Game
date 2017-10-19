@@ -90,11 +90,27 @@ public class NewGameSelectorController implements ActionListener,MouseListener {
 				return;
 			}
 			
-			GameMap gameMap = GameMap.getInstance();
+			Game gameApi = Game.getInstance();
 			
-			NewGameFrame newgameframe = new NewGameFrame(numPlayers);
+			//get logger
+			MyLogger logger = MyLogger.getInstance(null);
 			
-			init(numPlayers);
+			//using DB converter
+			DbConverter.convert(GameMap.getInstance(), lib.model.GameMap.getInstance());
+			DbConverter.print();
+			
+			//Loading converted Log File
+			print(logger);
+			logger.write("\n\nMAP FILE CONVERTED SUCCESSFULLY\n");
+			
+			NewGameFrame newgameframe = new NewGameFrame();
+			
+			// here, startPhase has started
+			init(numPlayers,gameApi, logger);
+			
+			logger.write("\\Reinforcement Phase Started:-\\n----------------------\\n");
+			reinforcementPhase(numPlayers,gameApi, logger);
+			logger.write("\\Reinforcement Phase Ended:-\\n----------------------\\n");
 			
 			new_game_selector.dispose();
 			new MainController();
@@ -106,19 +122,10 @@ public class NewGameSelectorController implements ActionListener,MouseListener {
 		}
 	}
 	
-	private void init(int numberOfPlayers) {
-		Game gameApi = Game.getInstance();
+	private void init(int numberOfPlayers, Game gameApi, MyLogger logger) {
 		
-		// get logger
-		MyLogger logger = MyLogger.getInstance(null);
 		
-		// using DB converter
-		DbConverter.convert(GameMap.getInstance(), lib.model.GameMap.getInstance());
-		DbConverter.print();
-		print(logger);
-		logger.write("\n\nMAP FILE CONVERTED SUCCESSFULLY\n");
-		
-		logger.write("\nStartup Phase:-\n----------------------\n");
+		logger.write("\nStartup Phase Started:-\n----------------------\n");
 		gameApi.setPlayers(numberOfPlayers);
 		
 		// get players
@@ -136,8 +143,29 @@ public class NewGameSelectorController implements ActionListener,MouseListener {
 			// write each info to logger files
 			logger.write(s);
 		}
+		logger.write("\\nStartup Phase Ended:-\\n----------------------\\n");
 		
-		logger.write("Hello World!");
+	}
+	
+	private void reinforcementPhase(int numberOfPlayers, Game gameApi, MyLogger logger) {
+		
+			for(int i=0; i<numberOfPlayers; i++) {
+			
+			Player player = gameApi.getCurrentTurnPlayer(); // whose turn to play ?
+	
+			logger.write("Current Player : \n" + player.getName());
+			int putArmy = gameApi.getReinforcementArmyForPlayer(player);
+	
+			logger.write("Put Army : " + putArmy);
+			// .. put all the armies wherever you want
+			// for now we are putting armies in round robin
+			
+			//gameApi.addArmies(player, playerCountries, putArmy);
+	
+			player = gameApi.changeTurnToNextPlayer();
+			
+			logger.write("Next Player Turn :- " + player.getName());
+		}
 	}
 	
 	private void print(MyLogger logger) {

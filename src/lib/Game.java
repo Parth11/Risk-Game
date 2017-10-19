@@ -203,8 +203,7 @@ public class Game {
 	}
 	
 	public List<Continent> getContinentsCounqueredBy(Player p) {
-		List<Continent> lst = new ArrayList<>();
-		
+		List<Continent> lst = new ArrayList<>();				
 		for(Continent c : getContinents()) {
 			boolean isRuler = true;
 			for(Country country : c.getCountriesList()) {

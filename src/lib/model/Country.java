@@ -82,5 +82,6 @@ public class Country extends Land {
 	
 	public Player getRulerPlayer() {
 		return ruler;
+		
 	}
 }
