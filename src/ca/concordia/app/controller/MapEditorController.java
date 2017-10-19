@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -14,7 +15,9 @@ import java.util.HashMap;
 import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 
+import ca.concordia.app.component.MapEditorPanel;
 import ca.concordia.app.model.Country;
 import ca.concordia.app.model.GameMap;
 import ca.concordia.app.service.CreateMapService;
@@ -59,6 +62,18 @@ public class MapEditorController implements ActionListener, MouseListener{
 			
 		}
 		
+	}
+	
+	private void reloadMap(){
+		
+		try {
+			map_editor_view.map_area = new MapEditorPanel();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		map_editor_view.revalidate();
+		//map_editor_view.paintLoadedMap();
 	}
 
 	@Override
@@ -142,6 +157,19 @@ public class MapEditorController implements ActionListener, MouseListener{
 		else if(e.getSource().equals(map_editor_view.cancel_button)){
 			new MainController();
 			map_editor_view.dispose();
+		}
+		else if(e.getSource().equals(map_editor_view.remove_country_button)){
+			int retVal = JOptionPane.showConfirmDialog(map_editor_view, "Do you really want to delete this country?", "Confirm", JOptionPane.YES_NO_OPTION);
+		
+			if(retVal == JOptionPane.NO_OPTION){
+				return;
+			}
+			else if(retVal == JOptionPane.YES_OPTION){
+				String countryName = map_editor_view.neighbours_list.getSelectedValue();
+				CreateMapService.removeCountryFromMap(countryName);
+				reloadMap();
+				
+			}
 		}
 	}
 

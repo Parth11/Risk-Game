@@ -185,11 +185,10 @@ public class Game {
 	
 	//Change the whole mathematical calculation and add Cards Logics
 	public int getReinforcementArmyForPlayer(Player p) {
-		int playerCountries = getCountriesConqueredBy(p).size();
-		int countArmy = 0;
-		if(playerCountries <= 1 && playerCountries <= 11) {
-			countArmy = 3;
-		}
+		int countriesCounquered = getCountriesConqueredBy(p).size();
+		
+		if(countriesCounquered==0)
+			return 3;
 		
 		List<Continent> ruledContinents = getContinentsCounqueredBy(p);
 		for(Continent c : ruledContinents)
@@ -200,29 +199,37 @@ public class Game {
 		else
 			return 3;
 		
+//		List<Continent> ruledContinents = getContinentsCounqueredBy(p);
+//		for(Continent c : ruledContinents)
+//			count += c.getControlValue();
+//		
+//		int army = count<3?3:count;
+//		
+//		return army;
+		return count;
 	}
 	
 	public List<Country> getCountriesConqueredBy(Player p) {
 		return playerCountryMap.get(p);
 	}
 	
-	public List<Continent> getContinentsCounqueredBy(Player p) {
-		List<Continent> lst = new ArrayList<>();				
-		for(Continent c : getContinents()) {
-			boolean isRuler = true;
-			for(Country country : c.getCountriesList()) {
-				if(!country.getRulerPlayer().equals(p)) {
-					isRuler = false;
-					break;
-				}
-					
-			}
-			if(isRuler)
-				lst.add(c);
-		}
-		
-		return lst;
-	}
+//	public List<Continent> getContinentsCounqueredBy(Player p) {
+//		List<Continent> lst = new ArrayList<>();				
+//		for(Continent c : getContinents()) {
+//			boolean isRuler = true;
+//			for(Country country : c.getCountriesList()) {
+//				if(!country.getRulerPlayer().equals(p)) {
+//					isRuler = false;
+//					break;
+//				}
+//					
+//			}
+//			if(isRuler)
+//				lst.add(c);
+//		}
+//		
+//		return lst;
+//	}
 	
 	public boolean setNewCountryRuler(Player ruler, Country country, int numberOfArmies) {
 		if(country.getNoOfArmies()!=0) 
@@ -268,11 +275,13 @@ public class Game {
 		return false;
 	}
 	
-	
-	public boolean moveArmyFromTo(Player p, Country fromCountry, Country toCountry, int noOfArmy) {
-		if(playerCountryMap.get(p).contains(fromCountry) && (playerCountryMap.get(p).contains(toCountry)) && (fromCountry.getNoOfArmies()-noOfArmy)>=1 && isConnected(fromCountry, toCountry, p)) {
-			fromCountry.subtractArmy(noOfArmy);
-			toCountry.addArmy(noOfArmy);
+	public boolean moveArmyFromTo(Player p, Country from, Country to, int noOfArmy) {
+		if(playerCountryMap.get(p).contains(from) && (to.getNoOfArmies()==0 || playerCountryMap.get(p).contains(to)) && (from.getNoOfArmies()-noOfArmy)>=1 && isConnected(from, to, p)) {
+			from.subtractArmy(noOfArmy);
+			if(to.getNoOfArmies()==0)
+				to.setPlayer(p, noOfArmy);
+			else
+				to.addArmy(noOfArmy);
 			return true;
 		}
 		return false;
