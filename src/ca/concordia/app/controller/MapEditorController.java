@@ -23,6 +23,7 @@ import ca.concordia.app.component.MapEditorPanel;
 import ca.concordia.app.model.Country;
 import ca.concordia.app.model.GameMap;
 import ca.concordia.app.service.CreateMapService;
+import ca.concordia.app.util.MapValidationException;
 import ca.concordia.app.util.RiskExceptionHandler;
 import ca.concordia.app.view.MapEditorView;
 
@@ -56,7 +57,12 @@ public class MapEditorController implements ActionListener, MouseListener{
 				File file = map_editor_view.open_dialog.getSelectedFile();
 				
 				if(file.exists()){
-					CreateMapService.loadMap(file);
+					try {
+						CreateMapService.loadMap(file);
+					} catch (MapValidationException e) {
+						JOptionPane.showMessageDialog(map_editor_view, e.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
+						return;
+					}
 					map_editor_view.paintLoadedMap();
 				}
 				

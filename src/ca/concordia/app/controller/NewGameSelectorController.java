@@ -14,6 +14,7 @@ import javax.swing.JOptionPane;
 
 import ca.concordia.app.model.GameMap;
 import ca.concordia.app.service.CreateMapService;
+import ca.concordia.app.util.MapValidationException;
 import ca.concordia.app.view.NewGameSelectorView;
 
 /**
@@ -69,7 +70,11 @@ public class NewGameSelectorController implements ActionListener,MouseListener {
 			
 			if(retVal == JFileChooser.APPROVE_OPTION){
 				File mapFile = new_game_selector.choose_map.getSelectedFile();
-				CreateMapService.loadMap(mapFile);
+				try {
+					CreateMapService.loadMap(mapFile);
+				} catch (MapValidationException e1) {
+					JOptionPane.showMessageDialog(new_game_selector, e1.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
+				}
 				JOptionPane.showMessageDialog(new_game_selector, "Map Loaded Successfully! Click Next to Play!","Map Loaded",JOptionPane.INFORMATION_MESSAGE);
 			}
 		}

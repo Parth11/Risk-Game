@@ -136,26 +136,21 @@ public class CreateMapService {
 
 	}
 	
-	public static GameMap loadMap(File mapFile){
+	public static GameMap loadMap(File mapFile) throws MapValidationException{
 		GameMap gameMap = null;
-		try {
-			gameMap = GameMap.getInstance();
-			List<String> list = new ArrayList<>();
+		gameMap = GameMap.getInstance();
+		List<String> list = new ArrayList<>();
 
-			try (BufferedReader br = new BufferedReader(new FileReader(mapFile))) {
+		try (BufferedReader br = new BufferedReader(new FileReader(mapFile))) {
 
 				list = br.lines().collect(Collectors.toList());
 
-			} catch (IOException e) {
+		} catch (IOException e) {
 				e.printStackTrace();
-			}
-
-			extractFileInformation(gameMap, list);
-			
-		} catch (Exception e) {
-			e.printStackTrace();
 		}
-		
+
+		extractFileInformation(gameMap, list);
+			
 		return gameMap;
 	}
 
@@ -173,22 +168,33 @@ public class CreateMapService {
 			if(metaData.length<5) {
 				throw new MapValidationException("Map does not contain valid country");
 			}
-			int country_x=Integer.parseInt(metaData[1]);
-			int country_y=Integer.parseInt(metaData[2]);
+			int country_x=Integer.parseInt(metaData[1].trim());
+			int country_y=Integer.parseInt(metaData[2].trim());
+			String continent = metaData[3].trim();
 			if(country_x<0 || country_y<0) {
 				throw new MapValidationException("Map does not contain valid (x,y) coordinates");
 			}
-			if(metaData[0].trim().isEmpty() || metaData[3].trim().isEmpty()||metaData[4].trim().isEmpty())
+			if(metaData[0].trim().isEmpty() || continent.isEmpty()||metaData[4].trim().isEmpty())
 			{
 				throw new MapValidationException("Map does not contain valid country values");
 			}
-			Country ctry = new Country(metaData[0].trim(), Integer.parseInt(metaData[1]),	Integer.parseInt(metaData[2]), metaData[3].trim());
+			if(gameMap.getContinentByName(continent)==null){
+				throw new MapValidationException(continent+" is not a valid continent");
+			}
+			
+			Country ctry = new Country(metaData[0].trim(), country_x,	country_y, continent);
 			countries.add(ctry);
-			ArrayList<String> t = new ArrayList<String>(Arrays.asList(Arrays.copyOfRange(metaData, 4, metaData.length)));
+			ArrayList<String> t = new ArrayList<String>();
+			for(String x : Arrays.asList(Arrays.copyOfRange(metaData, 4, metaData.length))){
+				t.add(x.trim());
+			}
 			gameMap.getTerritories().put(ctry,t);
 		}
 
 		gameMap.setCountries(countries);
+		
+		validateTerriotoriesAsValidCountries();
+		
 	}
 
 	private static void parseContinents(List<String> metaContinents, GameMap gameMap) throws MapValidationException{
@@ -214,6 +220,19 @@ public class CreateMapService {
 		}
 
 		gameMap.setContinents(continents);
+	}
+	
+	private static void validateTerriotoriesAsValidCountries() throws MapValidationException{
+		GameMap gameMap = GameMap.getInstance();
+		
+		for(Country c : gameMap.getCountries()){
+			for(String s : gameMap.getTerritories().get(c)){
+				Country cTerritory = gameMap.getCountryByName(s);
+				if(cTerritory==null){
+					throw new MapValidationException(s+" is not a valid country");
+				}
+			}
+		}
 	}
 	
 	public static void removeCountryFromMap(String countryName){
