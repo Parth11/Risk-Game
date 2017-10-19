@@ -1,14 +1,10 @@
 package ca.concordia.app.service;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.net.StandardSocketOptions;
-import java.nio.charset.Charset;
 import java.nio.file.Files;
-import java.nio.file.OpenOption;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
@@ -23,6 +19,7 @@ import ca.concordia.app.model.Country;
 import ca.concordia.app.model.GameMap;
 import ca.concordia.app.util.CountryComparator;
 import ca.concordia.app.util.MapEditorConstants;
+import ca.concordia.app.util.MapValidationException;
 
 
 public class CreateMapService {
@@ -110,20 +107,21 @@ public class CreateMapService {
 		return gameMap;
 	}
 
-	private static void extractFileInformation(GameMap gameMap, List<String> list) {
+	private static void extractFileInformation(GameMap gameMap, List<String> list) throws MapValidationException {
 		
-		List<String> metaContinents = list.subList(list.indexOf("[Continents]") + 1,
-				list.indexOf("[Territories]") - 1);
+		if(list.indexOf(MapEditorConstants.CONTINENT_HEADER_CONST)<0){
+			throw new MapValidationException("Map does not declare continents");
+		}
+		
+		List<String> metaContinents = list.subList(list.indexOf(MapEditorConstants.CONTINENT_HEADER_CONST) + 1,
+				list.indexOf(MapEditorConstants.TERRITORY_HEADER_CONST) - 1);
 
-		List<String> metaTerritories = list.subList(list.indexOf("[Territories]") + 1, list.size());
+		List<String> metaTerritories = list.subList(list.indexOf(MapEditorConstants.TERRITORY_HEADER_CONST) + 1, list.size());
 
 		parseContinents(metaContinents,gameMap);
 
 		parseCountries(metaTerritories,gameMap);
 
-		for(Country c : gameMap.getCountries()){
-			System.out.println(c.getCountryName()+":"+gameMap.getTerritories().get(c));
-		}
 	}
 	
 	public static GameMap loadMap(File mapFile){
@@ -180,6 +178,24 @@ public class CreateMapService {
 		}
 
 		gameMap.setContinents(continents);
+	}
+	
+	public static void removeCountryFromMap(String countryName){
+		GameMap gameMap = GameMap.getInstance();
+		Country c = gameMap.getCountryByName(countryName);
+		
+		if(c!=null){
+		
+			if(gameMap.getCountries().remove(c)){
+				for(Country cn : gameMap.getTerritories().keySet()){
+					gameMap.getTerritories().get(cn).remove(c.getCountryName());
+				}
+			}
+			
+		}
+		
+		
+		
 	}
 
 }
