@@ -59,5 +59,13 @@ public class ContinentColourMap {
 		Colours c = availableColours.remove(0);
 		continentColourMap.put(continentName, c);
 	}
+	
+	public static void resetColors(){
+		availableColours.clear();
+		continentColourMap.clear();
+		for(Colours c : Colours.values()){
+			availableColours.add(c);
+		}
+	}
 }
 
