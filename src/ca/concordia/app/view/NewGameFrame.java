@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JScrollPane;
+import java.awt.Dimension;
 
 /**
  * 
@@ -37,27 +38,26 @@ public class NewGameFrame extends JFrame {
 		getContentPane().setLayout(null);
 		
 		textField = new JTextField();
-		textField.setBounds(37, 459, 216, 26);
+		textField.setBounds(167, 345, 216, 26);
 		getContentPane().add(textField);
 		textField.setColumns(10);
 		
 		btnNewButton = new JButton("Submit");
-		btnNewButton.setBounds(296, 459, 117, 29);
+		btnNewButton.setBounds(442, 345, 117, 29);
 		getContentPane().add(btnNewButton);
 		
 		btnFortify = new JButton("Fortify");
-		btnFortify.setBounds(442, 459, 117, 29);
+		btnFortify.setBounds(442, 415, 117, 29);
 		getContentPane().add(btnFortify);
 		
 		scrollPane = new JScrollPane();
-		scrollPane.setBounds(97, 39, 392, 141);
+		scrollPane.setBounds(143, 24, 477, 197);
 		getContentPane().add(scrollPane);
 		
 		textArea = new JTextArea();
+		scrollPane.setViewportView(textArea);
 		textArea.setForeground(Color.WHITE);
 		textArea.setBackground(Color.BLACK);
-		textArea.setSize(scrollPane.getSize());
-		scrollPane.setViewportView(textArea);
 		logger = MyLogger.getInstance(textArea);
 		
 //		// using DB converter
