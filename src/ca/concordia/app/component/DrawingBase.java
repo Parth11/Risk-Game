@@ -12,11 +12,28 @@ import ca.concordia.app.model.Country;
 import ca.concordia.app.model.GameMap;
 import ca.concordia.app.view.IView;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class DrawingBase.
+ */
 public class DrawingBase extends JPanel {
+	
+	/** The clicked at. */
 	private String clickedAt = "";
+    
+    /** The x. */
     private int x = 0;
+    
+    /** The y. */
     private int y = 0;
 
+    /**
+     * Sets the values.
+     *
+     * @param text the text
+     * @param x the x
+     * @param y the y
+     */
     public void setValues(String text, int x, int y)
     {
         clickedAt = text;
@@ -25,43 +42,79 @@ public class DrawingBase extends JPanel {
         repaint();
     }
 
+    /* (non-Javadoc)
+     * @see javax.swing.JComponent#getPreferredSize()
+     */
     public Dimension getPreferredSize()
     {
         return (new Dimension(500, 400));
     }
 
+    /* (non-Javadoc)
+     * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
+     */
     public void paintComponent(Graphics g)
     {
         super.paintComponent(g);
         g.drawString(clickedAt, x, y);
     }
 
+	/* (non-Javadoc)
+	 * @see javax.swing.JComponent#getX()
+	 */
 	public int getX() {
 		return x;
 	}
 
+	/**
+	 * Sets the x.
+	 *
+	 * @param x the new x
+	 */
 	public void setX(int x) {
 		this.x = x;
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.swing.JComponent#getY()
+	 */
 	public int getY() {
 		return y;
 	}
 
+	/**
+	 * Sets the y.
+	 *
+	 * @param y the new y
+	 */
 	public void setY(int y) {
 		this.y = y;
 	}
 	
+	/* (non-Javadoc)
+	 * @see java.awt.Component#toString()
+	 */
 	public String toString()
 	{
 		return "("+getX() +","+getY()+")";
 		
 	}
 	
+	/**
+	 * Draw country.
+	 *
+	 * @param x the x
+	 * @param y the y
+	 */
 	public void drawCountry(int x, int y){
 		this.getGraphics().drawOval(x-10, y-10, 20, 20);
 	}
 
+	/**
+	 * Connect neighbours.
+	 *
+	 * @param name the name
+	 */
 	public void connectNeighbours(String name) {
 		GameMap gameMap = GameMap.getInstance();
 		
