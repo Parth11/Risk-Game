@@ -4,6 +4,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -21,6 +23,7 @@ import ca.concordia.app.component.MapEditorPanel;
 import ca.concordia.app.model.Country;
 import ca.concordia.app.model.GameMap;
 import ca.concordia.app.service.CreateMapService;
+import ca.concordia.app.util.MapValidationException;
 import ca.concordia.app.util.RiskExceptionHandler;
 import ca.concordia.app.view.MapEditorView;
 
@@ -54,7 +57,12 @@ public class MapEditorController implements ActionListener, MouseListener{
 				File file = map_editor_view.open_dialog.getSelectedFile();
 				
 				if(file.exists()){
-					CreateMapService.loadMap(file);
+					try {
+						CreateMapService.loadMap(file);
+					} catch (MapValidationException e) {
+						JOptionPane.showMessageDialog(map_editor_view, e.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
+						return;
+					}
 					map_editor_view.paintLoadedMap();
 				}
 				
@@ -66,14 +74,18 @@ public class MapEditorController implements ActionListener, MouseListener{
 	
 	private void reloadMap(){
 		
-		try {
-			map_editor_view.map_area = new MapEditorPanel();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		map_editor_view.dispose();
+		map_editor_view = new MapEditorView();
+		map_editor_view.setActionListener(this);
+		map_editor_view.setMouseListener(this);
+		map_editor_view.setVisible(true);
+		
+		int retVal = JOptionPane.showConfirmDialog(map_editor_view, "Reload Map?", "Confirm", JOptionPane.OK_OPTION);
+		
+		if(retVal == JOptionPane.OK_OPTION){
+			map_editor_view.paintLoadedMap();
 		}
-		map_editor_view.revalidate();
-		//map_editor_view.paintLoadedMap();
+		
 	}
 
 	@Override
@@ -166,9 +178,11 @@ public class MapEditorController implements ActionListener, MouseListener{
 			}
 			else if(retVal == JOptionPane.YES_OPTION){
 				String countryName = map_editor_view.neighbours_list.getSelectedValue();
+				List<String> neighbours = GameMap.getInstance().getTerritories().get(GameMap.getInstance().getCountryByName(countryName));
 				CreateMapService.removeCountryFromMap(countryName);
+				CreateMapService.linkRemainingNeighbours(neighbours);
 				reloadMap();
-				
+				map_editor_view.next_button.setEnabled(true);
 			}
 		}
 	}

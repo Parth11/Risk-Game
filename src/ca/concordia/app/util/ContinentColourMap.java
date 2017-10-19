@@ -23,7 +23,6 @@ public class ContinentColourMap {
 	private enum Colours {
 		
 		RED(Color.RED),
-		BLACK(Color.BLACK),
 		BLUE(Color.BLUE),
 		CYAN(Color.CYAN),
 		GREY(Color.GRAY),

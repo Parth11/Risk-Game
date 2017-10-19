@@ -167,7 +167,7 @@ public class MapEditorView extends JFrame implements IView {
 		GameMap gameMap = GameMap.getInstance();
 		
 		ContinentColourMap.resetColors();
-		gameMap.getTerritories().get(gameMap.getCountryByName("Iles de la Madeleine"));
+
 		for (Continent c : gameMap.getContinents()) {
 			try {
 				ContinentColourMap.setContinentColour(c.getContinentName());
