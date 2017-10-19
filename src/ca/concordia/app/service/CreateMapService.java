@@ -196,6 +196,11 @@ public class CreateMapService {
 		List<Continent> continents = new ArrayList<>();
 
 		for (String c : metaContinents) {
+			
+			if(c.isEmpty()){
+				continue;
+			}
+			
 			String[] metaData = c.split("=");
 			if(metaData.length<2) {
 				throw new MapValidationException("Map does not contain valid continent");
@@ -222,10 +227,28 @@ public class CreateMapService {
 					gameMap.getTerritories().get(cn).remove(c.getCountryName());
 				}
 			}
+			gameMap.getTerritories().remove(c);
 			
 		}
 		
 		
+		
+	}
+
+	public static void linkRemainingNeighbours(List<String> neighbours) {
+		
+		GameMap gameMap = GameMap.getInstance();
+		
+		for(String c1 : neighbours){
+			Country c = gameMap.getCountryByName(c1);
+			for(String c2 : neighbours){
+				if(!c1.equals(c2)){
+					if(!gameMap.getTerritories().get(c).contains(c2)){
+						gameMap.getTerritories().get(c).add(c2);
+					}
+				}
+			}
+		}
 		
 	}
 
