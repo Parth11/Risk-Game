@@ -7,7 +7,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.lang.Thread.UncaughtExceptionHandler;
 
+import javax.swing.JOptionPane;
+
+import ca.concordia.app.util.RiskExceptionHandler;
 import ca.concordia.app.view.MainView;
 
 // TODO: Auto-generated Javadoc
@@ -41,6 +45,9 @@ public class MainController implements ActionListener, MouseListener {
 		main_view.setActionListener(this);
 		main_view.setMouseListener(this);
 		main_view.setVisible(true);
+		
+		
+		Thread.setDefaultUncaughtExceptionHandler(new RiskExceptionHandler(main_view));
 	}
 
 	/* (non-Javadoc)
@@ -93,12 +100,18 @@ public class MainController implements ActionListener, MouseListener {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		System.out.println(e);
-		
 		
 		if(e.getSource().equals(main_view.create_map)){
-			new MapEditorController();
+			new MapEditorController(false);
 			main_view.dispose();
+		}
+		else if(e.getSource().equals(main_view.edit_map)){
+			new MapEditorController(true);
+			main_view.dispose();
+		}
+		else if(e.getSource().equals(main_view.new_game)){
+			main_view.dispose();
+			new NewGameSelectorController();
 		}
 	}
 
