@@ -1,11 +1,16 @@
 package lib;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
 
-import lib.Game.OnWarCallBacks;
+import lib.callbacks.OnWarCallBacks;
 import lib.model.Continent;
 import lib.model.Country;
 import lib.model.DiceRoller;
@@ -15,7 +20,8 @@ import lib.service.CreateMapService;
 
 
 /**
- * @author parthnayak
+ * @author Parth Nayak
+ * 
  * 
  */
 
@@ -260,7 +266,7 @@ public class Game {
 	}
 	
 	public boolean moveArmyFromTo(Player p, Country from, Country to, int noOfArmy) {
-		if(playerCountryMap.get(p).contains(from) && (to.getNoOfArmies()==0 || playerCountryMap.get(p).contains(to)) && (from.getNoOfArmies()-noOfArmy)>=1) {
+		if(playerCountryMap.get(p).contains(from) && (to.getNoOfArmies()==0 || playerCountryMap.get(p).contains(to)) && (from.getNoOfArmies()-noOfArmy)>=1 && isConnected(from, to, p)) {
 			from.subtractArmy(noOfArmy);
 			if(to.getNoOfArmies()==0)
 				to.setPlayer(p, noOfArmy);
@@ -268,6 +274,32 @@ public class Game {
 				to.addArmy(noOfArmy);
 			return true;
 		}
+		return false;
+	}
+	
+	public boolean isNeighbour(Country c1, Country c2) {
+		return (getNeighbours(c1).contains(c2));
+	}
+	
+	public boolean isConnected(Country c1, Country c2, Player p) {
+		return isConnected(c1, c2, p, null);
+	}
+	
+	private boolean isConnected(Country c1, Country c2, Player p, List<Country> unwanatedPair) {
+		if(isNeighbour(c1, c2) && c1.getRulerPlayer().equals(c2.getRulerPlayer()))
+			return true;
+		
+		if(unwanatedPair==null)
+			unwanatedPair = new ArrayList<>();
+		else if(unwanatedPair.contains(c1))
+			return false;
+		unwanatedPair.add(c1);
+		
+		for(Country c : getNeighbours(c1)) {
+			if(!unwanatedPair.contains(c) && isConnected(c, c2, p, unwanatedPair))
+				return true;
+		}
+		
 		return false;
 	}
 	
@@ -453,65 +485,23 @@ public class Game {
 	
 	// CallBacks
 	
-	public static abstract class OnWarCallBacks {
-		private Game gameApi;
-		private Player attackPlayer, defencePlayer;
-		private Country fromCountry, toCountry;
-		private int[] attackDiceResult, defenceDiceResult;
-
-		private boolean canReWar = false;
+	public interface ResultInterface {
+		void onSuccess();
+		void onFailure();
+	}
+	
+	public static class Console {
+		private static Console console=null;
+		private static BufferedReader br;
 		
-		public OnWarCallBacks(Game gameApi, Player attackPlayer, Player defencePlayer, Country fromCountry, Country toCountry) {
-			super();
-			this.gameApi = gameApi;
-			this.attackPlayer = attackPlayer;
-			this.defencePlayer = defencePlayer;
-			this.fromCountry = fromCountry;
-			this.toCountry = toCountry;
+		private Console() {
+			 br = new BufferedReader(new InputStreamReader(System.in));
 		}
 		
-		public final Player getAttackPlayer() {
-			return attackPlayer;
-		}
-		public final Player getDefencePlayer() {
-			return defencePlayer;
-		}
-		public final Country getFromCountry() {
-			return fromCountry;
-		}
-		public final Country getToCountry() {
-			return toCountry;
-		}
-		public final int[] getAttackDiceResult() {
-			return attackDiceResult;
-		}
-		public final int[] getDefenceDiceResult() {
-			return defenceDiceResult;
-		}
-		private void setAttackDiceResult(int[] attackDiceResult) {
-			this.attackDiceResult = attackDiceResult;
-		}
-		private void setDefenceDiceResult(int[] defenceDiceResult) {
-			this.defenceDiceResult = defenceDiceResult;
-		}
-		private void setCanReWar(boolean value) {
-			this.canReWar = value;
-		}
-		
-		public abstract void onWarStartFailure();
-		public abstract void beforeWarStart();
-		public abstract void onAttackerWin(int roundNumber, int attackDiceResult, int defenceDiceResult);
-		public abstract void onDefenderWin(int roundNumber, int attackDiceResult, int defenceDiceResult);
-		public abstract void onWarFinished();
-		public abstract void onCountryCaptured();
-		public abstract void askForReWar();
-		
-		public final void reWar() {
-			if(!canReWar)
-				onWarStartFailure();
-			else
-				gameApi.war(this);
+		public static Console getInstance() {
+			if(console==null) 
+				console = new Console();
+			return console;
 		}
 	}
-
 }

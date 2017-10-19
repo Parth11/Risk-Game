@@ -1,4 +1,4 @@
-/**
+ /**
  * 
  */
 package ca.concordia.app.controller;
@@ -8,13 +8,20 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
+import java.util.List;
 
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
 import ca.concordia.app.model.GameMap;
 import ca.concordia.app.service.CreateMapService;
+import ca.concordia.app.service.MyLogger;
+import ca.concordia.app.view.NewGameFrame;
 import ca.concordia.app.view.NewGameSelectorView;
+import lib.DbConverter;
+import lib.Game;
+import lib.model.Country;
+import lib.model.Player;
 
 /**
  * @author harvi
@@ -70,6 +77,7 @@ public class NewGameSelectorController implements ActionListener,MouseListener {
 			if(retVal == JFileChooser.APPROVE_OPTION){
 				File mapFile = new_game_selector.choose_map.getSelectedFile();
 				CreateMapService.loadMap(mapFile);
+				
 				JOptionPane.showMessageDialog(new_game_selector, "Map Loaded Successfully! Click Next to Play!","Map Loaded",JOptionPane.INFORMATION_MESSAGE);
 			}
 		}
@@ -83,6 +91,11 @@ public class NewGameSelectorController implements ActionListener,MouseListener {
 			}
 			
 			GameMap gameMap = GameMap.getInstance();
+			
+			NewGameFrame newgameframe = new NewGameFrame(numPlayers);
+			
+			init(numPlayers);
+			
 			new_game_selector.dispose();
 			new MainController();
 		}
@@ -90,6 +103,54 @@ public class NewGameSelectorController implements ActionListener,MouseListener {
 			GameMap gameMap = GameMap.getInstance();
 			new_game_selector.dispose();
 			new MainController();
+		}
+	}
+	
+	private void init(int numberOfPlayers) {
+		Game gameApi = Game.getInstance();
+		
+		// get logger
+		MyLogger logger = MyLogger.getInstance(null);
+		
+		// using DB converter
+		DbConverter.convert(GameMap.getInstance(), lib.model.GameMap.getInstance());
+		DbConverter.print();
+		print(logger);
+		logger.write("\n\nMAP FILE CONVERTED SUCCESSFULLY\n");
+		
+		logger.write("\nStartup Phase:-\n----------------------\n");
+		gameApi.setPlayers(numberOfPlayers);
+		
+		// get players
+		List<Player> players = gameApi.getPlayers();
+		for(Player p : players) {
+			String s = p.name + " - [ ";
+			
+			// get countries counquered by each player + no. of armies assigned
+			List<Country> countries = gameApi.getCountriesConqueredBy(p);
+			for(Country c : countries)
+				s += "" + c.getName() + "(" + c.getNoOfArmies() + "), ";
+			
+			s += "]\n";
+			
+			// write each info to logger files
+			logger.write(s);
+		}
+		
+		logger.write("Hello World!");
+	}
+	
+	private void print(MyLogger logger) {
+		lib.model.GameMap gameMap = lib.model.GameMap.getInstance();
+		for(lib.model.Country c : gameMap.getCountries()){
+			logger.write(c.getName()+"( belongs to '"+c.getContinent().getName()+"') : [");
+			
+			if(gameMap.getTerritories().get(c)!=null)
+				for(lib.model.Country e : gameMap.getTerritories().get(c)) 
+					if(e!=null)
+						logger.write(e.getName()+", ");
+			
+			logger.write("]\n");
 		}
 	}
 

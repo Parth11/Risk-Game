@@ -1,3 +1,6 @@
+/**
+ * 
+ */
 package lib.model;
 
 import java.util.ArrayList;
@@ -7,9 +10,8 @@ import java.util.List;
  * @author harvi
  * @modified by Parth Nayak
  */
-
-public class Continent extends Land{
-
+public class Continent extends Land {
+	
 	private int controlValue;
 	
 	private String color;
@@ -45,6 +47,4 @@ public class Continent extends Land{
 	public List<Country> getCountriesList() {
 		return countriesList;
 	}
-
-	
 }

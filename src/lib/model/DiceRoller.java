@@ -3,7 +3,8 @@ package lib.model;
 import lib.Game;
 
 /**
- * @author parthnayak
+ * @author Parth Nayak
+ * 
  * 
  */
 

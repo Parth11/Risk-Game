@@ -9,6 +9,7 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import java.awt.event.ActionEvent;
+import javax.swing.JRadioButton;
 
 /**
  * @author Abhinav
@@ -18,12 +19,14 @@ import java.awt.event.ActionEvent;
 
 public class NewGameSelectorView extends JFrame implements IView{
 
-	public JTextField num_players;
+	//public JTextField num_players;
 	public JButton browse_map;
 	public JButton next_button;
 	public JButton cancel_button;
+	public JTextField num_players;
 	public JFileChooser choose_map;
-
+	public JLabel lblHowManyPlayers, lblSelectMapFile;
+	public int finalPlayers;
 	
 	/**
 	 * Create the application.
@@ -31,16 +34,16 @@ public class NewGameSelectorView extends JFrame implements IView{
 	public NewGameSelectorView() {
 		getContentPane().setLayout(null);
 		
-		JLabel lblHowManyKings = new JLabel("How many kings?");
-		lblHowManyKings.setBounds(53, 47, 311, 27);
-		getContentPane().add(lblHowManyKings);
+		lblHowManyPlayers = new JLabel("How many Players?");
+		lblHowManyPlayers.setBounds(53, 47, 311, 27);
+		getContentPane().add(lblHowManyPlayers);
 		
 		num_players = new JTextField("2");
 		num_players.setBounds(202, 49, 116, 22);
 		getContentPane().add(num_players);
 		num_players.setColumns(10);
 		
-		JLabel lblSelectMapFile = new JLabel("Select map File");
+		lblSelectMapFile = new JLabel("Select map File");
 		lblSelectMapFile.setBounds(53, 133, 157, 27);
 		getContentPane().add(lblSelectMapFile);
 		
@@ -49,17 +52,20 @@ public class NewGameSelectorView extends JFrame implements IView{
 		getContentPane().add(browse_map);
 		
 		next_button = new JButton("Next");
-		next_button.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				NewGameFrame newgameframe = new NewGameFrame();
-			}
-		});
+//		next_button.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent e) {
+//				finalPlayers = Integer.parseInt(num_players.getText());
+//				NewGameFrame newgameframe = new NewGameFrame(finalPlayers);
+//			}
+//		});
 		next_button.setBounds(202, 237, 116, 25);
 		getContentPane().add(next_button);
 		
 		cancel_button = new JButton("Cancel");
 		cancel_button.setBounds(53, 237, 97, 25);
 		getContentPane().add(cancel_button);
+		
+
 		
 		choose_map = new JFileChooser();
 		

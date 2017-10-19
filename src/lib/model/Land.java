@@ -1,10 +1,5 @@
 package lib.model;
 
-/**
- * @author parthnayak
- * 
- */
-
 public abstract class Land implements Comparable<Land> {
 	private String name;
 	
@@ -21,4 +16,3 @@ public abstract class Land implements Comparable<Land> {
 		return this.getName().compareTo(land.getName());
 	}
 }
-

@@ -3,9 +3,19 @@ package ca.concordia.app.view;
 import javax.swing.JFrame;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+
+import ca.concordia.app.model.GameMap;
+import ca.concordia.app.service.MyLogger;
+import lib.DbConverter;
+import lib.Game;
+import lib.model.Country;
+import lib.model.Player;
+
 import javax.swing.JButton;
 import java.awt.Color;
 import java.awt.ScrollPane;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JScrollPane;
 
@@ -16,7 +26,13 @@ import javax.swing.JScrollPane;
  */
 public class NewGameFrame extends JFrame {
 	private JTextField textField;
-	public NewGameFrame() {
+	private JButton btnNewButton, btnFortify;
+	private JScrollPane scrollPane;
+	private JTextArea textArea;
+	private Game gameAPI;
+	private MyLogger logger;
+	
+	public NewGameFrame(int finalPlayers) {
 		
 		getContentPane().setLayout(null);
 		
@@ -25,23 +41,28 @@ public class NewGameFrame extends JFrame {
 		getContentPane().add(textField);
 		textField.setColumns(10);
 		
-		JButton btnNewButton = new JButton("Submit");
+		btnNewButton = new JButton("Submit");
 		btnNewButton.setBounds(403, 273, 117, 29);
 		getContentPane().add(btnNewButton);
 		
-		JButton btnFortify = new JButton("Fortify");
+		btnFortify = new JButton("Fortify");
 		btnFortify.setBounds(403, 336, 117, 29);
 		getContentPane().add(btnFortify);
 		
-		JScrollPane scrollPane = new JScrollPane();
+		scrollPane = new JScrollPane();
 		scrollPane.setBounds(97, 39, 392, 141);
 		getContentPane().add(scrollPane);
 		
-		JTextArea textArea = new JTextArea();
+		textArea = new JTextArea();
 		textArea.setForeground(Color.WHITE);
 		textArea.setBackground(Color.BLACK);
 		textArea.setSize(scrollPane.getSize());
 		scrollPane.setViewportView(textArea);
+		logger = MyLogger.getInstance(textArea);
+		
+//		// using DB converter
+		//DbConverter.convert(GameMap.getInstance(), lib.model.GameMap.getInstance());
+		//DbConverter.print();
 		
 		initialize();
 	}

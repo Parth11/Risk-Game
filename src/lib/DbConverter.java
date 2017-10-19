@@ -1,29 +1,27 @@
 package lib;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map.Entry;
-
 import java.util.Map.Entry;
 
 import ca.concordia.app.model.Continent;
 import ca.concordia.app.model.Country;
 import ca.concordia.app.model.GameMap;
 
-/**
- * @author parthnayak
- * 
- */
-
 public class DbConverter {
+
 	public static void convert(GameMap gm, lib.model.GameMap gameMap) {
 		// 1. converting continents
 		List<Continent> continents = gm.getContinents();
+		lib.model.Continent con = null;
+		System.out.println(continents.toString());
 		List<lib.model.Continent> myContinents = new ArrayList<>();
 		for(Continent c : continents) {
-			lib.model.Continent con = new lib.model.Continent(c.getContinentName(), c.getControlValue(), c.getColor().toString());
+			con = new lib.model.Continent(c.getContinentName(), c.getControlValue(), "");
 			myContinents.add(con);
+			System.out.println(myContinents.toString());
 		}
 		gameMap.setContinents(myContinents);
 		
@@ -38,8 +36,8 @@ public class DbConverter {
 		List<Country> countries = gm.getCountries();
 		List<lib.model.Country> myCountries = new ArrayList<>();
 		for(Country c : countries) {
-			lib.model.Country con = new lib.model.Country(c.getCountryName(), c.getLocX(), c.getLocy(), gameMap.getContinent(c.getContinentName()), null, 0);
-			myCountries.add(con);
+			lib.model.Country con1 = new lib.model.Country(c.getCountryName(), c.getLocX(), c.getLocy(), gameMap.getContinent(c.getContinentName()), null, 0);
+			myCountries.add(con1);
 		}
 		gameMap.setCountries(myCountries);
 	}
@@ -57,5 +55,4 @@ public class DbConverter {
 			System.out.println("]\n");
 		}
 	}
-
 }

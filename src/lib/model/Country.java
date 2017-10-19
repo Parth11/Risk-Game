@@ -1,3 +1,6 @@
+/**
+ * 
+ */
 package lib.model;
 
 /**
@@ -6,8 +9,8 @@ package lib.model;
  * @ modified by Part Nayak
  *
  */
-
-public class Country extends Land{
+public class Country extends Land {
+	
 	private int locX, locY;
 	
 	private Continent continent;
@@ -80,5 +83,4 @@ public class Country extends Land{
 	public Player getRulerPlayer() {
 		return ruler;
 	}
-
 }

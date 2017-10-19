@@ -1,15 +1,13 @@
 package lib.model;
 
-import lib.model.Card.CardType;
-
 /**
  * @author Parth Nayak
  * 
  * 
  */
-
 public class Card {
-enum CardType {INFANTRY, CAVALRY, ARTILLERY};
+
+	enum CardType {INFANTRY, CAVALRY, ARTILLERY};
 	
 	private CardType cardType;
 
@@ -21,5 +19,4 @@ enum CardType {INFANTRY, CAVALRY, ARTILLERY};
 	public CardType getCardType() {
 		return cardType;
 	}
-
 }

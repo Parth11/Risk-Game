@@ -1,3 +1,6 @@
+/**
+ * 
+ */
 package lib.model;
 
 import java.util.ArrayList;
@@ -10,8 +13,8 @@ import java.util.TreeMap;
  * @modified by Parth Nayak
  * 
  */
-
 public class GameMap {
+	
 	private static GameMap instance;
 	
 	private List<Country> countries;
@@ -113,5 +116,4 @@ public class GameMap {
 		}
 		tempTerritories = null;
 	}
-
 }

@@ -3,11 +3,12 @@ package lib.model;
 import java.util.ArrayList;
 
 /**
- * @author parthnayak
+ * @author Parth Nayak
+ * 
  * 
  */
-
 public class Player {
+
 	public String name;
 	public int totalArmies;
 	//public List<Country> conqueredContries;
@@ -59,5 +60,4 @@ public class Player {
 	public void addCard(Card card) {
 		cardsList.add(card);
 	}
-
 }
