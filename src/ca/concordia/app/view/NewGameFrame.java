@@ -14,6 +14,8 @@ import lib.model.Player;
 import javax.swing.JButton;
 import java.awt.Color;
 import java.awt.ScrollPane;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,13 +26,13 @@ import javax.swing.JScrollPane;
  * @author Abhinav
  *
  */
-public class NewGameFrame extends JFrame {
-	private JTextField textField;
-	private JButton btnNewButton, btnFortify;
-	private JScrollPane scrollPane;
-	private JTextArea textArea;
-	private Game gameAPI;
-	private MyLogger logger;
+public class NewGameFrame extends JFrame implements IView {
+	public JTextField textField;
+	public JButton btnSubmit, btnFortify;
+	public JScrollPane scrollPane;
+	public JTextArea textArea;
+	public Game gameAPI;
+	public MyLogger logger;
 	
 	public NewGameFrame() {
 		
@@ -41,16 +43,16 @@ public class NewGameFrame extends JFrame {
 		getContentPane().add(textField);
 		textField.setColumns(10);
 		
-		btnNewButton = new JButton("Submit");
-		btnNewButton.setBounds(296, 459, 117, 29);
-		getContentPane().add(btnNewButton);
+		btnSubmit = new JButton("Submit");
+		btnSubmit.setBounds(296, 459, 117, 29);
+		getContentPane().add(btnSubmit);
 		
 		btnFortify = new JButton("Fortify");
 		btnFortify.setBounds(442, 459, 117, 29);
 		getContentPane().add(btnFortify);
 		
 		scrollPane = new JScrollPane();
-		scrollPane.setBounds(97, 39, 392, 141);
+		scrollPane.setBounds(97, 39, 593, 348);
 		getContentPane().add(scrollPane);
 		
 		textArea = new JTextArea();
@@ -73,4 +75,18 @@ public class NewGameFrame extends JFrame {
 		setBounds(100, 100, 881, 536);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
+	
+	
+	public void setActionListener(ActionListener actionListener) {
+		btnSubmit.addActionListener(actionListener);
+		btnFortify.addActionListener(actionListener);
+		
+	}
+
+	
+	public void setMouseListener(MouseListener mouseListener) {
+		// TODO Auto-generated method stub
+		
+	}
+	
 }

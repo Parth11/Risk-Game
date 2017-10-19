@@ -137,7 +137,7 @@ public class Game {
 	}
 	
 	private void allocateCountriesToPlayers() {
-		// allocate countries to the players in rpund-robin fashion
+		// allocate countries to the players in round-robin fashion
 		int j = 0;
 		for(Country c: gameMap.getCountries()) {
 			Player p = players.get(j % numberOfPlayers);
@@ -182,20 +182,24 @@ public class Game {
 		return getCurrentTurnPlayer();
 	}
 	
+	
+	//Change the whole mathematical calculation and add Cards Logics
 	public int getReinforcementArmyForPlayer(Player p) {
-		int countriesCounquered = getCountriesConqueredBy(p).size();
+		int playerCountries = getCountriesConqueredBy(p).size();
+		int countArmy = 0;
+		if(playerCountries <= 1 && playerCountries <= 11) {
+			countArmy = 3;
+		}
 		
-		if(countriesCounquered==0)
-			return 3;
-		
-		int count = (countriesCounquered / 3);
 		List<Continent> ruledContinents = getContinentsCounqueredBy(p);
 		for(Continent c : ruledContinents)
-			count += c.getControlValue();
+			countArmy += c.getControlValue();
 		
-		int army = count<3?3:count;
+		if(countArmy > 3)
+			return countArmy;
+		else
+			return 3;
 		
-		return army;
 	}
 	
 	public List<Country> getCountriesConqueredBy(Player p) {
@@ -264,13 +268,11 @@ public class Game {
 		return false;
 	}
 	
-	public boolean moveArmyFromTo(Player p, Country from, Country to, int noOfArmy) {
-		if(playerCountryMap.get(p).contains(from) && (to.getNoOfArmies()==0 || playerCountryMap.get(p).contains(to)) && (from.getNoOfArmies()-noOfArmy)>=1 && isConnected(from, to, p)) {
-			from.subtractArmy(noOfArmy);
-			if(to.getNoOfArmies()==0)
-				to.setPlayer(p, noOfArmy);
-			else
-				to.addArmy(noOfArmy);
+	
+	public boolean moveArmyFromTo(Player p, Country fromCountry, Country toCountry, int noOfArmy) {
+		if(playerCountryMap.get(p).contains(fromCountry) && (playerCountryMap.get(p).contains(toCountry)) && (fromCountry.getNoOfArmies()-noOfArmy)>=1 && isConnected(fromCountry, toCountry, p)) {
+			fromCountry.subtractArmy(noOfArmy);
+			toCountry.addArmy(noOfArmy);
 			return true;
 		}
 		return false;
