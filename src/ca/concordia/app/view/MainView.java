@@ -40,15 +40,15 @@ public class MainView extends JFrame implements IView{
 		this.getContentPane().setLayout(null);
 		
 		new_game = new JButton("New Game");
-		new_game.setBounds(167, 185, 213, 109);
+		new_game.setBounds(164, 290, 213, 109);
 		this.getContentPane().add(new_game);
 		
 		create_map = new JButton("Create Map");
-		create_map.setBounds(448, 185, 199, 109);
+		create_map.setBounds(521, 290, 199, 109);
 		this.getContentPane().add(create_map);
 		
 		edit_map = new JButton("Edit Map");
-		edit_map.setBounds(716, 185, 213, 109);
+		edit_map.setBounds(886, 290, 213, 109);
 		this.getContentPane().add(edit_map);
 	}
 

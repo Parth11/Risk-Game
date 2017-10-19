@@ -118,7 +118,11 @@ public class MapEditorContinentView extends JFrame implements IView {
 		continent_pane.setViewportView(continent_list);
 		continent_list.setVisibleRowCount(8);
 		
-		next_button = new JButton("Next");
+		next_button = new JButton("Save Map");
+		next_button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		next_button.setBounds(826, 467, 103, 25);
 		this.getContentPane().add(next_button);
 
@@ -140,6 +144,18 @@ public class MapEditorContinentView extends JFrame implements IView {
 		cancel_button = new JButton("Cancel");
 		cancel_button.setBounds(551, 467, 97, 25);
 		getContentPane().add(cancel_button);
+		
+		JLabel lblListOfContinents = new JLabel("Continents");
+		lblListOfContinents.setBounds(62, 79, 234, 16);
+		getContentPane().add(lblListOfContinents);
+		
+		JLabel lblAddedCountries = new JLabel("Added Countries");
+		lblAddedCountries.setBounds(347, 79, 245, 16);
+		getContentPane().add(lblAddedCountries);
+		
+		JLabel lblAvailableCountries = new JLabel("Available Countries");
+		lblAvailableCountries.setBounds(684, 79, 245, 16);
+		getContentPane().add(lblAvailableCountries);
 
 		saveDialog = new JFileChooser();
 		
