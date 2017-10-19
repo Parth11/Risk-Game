@@ -170,8 +170,6 @@ public class CreateMapService {
 			}
 			
 			String[] metaData = c.split(",");
-			Country ctry = new Country(metaData[0].trim(), Integer.parseInt(metaData[1].trim()), 
-					Integer.parseInt(metaData[2].trim()), metaData[3].trim());
 			if(metaData.length<5) {
 				throw new MapValidationException("Map does not contain valid country");
 			}
