@@ -87,11 +87,19 @@ public class MapEditorContinentController implements ActionListener,MouseListene
 		// TODO Auto-generated method stub
 		if(e.getSource().equals(map_continent_view.save_button)){
 			String continent_name=map_continent_view.continent_name_value.getText().trim();
+			int controlValue = Integer.parseInt(map_continent_view.controlValue.getText().trim());
+			
+			if(controlValue<=0){
+				JOptionPane.showMessageDialog(map_continent_view, "Control Value must be a positive integer", "Error", JOptionPane.ERROR_MESSAGE);
+				return;
+			}
+			
 			if(gameMap.getContinentByName(continent_name)==null) {
 				try {
 					ContinentColourMap.setContinentColour(continent_name);
 				} catch (Exception e1) {
 					JOptionPane.showMessageDialog(map_continent_view, e1.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+					return;
 				}
 				Continent continent = new Continent(continent_name,Integer.parseInt(map_continent_view.controlValue.getText()),ContinentColourMap.getContinentColour(continent_name));
 				gameMap.getContinents().add(continent);
