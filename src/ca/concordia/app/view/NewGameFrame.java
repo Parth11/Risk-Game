@@ -14,6 +14,8 @@ import lib.model.Player;
 import javax.swing.JButton;
 import java.awt.Color;
 import java.awt.ScrollPane;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,33 +27,34 @@ import java.awt.Dimension;
  * @author Abhinav
  *
  */
-public class NewGameFrame extends JFrame {
-	private JTextField textField;
-	private JButton btnNewButton, btnFortify;
-	private JScrollPane scrollPane;
-	private JTextArea textArea;
-	private Game gameAPI;
-	private MyLogger logger;
+public class NewGameFrame extends JFrame implements IView {
+	
+	public JTextField textField;
+	public JButton btnNewButton, btnFortify;
+	public JScrollPane scrollPane;
+	public JTextArea textArea;
+	public Game gameAPI;
+	public MyLogger logger;
 	
 	public NewGameFrame() {
 		
 		getContentPane().setLayout(null);
 		
 		textField = new JTextField();
-		textField.setBounds(167, 345, 216, 26);
+		textField.setBounds(1000, 100, 216, 26);
 		getContentPane().add(textField);
 		textField.setColumns(10);
 		
 		btnNewButton = new JButton("Submit");
-		btnNewButton.setBounds(442, 345, 117, 29);
+		btnNewButton.setBounds(1000, 250, 117, 29);
 		getContentPane().add(btnNewButton);
 		
 		btnFortify = new JButton("Fortify");
-		btnFortify.setBounds(442, 415, 117, 29);
+		btnFortify.setBounds(1000, 400, 117, 29);
 		getContentPane().add(btnFortify);
 		
 		scrollPane = new JScrollPane();
-		scrollPane.setBounds(143, 24, 477, 197);
+		scrollPane.setBounds(150, 50, 800, 700);
 		getContentPane().add(scrollPane);
 		
 		textArea = new JTextArea();
@@ -70,7 +73,21 @@ public class NewGameFrame extends JFrame {
 	
 	private void initialize() {
 		this.setVisible(true);
-		setBounds(100, 100, 881, 536);
+		setBounds(100, 100, 1300, 900);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	}
+
+
+	@Override
+	public void setActionListener(ActionListener actionListener) {
+		btnNewButton.addActionListener(actionListener);
+		btnFortify.addActionListener(actionListener);
+	}
+
+
+	@Override
+	public void setMouseListener(MouseListener mouseListener) {
+		// TODO Auto-generated method stub
+		
 	}
 }

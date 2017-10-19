@@ -33,7 +33,6 @@ public class NewGameSelectorController implements ActionListener,MouseListener {
 	
 	public NewGameSelectorController() {
 		new_game_selector = new NewGameSelectorView();
-		
 		new_game_selector.setActionListener(this);
 		new_game_selector.setMouseListener(this);
 		new_game_selector.setVisible(true);
@@ -108,9 +107,9 @@ public class NewGameSelectorController implements ActionListener,MouseListener {
 			// here, startPhase has started
 			init(numPlayers,gameApi, logger);
 			
-			logger.write("\\Reinforcement Phase Started:-\\n----------------------\\n");
+			logger.write("Reinforcement Phase Started:-\n----------------------\n");
 			reinforcementPhase(numPlayers,gameApi, logger);
-			logger.write("\\Reinforcement Phase Ended:-\\n----------------------\\n");
+			logger.write("Reinforcement Phase Ended:-\n----------------------\n");
 			
 			new_game_selector.dispose();
 			new MainController();
