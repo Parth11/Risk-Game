@@ -76,7 +76,7 @@ public class CreateMapService {
 		Path path = Paths.get(savePath);
 		
 		try {
-			Files.write(path, lines,StandardOpenOption.CREATE,StandardOpenOption.WRITE);
+			Files.write(path, lines,StandardOpenOption.CREATE);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
