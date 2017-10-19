@@ -29,9 +29,11 @@ public class MapEditorPanel extends JPanel implements IView{
 	public DrawingBase mapArea;
 	
 	BufferedImage image;
+	
 	/**
-	 * @throws IOException 
-	 * 
+	 * Instantiates a new map editor panel.
+	 *
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	public MapEditorPanel() throws IOException {
 		// TODO Auto-generated constructor stub
