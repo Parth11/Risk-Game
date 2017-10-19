@@ -185,51 +185,41 @@ public class Game {
 	
 	//Change the whole mathematical calculation and add Cards Logics
 	public int getReinforcementArmyForPlayer(Player p) {
+		int countArmy = 0;
 		int countriesCounquered = getCountriesConqueredBy(p).size();
+		if(countriesCounquered<=11 && countriesCounquered>0)
+			countArmy = 3;
 		
-		if(countriesCounquered==0)
-			return 3;
 		
 		List<Continent> ruledContinents = getContinentsCounqueredBy(p);
 		for(Continent c : ruledContinents)
 			countArmy += c.getControlValue();
 		
-		if(countArmy > 3)
-			return countArmy;
-		else
-			return 3;
+		return countArmy;
 		
-//		List<Continent> ruledContinents = getContinentsCounqueredBy(p);
-//		for(Continent c : ruledContinents)
-//			count += c.getControlValue();
-//		
-//		int army = count<3?3:count;
-//		
-//		return army;
-		return count;
 	}
 	
 	public List<Country> getCountriesConqueredBy(Player p) {
 		return playerCountryMap.get(p);
 	}
 	
-//	public List<Continent> getContinentsCounqueredBy(Player p) {
-//		List<Continent> lst = new ArrayList<>();				
-//		for(Continent c : getContinents()) {
-//			boolean isRuler = true;
-//			for(Country country : c.getCountriesList()) {
-//				if(!country.getRulerPlayer().equals(p)) {
-//					isRuler = false;
-//					break;
-//				}
-//					
-//			}
-//			if(isRuler)
-//				lst.add(c);
-//		}
-//		
-//		return lst;
-//	}
+	public List<Continent> getContinentsCounqueredBy(Player p) {
+		List<Continent> lst = new ArrayList<>();				
+		for(Continent c : getContinents()) {
+			boolean isRuler = true;
+			for(Country country : c.getCountriesList()) {
+				if(!country.getRulerPlayer().equals(p)) {
+					isRuler = false;
+					break;
+				}
+					
+			}
+			if(isRuler)
+				lst.add(c);
+		}
+		
+		return lst;
+	}
 	
 	public boolean setNewCountryRuler(Player ruler, Country country, int numberOfArmies) {
 		if(country.getNoOfArmies()!=0) 
