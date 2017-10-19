@@ -60,7 +60,7 @@ public class NewGamePhaseController implements ActionListener,MouseListener{
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		
-		if(e.getSource().equals(new_game_phase_selector.btnSubmit)){
+		if(e.getSource().equals(new_game_phase_selector.btnNewButton)){
 			
 		}
 		else if(e.getSource().equals(new_game_phase_selector.btnFortify)){
