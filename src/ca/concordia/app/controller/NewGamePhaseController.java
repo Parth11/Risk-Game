@@ -19,19 +19,15 @@ import ca.concordia.app.view.NewGamePlayView;
 public class NewGamePhaseController implements ActionListener,MouseListener{
 	
 	NewGamePlayView new_game_phase_selector;
-	
 	GamePlayService gameApi = GamePlayService.getInstance();
-	private static String currentPhase = "";
 	int numPlayers;
 	List<Player> playerList = gameApi.getPlayers();
-	//get logger
 	ConsoleLoggerService logger;
 	
-	public NewGamePhaseController(int numPlayers, ConsoleLoggerService logger) {
-		// TODO Auto-generated constructor stub
+	public NewGamePhaseController() {
 		new_game_phase_selector = new NewGamePlayView();
-		this.numPlayers=numPlayers;
-		this.logger=logger;
+		this.numPlayers=GamePlayService.getInstance().getNumberOfPlayers();
+		this.logger=ConsoleLoggerService.getInstance(null);
 		new_game_phase_selector.setActionListener(this);
 		new_game_phase_selector.setMouseListener(this);
 		new_game_phase_selector.setVisible(true);
@@ -40,7 +36,6 @@ public class NewGamePhaseController implements ActionListener,MouseListener{
 	}
 	
 	private void init() {
-		// TODO Auto-generated method stub
 		logger.write("Game phase starts");
 		logger.write(""+playerList.size());
 		startPlayingGame();
@@ -50,7 +45,6 @@ public class NewGamePhaseController implements ActionListener,MouseListener{
 
 	public void startPlayingGame() {
 		int j = 0;
-		// TODO Auto-generated method stub
 		while(true) {
 			Player player = playerList.get(j % numPlayers);
 			enterReinforcementPhase(player);
@@ -58,8 +52,6 @@ public class NewGamePhaseController implements ActionListener,MouseListener{
 			enterFortificationPhase(player);
 			j++;
 		}
-		
-		
 	}
 
 	private void enterFortificationPhase(Player player) {

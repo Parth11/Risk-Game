@@ -89,13 +89,11 @@ public class NewGameSelectorController implements ActionListener,MouseListener {
 			}
 			
 			
-			ConsoleLoggerService logger = ConsoleLoggerService.getInstance(null);
-			
-			GamePlayService.getInstance().doStartupPhase(numPlayers, logger);
+			GamePlayService.getInstance().doStartupPhase(numPlayers);
 			
 			new_game_selector.dispose();
 			
-			new_game_phase_selector = new NewGamePhaseController(numPlayers,logger);
+			new_game_phase_selector = new NewGamePhaseController();
 		}
 		else if(e.getSource().equals(new_game_selector.cancel_button)){
 			new_game_selector.dispose();
