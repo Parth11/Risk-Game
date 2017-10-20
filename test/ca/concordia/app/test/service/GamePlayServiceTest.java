@@ -8,6 +8,7 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
+import ca.concordia.app.model.Country;
 import ca.concordia.app.model.GameMap;
 import ca.concordia.app.model.Player;
 import ca.concordia.app.service.GamePlayService;
@@ -41,7 +42,11 @@ public class GamePlayServiceTest {
 	
 	@Test
 	public void testIsConnectedCountries() {
-		
+		Country c1 = game_play.getCountriesConqueredBy(players.get(0)).get(0);
+		Country c2 = game_play.getCountriesConqueredBy(players.get(0)).get(1);
+		Country c3 = game_play.getCountriesConqueredBy(players.get(0)).get(4);
+		assertFalse(game_play.isConnected(c1, c2, players.get(0)));
+		assertTrue(game_play.isConnected(c1, c3, players.get(0)));
 		
 	}
 
