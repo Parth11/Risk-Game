@@ -92,9 +92,6 @@ public class NewGameSelectorController implements ActionListener,MouseListener {
 			
 			ConsoleLoggerService logger = ConsoleLoggerService.getInstance(null);
 			
-			logger.write("\n\nMAP FILE CONVERTED SUCCESSFULLY\n");
-			
-			
 			init(numPlayers,gameApi, logger);
 			
 			new_game_selector.dispose();
@@ -110,7 +107,7 @@ public class NewGameSelectorController implements ActionListener,MouseListener {
 	private void init(int numberOfPlayers, GamePlayService gameApi, ConsoleLoggerService logger) {
 		
 		
-		logger.write("\nStartup Phase Started:-\n----------------------\n");
+		logger.write(" \nStartup Phase Started:-\n----------------------\n");
 		gameApi.setPlayers(numberOfPlayers);
 		
 		// get players
@@ -128,7 +125,7 @@ public class NewGameSelectorController implements ActionListener,MouseListener {
 			// write each info to logger files
 			logger.write(s);
 		}
-		logger.write("\\nStartup Phase Ended:-\\n----------------------\\n");
+		logger.write("\nStartup Phase Ended:-\n----------------------\n");
 		
 	}
 	
