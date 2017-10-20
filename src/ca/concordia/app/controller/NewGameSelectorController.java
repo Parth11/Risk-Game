@@ -32,6 +32,7 @@ import ca.concordia.app.view.NewGameSelectorView;
 public class NewGameSelectorController implements ActionListener,MouseListener {
 	
 	NewGameSelectorView new_game_selector;
+	public NewGamePlayView game_play_view;
 	
 	public NewGameSelectorController() {
 		new_game_selector = new NewGameSelectorView();
@@ -111,7 +112,9 @@ public class NewGameSelectorController implements ActionListener,MouseListener {
 			
 			init(numPlayers,gameApi, logger);
 			
-			NewGamePlayView newgameframe = new NewGamePlayView();
+			game_play_view = new NewGamePlayView();
+			game_play_view.setActionListener(this);
+			
 			
 			// here, startPhase has started
 			
@@ -124,6 +127,14 @@ public class NewGameSelectorController implements ActionListener,MouseListener {
 		else if(e.getSource().equals(new_game_selector.cancel_button)){
 			new_game_selector.dispose();
 			new MainController();
+		}
+		else if(e.getSource().equals(game_play_view.btnNewButton)){
+			String countryName = game_play_view.country_combo.getSelectedItem().toString();
+			
+			String inputValue = game_play_view.textField.getText();
+		}
+		else if(e.getSource().equals(game_play_view.btnFortify)){
+			
 		}
 	}
 	
