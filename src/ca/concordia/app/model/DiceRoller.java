@@ -45,12 +45,17 @@ public class DiceRoller {
 		result[i] = res = (int)((Math.random() * 6) + 1);
 		return res;
 	}
-	
+	/**
+	 * Roll all dice
+	 */
 	public void rollAll() {
 		for(int i=1; i<=no_of_dice; i++)
 			roll(i);
 	}
-	
+	/**
+	 * 
+	 * @return the result of the rolled dice.
+	 */
 	public int[] getResults() {
 		return result;
 	}
