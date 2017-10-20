@@ -1,6 +1,4 @@
-/**
- * 
- */
+
 package ca.concordia.app.model;
 
 import java.awt.Color;
