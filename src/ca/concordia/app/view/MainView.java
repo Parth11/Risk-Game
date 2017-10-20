@@ -6,17 +6,21 @@ import java.awt.event.MouseListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 
+/**
+ * The Class MainView.
+ */
 public class MainView extends JFrame implements IView{
 
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
+	
+	/** The edit map. */
 	public JButton new_game,create_map,edit_map;
 
 	/**
 	 * Launch the application.
+	 *
+	 * @param args the arguments
 	 */
 	public static void main(String[] args) {
 			
@@ -55,6 +59,9 @@ public class MainView extends JFrame implements IView{
 		this.getContentPane().add(edit_map);
 	}
 
+	/**
+	 * calls setActionlistener java method
+	 */
 	@Override
 	public void setActionListener(ActionListener actionListener) {
 		new_game.addActionListener(actionListener);
@@ -62,6 +69,9 @@ public class MainView extends JFrame implements IView{
 		edit_map.addActionListener(actionListener);
 	}
 
+	/* (non-Javadoc)
+	 * @see ca.concordia.app.view.IView#setMouseListener(java.awt.event.MouseListener)
+	 */
 	@Override
 	public void setMouseListener(MouseListener mouseListener) {
 		
