@@ -81,13 +81,7 @@ public class NewGameSelectorController implements ActionListener,MouseListener {
 		}
 		else if(e.getSource().equals(new_game_selector.next_button)){
 			
-			int numPlayers = Integer.parseInt(new_game_selector.num_players.getText());
-			
-			if(numPlayers<2 || numPlayers>6){
-				JOptionPane.showMessageDialog(new_game_selector, "Number of players must be between 2 and 6","Invalid",JOptionPane.ERROR_MESSAGE);
-				return;
-			}
-			
+			Integer numPlayers = (Integer) new_game_selector.num_players.getSelectedItem();
 			
 			GamePlayService.getInstance().doStartupPhase(numPlayers);
 			
