@@ -21,9 +21,7 @@ import ca.concordia.app.model.GameMap;
 
 public class MapEditorContinentView extends JFrame implements IView {
 
-	/**
-	 * 
-	 */
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 	public JTextField continent_name_value;
 	public JList<String> continent_list, selected_country_list;
