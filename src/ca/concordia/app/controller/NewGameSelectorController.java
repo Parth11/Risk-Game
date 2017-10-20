@@ -88,19 +88,12 @@ public class NewGameSelectorController implements ActionListener,MouseListener {
 				return;
 			}
 			
-			GamePlayService gameApi = GamePlayService.getInstance();
 			
-			ConsoleLoggerService logger = ConsoleLoggerService.getInstance(null);
-			
-			print(logger);
-			logger.write("\n\nMAP FILE CONVERTED SUCCESSFULLY\n");
-			
-			
-			init(numPlayers,gameApi, logger);
+			GamePlayService.getInstance().doStartupPhase(numPlayers);
 			
 			new_game_selector.dispose();
 			
-			new_game_phase_selector = new NewGamePhaseController(numPlayers,logger);
+			new_game_phase_selector = new NewGamePhaseController();
 		}
 		else if(e.getSource().equals(new_game_selector.cancel_button)){
 			new_game_selector.dispose();
@@ -108,43 +101,7 @@ public class NewGameSelectorController implements ActionListener,MouseListener {
 		}
 	}
 	
-	private void init(int numberOfPlayers, GamePlayService gameApi, ConsoleLoggerService logger) {
-		
-		
-		logger.write("\nStartup Phase Started:-\n----------------------\n");
-		gameApi.setPlayers(numberOfPlayers);
-		
-		// get players
-		List<Player> players = gameApi.getPlayers();
-		for(Player p : players) {
-			String s = p.name + " - [ ";
-			
-			// get countries counquered by each player + no. of armies assigned
-			List<Country> countries = gameApi.getCountriesConqueredBy(p);
-			for(Country c : countries)
-				s += "" + c.getCountryName() + "(" + c.getNoOfArmy() + "), ";
-			
-			s += "]\n";
-			
-			// write each info to logger files
-			logger.write(s);
-		}
-		logger.write("\\nStartup Phase Ended:-\\n----------------------\\n");
-		
-	}
 	
-	private void print(ConsoleLoggerService logger) {
-		GameMap gameMap = GameMap.getInstance();
-		for(Country c : gameMap.getCountries()){
-			logger.write(c.getCountryName()+"( belongs to '"+c.getContinentName()+"') : [");
-			
-			if(gameMap.getTerritories().get(c)!=null)
-				for(String s : gameMap.getTerritories().get(c)) 
-					if(s!=null)
-						logger.write(s+", ");
-			
-			logger.write("]\n");
-		}
-	}
+	
 
 }
