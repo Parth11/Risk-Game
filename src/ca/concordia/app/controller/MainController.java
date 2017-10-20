@@ -12,13 +12,15 @@ import ca.concordia.app.util.RiskExceptionHandler;
 import ca.concordia.app.view.MainView;
 
 /**
- * The Class MainController.
+ * The Class MainController is the initial class to start the game.
  *
  * @author harvi
  */
 public class MainController implements ActionListener, MouseListener {
 
-	/** The main view. */
+	/** 
+	 * Create an object of the MainView class.
+	 */
 	public MainView main_view;
 
 	/**
@@ -100,6 +102,12 @@ public class MainController implements ActionListener, MouseListener {
 	 * 
 	 * @see
 	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
+	
+	/**
+	 * Calls the actionPerformed method of java.
+	 * @param e
+	 * 
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {

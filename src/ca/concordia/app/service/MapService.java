@@ -22,17 +22,30 @@ import ca.concordia.app.util.CountryComparator;
 import ca.concordia.app.util.GameConstants;
 import ca.concordia.app.util.MapValidationException;
 
-
+/**
+ * The Class MapService.
+ */
 public class MapService {
 
+	/** The instance. */
 	public static MapService instance;
 	
+	/**
+	 * Gets the single instance of MapService.
+	 *
+	 * @return single instance of MapService
+	 */
 	public static MapService getInstance() {
 		if(instance==null)
 			instance= new MapService();
 		return instance;
 	}
 	
+	/**
+	 * Creates the map.
+	 *
+	 * @param savePath the save path
+	 */
 	public void createMap(String savePath) {
 		
 		GameMap gameMap = GameMap.getInstance();
@@ -92,6 +105,14 @@ public class MapService {
 
 	}
 
+	/**
+	 * Load map.
+	 *
+	 * @param path the path
+	 * @return the game map
+	 * @throws MapValidationException the map validation exception
+	 * @throws URISyntaxException the URI syntax exception
+	 */
 	public GameMap loadMap(String path) throws MapValidationException, URISyntaxException {
 		GameMap gameMap = null;
 		gameMap = GameMap.getInstance();
@@ -110,6 +131,13 @@ public class MapService {
 		return gameMap;
 	}
 
+	/**
+	 * Extract file information.
+	 *
+	 * @param gameMap the game map
+	 * @param list the list
+	 * @throws MapValidationException the map validation exception
+	 */
 	private void extractFileInformation(GameMap gameMap, List<String> list) throws MapValidationException {
 		
 		if(list.indexOf(GameConstants.CONTINENT_HEADER_CONST)<0){
@@ -140,7 +168,13 @@ public class MapService {
 		isTraversable();
 	}
 	
+	/**
+	 * Checks if is traversable.
+	 *
+	 * @throws MapValidationException the map validation exception
+	 */
 	protected void isTraversable() throws MapValidationException{
+
 		GamePlayService game = GamePlayService.getInstance();
 		for(Country c1 : game.getMap().getCountries()){
 			for(Country c2 : game.getMap().getCountries()){
@@ -153,6 +187,13 @@ public class MapService {
 		}
 	}
 
+	/**
+	 * Load map.
+	 *
+	 * @param mapFile the map file
+	 * @return the game map
+	 * @throws MapValidationException the map validation exception
+	 */
 	public GameMap loadMap(File mapFile) throws MapValidationException{
 		GameMap gameMap = null;
 		gameMap = GameMap.getInstance();
@@ -171,6 +212,13 @@ public class MapService {
 		return gameMap;
 	}
 
+	/**
+	 * Parses the countries.
+	 *
+	 * @param metaTerritories the meta territories
+	 * @param gameMap the game map
+	 * @throws MapValidationException the map validation exception
+	 */
 	private void parseCountries(List<String> metaTerritories, GameMap gameMap) throws MapValidationException{
 		List<Country> countries = new ArrayList<>();
 
@@ -214,6 +262,13 @@ public class MapService {
 		
 	}
 
+	/**
+	 * Parses the continents.
+	 *
+	 * @param metaContinents the meta continents
+	 * @param gameMap the game map
+	 * @throws MapValidationException the map validation exception
+	 */
 	private void parseContinents(List<String> metaContinents, GameMap gameMap) throws MapValidationException{
 
 		List<Continent> continents = new ArrayList<>();
@@ -239,6 +294,11 @@ public class MapService {
 		gameMap.setContinents(continents);
 	}
 	
+	/**
+	 * Validate terriotories as valid countries.
+	 *
+	 * @throws MapValidationException the map validation exception
+	 */
 	private void validateTerriotoriesAsValidCountries() throws MapValidationException{
 		GameMap gameMap = GameMap.getInstance();
 		
@@ -252,6 +312,11 @@ public class MapService {
 		}
 	}
 	
+	/**
+	 * Removes the country from map.
+	 *
+	 * @param countryName the country name
+	 */
 	public void removeCountryFromMap(String countryName){
 		GameMap gameMap = GameMap.getInstance();
 		Country c = gameMap.getCountryByName(countryName);
@@ -271,6 +336,11 @@ public class MapService {
 		
 	}
 
+	/**
+	 * Link remaining neighbours.
+	 *
+	 * @param neighbours the neighbours
+	 */
 	public void linkRemainingNeighbours(List<String> neighbours) {
 		
 		GameMap gameMap = GameMap.getInstance();

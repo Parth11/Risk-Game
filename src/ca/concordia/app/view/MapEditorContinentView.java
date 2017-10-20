@@ -19,28 +19,55 @@ import ca.concordia.app.model.Continent;
 import ca.concordia.app.model.Country;
 import ca.concordia.app.model.GameMap;
 
+/**
+ * The Class MapEditorContinentView.
+ * @author Hardik
+ */
 public class MapEditorContinentView extends JFrame implements IView {
 
-	/**
-	 * 
-	 */
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
+	
+	/** The continent name value. */
 	public JTextField continent_name_value;
+	
+	/** The selected country list. */
 	public JList<String> continent_list, selected_country_list;
+	
+	/** The available country list. */
 	public JList<String> available_country_list;
 
+	/** The remove button. */
 	public JButton add_button, save_button, next_button, remove_button;
+	
+	/** The available country pane. */
 	public JScrollPane available_country_pane = new JScrollPane();
+	
+	/** The selected country pane. */
 	public JScrollPane selected_country_pane = new JScrollPane();
+	
+	/** The continent pane. */
 	public JScrollPane continent_pane = new JScrollPane();
 
+	/** The game map. */
 	public GameMap game_map = GameMap.getInstance();
 
+	/** The select countries. */
 	DefaultListModel<String> select_countries=new DefaultListModel<String>();
+	
+	/** The available countries. */
 	DefaultListModel<String> available_countries=new DefaultListModel<String>();
+	
+	/** The continents. */
 	DefaultListModel<String> continents=new DefaultListModel<String>();
+	
+	/** The control value. */
 	public JTextField control_value;
+	
+	/** The save dialog. */
 	public JFileChooser save_dialog;
+	
+	/** The cancel button. */
 	public JButton cancel_button;
 	
 	/**
@@ -145,6 +172,9 @@ public class MapEditorContinentView extends JFrame implements IView {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see ca.concordia.app.view.IView#setActionListener(java.awt.event.ActionListener)
+	 */
 	@Override
 	public void setActionListener(ActionListener actionListener) {
 		next_button.addActionListener(actionListener);
@@ -154,11 +184,17 @@ public class MapEditorContinentView extends JFrame implements IView {
 		cancel_button.addActionListener(actionListener);
 	}
 
+	/* (non-Javadoc)
+	 * @see ca.concordia.app.view.IView#setMouseListener(java.awt.event.MouseListener)
+	 */
 	@Override
 	public void setMouseListener(MouseListener mouseListener) {
 		continent_list.addMouseListener(mouseListener);
 	}
 
+	/**
+	 * Repaint continents.
+	 */
 	public void repaintContinents() {
 		continents.removeAllElements();
 		for (Continent c : game_map.getContinents()) {
@@ -175,6 +211,11 @@ public class MapEditorContinentView extends JFrame implements IView {
 		available_country_list.setModel(available_countries);
 	}
 	
+	/**
+	 * Load continent.
+	 *
+	 * @param selected_continent the selected continent
+	 */
 	public void loadContinent(String selected_continent) {
 		continent_name_value.setText(selected_continent);
 		Continent continent= game_map.getContinentByName(selected_continent);
@@ -196,6 +237,11 @@ public class MapEditorContinentView extends JFrame implements IView {
 		available_country_list.setModel(available_countries);
 	}
 	
+	/**
+	 * Repaint selected countries.
+	 *
+	 * @param selValue the sel value
+	 */
 	public void repaintSelectedCountries(String selValue) {
 		select_countries.removeAllElements();
 		available_countries.removeAllElements();
@@ -222,6 +268,11 @@ public class MapEditorContinentView extends JFrame implements IView {
 		available_country_list.setModel(available_countries);
 	}
 
+	/**
+	 * Repaint available countries.
+	 *
+	 * @param selValue the sel value
+	 */
 	public void repaintAvailableCountries(String selValue) {
 		available_countries.removeAllElements();
 		

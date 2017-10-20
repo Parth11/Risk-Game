@@ -11,23 +11,36 @@ import javax.swing.JTextField;
 import javax.swing.JComboBox;
 
 /**
+ * The Class NewGameSelectorView 
+ *
  * @author Abhinav
- * 
  */
 
 
 public class NewGameSelectorView extends JFrame implements IView{
 
-	/**
-	 * 
-	 */
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
+	
+	/** The browse map. */
 	public JButton browse_map;
+	
+	/** The next button. */
 	public JButton next_button;
+	
+	/** The cancel button. */
 	public JButton cancel_button;
+	
+	
+	/** The choose map. */
 	public JComboBox<Integer> num_players;
+
 	public JFileChooser choose_map;
+	
+	/** The label map file. */
 	public JLabel label_players, label_map_file;
+	
+	/** The final players. */
 	public int final_players;
 	
 	/**
@@ -76,6 +89,14 @@ public class NewGameSelectorView extends JFrame implements IView{
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
+	/* (non-Javadoc)
+	 * @see ca.concordia.app.view.IView#setActionListener(java.awt.event.ActionListener)
+	 */
+	
+	/**
+	 * calls the setActionlistener
+	 * @param actionListener
+	 */
 	@Override
 	public void setActionListener(ActionListener actionListener) {
 		browse_map.addActionListener(actionListener);
@@ -83,6 +104,9 @@ public class NewGameSelectorView extends JFrame implements IView{
 		cancel_button.addActionListener(actionListener);
 	}
 
+	/* (non-Javadoc)
+	 * @see ca.concordia.app.view.IView#setMouseListener(java.awt.event.MouseListener)
+	 */
 	@Override
 	public void setMouseListener(MouseListener mouseListener) {
 		

@@ -1,53 +1,59 @@
-/**
- * 
- */
+
 package ca.concordia.app.util;
 
+
 /**
- * @author harvi
+ * The Class MapValidationException to handle exception in Map
  *
+ * @author harvi
  */
 public final class MapValidationException extends Exception {
 
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1721693497631317423L;
 
 	/**
-	 * 
+	 * Instantiates a new map validation exception.
 	 */
 	public MapValidationException() {
 		super();
 	}
 
 	/**
-	 * @param message
+	 * Instantiates a new map validation exception.
+	 *
+	 * @param message the message
 	 */
 	public MapValidationException(String message) {
 		super(message);
 	}
 
 	/**
-	 * @param cause
+	 * Instantiates a new map validation exception.
+	 *
+	 * @param cause the cause
 	 */
 	public MapValidationException(Throwable cause) {
 		super(cause);
 	}
 
 	/**
-	 * @param message
-	 * @param cause
+	 * Instantiates a new map validation exception.
+	 *
+	 * @param message the message
+	 * @param cause the cause
 	 */
 	public MapValidationException(String message, Throwable cause) {
 		super(message, cause);
 	}
 
 	/**
-	 * @param message
-	 * @param cause
-	 * @param enableSuppression
-	 * @param writableStackTrace
+	 * Instantiates a new map validation exception.
+	 *
+	 * @param message the message
+	 * @param cause the cause
+	 * @param enableSuppression the enable suppression
+	 * @param writableStackTrace the writable stack trace
 	 */
 	public MapValidationException(String message, Throwable cause, boolean enableSuppression,
 			boolean writableStackTrace) {

@@ -1,6 +1,4 @@
- /**
- * 
- */
+
 package ca.concordia.app.controller;
 
 import java.awt.event.ActionEvent;
@@ -23,14 +21,21 @@ import ca.concordia.app.util.MapValidationException;
 import ca.concordia.app.view.NewGameSelectorView;
 
 /**
- * @author harvi
+ * The Class NewGameSelectorController.
  *
+ * @author harvi
  */
 public class NewGameSelectorController implements ActionListener,MouseListener {
 	
+	/** creates the object of the NewGameSelectorView. */
 	NewGameSelectorView new_game_selector;
+	
+	/** create the object NewGamePhaseController */
 	NewGamePhaseController new_game_phase_selector;
 	
+	/**
+	 * Instantiates a new new game selector controller.
+	 */
 	public NewGameSelectorController() {
 		new_game_selector = new NewGameSelectorView();
 		new_game_selector.setActionListener(this);
@@ -38,31 +43,50 @@ public class NewGameSelectorController implements ActionListener,MouseListener {
 		new_game_selector.setVisible(true);
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.MouseListener#mouseClicked(java.awt.event.MouseEvent)
+	 */
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.MouseListener#mousePressed(java.awt.event.MouseEvent)
+	 */
 	@Override
 	public void mousePressed(MouseEvent e) {
 		
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.MouseListener#mouseReleased(java.awt.event.MouseEvent)
+	 */
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.MouseListener#mouseEntered(java.awt.event.MouseEvent)
+	 */
 	@Override
 	public void mouseEntered(MouseEvent e) {
 		
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.MouseListener#mouseExited(java.awt.event.MouseEvent)
+	 */
 	@Override
 	public void mouseExited(MouseEvent e) {
 		
 	}
 
+	/**
+	 * Calls the actionPerformed method of java during game start phase.
+	 * @param e
+	 */
 	@Override
 	 public void actionPerformed(ActionEvent e) {
 		if(e.getSource().equals(new_game_selector.browse_map)){
