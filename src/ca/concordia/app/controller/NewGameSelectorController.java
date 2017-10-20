@@ -16,9 +16,9 @@ import javax.swing.JOptionPane;
 import ca.concordia.app.model.Country;
 import ca.concordia.app.model.GameMap;
 import ca.concordia.app.model.Player;
-import ca.concordia.app.service.CreateMapService;
-import ca.concordia.app.service.Game;
-import ca.concordia.app.service.MyLogger;
+import ca.concordia.app.service.MapService;
+import ca.concordia.app.service.GamePlayService;
+import ca.concordia.app.service.ConsoleLoggerService;
 import ca.concordia.app.util.MapValidationException;
 import ca.concordia.app.view.NewGameSelectorView;
 
@@ -40,31 +40,26 @@ public class NewGameSelectorController implements ActionListener,MouseListener {
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
 		
 	}
 
@@ -77,7 +72,7 @@ public class NewGameSelectorController implements ActionListener,MouseListener {
 				File mapFile = new_game_selector.choose_map.getSelectedFile();
 
 				try {
-					CreateMapService.getInstance().loadMap(mapFile);
+					MapService.getInstance().loadMap(mapFile);
 				} catch (MapValidationException e1) {
 					JOptionPane.showMessageDialog(new_game_selector, e1.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
 				}
@@ -93,16 +88,10 @@ public class NewGameSelectorController implements ActionListener,MouseListener {
 				return;
 			}
 			
-			Game gameApi = Game.getInstance();
+			GamePlayService gameApi = GamePlayService.getInstance();
 			
-			//get logger
-			MyLogger logger = MyLogger.getInstance(null);
+			ConsoleLoggerService logger = ConsoleLoggerService.getInstance(null);
 			
-			//using DB converter
-//			DbConverter.convert(GameMap.getInstance(), lib.model.GameMap.getInstance());
-//			DbConverter.print();
-			
-			//Loading converted Log File
 			print(logger);
 			logger.write("\n\nMAP FILE CONVERTED SUCCESSFULLY\n");
 			
@@ -119,7 +108,7 @@ public class NewGameSelectorController implements ActionListener,MouseListener {
 		}
 	}
 	
-	private void init(int numberOfPlayers, Game gameApi, MyLogger logger) {
+	private void init(int numberOfPlayers, GamePlayService gameApi, ConsoleLoggerService logger) {
 		
 		
 		logger.write("\nStartup Phase Started:-\n----------------------\n");
@@ -144,7 +133,7 @@ public class NewGameSelectorController implements ActionListener,MouseListener {
 		
 	}
 	
-	private void print(MyLogger logger) {
+	private void print(ConsoleLoggerService logger) {
 		GameMap gameMap = GameMap.getInstance();
 		for(Country c : gameMap.getCountries()){
 			logger.write(c.getCountryName()+"( belongs to '"+c.getContinentName()+"') : [");
@@ -157,25 +146,5 @@ public class NewGameSelectorController implements ActionListener,MouseListener {
 			logger.write("]\n");
 		}
 	}
-	private void reinforcementPhase(int numberOfPlayers, Game gameApi, MyLogger logger) {
-		
-		for(int i=0; i<numberOfPlayers; i++) {
-		
-		Player player = gameApi.getCurrentTurnPlayer(); // whose turn to play ?
-
-		logger.write("Current Player : \n" + player.getName());
-		int putArmy = gameApi.getReinforcementArmyForPlayer(player);
-
-		logger.write("Put Army : " + putArmy);
-		// .. put all the armies wherever you want
-		// for now we are putting armies in round robin
-		
-		//gameApi.addArmies(player, playerCountries, putArmy);
-
-		player = gameApi.changeTurnToNextPlayer();
-		
-		logger.write("Next Player Turn :- " + player.getName());
-	}
-}
 
 }

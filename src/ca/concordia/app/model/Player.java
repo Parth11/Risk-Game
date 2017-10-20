@@ -10,17 +10,14 @@ import java.util.ArrayList;
 public class Player {
 
 	public String name;
-	public int totalArmies;
-	//public List<Country> conqueredContries;
+	public int total_armies;
 	public String color;
-	public ArrayList<Card> cardsList;
+	public ArrayList<Card> cards_list;
 	
 	public Player(String name) {
-		super();
 		this.name = name;
 		this.color = null;
-		//conqueredContries = new ArrayList<>();
-		cardsList = new ArrayList<>();
+		this.cards_list = new ArrayList<>();
 	}
 	
 	public String getName() {
@@ -30,24 +27,18 @@ public class Player {
 		this.name = name;
 	}
 	public int getTotalArmies() {
-		return totalArmies;
+		return total_armies;
 	}
 	public void setTotalArmies(int totalArmies) {
-		this.totalArmies = totalArmies;
+		this.total_armies = totalArmies;
 	}
 	
 	public void addArmy(int n) {
-		this.totalArmies+=n;
+		this.total_armies+=n;
 	}
 	public void subArmy(int n) {
-		this.totalArmies-=n;
+		this.total_armies-=n;
 	}
-	/*public List<Country> getConqueredContries() {
-		return conqueredContries;
-	}
-	public void setConqueredContries(List<Country> conqueredContries) {
-		this.conqueredContries = conqueredContries;
-	}*/
 	public String getColor() {
 		return color;
 	}
@@ -55,9 +46,9 @@ public class Player {
 		this.color = color;
 	}
 	public ArrayList<Card> getCards() {
-		return cardsList;
+		return cards_list;
 	}
 	public void addCard(Card card) {
-		cardsList.add(card);
+		cards_list.add(card);
 	}
 }

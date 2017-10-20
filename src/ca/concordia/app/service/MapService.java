@@ -19,17 +19,17 @@ import ca.concordia.app.model.Continent;
 import ca.concordia.app.model.Country;
 import ca.concordia.app.model.GameMap;
 import ca.concordia.app.util.CountryComparator;
-import ca.concordia.app.util.MapEditorConstants;
+import ca.concordia.app.util.GameConstants;
 import ca.concordia.app.util.MapValidationException;
 
 
-public class CreateMapService {
+public class MapService {
 
-	public static CreateMapService instance;
+	public static MapService instance;
 	
-	public static CreateMapService getInstance() {
+	public static MapService getInstance() {
 		if(instance==null)
-			instance= new CreateMapService();
+			instance= new MapService();
 		return instance;
 	}
 	
@@ -39,14 +39,14 @@ public class CreateMapService {
 		
 		List<String> lines = new ArrayList<String>();
 		
-		lines.add(MapEditorConstants.MAP_HEADER_CONST);
-		lines.add("author="+MapEditorConstants.MAP_AUTHOR);
+		lines.add(GameConstants.MAP_HEADER_CONST);
+		lines.add("author="+GameConstants.MAP_AUTHOR);
 		lines.add("warn=yes");
 		lines.add("image=noname.bmp");
 		lines.add("wrap=no");
 		lines.add("scroll=horizontal");
 		lines.add("");
-		lines.add(MapEditorConstants.CONTINENT_HEADER_CONST);
+		lines.add(GameConstants.CONTINENT_HEADER_CONST);
 		
 		for(Continent c : gameMap.getContinents()){
 		
@@ -55,7 +55,7 @@ public class CreateMapService {
 		
 		lines.add("");
 		
-		lines.add(MapEditorConstants.TERRITORY_HEADER_CONST);
+		lines.add(GameConstants.TERRITORY_HEADER_CONST);
 		
 		List<Country> countries = gameMap.getCountries();
 		
@@ -74,7 +74,7 @@ public class CreateMapService {
 			
 				StringBuffer sb = new StringBuffer(cn.getCountryName()).
 									append(",").append(cn.getLocX()).
-										append(",").append(cn.getLocy()).
+										append(",").append(cn.getLocY()).
 											append(",").append(cn.getContinentName()).
 												append(",").append(gameMap.getCountryNeighboursAsCSV(cn));
 				
@@ -87,7 +87,6 @@ public class CreateMapService {
 		try {
 			Files.write(path, lines,StandardOpenOption.CREATE);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -113,20 +112,20 @@ public class CreateMapService {
 
 	private void extractFileInformation(GameMap gameMap, List<String> list) throws MapValidationException {
 		
-		if(list.indexOf(MapEditorConstants.CONTINENT_HEADER_CONST)<0){
+		if(list.indexOf(GameConstants.CONTINENT_HEADER_CONST)<0){
 			throw new MapValidationException("Map does not declare continents");
 		}
 		
-		if(list.indexOf(MapEditorConstants.TERRITORY_HEADER_CONST)<0){
+		if(list.indexOf(GameConstants.TERRITORY_HEADER_CONST)<0){
 			throw new MapValidationException("Map does not declare territory");
 		}
 		
 		
-		List<String> metaContinents = list.subList(list.indexOf(MapEditorConstants.CONTINENT_HEADER_CONST) + 1,
-				list.indexOf(MapEditorConstants.TERRITORY_HEADER_CONST) - 1);
+		List<String> metaContinents = list.subList(list.indexOf(GameConstants.CONTINENT_HEADER_CONST) + 1,
+				list.indexOf(GameConstants.TERRITORY_HEADER_CONST) - 1);
 
 		
-		List<String> metaTerritories = list.subList(list.indexOf(MapEditorConstants.TERRITORY_HEADER_CONST) + 1, list.size());
+		List<String> metaTerritories = list.subList(list.indexOf(GameConstants.TERRITORY_HEADER_CONST) + 1, list.size());
 
 		if(metaContinents.size()==0) {
 			throw new MapValidationException("Map does not have any continents");
@@ -142,7 +141,7 @@ public class CreateMapService {
 	}
 	
 	private void isTraversable() throws MapValidationException{
-		Game game = Game.getInstance();
+		GamePlayService game = GamePlayService.getInstance();
 		for(Country c1 : game.getMap().getCountries()){
 			for(Country c2 : game.getMap().getCountries()){
 				if(!c1.equals(c2)){

@@ -1,6 +1,6 @@
 package ca.concordia.app.model;
 
-import ca.concordia.app.service.Game;
+import ca.concordia.app.service.GamePlayService;
 
 /**
  * @author Parth Nayak
@@ -9,13 +9,13 @@ import ca.concordia.app.service.Game;
  */
 
 public class DiceRoller {
-	Game game;
-	int noOfDice;
+	GamePlayService game;
+	int no_of_dice;
 	int[] result;
 	
-	public DiceRoller(Game game, int noOfDice) {
+	public DiceRoller(GamePlayService game, int noOfDice) {
 		this.game=game;
-		this.noOfDice = noOfDice;
+		this.no_of_dice = noOfDice;
 		this.result = new int[noOfDice];
 	}
 	
@@ -26,7 +26,7 @@ public class DiceRoller {
 	}
 	
 	public void rollAll() {
-		for(int i=1; i<=noOfDice; i++)
+		for(int i=1; i<=no_of_dice; i++)
 			roll(i);
 	}
 	

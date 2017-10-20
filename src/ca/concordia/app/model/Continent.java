@@ -11,32 +11,32 @@ import java.awt.Color;
  */
 public class Continent {
 
-	private String continentName;
+	private String continent_name;
 	
-	private int controlValue;
+	private int control_value;
 	
 	private Color colour;
 
 	public Continent(String continentName, int controlValue, Color colour) {
-		this.continentName = continentName;
-		this.controlValue = controlValue;
+		this.continent_name = continentName;
+		this.control_value = controlValue;
 		this.colour = colour;
 	}
 
 	public String getContinentName() {
-		return continentName;
+		return continent_name;
 	}
 
 	public void setContinentName(String continentName) {
-		this.continentName = continentName;
+		this.continent_name = continentName;
 	}
 
 	public int getControlValue() {
-		return controlValue;
+		return control_value;
 	}
 
 	public void setControlValue(int controlValue) {
-		this.controlValue = controlValue;
+		this.control_value = controlValue;
 	}
 	public Color getColor() {
 		return colour;
@@ -49,7 +49,7 @@ public class Continent {
 	public boolean equals(Object obj) {
 		  
 		  if(obj instanceof Continent){
-			  if(this.continentName.equals(((Continent) obj).getContinentName())){
+			  if(this.continent_name.equals(((Continent) obj).getContinentName())){
 				return true;  
 			  }
 		  }

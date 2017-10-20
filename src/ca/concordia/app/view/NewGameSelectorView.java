@@ -26,8 +26,8 @@ public class NewGameSelectorView extends JFrame implements IView{
 	public JButton cancel_button;
 	public JTextField num_players;
 	public JFileChooser choose_map;
-	public JLabel lblHowManyPlayers, lblSelectMapFile;
-	public int finalPlayers;
+	public JLabel label_players, label_map_file;
+	public int final_players;
 	
 	/**
 	 * Create the application.
@@ -35,30 +35,24 @@ public class NewGameSelectorView extends JFrame implements IView{
 	public NewGameSelectorView() {
 		getContentPane().setLayout(null);
 		
-		lblHowManyPlayers = new JLabel("How many Players?");
-		lblHowManyPlayers.setBounds(53, 47, 311, 27);
-		getContentPane().add(lblHowManyPlayers);
+		label_players = new JLabel("How many Players?");
+		label_players.setBounds(53, 47, 311, 27);
+		getContentPane().add(label_players);
 		
 		num_players = new JTextField("2");
 		num_players.setBounds(202, 49, 116, 22);
 		getContentPane().add(num_players);
 		num_players.setColumns(10);
 		
-		lblSelectMapFile = new JLabel("Select map File");
-		lblSelectMapFile.setBounds(53, 133, 157, 27);
-		getContentPane().add(lblSelectMapFile);
+		label_map_file = new JLabel("Select map File");
+		label_map_file.setBounds(53, 133, 157, 27);
+		getContentPane().add(label_map_file);
 		
 		browse_map = new JButton("Browse");
 		browse_map.setBounds(202, 134, 116, 27);
 		getContentPane().add(browse_map);
 		
 		next_button = new JButton("Next");
-//		next_button.addActionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent e) {
-//				finalPlayers = Integer.parseInt(num_players.getText());
-//				NewGameFrame newgameframe = new NewGameFrame(finalPlayers);
-//			}
-//		});
 		next_button.setBounds(202, 237, 116, 25);
 		getContentPane().add(next_button);
 		
@@ -90,7 +84,6 @@ public class NewGameSelectorView extends JFrame implements IView{
 
 	@Override
 	public void setMouseListener(MouseListener mouseListener) {
-		// TODO Auto-generated method stub
 		
 	}
 }

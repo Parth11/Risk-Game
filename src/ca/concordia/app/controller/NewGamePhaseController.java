@@ -12,22 +12,22 @@ import javax.swing.plaf.basic.BasicIconFactory;
 
 import ca.concordia.app.model.Country;
 import ca.concordia.app.model.Player;
-import ca.concordia.app.service.Game;
-import ca.concordia.app.service.MyLogger;
+import ca.concordia.app.service.GamePlayService;
+import ca.concordia.app.service.ConsoleLoggerService;
 import ca.concordia.app.view.NewGamePlayView;
 
 public class NewGamePhaseController implements ActionListener,MouseListener{
 	
 	NewGamePlayView new_game_phase_selector;
 	
-	Game gameApi = Game.getInstance();
+	GamePlayService gameApi = GamePlayService.getInstance();
 	private static String currentPhase = "";
 	int numPlayers;
 	List<Player> playerList = gameApi.getPlayers();
 	//get logger
-	MyLogger logger;
+	ConsoleLoggerService logger;
 	
-	public NewGamePhaseController(int numPlayers, MyLogger logger) {
+	public NewGamePhaseController(int numPlayers, ConsoleLoggerService logger) {
 		// TODO Auto-generated constructor stub
 		new_game_phase_selector = new NewGamePlayView();
 		this.numPlayers=numPlayers;
@@ -202,41 +202,11 @@ public class NewGamePhaseController implements ActionListener,MouseListener{
 
 	@Override
 	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		
-		if(e.getSource().equals(new_game_phase_selector.btnSubmit)){
-			
-			if(new_game_phase_selector.textInputField.getText().equalsIgnoreCase("yes")) {
-				
-			}
-			else if(new_game_phase_selector.textInputField.getText()!=null) {
-				
-			}
-			
-			
-		}
-		else if(e.getSource().equals(new_game_phase_selector.btnFortify)){
-			
-		}
-		else if(e.getSource().equals(new_game_phase_selector.textInputField)){
-		
-			/*Game gameApi = Game.getInstance();
-			playerList = gameApi.getPlayers();
-			
-			//using DB converter
-			DbConverter.convert(GameMap.getInstance(), lib.model.GameMap.getInstance());
-			DbConverter.print();
-			
-			logger.write("Reinforcement Phase Started:-\n----------------------\n");
-			reinforcementPhase(numPlayers,gameApi, logger);
-			logger.write("Reinforcement Phase Ended:-\n----------------------\n");*/
-		}
 		
 	}
 

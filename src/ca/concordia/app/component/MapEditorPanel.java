@@ -27,7 +27,7 @@ public class MapEditorPanel extends JPanel implements IView {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public DrawingBase mapArea;
+	public DrawingBase map_area;
 
 	Image image;
 
@@ -43,16 +43,16 @@ public class MapEditorPanel extends JPanel implements IView {
 
 		setBounds(12, 13, 1378, 768);
 
-		mapArea = new DrawingBase();
-		add(mapArea);
+		map_area = new DrawingBase();
+		add(map_area);
 
-		mapArea.setBounds(12, 24, mapArea.getParent().getWidth(), mapArea.getParent().getHeight());
+		map_area.setBounds(12, 24, map_area.getParent().getWidth(), map_area.getParent().getHeight());
 
 		setOpaque(false);
-		mapArea.setOpaque(false);
+		map_area.setOpaque(false);
 
 		BufferedImage imageOriginal = ImageIO.read(getClass().getResource("/images/grid_background.png"));
-		image = imageOriginal.getScaledInstance(mapArea.getParent().getWidth(), mapArea.getParent().getHeight(),
+		image = imageOriginal.getScaledInstance(map_area.getParent().getWidth(), map_area.getParent().getHeight(),
 				Image.SCALE_SMOOTH);
 	}
 
@@ -69,7 +69,7 @@ public class MapEditorPanel extends JPanel implements IView {
 
 	@Override
 	public void setMouseListener(MouseListener mouseListener) {
-		mapArea.addMouseListener(mouseListener);
+		map_area.addMouseListener(mouseListener);
 	}
 
 }

@@ -10,7 +10,6 @@ import javax.swing.JPanel;
 import ca.concordia.app.model.Country;
 import ca.concordia.app.model.GameMap;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class DrawingBase.
  */
@@ -22,7 +21,7 @@ public class DrawingBase extends JPanel {
 	private static final long serialVersionUID = 1L;
 
 	/** The clicked at. */
-	private String clickedAt = "";
+	private String display_text = "";
 
 	/** The x. */
 	private int x = 0;
@@ -41,7 +40,7 @@ public class DrawingBase extends JPanel {
 	 *            the y
 	 */
 	public void setValues(String text, int x, int y) {
-		clickedAt = text;
+		display_text = text;
 		this.x = x;
 		this.y = y;
 		repaint();
@@ -63,7 +62,7 @@ public class DrawingBase extends JPanel {
 	 */
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		g.drawString(clickedAt, x, y);
+		g.drawString(display_text, x, y);
 	}
 
 	/*
@@ -148,7 +147,7 @@ public class DrawingBase extends JPanel {
 
 		for (String s : neighbours) {
 			Country d = gameMap.getCountryByName(s);
-			this.getGraphics().drawLine(c.getLocX(), c.getLocy(), d.getLocX(), d.getLocy());
+			this.getGraphics().drawLine(c.getLocX(), c.getLocY(), d.getLocX(), d.getLocY());
 		}
 
 	}

@@ -24,9 +24,9 @@ import ca.concordia.app.util.MapValidationException;
  * 
  */
 
-public class Game {
+public class GamePlayService {
 	
-	private static Game instance = null;
+	private static GamePlayService instance = null;
 	
 	private String mapPath=null;
 	
@@ -40,7 +40,7 @@ public class Game {
 	
 	private int turn = 0;
 	
-	private Game() {
+	private GamePlayService() {
 		gameMap = GameMap.getInstance();
 		players = new ArrayList<>();
 		playerCountryMap = new HashMap<>();
@@ -48,16 +48,16 @@ public class Game {
 	
 	// map APIs
 	
-	public static Game getInstance() {
+	public static GamePlayService getInstance() {
 		if(instance==null)
-			instance = new Game();
+			instance = new GamePlayService();
 		return instance;
 	}
 	
 	public void loadNewMap(String path) throws MapValidationException, URISyntaxException {
 		instance.mapPath = path;
 		instance.resetPlayersData();
-		CreateMapService.getInstance().loadMap(instance.mapPath);
+		MapService.getInstance().loadMap(instance.mapPath);
 	}
 	
 	public void resetGame() {
@@ -118,7 +118,6 @@ public class Game {
 	private void addInitialArmiesUsingRR() {
 		int j = 0;
 		int playersLeftForAssign = numberOfPlayers;
-		System.out.println("Hello");
 		while (playersLeftForAssign > 0){
 			if(players.get(j % numberOfPlayers).getTotalArmies() > 0)
 			{
@@ -417,7 +416,7 @@ public class Game {
 	
 	public Object[][] getGamePlayState(){
 		
-		Game game = Game.getInstance();
+		GamePlayService game = GamePlayService.getInstance();
 		List<Country> gameCountries = new ArrayList<Country>();
 		for(Entry<Player,List<Country>> key : game.playerCountryMap.entrySet()){
 			gameCountries.addAll(key.getValue());

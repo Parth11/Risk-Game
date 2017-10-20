@@ -11,7 +11,6 @@ import java.awt.event.MouseListener;
 import ca.concordia.app.util.RiskExceptionHandler;
 import ca.concordia.app.view.MainView;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class MainController.
  *
@@ -52,7 +51,6 @@ public class MainController implements ActionListener, MouseListener {
 	 */
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -63,18 +61,17 @@ public class MainController implements ActionListener, MouseListener {
 	 */
 	@Override
 	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
 
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see java.awt.event.MouseListener#mouseReleased(java.awt.event.MouseEvent)
+	 * @see
+	 * java.awt.event.MouseListener#mouseReleased(java.awt.event.MouseEvent)
 	 */
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -85,7 +82,6 @@ public class MainController implements ActionListener, MouseListener {
 	 */
 	@Override
 	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -96,7 +92,6 @@ public class MainController implements ActionListener, MouseListener {
 	 */
 	@Override
 	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
 
 	}
 

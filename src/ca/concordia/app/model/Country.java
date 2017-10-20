@@ -9,61 +9,61 @@ package ca.concordia.app.model;
  */
 public class Country {
 	
-	private String countryName;
+	private String country_name;
 	
-	private int locX;
+	private int loc_x;
 	
-	private int locy;
+	private int loc_y;
 	
-	private String continentName;
+	private String continent_name;
 	
 	private int no_of_army = 0;
 	
 	private Player ruler;
 	
 	public Country(String countryName, int locX, int locy, String continentName) {
-		this.countryName = countryName;
-		this.locX = locX;
-		this.locy = locy;
-		this.continentName = continentName;
+		this.country_name = countryName;
+		this.loc_x = locX;
+		this.loc_y = locy;
+		this.continent_name = continentName;
 	}
 
 	public String getCountryName() {
-		return countryName;
+		return country_name;
 	}
 
 	public void setCountryName(String countryName) {
-		this.countryName = countryName;
+		this.country_name = countryName;
 	}
 
 	public int getLocX() {
-		return locX;
+		return loc_x;
 	}
 
 	public void setLocX(int locX) {
-		this.locX = locX;
+		this.loc_x = locX;
 	}
 
-	public int getLocy() {
-		return locy;
+	public int getLocY() {
+		return loc_y;
 	}
 
-	public void setLocy(int locy) {
-		this.locy = locy;
+	public void setLocY(int locY) {
+		this.loc_y = locY;
 	}
 
 	public String getContinentName() {
-		return continentName;
+		return continent_name;
 	}
 
 	public void setContinentName(String continentName) {
-		this.continentName = continentName;
+		this.continent_name = continentName;
 	}
 
 	  public boolean equals(Object obj) {
 		  
 		  if(obj instanceof Country){
-			  if(this.countryName.equals(((Country) obj).getCountryName())){
+			  if(this.country_name.equals(((Country) obj).getCountryName())){
 				return true;  
 			  }
 		  }
@@ -71,7 +71,7 @@ public class Country {
 	  }
 	  
 	  public String toString(){
-		  return this.countryName;
+		  return this.country_name;
 	  }
 
 	/**

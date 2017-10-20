@@ -64,7 +64,6 @@ public class MainView extends JFrame implements IView{
 
 	@Override
 	public void setMouseListener(MouseListener mouseListener) {
-		// TODO Auto-generated method stub
 		
 	}
 

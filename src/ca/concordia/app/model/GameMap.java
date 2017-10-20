@@ -104,22 +104,4 @@ public class GameMap {
 		}
 		return neighbourCountry;
 	}
-	
-//	//new-- final initialization
-//	private void initCountryNetwork() {
-//		for(Entry<Country, List<String>> set: tempTerritories.entrySet()) {
-//			List<Country> countries = new ArrayList<>();
-//			for(String s : set.getValue()) {
-//				Country country = getCountry(s);
-//				if(country!=null)
-//					countries.add(country);
-//			}
-//			territories.put(set.getKey(), countries);
-//		}
-//		tempTerritories = null;
-//	}
-//	//new--For neighbouring territories
-//	public void addNeighbour(Country c, List<String> neighbours) {
-//		tempTerritories.put(c, neighbours);
-//	}
 }

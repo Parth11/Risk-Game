@@ -16,7 +16,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import ca.concordia.app.model.Continent;
 import ca.concordia.app.model.GameMap;
-import ca.concordia.app.service.CreateMapService;
+import ca.concordia.app.service.MapService;
 import ca.concordia.app.util.ContinentColourMap;
 import ca.concordia.app.view.MapEditorContinentView;
 
@@ -27,11 +27,11 @@ import ca.concordia.app.view.MapEditorContinentView;
 public class MapEditorContinentController implements ActionListener, MouseListener {
 
 	MapEditorContinentView map_continent_view;
-	GameMap gameMap;
+	GameMap game_map;
 
 	public MapEditorContinentController() {
 
-		gameMap = GameMap.getInstance();
+		game_map = GameMap.getInstance();
 
 		map_continent_view = new MapEditorContinentView();
 		map_continent_view.setActionListener(this);
@@ -41,7 +41,6 @@ public class MapEditorContinentController implements ActionListener, MouseListen
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		System.out.println("new :" + e);
 		if (e.getSource().equals(map_continent_view.continent_list)) {
 			int index = map_continent_view.continent_list.locationToIndex(e.getPoint());
 			if (index >= 0) {
@@ -53,34 +52,29 @@ public class MapEditorContinentController implements ActionListener, MouseListen
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
 		if (e.getSource().equals(map_continent_view.save_button)) {
 			String continent_name = map_continent_view.continent_name_value.getText().trim();
-			int controlValue = Integer.parseInt(map_continent_view.controlValue.getText().trim());
+			int controlValue = Integer.parseInt(map_continent_view.control_value.getText().trim());
 
 			if (controlValue <= 0) {
 				JOptionPane.showMessageDialog(map_continent_view, "Control Value must be a positive integer", "Error",
@@ -88,7 +82,7 @@ public class MapEditorContinentController implements ActionListener, MouseListen
 				return;
 			}
 
-			if (gameMap.getContinentByName(continent_name) == null) {
+			if (game_map.getContinentByName(continent_name) == null) {
 				try {
 					ContinentColourMap.setContinentColour(continent_name);
 				} catch (Exception e1) {
@@ -97,9 +91,9 @@ public class MapEditorContinentController implements ActionListener, MouseListen
 					return;
 				}
 				Continent continent = new Continent(continent_name,
-						Integer.parseInt(map_continent_view.controlValue.getText()),
+						Integer.parseInt(map_continent_view.control_value.getText()),
 						ContinentColourMap.getContinentColour(continent_name));
-				gameMap.getContinents().add(continent);
+				game_map.getContinents().add(continent);
 
 			}
 			map_continent_view.repaintContinents();
@@ -111,24 +105,24 @@ public class MapEditorContinentController implements ActionListener, MouseListen
 			String selValue = map_continent_view.available_country_list.getSelectedValue();
 			String continent = map_continent_view.continent_name_value.getText();
 
-			gameMap.getCountryByName(selValue).setContinentName(continent);
+			game_map.getCountryByName(selValue).setContinentName(continent);
 
 			map_continent_view.repaintSelectedCountries(continent);
 		} else if (e.getSource().equals(map_continent_view.remove_button)) {
 			String selValue = map_continent_view.selected_country_list.getSelectedValue();
 
-			gameMap.getCountryByName(selValue).setContinentName("");
+			game_map.getCountryByName(selValue).setContinentName("");
 
 			map_continent_view.repaintAvailableCountries(selValue);
 		} else if (e.getSource().equals(map_continent_view.next_button)) {
 			FileNameExtensionFilter filter = new FileNameExtensionFilter("Map Files", "map");
-			map_continent_view.saveDialog.setFileFilter(filter);
-			map_continent_view.saveDialog.setFileSelectionMode(JFileChooser.FILES_ONLY);
-			int retVal = map_continent_view.saveDialog.showSaveDialog(map_continent_view);
+			map_continent_view.save_dialog.setFileFilter(filter);
+			map_continent_view.save_dialog.setFileSelectionMode(JFileChooser.FILES_ONLY);
+			int retVal = map_continent_view.save_dialog.showSaveDialog(map_continent_view);
 
 			if (retVal == JFileChooser.APPROVE_OPTION) {
-				File file = map_continent_view.saveDialog.getSelectedFile();
-				CreateMapService.getInstance().createMap(file.getAbsolutePath());
+				File file = map_continent_view.save_dialog.getSelectedFile();
+				MapService.getInstance().createMap(file.getAbsolutePath());
 				map_continent_view.dispose();
 				new MainController();
 			}

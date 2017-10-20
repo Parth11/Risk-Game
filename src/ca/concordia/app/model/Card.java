@@ -9,14 +9,14 @@ public class Card {
 
 	enum CardType {INFANTRY, CAVALRY, ARTILLERY};
 	
-	private CardType cardType;
+	private CardType card_type;
 
 	public Card(CardType cardType) {
 		super();
-		this.cardType = cardType;
+		this.card_type = cardType;
 	}
 
 	public CardType getCardType() {
-		return cardType;
+		return card_type;
 	}
 }

@@ -4,17 +4,12 @@ import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
 
-import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
-import javax.swing.JTable;
 import javax.swing.JTextArea;
-import javax.swing.JTextField;
-import javax.swing.table.DefaultTableModel;
 
-import ca.concordia.app.service.Game;
-import ca.concordia.app.service.MyLogger;
+import ca.concordia.app.service.ConsoleLoggerService;
+import ca.concordia.app.service.GamePlayService;
 
 /**
  * 
@@ -23,43 +18,28 @@ import ca.concordia.app.service.MyLogger;
  */
 public class NewGamePlayView extends JFrame implements IView {
 	
-	public JTextField textInputField;
-	public JButton btnSubmit, btnFortify;
-	public JScrollPane scrollPane;
-	public JTextArea textAreaConsole;
-	public Game gameAPI;
-	public MyLogger logger;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -9072014196882993806L;
+	public JScrollPane scroll_pane;
+	public JTextArea console;
+	public GamePlayService game_play_service;
+	public ConsoleLoggerService console_logger_service;
 	
 	public NewGamePlayView() {
 		
 		getContentPane().setLayout(null);
 		
-		textInputField = new JTextField();
-		textInputField.setBounds(1000, 100, 216, 26);
-		getContentPane().add(textInputField);
-		textInputField.setColumns(10);
+		scroll_pane = new JScrollPane();
+		scroll_pane.setBounds(150, 50, 800, 700);
+		getContentPane().add(scroll_pane);
 		
-		btnSubmit = new JButton("Submit");
-		btnSubmit.setBounds(1000, 250, 117, 29);
-		getContentPane().add(btnSubmit);
-		
-		btnFortify = new JButton("Fortify");
-		btnFortify.setBounds(1000, 400, 117, 29);
-		getContentPane().add(btnFortify);
-		
-		scrollPane = new JScrollPane();
-		scrollPane.setBounds(150, 50, 800, 700);
-		getContentPane().add(scrollPane);
-		
-		textAreaConsole = new JTextArea();
-		scrollPane.setViewportView(textAreaConsole);
-		textAreaConsole.setForeground(Color.WHITE);
-		textAreaConsole.setBackground(Color.BLACK);
-		logger = MyLogger.getInstance(textAreaConsole);
-		
-//		// using DB converter
-		//DbConverter.convert(GameMap.getInstance(), lib.model.GameMap.getInstance());
-		//DbConverter.print();
+		console = new JTextArea();
+		scroll_pane.setViewportView(console);
+		console.setForeground(Color.WHITE);
+		console.setBackground(Color.BLACK);
+		console_logger_service = ConsoleLoggerService.getInstance(console);
 		
 		initialize();
 	}
@@ -74,14 +54,12 @@ public class NewGamePlayView extends JFrame implements IView {
 
 	@Override
 	public void setActionListener(ActionListener actionListener) {
-		btnSubmit.addActionListener(actionListener);
-		btnFortify.addActionListener(actionListener);
+
 	}
 
 
 	@Override
 	public void setMouseListener(MouseListener mouseListener) {
-		// TODO Auto-generated method stub
 		
 	}
 }

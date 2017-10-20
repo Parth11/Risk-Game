@@ -1,6 +1,5 @@
 package ca.concordia.app.view;
 
-import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
@@ -35,31 +34,14 @@ public class MapEditorContinentView extends JFrame implements IView {
 	public JScrollPane selected_country_pane = new JScrollPane();
 	public JScrollPane continent_pane = new JScrollPane();
 
-	public GameMap gameMap = GameMap.getInstance();
+	public GameMap game_map = GameMap.getInstance();
 
 	DefaultListModel<String> select_countries=new DefaultListModel<String>();
 	DefaultListModel<String> available_countries=new DefaultListModel<String>();
 	DefaultListModel<String> continents=new DefaultListModel<String>();
-	public JTextField controlValue;
-	public JFileChooser saveDialog;
+	public JTextField control_value;
+	public JFileChooser save_dialog;
 	public JButton cancel_button;
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					MapEditorContinentView window = new MapEditorContinentView();
-					window.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	
 	
 	/**
 	 * Create the application.
@@ -87,7 +69,7 @@ public class MapEditorContinentView extends JFrame implements IView {
 		this.getContentPane().add(available_country_pane);
 
 		DefaultListModel<String> countries = new DefaultListModel<String>();
-		for (Country c : gameMap.getCountries()) {
+		for (Country c : game_map.getCountries()) {
 			countries.addElement(c.getCountryName());
 		}
 		available_country_list = new JList<String>(countries);
@@ -135,11 +117,11 @@ public class MapEditorContinentView extends JFrame implements IView {
 		lblControlValue.setBounds(684, 34, 91, 16);
 		getContentPane().add(lblControlValue);
 		
-		controlValue = new JTextField();
-		controlValue.setText("0");
-		controlValue.setBounds(787, 29, 142, 26);
-		getContentPane().add(controlValue);
-		controlValue.setColumns(10);
+		control_value = new JTextField();
+		control_value.setText("0");
+		control_value.setBounds(787, 29, 142, 26);
+		getContentPane().add(control_value);
+		control_value.setColumns(10);
 		
 		cancel_button = new JButton("Cancel");
 		cancel_button.setBounds(551, 467, 97, 25);
@@ -157,7 +139,7 @@ public class MapEditorContinentView extends JFrame implements IView {
 		lblAvailableCountries.setBounds(684, 79, 245, 16);
 		getContentPane().add(lblAvailableCountries);
 
-		saveDialog = new JFileChooser();
+		save_dialog = new JFileChooser();
 		
 		repaintContinents();
 
@@ -174,21 +156,19 @@ public class MapEditorContinentView extends JFrame implements IView {
 
 	@Override
 	public void setMouseListener(MouseListener mouseListener) {
-		// TODO Auto-generated method stub
 		continent_list.addMouseListener(mouseListener);
 	}
 
 	public void repaintContinents() {
-		// TODO Auto-generated method stub
 		continents.removeAllElements();
-		for (Continent c : gameMap.getContinents()) {
+		for (Continent c : game_map.getContinents()) {
 			continents.addElement(c.getContinentName());
 		}
 		continent_list.setModel(continents);
 
 		select_countries.removeAllElements();
 		available_countries.removeAllElements();
-		for (Country c : gameMap.getCountries()) {
+		for (Country c : game_map.getCountries()) {
 			if(c.getContinentName().isEmpty())
 				available_countries.addElement(c.getCountryName());
 		}
@@ -196,15 +176,14 @@ public class MapEditorContinentView extends JFrame implements IView {
 	}
 	
 	public void loadContinent(String selected_continent) {
-		// TODO Auto-generated method stub
 		continent_name_value.setText(selected_continent);
-		Continent continent= gameMap.getContinentByName(selected_continent);
-		controlValue.setText(continent.getControlValue()+"");
+		Continent continent= game_map.getContinentByName(selected_continent);
+		control_value.setText(continent.getControlValue()+"");
 		
 		select_countries.removeAllElements();
 		available_countries.removeAllElements();
 		
-		List<Country> countries_all = gameMap.getCountries();
+		List<Country> countries_all = game_map.getCountries();
 		for (Country c : countries_all) {
 			if (c.getContinentName().equals(selected_continent)) {
 				select_countries.addElement(c.getCountryName());
@@ -220,7 +199,7 @@ public class MapEditorContinentView extends JFrame implements IView {
 	public void repaintSelectedCountries(String selValue) {
 		select_countries.removeAllElements();
 		available_countries.removeAllElements();
-		for (Country c : gameMap.getCountries()) {
+		for (Country c : game_map.getCountries()) {
 			if(c.getContinentName().equals(selValue)) {
 				select_countries.addElement(c.getCountryName());
 			}
@@ -231,10 +210,10 @@ public class MapEditorContinentView extends JFrame implements IView {
 		ArrayList<String> neighbours;
 		
 		for(int i = 0; i< select_countries.getSize();i++){
-			Country c=gameMap.getCountryByName(select_countries.get(i));
-			neighbours=gameMap.getTerritories().get(c);
+			Country c=game_map.getCountryByName(select_countries.get(i));
+			neighbours=game_map.getTerritories().get(c);
 			for (String s : neighbours) {
-				if(gameMap.getCountryByName(s).getContinentName().isEmpty())
+				if(game_map.getCountryByName(s).getContinentName().isEmpty())
 					available_countries.addElement(s);
 			}
         }
@@ -244,12 +223,10 @@ public class MapEditorContinentView extends JFrame implements IView {
 	}
 
 	public void repaintAvailableCountries(String selValue) {
-		// TODO Auto-generated method stub
-		//select_countries.removeAllElements();
 		available_countries.removeAllElements();
 		
 		if(select_countries.getSize()==1) {
-			for (Country c : gameMap.getCountries()) {
+			for (Country c : game_map.getCountries()) {
 				if(c.getContinentName().isEmpty()) {
 					available_countries.addElement(c.getCountryName());
 				}
@@ -260,10 +237,10 @@ public class MapEditorContinentView extends JFrame implements IView {
 			ArrayList<String> neighbours=new ArrayList<>();
 			
 			for(int i = 0; i< select_countries.getSize();i++){
-				Country c=gameMap.getCountryByName(select_countries.get(i));
-				neighbours=gameMap.getTerritories().get(c);
+				Country c=game_map.getCountryByName(select_countries.get(i));
+				neighbours=game_map.getTerritories().get(c);
 				for (String s : neighbours) {
-					if(gameMap.getCountryByName(s).getContinentName().isEmpty())
+					if(game_map.getCountryByName(s).getContinentName().isEmpty())
 						available_countries.addElement(s);
 				}
 	        }
