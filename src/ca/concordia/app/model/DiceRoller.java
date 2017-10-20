@@ -10,10 +10,26 @@ import ca.concordia.app.service.GamePlayService;
  */
 
 public class DiceRoller {
+	/**
+	 * create a object of type GamePlayService
+	 */
 	GamePlayService game;
+	
+	/**
+	 * number of dice
+	 */
 	int no_of_dice;
+	
+	/**
+	 * result of the dice
+	 */
 	int[] result;
 	
+	/**
+	 * Parameterized constructor
+	 * @param game
+	 * @param noOfDice
+	 */
 	public DiceRoller(GamePlayService game, int noOfDice) {
 		this.game=game;
 		this.no_of_dice = noOfDice;
