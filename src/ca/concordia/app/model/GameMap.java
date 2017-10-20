@@ -7,9 +7,7 @@ package ca.concordia.app.model;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.HashMap;
 
-import ca.concordia.app.util.CountryComparator;
 
 /**
  * @author harvi
@@ -87,5 +85,23 @@ public class GameMap {
 			sb.append(s).append(",");
 		}
 		return sb.toString().substring(0, sb.length()-1);
+	}
+	
+	public List<Country> getCountriesByContinent(String continentName) {
+		List<Country> continentCountry= new ArrayList<>();
+		for(Country c: getCountries()){
+			if(c.getContinentName().equals(continentName)){
+				continentCountry.add(c);
+			}
+		}
+		return continentCountry;
+	}
+	
+	public List<Country> getNeighbourCountries(Country country){
+		List<Country> neighbourCountry= new ArrayList<>();
+		for(String neighbourC: territories.get(country)){
+			neighbourCountry.add(getCountryByName(neighbourC));
+		}
+		return neighbourCountry;
 	}
 }

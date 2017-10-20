@@ -4,7 +4,7 @@ package ca.concordia.app.util;
  * @author harvi
  *
  */
-public interface MapEditorConstants {
+public interface GameConstants {
 
 	public static final String NEW_LINE = "\n";
 	

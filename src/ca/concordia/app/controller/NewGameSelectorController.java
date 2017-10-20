@@ -1,4 +1,4 @@
-/**
+ /**
  * 
  */
 package ca.concordia.app.controller;
@@ -8,12 +8,17 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
+import java.util.List;
 
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
+import ca.concordia.app.model.Country;
 import ca.concordia.app.model.GameMap;
-import ca.concordia.app.service.CreateMapService;
+import ca.concordia.app.model.Player;
+import ca.concordia.app.service.MapService;
+import ca.concordia.app.service.GamePlayService;
+import ca.concordia.app.service.ConsoleLoggerService;
 import ca.concordia.app.util.MapValidationException;
 import ca.concordia.app.view.NewGameSelectorView;
 
@@ -24,10 +29,10 @@ import ca.concordia.app.view.NewGameSelectorView;
 public class NewGameSelectorController implements ActionListener,MouseListener {
 	
 	NewGameSelectorView new_game_selector;
+	NewGamePhaseController new_game_phase_selector;
 	
 	public NewGameSelectorController() {
 		new_game_selector = new NewGameSelectorView();
-		
 		new_game_selector.setActionListener(this);
 		new_game_selector.setMouseListener(this);
 		new_game_selector.setVisible(true);
@@ -35,31 +40,26 @@ public class NewGameSelectorController implements ActionListener,MouseListener {
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
 		
 	}
 
@@ -70,8 +70,9 @@ public class NewGameSelectorController implements ActionListener,MouseListener {
 			
 			if(retVal == JFileChooser.APPROVE_OPTION){
 				File mapFile = new_game_selector.choose_map.getSelectedFile();
+
 				try {
-					CreateMapService.loadMap(mapFile);
+					MapService.getInstance().loadMap(mapFile);
 				} catch (MapValidationException e1) {
 					JOptionPane.showMessageDialog(new_game_selector, e1.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
 				}
@@ -87,14 +88,62 @@ public class NewGameSelectorController implements ActionListener,MouseListener {
 				return;
 			}
 			
-			GameMap gameMap = GameMap.getInstance();
+			GamePlayService gameApi = GamePlayService.getInstance();
+			
+			ConsoleLoggerService logger = ConsoleLoggerService.getInstance(null);
+			
+			print(logger);
+			logger.write("\n\nMAP FILE CONVERTED SUCCESSFULLY\n");
+			
+			
+			init(numPlayers,gameApi, logger);
+			
+			new_game_selector.dispose();
+			
+			new_game_phase_selector = new NewGamePhaseController(numPlayers,logger);
+		}
+		else if(e.getSource().equals(new_game_selector.cancel_button)){
 			new_game_selector.dispose();
 			new MainController();
 		}
-		else if(e.getSource().equals(new_game_selector.cancel_button)){
-			GameMap gameMap = GameMap.getInstance();
-			new_game_selector.dispose();
-			new MainController();
+	}
+	
+	private void init(int numberOfPlayers, GamePlayService gameApi, ConsoleLoggerService logger) {
+		
+		
+		logger.write("\nStartup Phase Started:-\n----------------------\n");
+		gameApi.setPlayers(numberOfPlayers);
+		
+		// get players
+		List<Player> players = gameApi.getPlayers();
+		for(Player p : players) {
+			String s = p.name + " - [ ";
+			
+			// get countries counquered by each player + no. of armies assigned
+			List<Country> countries = gameApi.getCountriesConqueredBy(p);
+			for(Country c : countries)
+				s += "" + c.getCountryName() + "(" + c.getNoOfArmy() + "), ";
+			
+			s += "]\n";
+			
+			// write each info to logger files
+			logger.write(s);
+		}
+		logger.write("\\nStartup Phase Ended:-\\n----------------------\\n");
+		
+	}
+	
+	private void print(ConsoleLoggerService logger) {
+		GameMap gameMap = GameMap.getInstance();
+		for(Country c : gameMap.getCountries()){
+			logger.write(c.getCountryName()+"( belongs to '"+c.getContinentName()+"') : [");
+			
+			if(gameMap.getTerritories().get(c)!=null)
+				for(String s : gameMap.getTerritories().get(c)) 
+					if(s!=null)
+						logger.write(s+", ");
+			
+			logger.write("]\n");
 		}
 	}
 

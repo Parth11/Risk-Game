@@ -26,6 +26,11 @@ import ca.concordia.app.util.ContinentColourMap;
 
 public class MapEditorView extends JFrame implements IView {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private static String WINDOW_TITLE = "Create Map";
 
 	public JTextField country_name_value;
@@ -44,21 +49,12 @@ public class MapEditorView extends JFrame implements IView {
 
 	public JButton next_button;
 
-	private JScrollPane scrollPane;
+	private JScrollPane scroll_pane;
 
 	public JFileChooser open_dialog;
 	
 	public JButton remove_country_button;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-
-		MapEditorView window = new MapEditorView();
-		window.setVisible(true);
-
-	}
 
 	/**
 	 * Create the application.
@@ -71,7 +67,7 @@ public class MapEditorView extends JFrame implements IView {
 		try {
 			map_area = new MapEditorPanel();
 			map_area.setBounds(12, 13, 1068, 813);
-			map_area.mapArea.setBorder(new LineBorder(new Color(0, 0, 0), 2));
+			map_area.map_area.setBorder(new LineBorder(new Color(0, 0, 0), 2));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -97,12 +93,12 @@ public class MapEditorView extends JFrame implements IView {
 		lblSelectNeighbours.setBounds(12, 103, 394, 32);
 		country_editor_panel.add(lblSelectNeighbours);
 
-		scrollPane = new JScrollPane();
-		scrollPane.setBounds(12, 147, 394, 382);
-		country_editor_panel.add(scrollPane);
+		scroll_pane = new JScrollPane();
+		scroll_pane.setBounds(12, 147, 394, 382);
+		country_editor_panel.add(scroll_pane);
 
 		neighbours_list = new JList<String>();
-		scrollPane.setViewportView(neighbours_list);
+		scroll_pane.setViewportView(neighbours_list);
 		neighbours_list.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		neighbours_list.setVisibleRowCount(8);
 
@@ -153,13 +149,13 @@ public class MapEditorView extends JFrame implements IView {
 			neighbours.addElement(c.getCountryName());
 		}
 		neighbours_list = new JList<>(neighbours);
-		scrollPane.setViewportView(neighbours_list);
+		scroll_pane.setViewportView(neighbours_list);
 		neighbours_list.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		neighbours_list.setVisibleRowCount(8);
 	}
 
 	public void connectNeighbours(String name) {
-		map_area.mapArea.connectNeighbours(name);
+		map_area.map_area.connectNeighbours(name);
 
 	}
 
@@ -177,9 +173,9 @@ public class MapEditorView extends JFrame implements IView {
 		}
 
 		for (Country c : gameMap.getCountries()) {
-			map_area.mapArea.drawCountry(c.getCountryName(), c.getLocX(), c.getLocy(),
+			map_area.map_area.drawCountry(c.getCountryName(), c.getLocX(), c.getLocY(),
 					ContinentColourMap.getContinentColour(c.getContinentName()));
-			map_area.mapArea.connectNeighbours(c.getCountryName());
+			map_area.map_area.connectNeighbours(c.getCountryName());
 		}
 
 		repaintNeighbours();

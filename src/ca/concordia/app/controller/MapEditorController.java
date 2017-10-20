@@ -4,25 +4,17 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
-import java.util.HashMap;
 
-import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
-import javax.swing.JList;
 import javax.swing.JOptionPane;
 
-import ca.concordia.app.component.MapEditorPanel;
 import ca.concordia.app.model.Country;
 import ca.concordia.app.model.GameMap;
-import ca.concordia.app.service.CreateMapService;
+import ca.concordia.app.service.MapService;
 import ca.concordia.app.util.MapValidationException;
 import ca.concordia.app.util.RiskExceptionHandler;
 import ca.concordia.app.view.MapEditorView;
@@ -30,15 +22,16 @@ import ca.concordia.app.view.MapEditorView;
 public class MapEditorController implements ActionListener, MouseListener{
 	
 	public MapEditorView map_editor_view;
+	MapService map_service;
+	GameMap game_map;
 	
-	GameMap gameMap;
-	
-	int tempX,tempY;
+	int temp_x,temp_y;
 	
 	public MapEditorController(boolean edit) {
 		
+		game_map = GameMap.getInstance();
 		
-		gameMap = GameMap.getInstance();
+		map_service= MapService.getInstance();
 		
 		map_editor_view = new MapEditorView();
 		map_editor_view.setActionListener(this);
@@ -58,7 +51,7 @@ public class MapEditorController implements ActionListener, MouseListener{
 				
 				if(file.exists()){
 					try {
-						CreateMapService.loadMap(file);
+						map_service.loadMap(file);
 					} catch (MapValidationException e) {
 						JOptionPane.showMessageDialog(map_editor_view, e.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
 						return;
@@ -90,11 +83,10 @@ public class MapEditorController implements ActionListener, MouseListener{
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		//System.out.println(e);
-		if(e.getSource().equals(map_editor_view.map_area.mapArea)){
-			tempX = e.getX();
-			tempY = e.getY();
-			map_editor_view.map_area.mapArea.drawCountry("",e.getX(),e.getY(),null);
+		if(e.getSource().equals(map_editor_view.map_area.map_area)){
+			temp_x = e.getX();
+			temp_y = e.getY();
+			map_editor_view.map_area.map_area.drawCountry("",e.getX(),e.getY(),null);
 			map_editor_view.save_button.setEnabled(true);
 		}
 		
@@ -125,14 +117,15 @@ public class MapEditorController implements ActionListener, MouseListener{
 		if(e.getSource().equals(map_editor_view.save_button)){
 			
 			Country c = new Country(map_editor_view.country_name_value.getText().trim(), 
-					tempX, tempY, "");
+					temp_x, temp_y, "");
 			
-			gameMap.getCountries().add(c);
+			game_map.getCountries().add(c);
 			
 			List<String> selValues = map_editor_view.neighbours_list.getSelectedValuesList();
 			
 			
-			HashMap<Country, ArrayList<String>> territories = (HashMap<Country, ArrayList<String>>) gameMap.getTerritories().clone(); 
+			@SuppressWarnings("unchecked")
+			HashMap<Country, ArrayList<String>> territories = (HashMap<Country, ArrayList<String>>) game_map.getTerritories().clone(); 
 			
 			ArrayList<String> selectedNeighbours = new ArrayList<>(selValues);
 			
@@ -143,12 +136,12 @@ public class MapEditorController implements ActionListener, MouseListener{
 			ArrayList<String> sNeighbours;
 			
 			for(String s : selectedNeighbours){
-				sNeighbours = (ArrayList<String>) territories.get(gameMap.getCountryByName(s));
+				sNeighbours = (ArrayList<String>) territories.get(game_map.getCountryByName(s));
 				sNeighbours.add(c.getCountryName());
 				crossLinks.put(s, sNeighbours);
 			}
 			
-			gameMap.setTerritories(territories);
+			game_map.setTerritories(territories);
 			
 			map_editor_view.repaintNeighbours();
 			
@@ -179,8 +172,10 @@ public class MapEditorController implements ActionListener, MouseListener{
 			else if(retVal == JOptionPane.YES_OPTION){
 				String countryName = map_editor_view.neighbours_list.getSelectedValue();
 				List<String> neighbours = GameMap.getInstance().getTerritories().get(GameMap.getInstance().getCountryByName(countryName));
-				CreateMapService.removeCountryFromMap(countryName);
-				CreateMapService.linkRemainingNeighbours(neighbours);
+				
+				
+				map_service.removeCountryFromMap(countryName);
+				map_service.linkRemainingNeighbours(neighbours);
 				reloadMap();
 				map_editor_view.next_button.setEnabled(true);
 			}

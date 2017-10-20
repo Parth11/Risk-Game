@@ -3,20 +3,31 @@ package ca.concordia.app.view;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
 
+import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
-import javax.swing.JButton;
-import javax.swing.JFileChooser;
+
+/**
+ * @author Abhinav
+ * 
+ */
+
 
 public class NewGameSelectorView extends JFrame implements IView{
 
-	public JTextField num_players;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	public JButton browse_map;
 	public JButton next_button;
 	public JButton cancel_button;
+	public JTextField num_players;
 	public JFileChooser choose_map;
-
+	public JLabel label_players, label_map_file;
+	public int final_players;
 	
 	/**
 	 * Create the application.
@@ -24,18 +35,18 @@ public class NewGameSelectorView extends JFrame implements IView{
 	public NewGameSelectorView() {
 		getContentPane().setLayout(null);
 		
-		JLabel lblHowManyKings = new JLabel("How many kings?");
-		lblHowManyKings.setBounds(53, 47, 311, 27);
-		getContentPane().add(lblHowManyKings);
+		label_players = new JLabel("How many Players?");
+		label_players.setBounds(53, 47, 311, 27);
+		getContentPane().add(label_players);
 		
 		num_players = new JTextField("2");
 		num_players.setBounds(202, 49, 116, 22);
 		getContentPane().add(num_players);
 		num_players.setColumns(10);
 		
-		JLabel lblSelectMapFile = new JLabel("Select map File");
-		lblSelectMapFile.setBounds(53, 133, 157, 27);
-		getContentPane().add(lblSelectMapFile);
+		label_map_file = new JLabel("Select map File");
+		label_map_file.setBounds(53, 133, 157, 27);
+		getContentPane().add(label_map_file);
 		
 		browse_map = new JButton("Browse");
 		browse_map.setBounds(202, 134, 116, 27);
@@ -48,6 +59,8 @@ public class NewGameSelectorView extends JFrame implements IView{
 		cancel_button = new JButton("Cancel");
 		cancel_button.setBounds(53, 237, 97, 25);
 		getContentPane().add(cancel_button);
+		
+
 		
 		choose_map = new JFileChooser();
 		
@@ -71,7 +84,6 @@ public class NewGameSelectorView extends JFrame implements IView{
 
 	@Override
 	public void setMouseListener(MouseListener mouseListener) {
-		// TODO Auto-generated method stub
 		
 	}
 }

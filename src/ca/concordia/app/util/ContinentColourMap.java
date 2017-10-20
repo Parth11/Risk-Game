@@ -15,9 +15,9 @@ import java.util.Map;
  */
 public class ContinentColourMap {
 	
-	private static Map<String, Colours> continentColourMap = new HashMap<String, Colours>();
+	private static Map<String, Colours> continent_colour_map = new HashMap<String, Colours>();
 	
-	private static List<Colours> availableColours = new ArrayList<Colours>();
+	private static List<Colours> available_colours = new ArrayList<Colours>();
 	
 
 	private enum Colours {
@@ -42,28 +42,28 @@ public class ContinentColourMap {
 	
 	static {
 		for(Colours c : Colours.values()){
-			availableColours.add(c);
+			available_colours.add(c);
 		}
 	}
 	
 	public static Color getContinentColour(String continentName){
 		
-		return continentColourMap.get(continentName).color;
+		return continent_colour_map.get(continentName).color;
 	}
 	
 	public static void setContinentColour(String continentName) throws Exception{
-		if(availableColours.isEmpty()){
+		if(available_colours.isEmpty()){
 			throw new Exception("No More Colours Available");
 		}
-		Colours c = availableColours.remove(0);
-		continentColourMap.put(continentName, c);
+		Colours c = available_colours.remove(0);
+		continent_colour_map.put(continentName, c);
 	}
 	
 	public static void resetColors(){
-		availableColours.clear();
-		continentColourMap.clear();
+		available_colours.clear();
+		continent_colour_map.clear();
 		for(Colours c : Colours.values()){
-			availableColours.add(c);
+			available_colours.add(c);
 		}
 	}
 }
