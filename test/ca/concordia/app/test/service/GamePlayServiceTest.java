@@ -27,7 +27,7 @@ public class GamePlayServiceTest {
 		map_service = MapService.getInstance();
 		game_map = GameMap.getInstance();
 		game_play = GamePlayService.getInstance();
-		game_map = map_service.loadMap("Canada.map");
+		game_map = map_service.loadMap("maps/Canada.map");
 		game_play.doStartupPhase(4);
 		players = game_play.getPlayers();
 	}
