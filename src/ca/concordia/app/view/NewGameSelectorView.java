@@ -3,13 +3,11 @@ package ca.concordia.app.view;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
 
+import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
-import javax.swing.JButton;
-import javax.swing.JFileChooser;
-import java.awt.event.ActionEvent;
-import javax.swing.JRadioButton;
 
 /**
  * @author Abhinav
@@ -19,7 +17,10 @@ import javax.swing.JRadioButton;
 
 public class NewGameSelectorView extends JFrame implements IView{
 
-	//public JTextField num_players;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	public JButton browse_map;
 	public JButton next_button;
 	public JButton cancel_button;

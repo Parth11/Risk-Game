@@ -1,31 +1,31 @@
 package ca.concordia.app.view;
 
 import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseListener;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.swing.DefaultListModel;
+import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
-import javax.swing.ListSelectionModel;
 
 import ca.concordia.app.model.Continent;
 import ca.concordia.app.model.Country;
 import ca.concordia.app.model.GameMap;
 
-import javax.swing.JScrollPane;
-import javax.swing.DefaultListModel;
-import javax.swing.JButton;
-import javax.swing.JFileChooser;
-
-import java.awt.event.ActionListener;
-import java.awt.event.MouseListener;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.awt.event.ActionEvent;
-import javax.swing.JList;
-
 public class MapEditorContinentView extends JFrame implements IView {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	public JTextField continent_name_value;
 	public JList<String> continent_list, selected_country_list;
 	public JList<String> available_country_list;

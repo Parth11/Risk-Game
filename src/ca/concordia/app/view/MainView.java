@@ -1,15 +1,18 @@
 package ca.concordia.app.view;
 
-import java.awt.EventQueue;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
 
-import javax.swing.JFrame;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 
 public class MainView extends JFrame implements IView{
 
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	public JButton new_game,create_map,edit_map;
 
 	/**

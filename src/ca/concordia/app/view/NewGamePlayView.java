@@ -3,28 +3,18 @@ package ca.concordia.app.view;
 import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
 
-import ca.concordia.app.component.MapEditorPanel;
-import ca.concordia.app.model.Country;
-import ca.concordia.app.model.Player;
 import ca.concordia.app.service.Game;
 import ca.concordia.app.service.MyLogger;
-import javax.swing.JPanel;
-import javax.swing.JComboBox;
-import javax.swing.JTable;
-import javax.swing.JScrollBar;
 
 /**
  * 
@@ -33,6 +23,10 @@ import javax.swing.JScrollBar;
  */
 public class NewGamePlayView extends JFrame implements IView {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	public JTextField textField;
 	public JButton btnNewButton, btnFortify;
 	public JScrollPane scrollPane;
@@ -40,7 +34,7 @@ public class NewGamePlayView extends JFrame implements IView {
 	public Game gameAPI;
 	public MyLogger logger;
 	private JTable table;
-	public JComboBox country_combo;
+	public JComboBox<String> country_combo;
 	
 	public NewGamePlayView() {
 		
@@ -73,7 +67,7 @@ public class NewGamePlayView extends JFrame implements IView {
 		
 		
 		
-		country_combo = new JComboBox();
+		country_combo = new JComboBox<>();
 		country_combo.setToolTipText("select country");
 		country_combo.setBounds(960, 16, 256, 36);
 		getContentPane().add(country_combo);
