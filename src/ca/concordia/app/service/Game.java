@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Random;
 
 import ca.concordia.app.model.Continent;
 import ca.concordia.app.model.Country;
@@ -107,9 +108,28 @@ public class Game {
 		allocateCountriesToPlayers();
 		
 		// add initial army using round-robin fashion
-		addInitialArmies();
+		addInitialArmiesUsingRR();
 		
 		return true;
+	}
+	
+	private void addInitialArmiesUsingRR() {
+		int j = 0;
+		int playersLeftForAssign = numberOfPlayers;
+		System.out.println("Hello");
+		while (playersLeftForAssign > 0){
+			if(players.get(j % numberOfPlayers).getTotalArmies() > 0)
+			{
+				List<Country> playerCountryList = getCountriesConqueredBy(players.get(j % numberOfPlayers));
+				Country randomCountry = playerCountryList.get(new Random().nextInt(playerCountryList.size()));
+				randomCountry.addArmies(1);
+				players.get(j % numberOfPlayers).setTotalArmies(players.get(j % numberOfPlayers).getTotalArmies() - 1);			
+			}
+			else {
+				playersLeftForAssign--;
+			}
+			j++;			
+		}		
 	}
 	
 	private void allocateCountriesToPlayers() {
@@ -118,6 +138,7 @@ public class Game {
 		for(Country c: gameMap.getCountries()) {
 			Player p = players.get(j % numberOfPlayers);
 			setNewCountryRuler(p,c,1);
+			p.subArmy(1);
 			j++;
 		}
 	}
@@ -133,6 +154,7 @@ public class Game {
 		}
 	}
 	
+
 	public int getNumberOfPlayers() {
 		return numberOfPlayers;
 	}
@@ -163,9 +185,9 @@ public class Game {
 	public int getReinforcementArmyForPlayer(Player p) {
 		int countArmy = 0;
 		int countriesCounquered = getCountriesConqueredBy(p).size();
-		if(countriesCounquered<=11 && countriesCounquered>0)
+		if(countriesCounquered<=11 && countriesCounquered>0){
 			countArmy = 3;
-		
+		}
 		
 		List<Continent> ruledContinents = getContinentsCounqueredBy(p);
 		for(Continent c : ruledContinents)
@@ -240,16 +262,16 @@ public class Game {
 		return false;
 	}
 	
-	public boolean moveArmyFromTo(Player p, Country from, Country to, int noOfArmy) {
-		if(playerCountryMap.get(p).contains(from) && (to.getNoOfArmy()==0 || playerCountryMap.get(p).contains(to)) && (from.getNoOfArmy()-noOfArmy)>=1 && isConnected(from, to, p)) {
-			from.removeArmies(noOfArmy);
-			if(to.getNoOfArmy()==0)
-				to.setRuler(p, noOfArmy);
-			else
-				to.addArmies(noOfArmy);
-			return true;
+	public boolean moveArmyFromTo(Player p, Country fromCountry, Country toCountry, int noOfArmy) {
+		try {
+		
+		fromCountry.removeArmies(noOfArmy);
+		toCountry.addArmies(noOfArmy);
+		return true;
+	}
+		catch(Exception e) {
+			return false;
 		}
-		return false;
 	}
 	
 	public boolean isNeighbour(Country c1, Country c2) {
@@ -384,25 +406,7 @@ public class Game {
 		return gamePlayState;
 	}
 	
-	// CallBacks
-	
-	public interface ResultInterface {
-		void onSuccess();
-		void onFailure();
+	public GameMap getMap(){
+		return this.gameMap;
 	}
-	
-//	public static class Console {
-//		private static Console console=null;
-//		private static BufferedReader br;
-//		
-//		private Console() {
-//			 br = new BufferedReader(new InputStreamReader(System.in));
-//		}
-//		
-//		public static Console getInstance() {
-//			if(console==null) 
-//				console = new Console();
-//			return console;
-//		}
-//	}
 }
