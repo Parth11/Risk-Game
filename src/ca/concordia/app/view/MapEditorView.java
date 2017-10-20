@@ -24,42 +24,56 @@ import ca.concordia.app.model.Country;
 import ca.concordia.app.model.GameMap;
 import ca.concordia.app.util.ContinentColourMap;
 
+
+/**
+ * The Class MapEditorView.
+ * 
+ * @author Shivangi
+ */
 public class MapEditorView extends JFrame implements IView {
 
-	/**
-	 * 
-	 */
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 
+	/** The window title. */
 	private static String WINDOW_TITLE = "Create Map";
 
+	/** The country name value. */
 	public JTextField country_name_value;
 
+	/** The map area. */
 	public MapEditorPanel map_area;
 
+	/** The country editor panel. */
 	public JPanel country_editor_panel;
 
+	/** The country name. */
 	public JLabel country_name;
 
+	/** The neighbours list. */
 	public JList<String> neighbours_list;
 
+	/** The save button. */
 	public JButton save_button;
 
+	/** The cancel button. */
 	public JButton cancel_button;
 
+	/** The next button. */
 	public JButton next_button;
 
+	/** The scroll pane. */
 	private JScrollPane scroll_pane;
 
+	/** The open dialog. */
 	public JFileChooser open_dialog;
 	
+	/** The remove country button. */
 	public JButton remove_country_button;
 
 
 	/**
 	 * Create the application.
-	 * 
-	 * @throws IOException
 	 */
 	public MapEditorView() {
 		getContentPane().setLayout(null);
@@ -128,6 +142,10 @@ public class MapEditorView extends JFrame implements IView {
 
 	}
 
+	/**
+	 * Calls the setActionListener java method
+	 * @param actionListener
+	 */
 	@Override
 	public void setActionListener(ActionListener actionListener) {
 		next_button.addActionListener(actionListener);
@@ -136,11 +154,17 @@ public class MapEditorView extends JFrame implements IView {
 		remove_country_button.addActionListener(actionListener);
 	}
 
+	/* (non-Javadoc)
+	 * @see ca.concordia.app.view.IView#setMouseListener(java.awt.event.MouseListener)
+	 */
 	@Override
 	public void setMouseListener(MouseListener mouseListener) {
 		map_area.setMouseListener(mouseListener);
 	}
 
+	/**
+	 * Repaint neighbours.
+	 */
 	public void repaintNeighbours() {
 		GameMap gameMap = GameMap.getInstance();
 		DefaultListModel<String> neighbours = new DefaultListModel<String>();
@@ -154,11 +178,19 @@ public class MapEditorView extends JFrame implements IView {
 		neighbours_list.setVisibleRowCount(8);
 	}
 
+	/**
+	 * Connect neighbours.
+	 *
+	 * @param name the name
+	 */
 	public void connectNeighbours(String name) {
 		map_area.map_area.connectNeighbours(name);
 
 	}
 
+	/**
+	 * Paint loaded map.
+	 */
 	public void paintLoadedMap() {
 		GameMap gameMap = GameMap.getInstance();
 		

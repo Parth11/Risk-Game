@@ -8,6 +8,8 @@ import javax.swing.JFrame;
 
 /**
  * The Class MainView.
+ * 
+ * @author Hardik
  */
 public class MainView extends JFrame implements IView{
 
