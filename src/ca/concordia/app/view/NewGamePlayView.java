@@ -23,75 +23,44 @@ import ca.concordia.app.service.MyLogger;
  */
 public class NewGamePlayView extends JFrame implements IView {
 	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	public JTextField textField;
-	public JButton btnNewButton, btnFortify;
+	public JTextField textInputField;
+	public JButton btnSubmit, btnFortify;
 	public JScrollPane scrollPane;
-	public JTextArea textArea;
+	public JTextArea textAreaConsole;
 	public Game gameAPI;
 	public MyLogger logger;
-	private JTable table;
-	public JComboBox<String> country_combo;
 	
 	public NewGamePlayView() {
 		
 		getContentPane().setLayout(null);
 		
-		gameAPI = Game.getInstance();
+		textInputField = new JTextField();
+		textInputField.setBounds(1000, 100, 216, 26);
+		getContentPane().add(textInputField);
+		textInputField.setColumns(10);
 		
-		textField = new JTextField();
-		textField.setBounds(960, 68, 256, 36);
-		getContentPane().add(textField);
-		textField.setColumns(10);
-		
-		btnNewButton = new JButton("Submit");
-		btnNewButton.setBounds(1099, 120, 117, 36);
-		getContentPane().add(btnNewButton);
+		btnSubmit = new JButton("Submit");
+		btnSubmit.setBounds(1000, 250, 117, 29);
+		getContentPane().add(btnSubmit);
 		
 		btnFortify = new JButton("Fortify");
-		btnFortify.setBounds(1099, 407, 117, 29);
+		btnFortify.setBounds(1000, 400, 117, 29);
 		getContentPane().add(btnFortify);
 		
 		scrollPane = new JScrollPane();
-		scrollPane.setBounds(15, 449, 935, 379);
+		scrollPane.setBounds(150, 50, 800, 700);
 		getContentPane().add(scrollPane);
 		
-		textArea = new JTextArea();
-		scrollPane.setViewportView(textArea);
-		textArea.setForeground(Color.WHITE);
-		textArea.setBackground(Color.BLACK);
-		logger = MyLogger.getInstance(textArea);
+		textAreaConsole = new JTextArea();
+		scrollPane.setViewportView(textAreaConsole);
+		textAreaConsole.setForeground(Color.WHITE);
+		textAreaConsole.setBackground(Color.BLACK);
+		logger = MyLogger.getInstance(textAreaConsole);
 		
+//		// using DB converter
+		//DbConverter.convert(GameMap.getInstance(), lib.model.GameMap.getInstance());
+		//DbConverter.print();
 		
-		
-		country_combo = new JComboBox<>();
-		country_combo.setToolTipText("select country");
-		country_combo.setBounds(960, 16, 256, 36);
-		getContentPane().add(country_combo);
-		
-		JScrollPane scrollPane_1 = new JScrollPane();
-		scrollPane_1.setBounds(15, 431, 935, -392);
-		getContentPane().add(scrollPane_1);
-		
-		
-		
-		
-		Object[][] A  = gameAPI.getGamePlayState();
-		Object[] B = {"country name","number of armies","owner"};
-		
-		
-		DefaultTableModel dataModel = new DefaultTableModel(A, B);
-		
-		JScrollPane scrollPane_2 = new JScrollPane();
-		scrollPane_2.setBounds(15, 16, 930, 420);
-		getContentPane().add(scrollPane_2);
-		
-		table = new JTable(A.length, 3);
-		scrollPane_2.setViewportView(table);
-		table.setModel(dataModel);
 		initialize();
 	}
 	
@@ -105,7 +74,7 @@ public class NewGamePlayView extends JFrame implements IView {
 
 	@Override
 	public void setActionListener(ActionListener actionListener) {
-		btnNewButton.addActionListener(actionListener);
+		btnSubmit.addActionListener(actionListener);
 		btnFortify.addActionListener(actionListener);
 	}
 

@@ -29,6 +29,7 @@ import ca.concordia.app.view.NewGameSelectorView;
 public class NewGameSelectorController implements ActionListener,MouseListener {
 	
 	NewGameSelectorView new_game_selector;
+	NewGamePhaseController new_game_phase_selector;
 	
 	public NewGameSelectorController() {
 		new_game_selector = new NewGameSelectorView();
@@ -108,12 +109,8 @@ public class NewGameSelectorController implements ActionListener,MouseListener {
 			
 			init(numPlayers,gameApi, logger);
 			
+			new_game_phase_selector = new NewGamePhaseController(numPlayers,logger);
 			
-			// here, startPhase has started
-			
-			logger.write("Reinforcement Phase Started:-\n----------------------\n");
-			reinforcementPhase(numPlayers,gameApi, logger);
-			logger.write("Reinforcement Phase Ended:-\n----------------------\n");
 			
 			new_game_selector.dispose();
 		}
@@ -148,27 +145,6 @@ public class NewGameSelectorController implements ActionListener,MouseListener {
 		
 	}
 	
-	private void reinforcementPhase(int numberOfPlayers, Game gameApi, MyLogger logger) {
-		
-			for(int i=0; i<numberOfPlayers; i++) {
-			
-			Player player = gameApi.getCurrentTurnPlayer(); // whose turn to play ?
-	
-			logger.write("Current Player : \n" + player.getName());
-			int putArmy = gameApi.getReinforcementArmyForPlayer(player);
-	
-			logger.write("Put Army : " + putArmy);
-			// .. put all the armies wherever you want
-			// for now we are putting armies in round robin
-			
-			//gameApi.addArmies(player, playerCountries, putArmy);
-	
-			player = gameApi.changeTurnToNextPlayer();
-			
-			logger.write("Next Player Turn :- " + player.getName());
-		}
-	}
-	
 	private void print(MyLogger logger) {
 		GameMap gameMap = GameMap.getInstance();
 		for(Country c : gameMap.getCountries()){
@@ -182,5 +158,25 @@ public class NewGameSelectorController implements ActionListener,MouseListener {
 			logger.write("]\n");
 		}
 	}
+	private void reinforcementPhase(int numberOfPlayers, Game gameApi, MyLogger logger) {
+		
+		for(int i=0; i<numberOfPlayers; i++) {
+		
+		Player player = gameApi.getCurrentTurnPlayer(); // whose turn to play ?
+
+		logger.write("Current Player : \n" + player.getName());
+		int putArmy = gameApi.getReinforcementArmyForPlayer(player);
+
+		logger.write("Put Army : " + putArmy);
+		// .. put all the armies wherever you want
+		// for now we are putting armies in round robin
+		
+		//gameApi.addArmies(player, playerCountries, putArmy);
+
+		player = gameApi.changeTurnToNextPlayer();
+		
+		logger.write("Next Player Turn :- " + player.getName());
+	}
+}
 
 }
