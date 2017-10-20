@@ -57,10 +57,13 @@ public class GamePlayServiceTest {
 	@Test
 	public void testFortificationPhaseMoveArmy() {
 		Country c1 = game_play.getCountriesConqueredBy(players.get(0)).get(0);
-		Country c3 = game_play.getCountriesConqueredBy(players.get(0)).get(4);
-		System.out.println(c3.getNoOfArmy());
-		System.out.println(c1.getNoOfArmy());
-		assertTrue(game_play.isConnected(c1, c3, players.get(0)));
+		Country c2 = game_play.getCountriesConqueredBy(players.get(0)).get(2);
+		int n1 = c1.getNoOfArmy();
+		int n2 = c2.getNoOfArmy();
+		int i = 1;
+		game_play.moveArmyFromTo(players.get(0), c1, c2, 1);
+		assertEquals(c1.getNoOfArmy(), n1-i);
+		assertEquals(c2.getNoOfArmy(), n2+1);
 	}
 
 }
