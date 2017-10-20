@@ -15,6 +15,8 @@ import java.util.List;
 
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import ca.concordia.app.model.Continent;
 import ca.concordia.app.model.Country;
@@ -85,11 +87,19 @@ public class MapEditorContinentController implements ActionListener,MouseListene
 		// TODO Auto-generated method stub
 		if(e.getSource().equals(map_continent_view.save_button)){
 			String continent_name=map_continent_view.continent_name_value.getText().trim();
+			int controlValue = Integer.parseInt(map_continent_view.controlValue.getText().trim());
+			
+			if(controlValue<=0){
+				JOptionPane.showMessageDialog(map_continent_view, "Control Value must be a positive integer", "Error", JOptionPane.ERROR_MESSAGE);
+				return;
+			}
+			
 			if(gameMap.getContinentByName(continent_name)==null) {
 				try {
 					ContinentColourMap.setContinentColour(continent_name);
 				} catch (Exception e1) {
 					JOptionPane.showMessageDialog(map_continent_view, e1.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+					return;
 				}
 				Continent continent = new Continent(continent_name,Integer.parseInt(map_continent_view.controlValue.getText()),ContinentColourMap.getContinentColour(continent_name));
 				gameMap.getContinents().add(continent);
@@ -119,11 +129,16 @@ public class MapEditorContinentController implements ActionListener,MouseListene
 			map_continent_view.repaintAvailableCountries(selValue);
 		}
 		else if(e.getSource().equals(map_continent_view.next_button)){
-			int retVal = map_continent_view.saveDialog.showOpenDialog(map_continent_view);
+			FileNameExtensionFilter filter = new FileNameExtensionFilter("Map Files", "map");
+			map_continent_view.saveDialog.setFileFilter(filter);
+			map_continent_view.saveDialog.setFileSelectionMode(JFileChooser.FILES_ONLY);
+			int retVal = map_continent_view.saveDialog.showSaveDialog(map_continent_view);
 			
 			if(retVal == JFileChooser.APPROVE_OPTION){
 				File file = map_continent_view.saveDialog.getSelectedFile();
 				CreateMapService.createMap(file.getAbsolutePath());
+				map_continent_view.dispose();
+				new MainController();
 			}
 		}
 	}

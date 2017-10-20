@@ -13,14 +13,18 @@ import java.util.List;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
+import ca.concordia.app.model.Country;
 import ca.concordia.app.model.GameMap;
 import ca.concordia.app.service.CreateMapService;
+
 import ca.concordia.app.service.MyLogger;
 import ca.concordia.app.view.NewGameFrame;
+
+import ca.concordia.app.util.MapValidationException;
+
 import ca.concordia.app.view.NewGameSelectorView;
-import lib.DbConverter;
 import lib.Game;
-import lib.model.Country;
+
 import lib.model.Player;
 
 /**
@@ -75,8 +79,12 @@ public class NewGameSelectorController implements ActionListener,MouseListener {
 			
 			if(retVal == JFileChooser.APPROVE_OPTION){
 				File mapFile = new_game_selector.choose_map.getSelectedFile();
-				CreateMapService.loadMap(mapFile);
-				
+
+				try {
+					CreateMapService.loadMap(mapFile);
+				} catch (MapValidationException e1) {
+					JOptionPane.showMessageDialog(new_game_selector, e1.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
+				}
 				JOptionPane.showMessageDialog(new_game_selector, "Map Loaded Successfully! Click Next to Play!","Map Loaded",JOptionPane.INFORMATION_MESSAGE);
 			}
 		}
@@ -95,8 +103,8 @@ public class NewGameSelectorController implements ActionListener,MouseListener {
 			MyLogger logger = MyLogger.getInstance(null);
 			
 			//using DB converter
-			DbConverter.convert(GameMap.getInstance(), lib.model.GameMap.getInstance());
-			DbConverter.print();
+//			DbConverter.convert(GameMap.getInstance(), lib.model.GameMap.getInstance());
+//			DbConverter.print();
 			
 			//Loading converted Log File
 			print(logger);
@@ -135,7 +143,7 @@ public class NewGameSelectorController implements ActionListener,MouseListener {
 			// get countries counquered by each player + no. of armies assigned
 			List<Country> countries = gameApi.getCountriesConqueredBy(p);
 			for(Country c : countries)
-				s += "" + c.getName() + "(" + c.getNoOfArmies() + "), ";
+				s += "" + c.getCountryName() + "(" + c.getNoOfArmy() + "), ";
 			
 			s += "]\n";
 			
@@ -168,14 +176,14 @@ public class NewGameSelectorController implements ActionListener,MouseListener {
 	}
 	
 	private void print(MyLogger logger) {
-		lib.model.GameMap gameMap = lib.model.GameMap.getInstance();
-		for(lib.model.Country c : gameMap.getCountries()){
-			logger.write(c.getName()+"( belongs to '"+c.getContinent().getName()+"') : [");
+		GameMap gameMap = GameMap.getInstance();
+		for(Country c : gameMap.getCountries()){
+			logger.write(c.getCountryName()+"( belongs to '"+c.getContinentName()+"') : [");
 			
 			if(gameMap.getTerritories().get(c)!=null)
-				for(lib.model.Country e : gameMap.getTerritories().get(c)) 
-					if(e!=null)
-						logger.write(e.getName()+", ");
+				for(String s : gameMap.getTerritories().get(c)) 
+					if(s!=null)
+						logger.write(s+", ");
 			
 			logger.write("]\n");
 		}

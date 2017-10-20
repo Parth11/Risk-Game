@@ -1,22 +1,18 @@
 package lib;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Scanner;
 
-import lib.callbacks.OnWarCallBacks;
-import lib.model.Continent;
-import lib.model.Country;
+import ca.concordia.app.model.Continent;
+import ca.concordia.app.model.Country;
+import ca.concordia.app.model.GameMap;
+import ca.concordia.app.service.CreateMapService;
 import lib.model.DiceRoller;
-import lib.model.GameMap;
 import lib.model.Player;
-import lib.service.CreateMapService;
+
 
 
 /**
@@ -26,10 +22,11 @@ import lib.service.CreateMapService;
  */
 
 public class Game {
-	private static Game game = null;
+	private static Game instance = null;
+	
 	private String mapPath=null;
 	
-	private int numberOfPlayers=0;
+	private int numberOfPlayers;
 	
 	private GameMap gameMap;
 	
@@ -48,15 +45,15 @@ public class Game {
 	// map APIs
 	
 	public static Game getInstance() {
-		if(game==null)
-			game = new Game();
-		return game;
+		if(instance==null)
+			instance = new Game();
+		return instance;
 	}
 	
 	public void loadNewMap(String path) {
-		game.mapPath = path;
-		game.resetPlayersData();
-		CreateMapService.getInstance().loadMap(game.gameMap, game.mapPath);
+		instance.mapPath = path;
+		instance.resetPlayersData();
+		CreateMapService.createMap(instance.mapPath);
 	}
 	
 	public void resetGame() {
@@ -68,29 +65,7 @@ public class Game {
 		System.gc();
 	}
 	
-	public List<Continent> getContinents() {
-		return gameMap.getContinents();
-	}
 	
-	public List<Country> getCountries() {
-		return gameMap.getCountries();
-	}
-	
-	public List<Country> getCountriesInContinent(Continent continent) {
-		return gameMap.getCountriesInContinent(continent);
-	}
-	
-	public Continent getContinent(String continent) {
-		return gameMap.getContinent(continent);
-	}
-
-	public Country getCountry(String country) {
-		return gameMap.getCountry(country);
-	}
-	
-	public List<Country> getNeighbours(Country country) {
-		return gameMap.getNeighbours(country);
-	}
 	
 	// player APIs
 	
@@ -205,10 +180,10 @@ public class Game {
 	
 	public List<Continent> getContinentsCounqueredBy(Player p) {
 		List<Continent> lst = new ArrayList<>();				
-		for(Continent c : getContinents()) {
+		for(Continent c : gameMap.getContinents()) {
 			boolean isRuler = true;
-			for(Country country : c.getCountriesList()) {
-				if(!country.getRulerPlayer().equals(p)) {
+			for(Country country :gameMap.getCountriesByContinent(c.getContinentName())) {
+				if(!country.getRuler().equals(p)) {
 					isRuler = false;
 					break;
 				}
@@ -222,9 +197,9 @@ public class Game {
 	}
 	
 	public boolean setNewCountryRuler(Player ruler, Country country, int numberOfArmies) {
-		if(country.getNoOfArmies()!=0) 
+		if(country.getNoOfArmy()!=0) 
 			return false;
-		country.setPlayer(ruler, numberOfArmies);
+		country.setRuler(ruler, numberOfArmies);
 		pcmPut(ruler, country);
 		return true;
 	}
@@ -233,52 +208,51 @@ public class Game {
 		if(!setNewCountryRuler(ruler, fromCountry, numberOfArmies))
 		{
 			// remove defeated ruler from the country
-			Player defeatedRuler = country.getRulerPlayer();
+			Player defeatedRuler = country.getRuler();
 			pcmRemove(defeatedRuler, country);
-			defeatedRuler.subArmy(country.getNoOfArmies());
-			country.setPlayer(null, 0);
+			defeatedRuler.subArmy(country.getNoOfArmy());
 			
 			// add new ruler
 			pcmPut(ruler, country);
-			country.setPlayer(ruler, numberOfArmies);
-			fromCountry.subtractArmy(numberOfArmies);
+			country.setRuler(ruler, numberOfArmies);
+			fromCountry.removeArmies(numberOfArmies);
 		}
 	}
 
 	public boolean addArmies(Player p, Country c, int addAmount) {
-		if(c.getNoOfArmies()==0 || playerCountryMap.get(p).contains(c)) {
+		if(c.getNoOfArmy()==0 || playerCountryMap.get(p).contains(c)) {
 			p.addArmy(addAmount);
-			c.addArmy(addAmount);
+			c.addArmies(addAmount);
 			return true;
 		}
 		return false;
 	}
 	
 	public boolean subArmies(Player p, Country c, int subAmount) {
-		if((c.getNoOfArmies()==0 || playerCountryMap.get(p).contains(c)) && ((c.getNoOfArmies()-subAmount)>=0)) {
+		if((c.getNoOfArmy()==0 || playerCountryMap.get(p).contains(c)) && ((c.getNoOfArmy()-subAmount)>=0)) {
 			p.subArmy(subAmount);
-			c.subtractArmy(subAmount);
-			if(c.getNoOfArmies()==0)
-				c.setPlayer(null, 0);
+			c.removeArmies(subAmount);
+			if(c.getNoOfArmy()==0)
+				c.setRuler(null, 0);
 			return true;
 		}
 		return false;
 	}
 	
 	public boolean moveArmyFromTo(Player p, Country from, Country to, int noOfArmy) {
-		if(playerCountryMap.get(p).contains(from) && (to.getNoOfArmies()==0 || playerCountryMap.get(p).contains(to)) && (from.getNoOfArmies()-noOfArmy)>=1 && isConnected(from, to, p)) {
-			from.subtractArmy(noOfArmy);
-			if(to.getNoOfArmies()==0)
-				to.setPlayer(p, noOfArmy);
+		if(playerCountryMap.get(p).contains(from) && (to.getNoOfArmy()==0 || playerCountryMap.get(p).contains(to)) && (from.getNoOfArmy()-noOfArmy)>=1 && isConnected(from, to, p)) {
+			from.removeArmies(noOfArmy);
+			if(to.getNoOfArmy()==0)
+				to.setRuler(p, noOfArmy);
 			else
-				to.addArmy(noOfArmy);
+				to.addArmies(noOfArmy);
 			return true;
 		}
 		return false;
 	}
 	
 	public boolean isNeighbour(Country c1, Country c2) {
-		return (getNeighbours(c1).contains(c2));
+		return (gameMap.getNeighbourCountries(c1).contains(c2));
 	}
 	
 	public boolean isConnected(Country c1, Country c2, Player p) {
@@ -286,7 +260,7 @@ public class Game {
 	}
 	
 	private boolean isConnected(Country c1, Country c2, Player p, List<Country> unwanatedPair) {
-		if(isNeighbour(c1, c2) && c1.getRulerPlayer().equals(c2.getRulerPlayer()))
+		if(isNeighbour(c1, c2) && c1.getRuler().equals(c2.getRuler()))
 			return true;
 		
 		if(unwanatedPair==null)
@@ -295,7 +269,7 @@ public class Game {
 			return false;
 		unwanatedPair.add(c1);
 		
-		for(Country c : getNeighbours(c1)) {
+		for(Country c : gameMap.getNeighbourCountries(c1)) {
 			if(!unwanatedPair.contains(c) && isConnected(c, c2, p, unwanatedPair))
 				return true;
 		}
@@ -327,114 +301,21 @@ public class Game {
 	}
 	
 	public boolean canWar(Country fromCountry, Country toCountry) {
-		return gameMap.getNeighbours(fromCountry).contains(toCountry)		// should be neighbours
-				&& fromCountry.getRulerPlayer()!=toCountry.getRulerPlayer() // shouldn't both countries belong to same player
-				&& fromCountry.getNoOfArmies()>1		// attacker should have more than 1 army
-				&& toCountry.getNoOfArmies()>0;		// defence should have atleast 1 army to protect the country
+		return gameMap.getNeighbourCountries(fromCountry).contains(toCountry)		// should be neighbours
+				&& fromCountry.getRuler()!=toCountry.getRuler() // shouldn't both countries belong to same player
+				&& fromCountry.getNoOfArmy()>1		// attacker should have more than 1 army
+				&& toCountry.getNoOfArmy()>0;		// defence should have atleast 1 army to protect the country
 	}
 	
-	/*public void war(Player attackPlayer, Country fromCountry, Player defencePlayer, Country toCountry, int[] attackResult, int[] defenceResult) {
-		// can war
-		if(!canWar(fromCountry, toCountry))
-			return;
-		
-		// if yes, then start war
-		Arrays.sort(attackResult);
-		Arrays.sort(defenceResult);
-		int n = attackResult.length>defenceResult.length?defenceResult.length:attackResult.length;
-		
-		for(int i=0; i<n; i++) {
-			if(attackResult[i]>defenceResult[i]) {
-				toCountry.subtractArmy(1);
-				defencePlayer.subArmy(1);
-			} else {
-				fromCountry.subtractArmy(1);
-				attackPlayer.subArmy(1);
-			}
-		}
-		
-		// if defence country is completely defeated
-		if(toCountry.getNoOfArmies()<=0) {
-			toCountry.setPlayer(null, 0);
-			pcmRemove(defencePlayer, toCountry);
-			
-			// now attack player must move army
-			// ...
-		}
-	}*/
 	
-	public void war(OnWarCallBacks onWarCallBacks) {
-		
-		// get Data
-		Player attackPlayer = onWarCallBacks.getAttackPlayer(), defencePlayer = onWarCallBacks.getDefencePlayer();
-		Country fromCountry = onWarCallBacks.getFromCountry(), toCountry = onWarCallBacks.getToCountry();
-		
-		// can war
-		if(!canWar(fromCountry, toCountry)) {
-			onWarCallBacks.onWarStartFailure();
-			return;
-		}
-		
-		onWarCallBacks.beforeWarStart();
-		
-		DiceRoller attackDice = new DiceRoller(game, getAttackDiceLimit(attackPlayer, fromCountry));
-		DiceRoller defenceDice = new DiceRoller(game, getDefenceDiceLimit(defencePlayer, toCountry));
-		
-		attackDice.rollAll();
-		defenceDice.rollAll();
-		
-		int[] attackResult = attackDice.getResults();
-		int[] defenceResult = defenceDice.getResults();
-		
-		// if yes, then start war
-		Arrays.sort(attackResult);
-		Arrays.sort(defenceResult);
-		int n = attackResult.length>defenceResult.length?defenceResult.length:attackResult.length;
-		
-		int[] storeAttackResult = new int[n], storeDefenceResult = new int[n];
-		//int whoWins = 0;
-		for(int i=0; i<n; i++) {
-			storeAttackResult[i] = attackResult[i];
-			storeAttackResult[i] = defenceResult[i];
-			if(attackResult[i]>defenceResult[i]) {
-				toCountry.subtractArmy(1);
-				defencePlayer.subArmy(1);
-				onWarCallBacks.onAttackerWin((i+1), attackResult[i],defenceResult[i]);
-				//whoWins++;
-			} else {
-				fromCountry.subtractArmy(1);
-				attackPlayer.subArmy(1);
-				onWarCallBacks.onDefenderWin((i+1), attackResult[i],defenceResult[i]);
-				//whoWins--;
-			}
-		}
-		onWarCallBacks.setAttackDiceResult(storeAttackResult);
-		onWarCallBacks.setDefenceDiceResult(storeDefenceResult);
-		
-		onWarCallBacks.onWarFinished();
-		
-		// if defence country is completely defeated
-		if(toCountry.getNoOfArmies()<=0) {
-			toCountry.setPlayer(null, 0);
-			pcmRemove(defencePlayer, toCountry);
-			
-			onWarCallBacks.onCountryCaptured();
-			// now attack player must move army
-			// ...
-		}
-		else {
-			onWarCallBacks.setCanReWar(true);
-			onWarCallBacks.askForReWar();
-		}
-	}
-
+	
 	// Dies APIs
 
 	public int getAttackDiceLimit(Player p, Country c) {
-		if(playerCountryMap.get(p).contains(c) && c.getNoOfArmies()>1)
+		if(playerCountryMap.get(p).contains(c) && c.getNoOfArmy()>1)
 		{
-			// max 3 dies, min (c.getNoOfArmies()-1) dies
-			return c.getNoOfArmies()>3?3:c.getNoOfArmies()-1;
+			// max 3 dies, min (c.getNoOfArmy()-1) dies
+			return c.getNoOfArmy()>3?3:c.getNoOfArmy()-1;
 		}
 		
 		return -1;
@@ -444,7 +325,7 @@ public class Game {
 		if(playerCountryMap.get(p).contains(c))
 		{
 			// max 2 dies, min 1 dies
-			return c.getNoOfArmies()==1?1:2;
+			return c.getNoOfArmy()==1?1:2;
 		}
 		return -1;
 	}
@@ -454,7 +335,7 @@ public class Game {
 		if(n==-1)
 			return null;
 		else
-			return new DiceRoller(game, n);
+			return new DiceRoller(instance, n);
 	}
 	
 	public DiceRoller getDefenceDiceRoller(Player p, Country c) {
@@ -462,7 +343,7 @@ public class Game {
 		if(n==-1)
 			return null;
 		else
-			return new DiceRoller(game, n);
+			return new DiceRoller(instance, n);
 	}
 	
 	// PlayerCountryMap calls
@@ -490,18 +371,18 @@ public class Game {
 		void onFailure();
 	}
 	
-	public static class Console {
-		private static Console console=null;
-		private static BufferedReader br;
-		
-		private Console() {
-			 br = new BufferedReader(new InputStreamReader(System.in));
-		}
-		
-		public static Console getInstance() {
-			if(console==null) 
-				console = new Console();
-			return console;
-		}
-	}
+//	public static class Console {
+//		private static Console console=null;
+//		private static BufferedReader br;
+//		
+//		private Console() {
+//			 br = new BufferedReader(new InputStreamReader(System.in));
+//		}
+//		
+//		public static Console getInstance() {
+//			if(console==null) 
+//				console = new Console();
+//			return console;
+//		}
+//	}
 }

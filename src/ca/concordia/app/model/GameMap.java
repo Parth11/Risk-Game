@@ -7,9 +7,7 @@ package ca.concordia.app.model;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.HashMap;
 
-import ca.concordia.app.util.CountryComparator;
 
 /**
  * @author harvi
@@ -88,4 +86,40 @@ public class GameMap {
 		}
 		return sb.toString().substring(0, sb.length()-1);
 	}
+	
+	public List<Country> getCountriesByContinent(String continentName) {
+		List<Country> continentCountry= new ArrayList<>();
+		for(Country c: getCountries()){
+			if(c.getContinentName().equals(continentName)){
+				continentCountry.add(c);
+			}
+		}
+		return continentCountry;
+	}
+	
+	public List<Country> getNeighbourCountries(Country country){
+		List<Country> neighbourCountry= new ArrayList<>();
+		for(String neighbourC: territories.get(country)){
+			neighbourCountry.add(getCountryByName(neighbourC));
+		}
+		return neighbourCountry;
+	}
+	
+//	//new-- final initialization
+//	private void initCountryNetwork() {
+//		for(Entry<Country, List<String>> set: tempTerritories.entrySet()) {
+//			List<Country> countries = new ArrayList<>();
+//			for(String s : set.getValue()) {
+//				Country country = getCountry(s);
+//				if(country!=null)
+//					countries.add(country);
+//			}
+//			territories.put(set.getKey(), countries);
+//		}
+//		tempTerritories = null;
+//	}
+//	//new--For neighbouring territories
+//	public void addNeighbour(Country c, List<String> neighbours) {
+//		tempTerritories.put(c, neighbours);
+//	}
 }

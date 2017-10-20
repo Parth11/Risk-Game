@@ -1,26 +1,17 @@
 package ca.concordia.app.view;
 
+import java.awt.Color;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseListener;
+
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-import ca.concordia.app.model.GameMap;
 import ca.concordia.app.service.MyLogger;
-import lib.DbConverter;
 import lib.Game;
-import lib.model.Country;
-import lib.model.Player;
-
-import javax.swing.JButton;
-import java.awt.Color;
-import java.awt.ScrollPane;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseListener;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.swing.JScrollPane;
-import java.awt.Dimension;
 
 /**
  * 

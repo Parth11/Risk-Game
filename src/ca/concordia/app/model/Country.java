@@ -3,6 +3,8 @@
  */
 package ca.concordia.app.model;
 
+import lib.model.Player;
+
 /**
  * @author harvi
  *
@@ -16,6 +18,10 @@ public class Country {
 	private int locy;
 	
 	private String continentName;
+	
+	private int no_of_army = 0;
+	
+	private Player ruler;
 	
 	public Country(String countryName, int locX, int locy, String continentName) {
 		this.countryName = countryName;
@@ -70,4 +76,44 @@ public class Country {
 		  return this.countryName;
 	  }
 
+	/**
+	 * @return the no_of_army
+	 */
+	public int getNoOfArmy() {
+		return no_of_army;
+	}
+
+	/**
+	 * @param no_of_army the no_of_army to set
+	 */
+	public void setNoOfArmy(int no_of_army) {
+		this.no_of_army = no_of_army;
+	}
+
+	/**
+	 * @return the ruler
+	 */
+	public Player getRuler() {
+		return ruler;
+	}
+
+	/**
+	 * @param ruler the ruler to set
+	 */
+	public void setRuler(Player ruler,int noOfArmies) {
+		this.ruler = ruler;
+		this.no_of_army+=noOfArmies;
+	}
+	
+
+	public void addArmies(int noOfArmies){
+		this.no_of_army+=noOfArmies;
+	}
+	
+	public void removeArmies(int noOfArmies){
+		this.no_of_army-=noOfArmies;
+	}
+	
+	
+	  
 }
