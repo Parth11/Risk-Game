@@ -128,7 +128,7 @@ public class MapEditorContinentController implements ActionListener, MouseListen
 
 			if (retVal == JFileChooser.APPROVE_OPTION) {
 				File file = map_continent_view.saveDialog.getSelectedFile();
-				CreateMapService.createMap(file.getAbsolutePath());
+				CreateMapService.getInstance().createMap(file.getAbsolutePath());
 				map_continent_view.dispose();
 				new MainController();
 			}

@@ -54,7 +54,7 @@ public class Game {
 	public void loadNewMap(String path) {
 		instance.mapPath = path;
 		instance.resetPlayersData();
-		CreateMapService.createMap(instance.mapPath);
+		CreateMapService.getInstance().createMap(instance.mapPath);
 	}
 	
 	public void resetGame() {

@@ -22,15 +22,16 @@ import ca.concordia.app.view.MapEditorView;
 public class MapEditorController implements ActionListener, MouseListener{
 	
 	public MapEditorView map_editor_view;
-	
+	CreateMapService mapService;
 	GameMap gameMap;
 	
 	int tempX,tempY;
 	
 	public MapEditorController(boolean edit) {
 		
-		
 		gameMap = GameMap.getInstance();
+		
+		mapService= CreateMapService.getInstance();
 		
 		map_editor_view = new MapEditorView();
 		map_editor_view.setActionListener(this);
@@ -50,7 +51,7 @@ public class MapEditorController implements ActionListener, MouseListener{
 				
 				if(file.exists()){
 					try {
-						CreateMapService.loadMap(file);
+						mapService.loadMap(file);
 					} catch (MapValidationException e) {
 						JOptionPane.showMessageDialog(map_editor_view, e.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
 						return;
@@ -172,8 +173,10 @@ public class MapEditorController implements ActionListener, MouseListener{
 			else if(retVal == JOptionPane.YES_OPTION){
 				String countryName = map_editor_view.neighbours_list.getSelectedValue();
 				List<String> neighbours = GameMap.getInstance().getTerritories().get(GameMap.getInstance().getCountryByName(countryName));
-				CreateMapService.removeCountryFromMap(countryName);
-				CreateMapService.linkRemainingNeighbours(neighbours);
+				
+				
+				mapService.removeCountryFromMap(countryName);
+				mapService.linkRemainingNeighbours(neighbours);
 				reloadMap();
 				map_editor_view.next_button.setEnabled(true);
 			}

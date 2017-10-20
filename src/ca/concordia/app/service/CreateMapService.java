@@ -24,7 +24,15 @@ import ca.concordia.app.util.MapValidationException;
 
 public class CreateMapService {
 
-	public static void createMap(String savePath) {
+	public static CreateMapService instance;
+	
+	public static CreateMapService getInstance() {
+		if(instance==null)
+			instance= new CreateMapService();
+		return instance;
+	}
+	
+	public void createMap(String savePath) {
 		
 		GameMap gameMap = GameMap.getInstance();
 		
@@ -84,7 +92,7 @@ public class CreateMapService {
 
 	}
 
-	public static GameMap loadMap(String path) {
+	public GameMap loadMap(String path) {
 		GameMap gameMap = null;
 		try {
 			gameMap = GameMap.getInstance();
@@ -107,7 +115,7 @@ public class CreateMapService {
 		return gameMap;
 	}
 
-	private static void extractFileInformation(GameMap gameMap, List<String> list) throws MapValidationException {
+	private void extractFileInformation(GameMap gameMap, List<String> list) throws MapValidationException {
 		
 		if(list.indexOf(MapEditorConstants.CONTINENT_HEADER_CONST)<0){
 			throw new MapValidationException("Map does not declare continents");
@@ -136,7 +144,7 @@ public class CreateMapService {
 
 	}
 	
-	public static GameMap loadMap(File mapFile) throws MapValidationException{
+	public GameMap loadMap(File mapFile) throws MapValidationException{
 		GameMap gameMap = null;
 		gameMap = GameMap.getInstance();
 		List<String> list = new ArrayList<>();
@@ -154,7 +162,7 @@ public class CreateMapService {
 		return gameMap;
 	}
 
-	private static void parseCountries(List<String> metaTerritories, GameMap gameMap) throws MapValidationException{
+	private void parseCountries(List<String> metaTerritories, GameMap gameMap) throws MapValidationException{
 		List<Country> countries = new ArrayList<>();
 
 		for (String c : metaTerritories) 
@@ -197,7 +205,7 @@ public class CreateMapService {
 		
 	}
 
-	private static void parseContinents(List<String> metaContinents, GameMap gameMap) throws MapValidationException{
+	private void parseContinents(List<String> metaContinents, GameMap gameMap) throws MapValidationException{
 
 		List<Continent> continents = new ArrayList<>();
 
@@ -222,7 +230,7 @@ public class CreateMapService {
 		gameMap.setContinents(continents);
 	}
 	
-	private static void validateTerriotoriesAsValidCountries() throws MapValidationException{
+	private void validateTerriotoriesAsValidCountries() throws MapValidationException{
 		GameMap gameMap = GameMap.getInstance();
 		
 		for(Country c : gameMap.getCountries()){
@@ -235,7 +243,7 @@ public class CreateMapService {
 		}
 	}
 	
-	public static void removeCountryFromMap(String countryName){
+	public void removeCountryFromMap(String countryName){
 		GameMap gameMap = GameMap.getInstance();
 		Country c = gameMap.getCountryByName(countryName);
 		
@@ -254,7 +262,7 @@ public class CreateMapService {
 		
 	}
 
-	public static void linkRemainingNeighbours(List<String> neighbours) {
+	public void linkRemainingNeighbours(List<String> neighbours) {
 		
 		GameMap gameMap = GameMap.getInstance();
 		

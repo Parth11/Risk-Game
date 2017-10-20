@@ -76,7 +76,7 @@ public class NewGameSelectorController implements ActionListener,MouseListener {
 				File mapFile = new_game_selector.choose_map.getSelectedFile();
 
 				try {
-					CreateMapService.loadMap(mapFile);
+					CreateMapService.getInstance().loadMap(mapFile);
 				} catch (MapValidationException e1) {
 					JOptionPane.showMessageDialog(new_game_selector, e1.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
 				}
