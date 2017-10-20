@@ -92,7 +92,6 @@ public class NewGameSelectorController implements ActionListener,MouseListener {
 			
 			ConsoleLoggerService logger = ConsoleLoggerService.getInstance(null);
 			
-			print(logger);
 			logger.write("\n\nMAP FILE CONVERTED SUCCESSFULLY\n");
 			
 			
@@ -133,18 +132,5 @@ public class NewGameSelectorController implements ActionListener,MouseListener {
 		
 	}
 	
-	private void print(ConsoleLoggerService logger) {
-		GameMap gameMap = GameMap.getInstance();
-		for(Country c : gameMap.getCountries()){
-			logger.write(c.getCountryName()+"( belongs to '"+c.getContinentName()+"') : [");
-			
-			if(gameMap.getTerritories().get(c)!=null)
-				for(String s : gameMap.getTerritories().get(c)) 
-					if(s!=null)
-						logger.write(s+", ");
-			
-			logger.write("]\n");
-		}
-	}
 
 }
