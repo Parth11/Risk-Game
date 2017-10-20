@@ -23,7 +23,10 @@ import ca.concordia.app.util.MapValidationException;
  */
 
 public class GamePlayService {
-
+	
+	/*
+	 * Type Here
+	 */
 	private static GamePlayService instance = null;
 
 	private String mapPath = null;
