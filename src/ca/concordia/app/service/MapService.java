@@ -140,7 +140,7 @@ public class MapService {
 		isTraversable();
 	}
 	
-	private void isTraversable() throws MapValidationException{
+	protected void isTraversable() throws MapValidationException{
 		GamePlayService game = GamePlayService.getInstance();
 		for(Country c1 : game.getMap().getCountries()){
 			for(Country c2 : game.getMap().getCountries()){
