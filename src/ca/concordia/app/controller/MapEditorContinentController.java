@@ -21,14 +21,21 @@ import ca.concordia.app.util.ContinentColourMap;
 import ca.concordia.app.view.MapEditorContinentView;
 
 /**
- * @author harvi
+ * The Class MapEditorContinentController.
  *
+ * @author harvi
  */
 public class MapEditorContinentController implements ActionListener, MouseListener {
 
+	/** The map continent view. */
 	MapEditorContinentView map_continent_view;
+	
+	/** The game map. */
 	GameMap game_map;
 
+	/**
+	 * Instantiates a new map editor continent controller.
+	 */
 	public MapEditorContinentController() {
 
 		game_map = GameMap.getInstance();
@@ -39,6 +46,9 @@ public class MapEditorContinentController implements ActionListener, MouseListen
 		map_continent_view.setVisible(true);
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.MouseListener#mouseClicked(java.awt.event.MouseEvent)
+	 */
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		if (e.getSource().equals(map_continent_view.continent_list)) {
@@ -50,26 +60,41 @@ public class MapEditorContinentController implements ActionListener, MouseListen
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.MouseListener#mousePressed(java.awt.event.MouseEvent)
+	 */
 	@Override
 	public void mousePressed(MouseEvent e) {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.MouseListener#mouseReleased(java.awt.event.MouseEvent)
+	 */
 	@Override
 	public void mouseReleased(MouseEvent e) {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.MouseListener#mouseEntered(java.awt.event.MouseEvent)
+	 */
 	@Override
 	public void mouseEntered(MouseEvent e) {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.MouseListener#mouseExited(java.awt.event.MouseEvent)
+	 */
 	@Override
 	public void mouseExited(MouseEvent e) {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource().equals(map_continent_view.save_button)) {
