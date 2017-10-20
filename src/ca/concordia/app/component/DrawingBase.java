@@ -11,26 +11,28 @@ import ca.concordia.app.model.Country;
 import ca.concordia.app.model.GameMap;
 
 /**
- * The Class DrawingBase.
+ * The Class DrawingBase is a base panel for the UI of the map.
+ * @author AbhinavSingh
  */
 public class DrawingBase extends JPanel {
 
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 1L;
 
-	/** The clicked at. */
+	/**
+	 * The field is set to blank initially
+	 *
+	 */
 	private String display_text = "";
 
-	/** The x. */
+	/** The x. coordinate */
 	private int x = 0;
 
-	/** The y. */
+	/** The y. coordinate */
 	private int y = 0;
 
 	/**
-	 * Sets the values.
+	 * Sets the values on the UI
 	 *
 	 * @param text
 	 *            the text
@@ -114,7 +116,7 @@ public class DrawingBase extends JPanel {
 	}
 
 	/**
-	 * Draw country.
+	 * Draw country on the UI as a dot.
 	 *
 	 * @param x
 	 *            the x
@@ -133,7 +135,7 @@ public class DrawingBase extends JPanel {
 	}
 
 	/**
-	 * Connect neighbours.
+	 * Connect neighbours on the map as per user input.
 	 *
 	 * @param name
 	 *            the name
