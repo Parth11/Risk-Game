@@ -43,7 +43,7 @@ public class GamePlayService {
 	private Map<Player, List<Country>> player_country_map;
 
 	private int turn = 0;
-	
+
 	private ConsoleLoggerService logger;
 
 	private GamePlayService() {
@@ -58,7 +58,6 @@ public class GamePlayService {
 			instance = new GamePlayService();
 		return instance;
 	}
-
 
 	private void resetPlayersData() {
 		turn = 0;
@@ -111,7 +110,8 @@ public class GamePlayService {
 				List<Country> playerCountryList = getCountriesConqueredBy(players.get(j % number_of_players));
 				Country randomCountry = playerCountryList.get(new Random().nextInt(playerCountryList.size()));
 				randomCountry.addArmies(1);
-				players.get(j % number_of_players).setTotalArmies(players.get(j % number_of_players).getTotalArmies() - 1);
+				players.get(j % number_of_players)
+						.setTotalArmies(players.get(j % number_of_players).getTotalArmies() - 1);
 			} else {
 				playersLeftForAssign--;
 			}
@@ -147,7 +147,7 @@ public class GamePlayService {
 	}
 
 	public int getReinforcementArmyForPlayer(Player p) {
-		
+
 		int countArmy = 0;
 		int countriesCounquered = getCountriesConqueredBy(p).size();
 		if (countriesCounquered <= 11 && countriesCounquered > 0) {
@@ -308,9 +308,8 @@ public class GamePlayService {
 
 	public boolean canWar(Country fromCountry, Country toCountry) {
 		return game_map.getNeighbourCountries(fromCountry).contains(toCountry)
-				&& fromCountry.getRuler() != toCountry.getRuler()
-				&& fromCountry.getNoOfArmy() > 1 
-				&& toCountry.getNoOfArmy() > 0; 
+				&& fromCountry.getRuler() != toCountry.getRuler() && fromCountry.getNoOfArmy() > 1
+				&& toCountry.getNoOfArmy() > 0;
 	}
 
 	public int getAttackDiceLimit(Player p, Country c) {
@@ -383,57 +382,58 @@ public class GamePlayService {
 		return this.game_map;
 	}
 
-
 	public void doPlayGame(NewGamePlayView gamePlayView) {
-		
+
 		logger = ConsoleLoggerService.getInstance(gamePlayView.console);
-		
-		logger.write("Game phase starts");
+
+		logger.write("Startup Phase Completed");
 		logger.write("Number of Players : " + players.size());
-		
 
 		int j = 0;
 		while (true) {
 			Player player = players.get(j % players.size());
-			doReinforcementPhase(player,gamePlayView);
+			doReinforcementPhase(player, gamePlayView);
 			doAttackPhase(player);
-			doFortificationPhase(player,gamePlayView);
+			doFortificationPhase(player, gamePlayView);
 			j++;
 		}
 	}
 
 	private void doReinforcementPhase(Player player, NewGamePlayView gamePlayView) {
+
 		logger.write("Do you wish to enter Reinforcement phase?");
 
 		String[] options = { "Yes", "No" };
 
 		String str = JOptionPane.showInputDialog(gamePlayView, "Enter Reinforcemet Phase?", "Input",
-				JOptionPane.OK_OPTION, null, options, "Yes").toString();
+				JOptionPane.OK_OPTION, BasicIconFactory.getMenuArrowIcon(), options, "Yes").toString();
 
 		if (str.equalsIgnoreCase("Yes")) {
 			int numberOfArmies = getReinforcementArmyForPlayer(player);
-			logger.write("You get " + numberOfArmies);
+			logger.write(player.name + " gets " + numberOfArmies + " armies");
 			logger.write("These are your countries with current armies present in it : "
 					+ printCountryAllocationToConsole(player));
 			while (numberOfArmies > 0) {
-				logger.write("Please type the exact name of the country in which you want to reinforce the army");
+				logger.write("Please select the country in which you want to reinforce the army");
 
-				Country country = (Country) JOptionPane.showInputDialog(gamePlayView, "Select Country",
-						"Input", JOptionPane.YES_OPTION, BasicIconFactory.getMenuArrowIcon(),
+				Country country = (Country) JOptionPane.showInputDialog(gamePlayView, "Select Country", "Input",
+						JOptionPane.YES_OPTION, BasicIconFactory.getMenuArrowIcon(),
 						getCountriesConqueredBy(player).toArray(), null);
 
 				logger.write("How many armies you wish to reinforce between 1 - " + numberOfArmies);
 				Integer[] selectOptions = new Integer[numberOfArmies];
-				for(int i=0;i<numberOfArmies;i++){
-					selectOptions[i] = i+1;
+				for (int i = 0; i < numberOfArmies; i++) {
+					selectOptions[i] = i + 1;
 				}
-				Integer armiesWishToReinforce = (Integer) JOptionPane.showInputDialog(gamePlayView, "Number of Armies","Input",JOptionPane.YES_OPTION,BasicIconFactory.getMenuArrowIcon(),selectOptions,selectOptions[0]);
+				Integer armiesWishToReinforce = (Integer) JOptionPane.showInputDialog(gamePlayView, "Number of Armies",
+						"Input", JOptionPane.YES_OPTION, BasicIconFactory.getMenuArrowIcon(), selectOptions,
+						selectOptions[0]);
 				country.addArmies(armiesWishToReinforce);
 				numberOfArmies = numberOfArmies - armiesWishToReinforce;
 			}
 			if (numberOfArmies == 0) {
 				logger.write(
-						"You have successfully placed all the armies into the countries you selected. Moving to attack phase.");
+						"You have successfully placed all the armies into the countries you selected. Moving to the next phase.");
 				return;
 			}
 
@@ -444,7 +444,7 @@ public class GamePlayService {
 	}
 
 	private void doAttackPhase(Player player) {
-		logger.write("Skipping the attack phase for BUILD 1, just for now");
+		logger.write("Skipping the attack phase for now");
 		return;
 
 	}
@@ -460,16 +460,15 @@ public class GamePlayService {
 
 			logger.write("These are your countries with current armies present in it : "
 					+ printCountryAllocationToConsole(player));
-			logger.write("Please enter the country name from which you want to take armies");
+			logger.write("Please select the country from which you want to take armies");
 			List<Country> selectOptions = getCountriesConqueredBy(player);
-			Country fromCountry = (Country) JOptionPane.showInputDialog(gamePlayView, "Select Country",
-					"Input", JOptionPane.YES_OPTION, BasicIconFactory.getMenuArrowIcon(), selectOptions.toArray(),
-					null);
+			Country fromCountry = (Country) JOptionPane.showInputDialog(gamePlayView, "Select Country", "Input",
+					JOptionPane.YES_OPTION, BasicIconFactory.getMenuArrowIcon(), selectOptions.toArray(), null);
 
 			if (fromCountry.getNoOfArmy() == 1) {
 				logger.write("Please leave atleast one army behind, so it can defend your country from an attack.");
 				logger.write("Please select again ::  ");
-				doFortificationPhase(player,gamePlayView);
+				doFortificationPhase(player, gamePlayView);
 			}
 			logger.write("Please select the country to which you want to add armies :");
 
@@ -479,42 +478,37 @@ public class GamePlayService {
 					toCountryOptions.add(c);
 				}
 			}
-			Country toCountry = (Country) JOptionPane.showInputDialog(gamePlayView, "Select Country",
-					"Input", JOptionPane.YES_OPTION, BasicIconFactory.getMenuArrowIcon(), toCountryOptions.toArray(),
-					null);
+			Country toCountry = (Country) JOptionPane.showInputDialog(gamePlayView, "Select Country", "Input",
+					JOptionPane.YES_OPTION, BasicIconFactory.getMenuArrowIcon(), toCountryOptions.toArray(), null);
 
-			logger.write("Let's check if there is a direct path from " + fromCountry + " to " + toCountry
-					+ ", in which, between countries(if any) are ruled by you");
 			boolean areBothCountriesConnected = isConnected(fromCountry, toCountry, player);
-			if (areBothCountriesConnected) {
-				logger.write("Great ! Both are connected");
-			} else {
+			if (!areBothCountriesConnected) {
 				logger.write("Not connected ! Select Again");
-				doFortificationPhase(player,gamePlayView);
+				doFortificationPhase(player, gamePlayView);
 			}
-			logger.write("Now please select the number of armies from " + fromCountry.getCountryName()
-					+ ", which has : " + fromCountry.getNoOfArmy());
+			logger.write("Please select the number of armies from " + fromCountry.getCountryName() + ", which has : "
+					+ fromCountry.getNoOfArmy() + " armies to move to : " + toCountry.getCountryName());
 			Integer[] optionArmies = new Integer[fromCountry.getNoOfArmy() - 1];
 
 			for (int i = 0; i < optionArmies.length; i++) {
 				optionArmies[i] = i + 1;
 			}
-			Integer armies = (Integer) JOptionPane.showInputDialog(gamePlayView, "Number of Armies to Move",
-					"Input", JOptionPane.YES_OPTION, BasicIconFactory.getMenuArrowIcon(), optionArmies, 1);
+			Integer armies = (Integer) JOptionPane.showInputDialog(gamePlayView, "Number of Armies to Move", "Input",
+					JOptionPane.YES_OPTION, BasicIconFactory.getMenuArrowIcon(), optionArmies, 1);
 			boolean isFortifyComplete = moveArmyFromTo(player, fromCountry, toCountry, armies);
-			if (isFortifyComplete)
+			if (isFortifyComplete) {
+				logger.write(player.name + " has completed fortification");
 				return;
-			else
-				doFortificationPhase(player,gamePlayView);
-
+			} else {
+				doFortificationPhase(player, gamePlayView);
+			}
 		} else {
-			gamePlayView.dispose();
-			new MainController();
+			return;
 		}
 	}
-	
+
 	private String printCountryAllocationToConsole(Player player) {
-		
+
 		String s = player.name + " - [ ";
 		List<Country> countries = getCountriesConqueredBy(player);
 		for (Country c : countries)
