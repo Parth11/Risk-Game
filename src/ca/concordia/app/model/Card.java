@@ -1,6 +1,7 @@
 package ca.concordia.app.model;
 
 /**
+ * This Class contains the data for the cards with getters and setters.
  * @author Parth Nayak
  * 
  * 

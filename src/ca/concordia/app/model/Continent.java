@@ -4,6 +4,7 @@ package ca.concordia.app.model;
 import java.awt.Color;
 
 /**
+ * This class contains the continent information with getters and setters.
  * @author harvi
  *
  */
@@ -84,7 +85,7 @@ public class Continent {
 	}
 
 	/**
-	 * @return boolean value True if the two continents are equal.
+	 * @return boolean value True if the two continents are same.
 	 */
 	public boolean equals(Object obj) {
 		  
