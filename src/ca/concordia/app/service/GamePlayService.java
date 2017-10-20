@@ -392,9 +392,11 @@ public class GamePlayService {
 		int j = 0;
 		while (true) {
 			Player player = players.get(j % players.size());
+			logger.write("*** "+player.name+ " Turn Start ***");
 			doReinforcementPhase(player, gamePlayView);
 			doAttackPhase(player);
 			doFortificationPhase(player, gamePlayView);
+			logger.write("*** "+player.name+ " Turn End ***");
 			j++;
 		}
 	}
@@ -411,7 +413,7 @@ public class GamePlayService {
 		if (str.equalsIgnoreCase("Yes")) {
 			int numberOfArmies = getReinforcementArmyForPlayer(player);
 			logger.write(player.name + " gets " + numberOfArmies + " armies");
-			logger.write("These are your countries with current armies present in it : "
+			logger.write("These are your countries with current armies present in it : \n"
 					+ printCountryAllocationToConsole(player));
 			while (numberOfArmies > 0) {
 				logger.write("Please select the country in which you want to reinforce the army");
@@ -430,6 +432,7 @@ public class GamePlayService {
 						selectOptions[0]);
 				country.addArmies(armiesWishToReinforce);
 				numberOfArmies = numberOfArmies - armiesWishToReinforce;
+				logger.write("You are now left with "+numberOfArmies+" armies");
 			}
 			if (numberOfArmies == 0) {
 				logger.write(
@@ -514,7 +517,6 @@ public class GamePlayService {
 		for (Country c : countries)
 			s += "" + c.getCountryName() + "(" + c.getNoOfArmy() + "), ";
 		s += "]\n";
-		logger.write(s);
 		return s;
 	}
 
