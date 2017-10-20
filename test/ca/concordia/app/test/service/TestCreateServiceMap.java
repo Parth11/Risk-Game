@@ -18,7 +18,6 @@ public class TestCreateServiceMap extends MapService {
 	List<String> lines = new ArrayList<String>();
 
 	private GameMap game_map;
-	private String file_path;
 	
 	@Before
 	public void init() {
@@ -30,15 +29,15 @@ public class TestCreateServiceMap extends MapService {
 	public void removeCountryFromMap() throws MapValidationException, URISyntaxException
 	{
 	
-		game_map = loadMap("Europe.map");
+		game_map = loadMap("maps/Europe.map");
 		removeCountryFromMap("Ireland");
-		assertEquals(null,game_map.getCountryByName("IreLand"));
+		assertEquals(null,game_map.getCountryByName("Ireland"));
         
 	}
 
 	@Test(expected=MapValidationException.class)
 	public void traversableTest() throws MapValidationException, URISyntaxException{
-		game_map = loadMap("a.map");
+		game_map = loadMap("maps/a.map");
 		try {
 			isTraversable();
 		} catch (MapValidationException e) {
@@ -47,14 +46,4 @@ public class TestCreateServiceMap extends MapService {
 		}
 	}
 
-
-	@Test(expected=MapValidationException.class)
-	
-	public void testLoadMapString() throws MapValidationException, URISyntaxException {
-		 
-		
-		MapService.getInstance().loadMap("a.map");
-		
-	
-	}
 }
