@@ -1,7 +1,4 @@
 
-/**
- * 
- */
 package ca.concordia.app.controller;
 
 import java.awt.event.ActionEvent;
@@ -46,8 +43,9 @@ public class MapEditorContinentController implements ActionListener, MouseListen
 		map_continent_view.setVisible(true);
 	}
 
-	/* (non-Javadoc)
-	 * @see java.awt.event.MouseListener#mouseClicked(java.awt.event.MouseEvent)
+	/**
+	 * Calls the mouseClicked method of java which responds to the user input.
+	 * @param e
 	 */
 	@Override
 	public void mouseClicked(MouseEvent e) {
@@ -92,8 +90,13 @@ public class MapEditorContinentController implements ActionListener, MouseListen
 
 	}
 
-	/* (non-Javadoc)
-	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+
+	/**
+	 * Calls the actionPerformed method of java.
+	 * Access the overall functionality of MapEditorController.java
+	 * 
+	 * @param e
+	 * 
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
