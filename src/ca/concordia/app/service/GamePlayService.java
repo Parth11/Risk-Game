@@ -53,34 +53,16 @@ public class GamePlayService {
 		logger = ConsoleLoggerService.getInstance(null);
 	}
 
-	// map APIs
-
 	public static GamePlayService getInstance() {
 		if (instance == null)
 			instance = new GamePlayService();
 		return instance;
 	}
 
-	public void loadNewMap(String path) throws MapValidationException, URISyntaxException {
-		instance.map_path = path;
-		instance.resetPlayersData();
-		MapService.getInstance().loadMap(instance.map_path);
-	}
-
-	public void resetGame() {
-		number_of_players = 0;
-		turn = 0;
-		players.clear();
-		player_country_map.clear();
-		map_path = null;
-	}
-
-	// player APIs
 
 	private void resetPlayersData() {
 		turn = 0;
 		for (Player p : players) {
-			// p.addCard(null);
 			p.setTotalArmies(getInitialArmy());
 		}
 	}
@@ -108,24 +90,20 @@ public class GamePlayService {
 
 		this.number_of_players = numberOfPlayers;
 
-		// generating players
 		for (int i = 1; i <= numberOfPlayers; i++) {
 			players.add(new Player("Player " + i));
 		}
 
-		// init players data
 		resetPlayersData();
 
-		// allocate countries to players
 		allocateCountriesToPlayers();
 
-		// add initial army using round-robin fashion
-		addInitialArmiesUsingRR();
+		addInitialArmiesUsingRoundRobin();
 
 		return true;
 	}
 
-	private void addInitialArmiesUsingRR() {
+	private void addInitialArmiesUsingRoundRobin() {
 		int j = 0;
 		int playersLeftForAssign = number_of_players;
 		while (playersLeftForAssign > 0) {
@@ -142,24 +120,12 @@ public class GamePlayService {
 	}
 
 	private void allocateCountriesToPlayers() {
-		// allocate countries to the players in round-robin fashion
 		int j = 0;
 		for (Country c : game_map.getCountries()) {
 			Player p = players.get(j % number_of_players);
 			setNewCountryRuler(p, c, 1);
 			p.subArmy(1);
 			j++;
-		}
-	}
-
-	private void addInitialArmies() {
-		for (Player p : getPlayers()) {
-			List<Country> cList = getCountriesConqueredBy(p);
-			for (int i = 0; i < getInitialArmy(); i++) {
-				int index = i % cList.size();
-				Country putArmyAt = cList.get(index);
-				addArmies(p, putArmyAt, 1);
-			}
 		}
 	}
 
@@ -171,14 +137,6 @@ public class GamePlayService {
 		return players;
 	}
 
-	// Game Edit APIs
-
-	// ...
-	// under construction
-	// ...
-
-	// Game APIs
-
 	public Player getCurrentTurnPlayer() {
 		return players.get(turn);
 	}
@@ -188,8 +146,8 @@ public class GamePlayService {
 		return getCurrentTurnPlayer();
 	}
 
-	// Change the whole mathematical calculation and add Cards Logics
 	public int getReinforcementArmyForPlayer(Player p) {
+		
 		int countArmy = 0;
 		int countriesCounquered = getCountriesConqueredBy(p).size();
 		if (countriesCounquered <= 11 && countriesCounquered > 0) {
@@ -232,19 +190,17 @@ public class GamePlayService {
 		if (country.getNoOfArmy() != 0)
 			return false;
 		country.setRuler(ruler, numberOfArmies);
-		pcmPut(ruler, country);
+		mapPlayerToCountry(ruler, country);
 		return true;
 	}
 
 	public void captureCountry(Player ruler, Country country, Country fromCountry, int numberOfArmies) {
 		if (!setNewCountryRuler(ruler, fromCountry, numberOfArmies)) {
-			// remove defeated ruler from the country
 			Player defeatedRuler = country.getRuler();
-			pcmRemove(defeatedRuler, country);
+			unmapPlayerToCountry(defeatedRuler, country);
 			defeatedRuler.subArmy(country.getNoOfArmy());
 
-			// add new ruler
-			pcmPut(ruler, country);
+			mapPlayerToCountry(ruler, country);
 			country.setRuler(ruler, numberOfArmies);
 			fromCountry.removeArmies(numberOfArmies);
 		}
@@ -351,26 +307,14 @@ public class GamePlayService {
 	}
 
 	public boolean canWar(Country fromCountry, Country toCountry) {
-		return game_map.getNeighbourCountries(fromCountry).contains(toCountry) // should
-																				// be
-																				// neighbours
-				&& fromCountry.getRuler() != toCountry.getRuler() // shouldn't
-																	// both
-																	// countries
-																	// belong to
-																	// same
-																	// player
-				&& fromCountry.getNoOfArmy() > 1 // attacker should have more
-													// than 1 army
-				&& toCountry.getNoOfArmy() > 0; // defence should have atleast 1
-												// army to protect the country
+		return game_map.getNeighbourCountries(fromCountry).contains(toCountry)
+				&& fromCountry.getRuler() != toCountry.getRuler()
+				&& fromCountry.getNoOfArmy() > 1 
+				&& toCountry.getNoOfArmy() > 0; 
 	}
-
-	// Dies APIs
 
 	public int getAttackDiceLimit(Player p, Country c) {
 		if (player_country_map.get(p).contains(c) && c.getNoOfArmy() > 1) {
-			// max 3 dies, min (c.getNoOfArmy()-1) dies
 			return c.getNoOfArmy() > 3 ? 3 : c.getNoOfArmy() - 1;
 		}
 
@@ -401,7 +345,7 @@ public class GamePlayService {
 			return new DiceRoller(instance, n);
 	}
 
-	private void pcmPut(Player p, Country c) {
+	private void mapPlayerToCountry(Player p, Country c) {
 		List<Country> cList = player_country_map.get(p);
 		if (cList == null) {
 			cList = new ArrayList<>();
@@ -410,7 +354,7 @@ public class GamePlayService {
 		cList.add(c);
 	}
 
-	private void pcmRemove(Player p, Country c) {
+	private void unmapPlayerToCountry(Player p, Country c) {
 		List<Country> cList = player_country_map.get(p);
 		if (cList != null) {
 			cList.remove(c);
@@ -451,14 +395,14 @@ public class GamePlayService {
 		int j = 0;
 		while (true) {
 			Player player = players.get(j % players.size());
-			enterReinforcementPhase(player,gamePlayView);
-			enterAttackPhase(player);
-			enterFortificationPhase(player,gamePlayView);
+			doReinforcementPhase(player,gamePlayView);
+			doAttackPhase(player);
+			doFortificationPhase(player,gamePlayView);
 			j++;
 		}
 	}
 
-	private void enterReinforcementPhase(Player player, NewGamePlayView gamePlayView) {
+	private void doReinforcementPhase(Player player, NewGamePlayView gamePlayView) {
 		logger.write("Do you wish to enter Reinforcement phase?");
 
 		String[] options = { "Yes", "No" };
@@ -470,7 +414,7 @@ public class GamePlayService {
 			int numberOfArmies = getReinforcementArmyForPlayer(player);
 			logger.write("You get " + numberOfArmies);
 			logger.write("These are your countries with current armies present in it : "
-					+ printPlayerCountriesAndArmy(player));
+					+ printCountryAllocationToConsole(player));
 			while (numberOfArmies > 0) {
 				logger.write("Please type the exact name of the country in which you want to reinforce the army");
 
@@ -499,14 +443,13 @@ public class GamePlayService {
 
 	}
 
-	private void enterAttackPhase(Player player) {
+	private void doAttackPhase(Player player) {
 		logger.write("Skipping the attack phase for BUILD 1, just for now");
 		return;
 
 	}
 
-	private void enterFortificationPhase(Player player, NewGamePlayView gamePlayView) {
-		// TODO Auto-generated method stub
+	private void doFortificationPhase(Player player, NewGamePlayView gamePlayView) {
 
 		logger.write("Fortification Phase");
 		logger.write("Do you wish to enter Fortification phase?");
@@ -516,7 +459,7 @@ public class GamePlayService {
 		if (str.equalsIgnoreCase("Yes")) {
 
 			logger.write("These are your countries with current armies present in it : "
-					+ printPlayerCountriesAndArmy(player));
+					+ printCountryAllocationToConsole(player));
 			logger.write("Please enter the country name from which you want to take armies");
 			List<Country> selectOptions = getCountriesConqueredBy(player);
 			Country fromCountry = (Country) JOptionPane.showInputDialog(gamePlayView, "Select Country",
@@ -526,7 +469,7 @@ public class GamePlayService {
 			if (fromCountry.getNoOfArmy() == 1) {
 				logger.write("Please leave atleast one army behind, so it can defend your country from an attack.");
 				logger.write("Please select again ::  ");
-				enterFortificationPhase(player,gamePlayView);
+				doFortificationPhase(player,gamePlayView);
 			}
 			logger.write("Please select the country to which you want to add armies :");
 
@@ -547,7 +490,7 @@ public class GamePlayService {
 				logger.write("Great ! Both are connected");
 			} else {
 				logger.write("Not connected ! Select Again");
-				enterFortificationPhase(player,gamePlayView);
+				doFortificationPhase(player,gamePlayView);
 			}
 			logger.write("Now please select the number of armies from " + fromCountry.getCountryName()
 					+ ", which has : " + fromCountry.getNoOfArmy());
@@ -562,7 +505,7 @@ public class GamePlayService {
 			if (isFortifyComplete)
 				return;
 			else
-				enterFortificationPhase(player,gamePlayView);
+				doFortificationPhase(player,gamePlayView);
 
 		} else {
 			gamePlayView.dispose();
@@ -570,7 +513,7 @@ public class GamePlayService {
 		}
 	}
 	
-	private String printPlayerCountriesAndArmy(Player player) {
+	private String printCountryAllocationToConsole(Player player) {
 		
 		String s = player.name + " - [ ";
 		List<Country> countries = getCountriesConqueredBy(player);
