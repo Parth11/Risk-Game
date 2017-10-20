@@ -188,6 +188,9 @@ public class Game {
 		if(countriesCounquered<=11 && countriesCounquered>0){
 			countArmy = 3;
 		}
+		else{
+			countArmy = countriesCounquered/3;
+		}
 		
 		List<Continent> ruledContinents = getContinentsCounqueredBy(p);
 		for(Continent c : ruledContinents)
