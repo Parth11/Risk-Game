@@ -100,6 +100,11 @@ public class GameMap {
 		this.territories = territories;
 	}
 	
+	/**
+	 * 
+	 * @param countryName
+	 * @return the country by name
+	 */
 	public Country getCountryByName(String countryName){
 		Country c = new Country(countryName, 0, 0, "");
 		if(this.countries.indexOf(c)>=0){
@@ -107,7 +112,11 @@ public class GameMap {
 		}
 		return null;
 	}
-
+	/**
+	 * 
+	 * @param continentName
+	 * @return Continent by name
+	 */
 	public Continent getContinentByName(String continentName) {
 		// TODO Auto-generated method stub
 		Continent c = new Continent(continentName,0,null);
@@ -117,6 +126,11 @@ public class GameMap {
 		return null;
 	}
 	
+	/**
+	 * 
+	 * @param c
+	 * @return Country neighbor as per the file loaded.
+	 */
 	public String getCountryNeighboursAsCSV(Country c){
 		StringBuffer sb = new StringBuffer();
 		for(String s : GameMap.getInstance().getTerritories().get(c)){
@@ -125,6 +139,11 @@ public class GameMap {
 		return sb.toString().substring(0, sb.length()-1);
 	}
 	
+	/**
+	 * 
+	 * @param continentName
+	 * @return Countries in the continent
+	 */
 	public List<Country> getCountriesByContinent(String continentName) {
 		List<Country> continentCountry= new ArrayList<>();
 		for(Country c: getCountries()){
@@ -135,6 +154,11 @@ public class GameMap {
 		return continentCountry;
 	}
 	
+	/**
+	 * 
+	 * @param country
+	 * @return Neighboring countries
+	 */
 	public List<Country> getNeighbourCountries(Country country){
 		List<Country> neighbourCountry= new ArrayList<>();
 		for(String neighbourC: territories.get(country)){
