@@ -17,7 +17,7 @@ import ca.concordia.app.service.GamePlayService;
  *
  */
 public class NewGamePlayView extends JFrame implements IView {
-	
+
 	/**
 	 * 
 	 */
@@ -26,40 +26,37 @@ public class NewGamePlayView extends JFrame implements IView {
 	public JTextArea console;
 	public GamePlayService game_play_service;
 	public ConsoleLoggerService console_logger_service;
-	
+
 	public NewGamePlayView() {
-		
+
 		getContentPane().setLayout(null);
-		
+
 		scroll_pane = new JScrollPane();
-		scroll_pane.setBounds(150, 50, 800, 700);
+		scroll_pane.setBounds(15, 16, 1248, 812);
 		getContentPane().add(scroll_pane);
-		
+
 		console = new JTextArea();
 		scroll_pane.setViewportView(console);
 		console.setForeground(Color.WHITE);
 		console.setBackground(Color.BLACK);
 		console_logger_service = ConsoleLoggerService.getInstance(console);
-		
+		setBounds(0, 0, 1300, 900);
 		initialize();
 	}
-	
-	
+
 	private void initialize() {
 		this.setVisible(true);
 		setBounds(100, 100, 1300, 900);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
-
 	@Override
 	public void setActionListener(ActionListener actionListener) {
 
 	}
 
-
 	@Override
 	public void setMouseListener(MouseListener mouseListener) {
-		
+
 	}
 }
