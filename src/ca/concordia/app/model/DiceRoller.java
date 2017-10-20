@@ -35,7 +35,11 @@ public class DiceRoller {
 		this.no_of_dice = noOfDice;
 		this.result = new int[noOfDice];
 	}
-	
+	/**
+	 * Roll the dice
+	 * @param diesNo
+	 * @return
+	 */
 	public int roll(int diesNo) {
 		int i = diesNo-1, res = 0;
 		result[i] = res = (int)((Math.random() * 6) + 1);
