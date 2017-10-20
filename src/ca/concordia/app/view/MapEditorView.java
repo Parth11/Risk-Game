@@ -26,6 +26,11 @@ import ca.concordia.app.util.ContinentColourMap;
 
 public class MapEditorView extends JFrame implements IView {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private static String WINDOW_TITLE = "Create Map";
 
 	public JTextField country_name_value;

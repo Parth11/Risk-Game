@@ -19,10 +19,7 @@ import ca.concordia.app.model.Player;
 import ca.concordia.app.service.CreateMapService;
 import ca.concordia.app.service.Game;
 import ca.concordia.app.service.MyLogger;
-import ca.concordia.app.view.NewGamePlayView;
-
 import ca.concordia.app.util.MapValidationException;
-
 import ca.concordia.app.view.NewGameSelectorView;
 
 /**
@@ -111,7 +108,6 @@ public class NewGameSelectorController implements ActionListener,MouseListener {
 			
 			init(numPlayers,gameApi, logger);
 			
-			NewGamePlayView newgameframe = new NewGamePlayView();
 			
 			// here, startPhase has started
 			
