@@ -88,11 +88,10 @@ public class NewGameSelectorController implements ActionListener,MouseListener {
 				return;
 			}
 			
-			GamePlayService gameApi = GamePlayService.getInstance();
 			
 			ConsoleLoggerService logger = ConsoleLoggerService.getInstance(null);
 			
-			init(numPlayers,gameApi, logger);
+			GamePlayService.getInstance().doStartupPhase(numPlayers, logger);
 			
 			new_game_selector.dispose();
 			
@@ -104,30 +103,7 @@ public class NewGameSelectorController implements ActionListener,MouseListener {
 		}
 	}
 	
-	private void init(int numberOfPlayers, GamePlayService gameApi, ConsoleLoggerService logger) {
-		
-		
-		logger.write(" \nStartup Phase Started:-\n----------------------\n");
-		gameApi.setPlayers(numberOfPlayers);
-		
-		// get players
-		List<Player> players = gameApi.getPlayers();
-		for(Player p : players) {
-			String s = p.name + " - [ ";
-			
-			// get countries counquered by each player + no. of armies assigned
-			List<Country> countries = gameApi.getCountriesConqueredBy(p);
-			for(Country c : countries)
-				s += "" + c.getCountryName() + "(" + c.getNoOfArmy() + "), ";
-			
-			s += "]\n";
-			
-			// write each info to logger files
-			logger.write(s);
-		}
-		logger.write("\nStartup Phase Ended:-\n----------------------\n");
-		
-	}
+	
 	
 
 }
