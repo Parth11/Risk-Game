@@ -1,6 +1,3 @@
-/**
- * 
- */
 package ca.concordia.app.component;
 
 import java.awt.BorderLayout;
