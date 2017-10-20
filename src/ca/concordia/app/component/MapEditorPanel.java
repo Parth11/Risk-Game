@@ -17,18 +17,20 @@ import javax.swing.JPanel;
 import ca.concordia.app.view.IView;
 
 /**
+ * Edits the map selected by the user.
  * @author hardikfumakiya
- *
+ * 
  */
 public class MapEditorPanel extends JPanel implements IView {
 
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * Create an object for the DrawingBase class.
+	 */
 	public DrawingBase map_area;
-
+	
 	Image image;
 
 	/**
@@ -38,7 +40,6 @@ public class MapEditorPanel extends JPanel implements IView {
 	 *             Signals that an I/O exception has occurred.
 	 */
 	public MapEditorPanel() throws IOException {
-		// TODO Auto-generated constructor stub
 		setLayout(new BorderLayout());
 
 		setBounds(12, 13, 1378, 768);
@@ -55,18 +56,31 @@ public class MapEditorPanel extends JPanel implements IView {
 		image = imageOriginal.getScaledInstance(map_area.getParent().getWidth(), map_area.getParent().getHeight(),
 				Image.SCALE_SMOOTH);
 	}
-
+	
+	/**
+	 * For painting the components
+	 * @param g
+	 */
+	
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		g.drawImage(image, 0, 0, this);
 	}
 
+	/**
+	 * To set the ActionListner.
+	 * @param actionListener.
+	 */
 	@Override
 	public void setActionListener(ActionListener actionListener) {
 
 	}
 
+	/**
+	 * To set the MouseListner event.
+	 * @param mouseListener.
+	 */
 	@Override
 	public void setMouseListener(MouseListener mouseListener) {
 		map_area.addMouseListener(mouseListener);
