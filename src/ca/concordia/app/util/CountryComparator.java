@@ -1,6 +1,4 @@
-/**
- * 
- */
+
 package ca.concordia.app.util;
 
 import java.util.Comparator;
@@ -8,10 +6,16 @@ import java.util.Comparator;
 import ca.concordia.app.model.Country;
 
 /**
- * @author harvi
+ * The Class CountryComparator for comparing the countries
  *
+ * @author harvi
  */
 public class CountryComparator implements Comparator<Country>{
+
+	/**
+	 * method for comparing countries
+	 * @param o1 ,o2
+	 */
 
 	@Override
 	public int compare(Country o1, Country o2) {
