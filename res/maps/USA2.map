@@ -1,0 +1,65 @@
+[Map]
+author=Baron Travis McHenry
+warn=yes
+image=United States Of America.bmp
+wrap=no
+scroll=horizontal
+
+[Continents]
+Western U.S.=7
+The Mideast=15
+Northern U.s.=11
+The Southeast=7
+The Northeast=6
+
+[Territories]
+Washington,91,68,Western U.S.,Idaho, Oregon
+Oregon,73,110,Western U.S.,Washington,Idaho,California,Nevada
+Idaho,127,127,Western U.S.,Washington, Oregon,Montana,Nevada,Utah
+California,58,204,Western U.S.,Oregon,Nevada,Arizona
+Nevada,97,176,Western U.S.,California,Idaho,Oregon,Utah,Arizona
+Utah,143,199,Western U.S.,Idaho,Nevada,Arizona
+Arizona,133,255,Western U.S.,Utah,Nevada,California,New Mexico
+
+Montana,186,91,The Mideast,Idaho,Wyoming,North Dakota,South Dakota
+Wyoming,200,144,The Mideast,Montana,South Dakota,Nebraska,Colorado
+Colorado,212,200,The Mideast,Wyoming,Nebraska,New Mexico,Oklahoma,Kansas
+New Mexico,201,265,The Mideast,Arizona,Texas,Oklahoma,Colorado
+Texas,269,304,The Mideast,New Mexico,Oklahoma,Louisiana,Arkansas
+Louisiana,346,308,The Mideast,Texas,Arkansas
+Arkansas,343,263,The Mideast,Louisiana,Texas,Oklahoma,Missouri
+Oklahoma,296,253,The Mideast,Texas,New Mexico,Colorado,Kansas,Missouri,Arkansas
+Missouri,341,217,The Mideast,Arkansas,Oklahoma,Nebraska,Kansas,Iowa
+Kansas,284,212,The Mideast,Missouri,Oklahoma,Colorado,Nebraska
+Nebraska,271,173,The Mideast,Missouri,Iowa,Kansas,Colorado,Wyoming,South Dakota
+South Dakota,267,133,The Mideast,Nebraska,Iowa,Wyoming,North Dakota,Montana,Minnesota
+North Dakota,267,92,The Mideast,South Dakota,Minnesota,Montana
+Minnesota,322,110,The Mideast,North Dakota,South Dakota,Wisconsin,Iowa
+Iowa,329,166,The Mideast,Minnesota,South Dakota,Nebraska,Missouri
+
+Wisconsin,367,130,Northern U.S.,Michigan,Illinois,Minnesota
+Illinois,377,188,Northern U.S.,Wisconsin,Indiana,Kentucky
+Indiana,407,188,Northern U.S.,Illinois,Michigan,Ohio,Kentucky
+Michigan,416,142,Northern U.S.,Wisconsin,Indiana,Ohio
+Kentucky,421,218,Northern U.S.,Tennesse,Illinois,Indiana,Ohio,West Virginia
+West Virginia,461,199,Northern U.S.,Kentucky,Ohio,Pennsylvania
+Ohio,442,183,Northern U.S.,Pennsylvania,Indiana,Michigan,Kentucky,West Virginia
+Pennsylvania,487,165,Northern U.S.,Ohio,West Virginia,New York,New Jersey,Maryland-Delaware
+Virginia,498,209,Northern U.S.,Maryland-Delaware,North Carolina
+Maryland-Delaware,503,181,Northern U.S.,Pennsylvania,Virginia,New Jersey
+New Jersey,525,168,Northern U.S.,Maryland-Delaware,Pennsylvania,New York
+
+New York,510,133,The Northeast,Pennsylvania,New Jersey,Vermont,Massachusetts,Connecticut-RI
+Connecticut-RI,539,141,The Northeast,New York,Massachusetts
+Massachusetts,541,130,The Northeast,Connecticut-RI,New York,Vermont,New Hampshire
+New Hampshire,540,117,The Northeast,Vermont,Maine,Massachusetts
+Vermont,529,109,The Northeast,New York,New Hampshire,Massachusetts
+Maine,556,85,The Northeast,New Hampshire
+
+North Carolina,493,237,The Southeast,Virginia,South Carolina
+South Carolina,476,261,The Southeast,North Carolina,Georgia
+Georgia,450,285,The Southeast,South Carolina,Floridia,Alabama
+Floridia,479,341,The Southeast,Georgia,Alabama
+Alabama,411,286,The Southeast,Georgia,Floridia,Mississippi,Tennesse
+Mississippi,379,286,The Southeast,Alabama,Tennesse
+Tennesse,401,245,The Southeast,Mississippi,Kentucky,Alabama

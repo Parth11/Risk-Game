@@ -8,6 +8,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+import javax.swing.JComboBox;
 
 /**
  * The Class NewGameSelectorView 
@@ -30,10 +31,10 @@ public class NewGameSelectorView extends JFrame implements IView{
 	/** The cancel button. */
 	public JButton cancel_button;
 	
-	/** The num players. */
-	public JTextField num_players;
 	
 	/** The choose map. */
+	public JComboBox<Integer> num_players;
+
 	public JFileChooser choose_map;
 	
 	/** The label map file. */
@@ -52,10 +53,10 @@ public class NewGameSelectorView extends JFrame implements IView{
 		label_players.setBounds(53, 47, 311, 27);
 		getContentPane().add(label_players);
 		
-		num_players = new JTextField("2");
+		Integer[] items = {2,3,4,5,6};
+		num_players = new JComboBox<>(items);
 		num_players.setBounds(202, 49, 116, 22);
 		getContentPane().add(num_players);
-		num_players.setColumns(10);
 		
 		label_map_file = new JLabel("Select map File");
 		label_map_file.setBounds(53, 133, 157, 27);

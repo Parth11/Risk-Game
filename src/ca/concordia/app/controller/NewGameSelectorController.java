@@ -99,19 +99,14 @@ public class NewGameSelectorController implements ActionListener,MouseListener {
 					MapService.getInstance().loadMap(mapFile);
 				} catch (MapValidationException e1) {
 					JOptionPane.showMessageDialog(new_game_selector, e1.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
+					return;
 				}
 				JOptionPane.showMessageDialog(new_game_selector, "Map Loaded Successfully! Click Next to Play!","Map Loaded",JOptionPane.INFORMATION_MESSAGE);
 			}
 		}
 		else if(e.getSource().equals(new_game_selector.next_button)){
 			
-			int numPlayers = Integer.parseInt(new_game_selector.num_players.getText());
-			
-			if(numPlayers<2 || numPlayers>6){
-				JOptionPane.showMessageDialog(new_game_selector, "Number of players must be between 2 and 6","Invalid",JOptionPane.ERROR_MESSAGE);
-				return;
-			}
-			
+			Integer numPlayers = (Integer) new_game_selector.num_players.getSelectedItem();
 			
 			GamePlayService.getInstance().doStartupPhase(numPlayers);
 			
