@@ -1,5 +1,6 @@
 package ca.concordia.app.service;
 
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -13,6 +14,7 @@ import ca.concordia.app.model.Country;
 import ca.concordia.app.model.DiceRoller;
 import ca.concordia.app.model.GameMap;
 import ca.concordia.app.model.Player;
+import ca.concordia.app.util.MapValidationException;
 
 
 
@@ -52,10 +54,10 @@ public class Game {
 		return instance;
 	}
 	
-	public void loadNewMap(String path) {
+	public void loadNewMap(String path) throws MapValidationException, URISyntaxException {
 		instance.mapPath = path;
 		instance.resetPlayersData();
-		CreateMapService.getInstance().createMap(instance.mapPath);
+		CreateMapService.getInstance().loadMap(instance.mapPath);
 	}
 	
 	public void resetGame() {
@@ -285,18 +287,40 @@ public class Game {
 		return isConnected(c1, c2, p, null);
 	}
 	
-	private boolean isConnected(Country c1, Country c2, Player p, List<Country> unwanatedPair) {
+	public boolean isConnected(Country c1, Country c2) {
+		return isConnected(c1, c2, new ArrayList<Country>());
+	}
+	
+	private boolean isConnected(Country c1, Country c2, Player p, List<Country> unwantedPair) {
 		if(isNeighbour(c1, c2) && c1.getRuler().equals(c2.getRuler()))
 			return true;
 		
-		if(unwanatedPair==null)
-			unwanatedPair = new ArrayList<>();
-		else if(unwanatedPair.contains(c1))
+		if(unwantedPair==null)
+			unwantedPair = new ArrayList<>();
+		else if(unwantedPair.contains(c1))
 			return false;
-		unwanatedPair.add(c1);
+		unwantedPair.add(c1);
 		
 		for(Country c : gameMap.getNeighbourCountries(c1)) {
-			if(!unwanatedPair.contains(c) && isConnected(c, c2, p, unwanatedPair))
+			if(!unwantedPair.contains(c) && isConnected(c, c2, p, unwantedPair))
+				return true;
+		}
+		
+		return false;
+	}
+	
+	private boolean isConnected(Country c1, Country c2, List<Country> unwantedPair) {
+		if(isNeighbour(c1, c2))
+			return true;
+		
+		if(unwantedPair==null)
+			unwantedPair = new ArrayList<>();
+		else if(unwantedPair.contains(c1))
+			return false;
+		unwantedPair.add(c1);
+		
+		for(Country c : gameMap.getNeighbourCountries(c1)) {
+			if(!unwantedPair.contains(c) && isConnected(c, c2,unwantedPair))
 				return true;
 		}
 		

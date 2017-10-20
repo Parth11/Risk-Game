@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -92,26 +93,21 @@ public class CreateMapService {
 
 	}
 
-	public GameMap loadMap(String path) {
+	public GameMap loadMap(String path) throws MapValidationException, URISyntaxException {
 		GameMap gameMap = null;
-		try {
-			gameMap = GameMap.getInstance();
-			List<String> list = new ArrayList<>();
+		gameMap = GameMap.getInstance();
+		List<String> list = new ArrayList<>();
 
-			try (BufferedReader br = Files.newBufferedReader(Paths.get(ClassLoader.getSystemResource(path).toURI()))) {
+		try (BufferedReader br = Files.newBufferedReader(Paths.get(ClassLoader.getSystemResource(path).toURI()))) {
 
-				list = br.lines().collect(Collectors.toList());
+			list = br.lines().collect(Collectors.toList());
 
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-
-			extractFileInformation(gameMap, list);
-			
-		} catch (Exception e) {
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+
+		extractFileInformation(gameMap, list);
+
 		return gameMap;
 	}
 
@@ -142,8 +138,22 @@ public class CreateMapService {
 		}
 		parseCountries(metaTerritories,gameMap);
 
+		isTraversable();
 	}
 	
+	private void isTraversable() throws MapValidationException{
+		Game game = Game.getInstance();
+		for(Country c1 : game.getMap().getCountries()){
+			for(Country c2 : game.getMap().getCountries()){
+				if(!c1.equals(c2)){
+					if(game.isConnected(c1, c2)==false){
+						throw new MapValidationException(c1.getCountryName()+" and "+c2.getCountryName()+" are disconnected. Invalid Map");
+					}
+				}
+			}
+		}
+	}
+
 	public GameMap loadMap(File mapFile) throws MapValidationException{
 		GameMap gameMap = null;
 		gameMap = GameMap.getInstance();
