@@ -1,7 +1,4 @@
 
-/**
- * 
- */
 package ca.concordia.app.model;
 
 import java.util.ArrayList;
@@ -10,25 +7,44 @@ import java.util.List;
 
 
 /**
+ * This Class parses the map file and creates countries territories continents and neighboring countries
  * @author harvi
  *
  */
 public class GameMap {
 	
+	/**
+	 * Created an instance of GameMap class.
+	 */
 	private static GameMap instance;
 	
+	/**
+	 * Countries list of type List
+	 */
 	private List<Country> countries;
 	
+	/**
+	 * Continent list of type List
+	 */
 	private List<Continent> continents;
-	
+	/**
+	 * territories of type Hashmap.
+	 */
 	private HashMap<Country, ArrayList<String>> territories;
-
+	
+	/**
+	 * Initializes the variables.
+	 */
 	private GameMap(){
 		this.countries = new ArrayList<Country>();
 		this.continents = new ArrayList<Continent>();
 		this.territories = new HashMap<Country, ArrayList<String>>();
 	}
 	
+	/**
+	 * Singleton 
+	 * @return the instance of gameMap class
+	 */
 	public static GameMap getInstance(){
 		
 		if(instance == null){
@@ -37,27 +53,49 @@ public class GameMap {
 		
 		return instance;
 	}
-
+	
+	/**
+	 * 
+	 * @return the country list
+	 */
 	public List<Country> getCountries() {
 		return countries;
 	}
-
+	/**
+	 * sets the countries which are parsed the the countries list.
+	 * @param countries
+	 */
 	public void setCountries(List<Country> countries) {
 		this.countries = countries;
 	}
-
+	/**
+	 * 
+	 * @return the continent list.
+	 */
 	public List<Continent> getContinents() {
 		return continents;
 	}
-
+	
+	/**
+	 * Sets the continents which are parsed the the continents list.
+	 * @param continents
+	 */
 	public void setContinents(List<Continent> continents) {
 		this.continents = continents;
 	}
-
+	
+	/**
+	 * 
+	 * @return The territories list
+	 */
 	public HashMap<Country, ArrayList<String>> getTerritories() {
 		return territories;
 	}
 
+	/**
+	 * Sets the territories which are parsed the the continents list.
+	 * @param territories 
+	 */
 	public void setTerritories(HashMap<Country, ArrayList<String>> territories) {
 		this.territories = territories;
 	}
