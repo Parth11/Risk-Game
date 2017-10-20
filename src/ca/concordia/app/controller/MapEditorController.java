@@ -19,14 +19,37 @@ import ca.concordia.app.util.MapValidationException;
 import ca.concordia.app.util.RiskExceptionHandler;
 import ca.concordia.app.view.MapEditorView;
 
+
+/**
+ * The Class MapEditorController manages map editor frame.
+ * 
+ * @author Harvi and Hardik
+ */
 public class MapEditorController implements ActionListener, MouseListener{
 	
+	/** 
+	 * creates an object of MapEditorView class.
+	 */
 	public MapEditorView map_editor_view;
+	
+	/**
+	 *  Creates object of MapService class.
+	 */
 	MapService map_service;
+	
+	/** 
+	 * creates object of GameMap
+	 */
 	GameMap game_map;
 	
+	/** The temp y. */
 	int temp_x,temp_y;
 	
+	/**
+	 * Instantiates a new map editor controller.
+	 *
+	 * @param edit the edit
+	 */
 	public MapEditorController(boolean edit) {
 		
 		game_map = GameMap.getInstance();
@@ -65,6 +88,9 @@ public class MapEditorController implements ActionListener, MouseListener{
 		
 	}
 	
+	/**
+	 * Reload map.
+	 */
 	private void reloadMap(){
 		
 		map_editor_view.dispose();
@@ -81,6 +107,10 @@ public class MapEditorController implements ActionListener, MouseListener{
 		
 	}
 
+	/**
+	 * Calls the mouseClicked method of java.
+	 * @param e
+	 */
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		if(e.getSource().equals(map_editor_view.map_area.map_area)){
@@ -92,26 +122,43 @@ public class MapEditorController implements ActionListener, MouseListener{
 		
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.MouseListener#mousePressed(java.awt.event.MouseEvent)
+	 */
 	@Override
 	public void mousePressed(MouseEvent e) {
 		
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.MouseListener#mouseReleased(java.awt.event.MouseEvent)
+	 */
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.MouseListener#mouseEntered(java.awt.event.MouseEvent)
+	 */
 	@Override
 	public void mouseEntered(MouseEvent e) {
 		
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.MouseListener#mouseExited(java.awt.event.MouseEvent)
+	 */
 	@Override
 	public void mouseExited(MouseEvent e) {
 		
 	}
 
+
+	/**
+	 * calls the method actionPerformed for map editing.
+	 * @param e
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource().equals(map_editor_view.save_button)){

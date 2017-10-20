@@ -16,14 +16,34 @@ import ca.concordia.app.service.GamePlayService;
 import ca.concordia.app.service.ConsoleLoggerService;
 import ca.concordia.app.view.NewGamePlayView;
 
+
+/**
+ * The Class NewGamePhaseController manages the starting of the game.
+ * 
+ * @author Parth
+ */
 public class NewGamePhaseController implements ActionListener,MouseListener{
 	
+	/**
+	 * Create the object of NewGamePlayView class.
+	 */
 	NewGamePlayView new_game_phase_selector;
+	
+	/** Creates the object of the GamePlayService */
 	GamePlayService gameApi = GamePlayService.getInstance();
+	
+	/** The num players. */
 	int numPlayers;
+	
+	/** The player list. */
 	List<Player> playerList = gameApi.getPlayers();
+	
+	/** The logger. */
 	ConsoleLoggerService logger;
 	
+	/**
+	 * Instantiates a new new game phase controller.
+	 */
 	public NewGamePhaseController() {
 		new_game_phase_selector = new NewGamePlayView();
 		this.numPlayers=GamePlayService.getInstance().getNumberOfPlayers();
@@ -35,6 +55,9 @@ public class NewGamePhaseController implements ActionListener,MouseListener{
 		
 	}
 	
+	/**
+	 * Initializes the start
+	 */
 	private void init() {
 		logger.write("Game phase starts");
 		logger.write(""+playerList.size());
@@ -43,6 +66,9 @@ public class NewGamePhaseController implements ActionListener,MouseListener{
 		
 	}
 
+	/**
+	 * Start playing game.
+	 */
 	public void startPlayingGame() {
 		int j = 0;
 		while(true) {
@@ -54,6 +80,11 @@ public class NewGamePhaseController implements ActionListener,MouseListener{
 		}
 	}
 
+	/**
+	 * Enter fortification phase.
+	 *
+	 * @param player the player
+	 */
 	private void enterFortificationPhase(Player player) {
 		// TODO Auto-generated method stub
 		
@@ -112,6 +143,12 @@ public class NewGamePhaseController implements ActionListener,MouseListener{
 		}
 	}
 	
+	/**
+	 * Prints the player countries and army.
+	 *
+	 * @param player the player
+	 * @return the string
+	 */
 	private String printPlayerCountriesAndArmy(Player player) {
 		// TODO Auto-generated method stub
 		String s = player.name + " - [ ";				
@@ -125,6 +162,11 @@ public class NewGamePhaseController implements ActionListener,MouseListener{
 		return s;
 	}
 
+	/**
+	 * Enter attack phase.
+	 *
+	 * @param player the player
+	 */
 	private void enterAttackPhase(Player player) {
 		// TODO Auto-generated method stub
 		logger.write("Skipping the attack phase for BUILD 1, just for now");
@@ -132,6 +174,11 @@ public class NewGamePhaseController implements ActionListener,MouseListener{
 		
 	}
 
+	/**
+	 * Enter reinforcement phase.
+	 *
+	 * @param player the player
+	 */
 	private void enterReinforcementPhase(Player player) {
 		logger.write("Do you wish to enter Reinforcement phase?");
 		
@@ -168,35 +215,53 @@ public class NewGamePhaseController implements ActionListener,MouseListener{
 	}
 
 	
+	/* (non-Javadoc)
+	 * @see java.awt.event.MouseListener#mouseClicked(java.awt.event.MouseEvent)
+	 */
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
 		
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.MouseListener#mousePressed(java.awt.event.MouseEvent)
+	 */
 	@Override
 	public void mousePressed(MouseEvent e) {
 		// TODO Auto-generated method stub
 		
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.MouseListener#mouseReleased(java.awt.event.MouseEvent)
+	 */
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		// TODO Auto-generated method stub
 		
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.MouseListener#mouseEntered(java.awt.event.MouseEvent)
+	 */
 	@Override
 	public void mouseEntered(MouseEvent e) {
 		// TODO Auto-generated method stub
 		
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.MouseListener#mouseExited(java.awt.event.MouseEvent)
+	 */
 	@Override
 	public void mouseExited(MouseEvent e) {
 		
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		
