@@ -3,6 +3,7 @@ package ca.concordia.app.model;
 import ca.concordia.app.service.GamePlayService;
 
 /**
+ * For Rolling Dice during attack phase 
  * @author Parth Nayak
  * 
  * 
