@@ -19,7 +19,7 @@ import ca.concordia.app.model.Player;
 import ca.concordia.app.service.CreateMapService;
 import ca.concordia.app.service.Game;
 import ca.concordia.app.service.MyLogger;
-import ca.concordia.app.view.NewGameFrame;
+import ca.concordia.app.view.NewGamePlayView;
 
 import ca.concordia.app.util.MapValidationException;
 
@@ -108,7 +108,7 @@ public class NewGameSelectorController implements ActionListener,MouseListener {
 			print(logger);
 			logger.write("\n\nMAP FILE CONVERTED SUCCESSFULLY\n");
 			
-			NewGameFrame newgameframe = new NewGameFrame();
+			NewGamePlayView newgameframe = new NewGamePlayView();
 			
 			// here, startPhase has started
 			init(numPlayers,gameApi, logger);
@@ -118,10 +118,8 @@ public class NewGameSelectorController implements ActionListener,MouseListener {
 			logger.write("Reinforcement Phase Ended:-\n----------------------\n");
 			
 			new_game_selector.dispose();
-			new MainController();
 		}
 		else if(e.getSource().equals(new_game_selector.cancel_button)){
-			GameMap gameMap = GameMap.getInstance();
 			new_game_selector.dispose();
 			new MainController();
 		}

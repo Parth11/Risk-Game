@@ -10,16 +10,16 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
 import ca.concordia.app.service.CreateMapService;
-import ca.concordia.app.view.NewGameFrame;
+import ca.concordia.app.view.NewGamePlayView;
 import ca.concordia.app.view.NewGameSelectorView;
 
 public class NewGamePhaseController implements ActionListener,MouseListener{
 	
-	NewGameFrame new_game_phase_selector;
+	NewGamePlayView new_game_phase_selector;
 	
 	public NewGamePhaseController() {
 		// TODO Auto-generated constructor stub
-		new_game_phase_selector = new NewGameFrame();
+		new_game_phase_selector = new NewGamePlayView();
 		
 		new_game_phase_selector.setActionListener(this);
 		new_game_phase_selector.setMouseListener(this);
