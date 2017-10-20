@@ -15,17 +15,15 @@ import javax.swing.JOptionPane;
 
 import ca.concordia.app.model.Country;
 import ca.concordia.app.model.GameMap;
+import ca.concordia.app.model.Player;
 import ca.concordia.app.service.CreateMapService;
-
+import ca.concordia.app.service.Game;
 import ca.concordia.app.service.MyLogger;
 import ca.concordia.app.view.NewGameFrame;
 
 import ca.concordia.app.util.MapValidationException;
 
 import ca.concordia.app.view.NewGameSelectorView;
-import lib.Game;
-
-import lib.model.Player;
 
 /**
  * @author harvi

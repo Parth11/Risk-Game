@@ -1,4 +1,4 @@
-package lib.model;
+package ca.concordia.app.model;
 
 /**
  * @author Parth Nayak

@@ -10,8 +10,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import ca.concordia.app.service.Game;
 import ca.concordia.app.service.MyLogger;
-import lib.Game;
 
 /**
  * 

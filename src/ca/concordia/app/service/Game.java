@@ -1,4 +1,4 @@
-package lib;
+package ca.concordia.app.service;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -8,10 +8,9 @@ import java.util.Map;
 
 import ca.concordia.app.model.Continent;
 import ca.concordia.app.model.Country;
+import ca.concordia.app.model.DiceRoller;
 import ca.concordia.app.model.GameMap;
-import ca.concordia.app.service.CreateMapService;
-import lib.model.DiceRoller;
-import lib.model.Player;
+import ca.concordia.app.model.Player;
 
 
 

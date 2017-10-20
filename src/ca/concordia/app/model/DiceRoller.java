@@ -1,6 +1,6 @@
-package lib.model;
+package ca.concordia.app.model;
 
-import lib.Game;
+import ca.concordia.app.service.Game;
 
 /**
  * @author Parth Nayak

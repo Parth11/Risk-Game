@@ -2,7 +2,7 @@ package ca.concordia.app.service;
 
 import javax.swing.JTextArea;
 
-import lib.GameLogger;
+import ca.concordia.app.util.GameLogger;
 
 public class MyLogger extends GameLogger {
 	

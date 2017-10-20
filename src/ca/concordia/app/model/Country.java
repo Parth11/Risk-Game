@@ -3,8 +3,6 @@
  */
 package ca.concordia.app.model;
 
-import lib.model.Player;
-
 /**
  * @author harvi
  *

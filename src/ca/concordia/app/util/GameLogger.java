@@ -1,4 +1,4 @@
-package lib;
+package ca.concordia.app.util;
 
 //import java.util.logging.Logger;
 
