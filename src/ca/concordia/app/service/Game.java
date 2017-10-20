@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import ca.concordia.app.model.Continent;
 import ca.concordia.app.model.Country;
@@ -21,6 +22,7 @@ import ca.concordia.app.model.Player;
  */
 
 public class Game {
+	
 	private static Game instance = null;
 	
 	private String mapPath=null;
@@ -361,6 +363,25 @@ public class Game {
 		if(cList!=null) {
 			cList.remove(c);
 		}
+	}
+	
+	
+	public Object[][] getGamePlayState(){
+		
+		Game game = Game.getInstance();
+		List<Country> gameCountries = new ArrayList<Country>();
+		for(Entry<Player,List<Country>> key : game.playerCountryMap.entrySet()){
+			gameCountries.addAll(key.getValue());
+		}
+		Object[][] gamePlayState = new Object[gameCountries.size()][3];
+		
+		for(int i=0; i<gameCountries.size();i++){
+			gamePlayState[i][0] = gameCountries.get(i).getCountryName();
+			gamePlayState[i][1] = gameCountries.get(i).getNoOfArmy();
+			gamePlayState[i][2] = gameCountries.get(i).getRuler().getName();
+		}
+		
+		return gamePlayState;
 	}
 	
 	// CallBacks

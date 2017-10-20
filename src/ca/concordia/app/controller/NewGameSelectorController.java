@@ -108,10 +108,12 @@ public class NewGameSelectorController implements ActionListener,MouseListener {
 			print(logger);
 			logger.write("\n\nMAP FILE CONVERTED SUCCESSFULLY\n");
 			
+			
+			init(numPlayers,gameApi, logger);
+			
 			NewGamePlayView newgameframe = new NewGamePlayView();
 			
 			// here, startPhase has started
-			init(numPlayers,gameApi, logger);
 			
 			logger.write("Reinforcement Phase Started:-\n----------------------\n");
 			reinforcementPhase(numPlayers,gameApi, logger);
