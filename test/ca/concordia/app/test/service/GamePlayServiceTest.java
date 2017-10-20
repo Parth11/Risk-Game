@@ -65,5 +65,10 @@ public class GamePlayServiceTest {
 		assertEquals(c1.getNoOfArmy(), n1-i);
 		assertEquals(c2.getNoOfArmy(), n2+1);
 	}
+	
+	@Test
+	public void testReinforcementPhaseCalculateArmies() {
+		
+	}
 
 }
