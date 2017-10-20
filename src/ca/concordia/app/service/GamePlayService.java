@@ -24,7 +24,7 @@ import ca.concordia.app.view.NewGamePlayView;
 
 /**
  * @author Parth Nayak
- * 
+ * @author Hardik Fumakiya
  * 
  */
 
