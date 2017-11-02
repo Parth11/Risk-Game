@@ -260,7 +260,8 @@ public class MapEditorContinentView extends JFrame implements IView {
 			neighbours=game_map.getTerritories().get(c);
 			for (String s : neighbours) {
 				if(game_map.getCountryByName(s).getContinentName().isEmpty())
-					available_countries.addElement(s);
+					if(!available_countries.contains(s))
+						available_countries.addElement(s);
 			}
         }
 
@@ -292,10 +293,10 @@ public class MapEditorContinentView extends JFrame implements IView {
 				neighbours=game_map.getTerritories().get(c);
 				for (String s : neighbours) {
 					if(game_map.getCountryByName(s).getContinentName().isEmpty())
-						available_countries.addElement(s);
+						if(!available_countries.contains(s))
+							available_countries.addElement(s);
 				}
 	        }
-			available_countries.addElement(selValue);
 			
 		}
 		available_country_list.setModel(available_countries);
