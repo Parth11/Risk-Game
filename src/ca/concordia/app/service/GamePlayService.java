@@ -712,7 +712,7 @@ public class GamePlayService {
 
 			List<Country> toCountryOptions = new ArrayList<Country>();
 			for (Country c : selectOptions) {
-				if (!c.equals(fromCountry)) {
+				if (!c.equals(fromCountry) && isConnected(fromCountry, c)) {
 					toCountryOptions.add(c);
 				}
 			}
