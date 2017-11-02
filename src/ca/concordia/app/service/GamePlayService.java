@@ -78,6 +78,7 @@ public class GamePlayService {
 		turn = 0;
 		for (Player p : players) {
 			p.setTotalArmies(getInitialArmy());
+			logger.write(p.getName()+" -> Receives -> "+p.getTotalArmies()+" armies\n");
 		}
 	}
 
@@ -109,14 +110,22 @@ public class GamePlayService {
 	 * allocating countries to players and it will add aremies using round-robin fashion.
 	 * 
 	 * @param numberOfPlayers the number of players
+	 * @param game_play_view 
 	 * @return true, if successful
 	 */
-	public boolean doStartupPhase(int numberOfPlayers) {
+	public boolean doStartupPhase(int numberOfPlayers, NewGamePlayView game_play_view) {
+		
+		
 		if (game_map.getCountries().isEmpty())
 			return false;
 
+		logger = ConsoleLoggerService.getInstance(game_play_view.console);
+		
 		this.number_of_players = numberOfPlayers;
 
+		logger.write("****Startup Phase BEGIN****\n");
+		logger.write("Game starts with "+numberOfPlayers+" players\n");
+		
 		for (int i = 1; i <= numberOfPlayers; i++) {
 			players.add(new Player("Player " + i));
 		}
@@ -127,6 +136,8 @@ public class GamePlayService {
 
 		addInitialArmiesUsingRoundRobin();
 
+		logger.write("****Startup Phase END****");
+		
 		return true;
 	}
 
@@ -143,6 +154,7 @@ public class GamePlayService {
 				randomCountry.addArmies(1);
 				players.get(j % number_of_players)
 						.setTotalArmies(players.get(j % number_of_players).getTotalArmies() - 1);
+				logger.write(players.get(j%number_of_players).getName()+" placed an army in "+randomCountry.getCountryName()+"\n");
 			} else {
 				playersLeftForAssign--;
 			}
@@ -159,6 +171,7 @@ public class GamePlayService {
 			Player p = players.get(j % number_of_players);
 			setNewCountryRuler(p, c, 1);
 			p.subArmy(1);
+			logger.write(p.getName()+" -> controls the country -> "+c.getCountryName()+"\n");
 			j++;
 		}
 	}

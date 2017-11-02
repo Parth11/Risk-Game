@@ -297,11 +297,10 @@ public class MapEditorContinentView extends JFrame implements IView {
 							available_countries.addElement(s);
 				}
 	        }
-			//available_countries.addElement(selValue);
-			
-		}
+
 		available_country_list.setModel(available_countries);
 		select_countries.removeElement(selValue);
 		selected_country_list.setModel(select_countries);
 	}
+}
 }
