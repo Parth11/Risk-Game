@@ -337,7 +337,6 @@ public class GamePlayService {
 	 * @param fromCountry the from country
 	 * @param toCountry the to country
 	 * @param noOfArmy the no of army
-	 * @return true, if successful
 	 */
 	public void moveArmyFromTo(Player p, Country fromCountry, Country toCountry, int noOfArmy) {
 			fromCountry.removeArmies(noOfArmy);
@@ -589,7 +588,7 @@ public class GamePlayService {
 
 	/**
 	 * Initiates the game play.
-	 *
+	 * @param gamePlayView object of NewGamPlayView
 	 */
 	public void doPlayGame(NewGamePlayView gamePlayView) {
 
