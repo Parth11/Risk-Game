@@ -18,12 +18,12 @@ public class NewGamePhaseController implements ActionListener, MouseListener {
 
 	NewGamePlayView game_play_view;
 
-	public NewGamePhaseController() {
+	public NewGamePhaseController(Integer numPlayers) {
 		game_play_view = new NewGamePlayView();
 		game_play_view.setActionListener(this);
 		game_play_view.setMouseListener(this);
 		game_play_view.setVisible(true);
-		init();
+		init(numPlayers);
 
 	}
 	
@@ -31,7 +31,8 @@ public class NewGamePhaseController implements ActionListener, MouseListener {
 	 * Initializes the start
 	 */
 
-	private void init() {
+	private void init(Integer numPlayers) {
+		GamePlayService.getInstance().doStartupPhase(numPlayers,game_play_view);
 		GamePlayService.getInstance().doPlayGame(game_play_view);
 	}
 

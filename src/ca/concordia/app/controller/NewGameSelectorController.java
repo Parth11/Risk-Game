@@ -108,11 +108,9 @@ public class NewGameSelectorController implements ActionListener,MouseListener {
 			
 			Integer numPlayers = (Integer) new_game_selector.num_players.getSelectedItem();
 			
-			GamePlayService.getInstance().doStartupPhase(numPlayers);
-			
 			new_game_selector.dispose();
 			
-			new_game_phase_selector = new NewGamePhaseController();
+			new_game_phase_selector = new NewGamePhaseController(numPlayers);
 		}
 		else if(e.getSource().equals(new_game_selector.cancel_button)){
 			new_game_selector.dispose();

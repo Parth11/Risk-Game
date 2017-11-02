@@ -34,8 +34,10 @@ public class ConsoleLoggerService{
 	 * @param s the s
 	 */
 	public void write(String s) {
-		if(console!=null)
+		if(console!=null){
 			console.append(s + "\n");
+			console.repaint();
+		}
 	}
 
 }
