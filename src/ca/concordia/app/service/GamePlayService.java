@@ -10,11 +10,13 @@ import java.util.Random;
 
 import javax.swing.JFrame;
 
+import ca.concordia.app.model.Card;
 import ca.concordia.app.model.Continent;
 import ca.concordia.app.model.Country;
 import ca.concordia.app.model.DiceRoller;
 import ca.concordia.app.model.GameMap;
 import ca.concordia.app.model.Player;
+import ca.concordia.app.util.GameConstants;
 import ca.concordia.app.util.GamePhase;
 import ca.concordia.app.view.NewGamePlayView;
 
@@ -31,6 +33,7 @@ public class GamePlayService {
 	*/
 	private static GamePlayService instance = null;
 	
+	private HashMap<String,Integer> deckMap;
 	
 	public JFrame game_play_frame;
 
@@ -60,7 +63,42 @@ public class GamePlayService {
 		players = new ArrayList<>();
 		player_country_map = new HashMap<>();
 		logger = ConsoleLoggerService.getInstance(null);
+		int totalCards = game_map.getCountries().size();
+		int cardsDividedByType = totalCards / 3;
+		deckMap= new HashMap<>();
+		// infantry, cavalry, or artillery
+		
+//		String [] cardType = {"I","C","A"};
+//		Random randomeCardType = new Random();
+//		int result=randomeCardType.nextInt(2);
+//		String cardName=cardType[result];
+//		Card card = new Card(cardName, 1);
+		
+		
+		int difference = totalCards - (cardsDividedByType * 3);
+		
+		
+		deckMap.put(GameConstants.INFANTRY, cardsDividedByType);
+		deckMap.put(GameConstants.CAVALRY, cardsDividedByType);
+		deckMap.put(GameConstants.ARTILLERY, cardsDividedByType);
+		if((cardsDividedByType * 3) < totalCards)
+		{
+			String [] cardType = {GameConstants.ARTILLERY, GameConstants.CAVALRY,GameConstants.INFANTRY};
+			while(difference>0) {
+				Random randomeCardType = new Random();
+				int result=randomeCardType.nextInt(2);
+				String cardName =cardType[result];
+				int numOfcards=deckMap.get(cardName);
+				deckMap.put(cardName, numOfcards + 1);
+				difference--;
+			}
+			
+		}
+		
+		
 	}
+	
+	
 
 	/**
 	 * Gets the instance single of GamePlayService class.
@@ -120,8 +158,10 @@ public class GamePlayService {
 	public boolean doStartupPhase(int numberOfPlayers, NewGamePlayView game_play_view) {
 		
 		
-		if (game_map.getCountries().isEmpty())
+		if (game_map.getCountries().isEmpty()) 
+		{
 			return false;
+		}
 
 		logger = ConsoleLoggerService.getInstance(game_play_view.console);
 		
@@ -227,6 +267,16 @@ public class GamePlayService {
 
 		int countArmy = 0;
 		int countriesCounquered = getCountriesConqueredBy(p).size();
+		int armyForCards=0;
+		
+		if(showCardExchangeView(p)) {
+			
+			armyForCards=p.getReinforceArmyforCard()+5;
+			
+			// setting armies to the player so that next time he will get total+5
+			p.setReinforceArmyforCard(armyForCards);
+			
+		}
 		if (countriesCounquered <= 11 && countriesCounquered > 0) {
 			countArmy = 3;
 		} else {
@@ -236,9 +286,39 @@ public class GamePlayService {
 		List<Continent> ruledContinents = getContinentsCounqueredBy(p);
 		for (Continent c : ruledContinents)
 			countArmy += c.getControlValue();
-
+		
+		countArmy+=armyForCards;
 		return countArmy;
 
+	}
+
+	private boolean showCardExchangeView(Player p) {
+		// TODO Auto-generated method stub
+		int infantary=0;
+		int cavallry =0;
+		int artillry=0;
+		
+		//checking
+		if(p.getCards()!=null) {
+		
+			for(Card card : p.getCards()) {
+			String cardType=card.getCard_type();
+			if(cardType.equalsIgnoreCase(GameConstants.INFANTRY)) {
+				infantary++;
+			}
+			if(cardType.equalsIgnoreCase(GameConstants.CAVALRY)) {
+				cavallry++;
+			}
+			if(cardType.equalsIgnoreCase(GameConstants.ARTILLERY)) {
+				artillry++;
+			}
+			if((infantary==1 && cavallry==1 && artillry==1) || infantary==3 || cavallry==3 || artillry==3) {
+				return true;
+			}
+		}
+		
+		}
+		return false;
 	}
 
 	/**
