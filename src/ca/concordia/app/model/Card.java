@@ -10,9 +10,6 @@ public class Card {
 
 	enum CardType {INFANTRY, CAVALRY, ARTILLERY};
 	
-	/**
-	 * Create an object of class CardType.
-	 */
 	private CardType card_type;
 	
 	/**

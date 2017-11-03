@@ -10,19 +10,11 @@ import java.awt.Color;
  */
 public class Continent {
 	
-	/**
-	 * continent name of type String.
-	 */
+
 	private String continent_name;
 	
-	/**
-	 * The control value of the continent of type int.
-	 */
 	private int control_value;
 	
-	/**
-	 * The color of the continent of type Color
-	 */
 	private Color colour;
 
 	/**
