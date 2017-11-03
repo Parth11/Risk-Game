@@ -88,9 +88,7 @@ public class MapEditorController implements ActionListener, MouseListener{
 		
 	}
 	
-	/**
-	 * Reload map.
-	 */
+
 	private void reloadMap(){
 		
 		map_editor_view.dispose();
