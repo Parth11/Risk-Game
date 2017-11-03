@@ -27,8 +27,8 @@ public class Player extends Observable {
 	public int reinforceArmyforCard =0;
 	public String color;
 	public GamePhase game_phase;
-	
-	ArrayList<Card> cards_list;
+	public ArrayList<Card> cards_list;
+	public List<GamePlayEvent> event_log;
 	
 //	String [] cardType = {"I","C","A"};
 //	Random randomeCardType = new Random();
@@ -41,6 +41,7 @@ public class Player extends Observable {
 	public Player(String name) {
 		this.name = name;
 		this.color = null;
+		this.event_log = new ArrayList<>();
 		this.addObserver(PhaseViewController.getInstance());
 	}
 	
