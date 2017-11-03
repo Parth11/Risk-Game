@@ -1,14 +1,19 @@
 package ca.concordia.app.model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Observable;
+import java.util.Random;
 
 import javax.swing.JOptionPane;
 import javax.swing.plaf.basic.BasicIconFactory;
 
+import ca.concordia.app.controller.PhaseViewController;
 import ca.concordia.app.service.ConsoleLoggerService;
 import ca.concordia.app.service.GamePlayService;
+import ca.concordia.app.util.GameConstants;
+import ca.concordia.app.util.GamePhase;
 
 /**
  * @author Parth Nayak
@@ -19,15 +24,34 @@ public class Player extends Observable {
 
 	public String name;
 	public int total_armies;
+	public int reinforceArmyforCard =0;
 	public String color;
-	public ArrayList<Card> cards_list;
+	public GamePhase game_phase;
+	
+	ArrayList<Card> cards_list;
+	
+//	String [] cardType = {"I","C","A"};
+//	Random randomeCardType = new Random();
+//	int result=randomeCardType.nextInt(2);
+//	String cardName=cardType[result];
+//	Card card = new Card(cardName, 1);
+	
+	
 	
 	public Player(String name) {
 		this.name = name;
 		this.color = null;
-		this.cards_list = new ArrayList<>();
+		this.addObserver(PhaseViewController.getInstance());
 	}
 	
+	public int getReinforceArmyforCard() {
+		return reinforceArmyforCard;
+	}
+
+	public void setReinforceArmyforCard(int reinforceArmyforCard) {
+		this.reinforceArmyforCard = reinforceArmyforCard;
+	}
+
 	public String getName() {
 		return name;
 	}
@@ -54,6 +78,15 @@ public class Player extends Observable {
 		this.color = color;
 	}
 	public ArrayList<Card> getCards() {
+		
+		// temp assigning cards to a player
+		Card card1 = new Card(GameConstants.ARTILLERY,1);
+		//Card card2 = new Card(GameConstants.INFANTRY,0);
+		Card card3 = new Card(GameConstants.CAVALRY,1);
+		cards_list = new ArrayList<>();
+		cards_list.add(card1);
+		//cards_list.add(card2);
+		cards_list.add(card3);
 		return cards_list;
 	}
 	public void addCard(Card card) {
@@ -63,16 +96,20 @@ public class Player extends Observable {
 	public void doReinforcement(){
 
 		ConsoleLoggerService logger = ConsoleLoggerService.getInstance(null);
+	
 		
-		logger.write("Do you wish to enter Reinforcement phase?");
-
-		String[] options = { "Yes", "No" };
-
-		String str = JOptionPane.showInputDialog(GamePlayService.getInstance().game_play_frame, "Enter Reinforcemet Phase?", "Input",
-				JOptionPane.OK_OPTION, BasicIconFactory.getMenuArrowIcon(), options, "Yes").toString();
-
-		if (str.equalsIgnoreCase("Yes")) {
+			setCurrentPhase(GamePhase.REINFORCEMENT);
+			
+//			String[] selectionValues = { "Yes", "No" };
+//			String str = JOptionPane.showInputDialog(GamePlayService.getInstance().game_play_frame, "Do you wish to exchange the cards?", "Input",
+//					JOptionPane.YES_OPTION, BasicIconFactory.getMenuArrowIcon(), selectionValues, "Yes").toString();
+//			
+//			if (str.equalsIgnoreCase("Yes")) {
+//				
+//			}
+			
 			int numberOfArmies = GamePlayService.getInstance().getReinforcementArmyForPlayer(this);
+			
 			logger.write(this.name + " gets " + numberOfArmies + " armies");
 			logger.write("These are your countries with current armies present in it : \n"
 					+ GamePlayService.getInstance().printCountryAllocationToConsole(this));
@@ -94,16 +131,13 @@ public class Player extends Observable {
 				country.addArmies(armiesWishToReinforce);
 				numberOfArmies = numberOfArmies - armiesWishToReinforce;
 				logger.write("You are now left with "+numberOfArmies+" armies");
+				setChanged();
+				notifyObservers();
 			}
 			if (numberOfArmies == 0) {
-				logger.write(
-						"You have successfully placed all the armies into the countries you selected. Moving to the next phase.");
+				logger.write("You have successfully placed all the armies into the countries you selected. Moving to the next phase.");
 				return;
 			}
-
-		} else {
-			return;
-		}
 
 	}
 	
@@ -188,6 +222,10 @@ public class Player extends Observable {
 		} else {
 			return;
 		}
+	}
+	
+	public void setCurrentPhase(GamePhase currentPhase){
+		this.game_phase = currentPhase;
 	}
 	
 }

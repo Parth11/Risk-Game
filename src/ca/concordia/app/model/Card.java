@@ -8,27 +8,32 @@ package ca.concordia.app.model;
  */
 public class Card {
 
-	enum CardType {INFANTRY, CAVALRY, ARTILLERY};
 	
-	/**
-	 * Create an object of class CardType.
-	 */
-	private CardType card_type;
 	
-	/**
-	 * Sets the card type
-	 * @param cardType
-	 */
-	public Card(CardType cardType) {
+	private String card_type;
+	private int numerOfCard;
+
+	public Card(String card_type, int numerOfCard) {
 		super();
-		this.card_type = cardType;
+		this.card_type = card_type;
+		this.numerOfCard = numerOfCard;
 	}
 	
-	/**
-	 * 
-	 * @return the card type.
-	 */
-	public CardType getCardType() {
+	
+
+	public String getCard_type() {
 		return card_type;
 	}
+	public void setCard_type(String card_type) {
+		this.card_type = card_type;
+	}
+	public int getNumerOfCard() {
+		return numerOfCard;
+	}
+	public void setNumerOfCard(int numerOfCard) {
+		this.numerOfCard = numerOfCard;
+	}
+
+	
+	
 }
