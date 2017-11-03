@@ -15,6 +15,7 @@ import ca.concordia.app.model.Country;
 import ca.concordia.app.model.DiceRoller;
 import ca.concordia.app.model.GameMap;
 import ca.concordia.app.model.Player;
+import ca.concordia.app.util.GamePhase;
 import ca.concordia.app.view.NewGamePlayView;
 
 /**
@@ -79,6 +80,7 @@ public class GamePlayService {
 	private void resetPlayersData() {
 		turn = 0;
 		for (Player p : players) {
+			p.setCurrentPhase(GamePhase.STARTUP);
 			p.setTotalArmies(getInitialArmy());
 			logger.write(p.getName()+" -> Receives -> "+p.getTotalArmies()+" armies\n");
 		}

@@ -7,8 +7,10 @@ import java.util.Observable;
 import javax.swing.JOptionPane;
 import javax.swing.plaf.basic.BasicIconFactory;
 
+import ca.concordia.app.controller.PhaseViewController;
 import ca.concordia.app.service.ConsoleLoggerService;
 import ca.concordia.app.service.GamePlayService;
+import ca.concordia.app.util.GamePhase;
 
 /**
  * @author Parth Nayak
@@ -21,11 +23,13 @@ public class Player extends Observable {
 	public int total_armies;
 	public String color;
 	public ArrayList<Card> cards_list;
+	public GamePhase game_phase;
 	
 	public Player(String name) {
 		this.name = name;
 		this.color = null;
 		this.cards_list = new ArrayList<>();
+		this.addObserver(PhaseViewController.getInstance());
 	}
 	
 	public String getName() {
@@ -72,6 +76,9 @@ public class Player extends Observable {
 				JOptionPane.OK_OPTION, BasicIconFactory.getMenuArrowIcon(), options, "Yes").toString();
 
 		if (str.equalsIgnoreCase("Yes")) {
+			
+			setCurrentPhase(GamePhase.REINFORCEMENT);
+			
 			int numberOfArmies = GamePlayService.getInstance().getReinforcementArmyForPlayer(this);
 			logger.write(this.name + " gets " + numberOfArmies + " armies");
 			logger.write("These are your countries with current armies present in it : \n"
@@ -94,6 +101,8 @@ public class Player extends Observable {
 				country.addArmies(armiesWishToReinforce);
 				numberOfArmies = numberOfArmies - armiesWishToReinforce;
 				logger.write("You are now left with "+numberOfArmies+" armies");
+				setChanged();
+				notifyObservers();
 			}
 			if (numberOfArmies == 0) {
 				logger.write(
@@ -188,6 +197,10 @@ public class Player extends Observable {
 		} else {
 			return;
 		}
+	}
+	
+	public void setCurrentPhase(GamePhase currentPhase){
+		this.game_phase = currentPhase;
 	}
 	
 }

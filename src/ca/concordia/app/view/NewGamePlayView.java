@@ -41,7 +41,7 @@ public class NewGamePlayView extends JFrame implements IView {
 		getContentPane().setLayout(null);
 
 		scroll_pane = new JScrollPane();
-		scroll_pane.setBounds(15, 16, 1248, 812);
+		scroll_pane.setBounds(15, 16, 948, 712);
 		getContentPane().add(scroll_pane);
 
 		console = new JTextArea();
@@ -49,7 +49,6 @@ public class NewGamePlayView extends JFrame implements IView {
 		console.setForeground(Color.WHITE);
 		console.setBackground(Color.BLACK);
 		console_logger_service = ConsoleLoggerService.getInstance(console);
-		setBounds(0, 0, 1300, 900);
 		initialize();
 	}
 
@@ -59,7 +58,7 @@ public class NewGamePlayView extends JFrame implements IView {
 
 	private void initialize() {
 		this.setVisible(true);
-		setBounds(100, 100, 1300, 900);
+		setBounds(0, 0, 1000, 800);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
