@@ -68,15 +68,13 @@ public class Player extends Observable {
 
 		ConsoleLoggerService logger = ConsoleLoggerService.getInstance(null);
 		
-		logger.write("Do you wish to enter Reinforcement phase?");
+//		logger.write("Do you wish to enter Reinforcement phase?");
+//
+//		String[] options = { "Yes", "No" };
 
-		String[] options = { "Yes", "No" };
-
-		String str = JOptionPane.showInputDialog(GamePlayService.getInstance().game_play_frame, "Enter Reinforcemet Phase?", "Input",
-				JOptionPane.OK_OPTION, BasicIconFactory.getMenuArrowIcon(), options, "Yes").toString();
-
-		if (str.equalsIgnoreCase("Yes")) {
-			
+//		String str = JOptionPane.showInputDialog(GamePlayService.getInstance().game_play_frame, "Enter Reinforcemet Phase?", "Input",
+//				JOptionPane.OK_OPTION, BasicIconFactory.getMenuArrowIcon(), options, "Yes").toString();
+		
 			setCurrentPhase(GamePhase.REINFORCEMENT);
 			
 			int numberOfArmies = GamePlayService.getInstance().getReinforcementArmyForPlayer(this);
@@ -108,10 +106,8 @@ public class Player extends Observable {
 				logger.write(
 						"You have successfully placed all the armies into the countries you selected. Moving to the next phase.");
 				return;
-			}
+			
 
-		} else {
-			return;
 		}
 
 	}
