@@ -27,5 +27,7 @@ public interface GameConstants {
 	public static final String CAVALRY = "Cavalry";
 	public static final String ARTILLERY = "Artillery";
 	
+	public static final int REINFORCEMENT_ARMIES_FOR_CARDS = 5;
+	
 	
 }

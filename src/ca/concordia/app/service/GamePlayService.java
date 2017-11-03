@@ -83,6 +83,8 @@ public class GamePlayService {
 		deckMap.put(GameConstants.INFANTRY, cardsDividedByType);
 		deckMap.put(GameConstants.CAVALRY, cardsDividedByType);
 		deckMap.put(GameConstants.ARTILLERY, cardsDividedByType);
+		
+		// setting up the cards for the scenario like 
 		if((cardsDividedByType * 3) < totalCards)
 		{
 			String [] cardType = {GameConstants.ARTILLERY, GameConstants.CAVALRY,GameConstants.INFANTRY};
@@ -285,7 +287,7 @@ public class GamePlayService {
 		
 		if(showCardExchangeView(p)) {
 			
-			armyForCards=p.getReinforceArmyforCard()+5;
+			armyForCards=p.getReinforceArmyforCard() + GameConstants.REINFORCEMENT_ARMIES_FOR_CARDS;
 			
 			// setting armies to the player so that next time he will get total+5
 			p.setReinforceArmyforCard(armyForCards);

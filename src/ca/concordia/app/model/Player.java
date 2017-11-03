@@ -71,6 +71,14 @@ public class Player extends Observable {
 		this.color = color;
 	}
 	public ArrayList<Card> getCards() {
+		// temp assigning cards to a player
+		Card card1 = new Card(GameConstants.ARTILLERY,5);
+		Card card2 = new Card(GameConstants.INFANTRY,5);
+		Card card3 = new Card(GameConstants.CAVALRY,5);
+		cards_list = new ArrayList<>();
+		cards_list.add(card1);
+		cards_list.add(card2);
+		cards_list.add(card3);
 		return cards_list;
 	}
 	public void addCard(Card card) {
