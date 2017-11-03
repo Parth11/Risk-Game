@@ -53,10 +53,6 @@ public class NewGamePlayView extends JFrame implements IView {
 		initialize();
 	}
 
-	/**
-	 * Initialize.
-	 */
-
 	private void initialize() {
 		this.setVisible(true);
 		setBounds(100, 100, 1300, 900);

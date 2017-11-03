@@ -25,7 +25,6 @@ import ca.concordia.app.model.GameMap;
  */
 public class MapEditorContinentView extends JFrame implements IView {
 
-	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 	
 	/** The continent name value. */
@@ -77,9 +76,6 @@ public class MapEditorContinentView extends JFrame implements IView {
 		initialize();
 	}
 
-	/**
-	 * Initialize the contents of the frame.
-	 */
 	private void initialize() {
 		this.setBounds(100, 100, 1300, 800);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

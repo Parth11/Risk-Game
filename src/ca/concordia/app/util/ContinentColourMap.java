@@ -14,17 +14,11 @@ import java.util.Map;
  * @author harvi
  */
 public class ContinentColourMap {
-	
-	/** The continent colour map. */
+
 	private static Map<String, Colours> continent_colour_map = new HashMap<String, Colours>();
-	
-	/** The available colours. */
+
 	private static List<Colours> available_colours = new ArrayList<Colours>();
 	
-
-	/**
-	 * The Enum Colours.
-	 */
 	private enum Colours {
 		
 		/** The red. */
@@ -57,14 +51,8 @@ public class ContinentColourMap {
 		/** The dark grey. */
 		DARK_GREY(Color.DARK_GRAY);
 		
-		/** The color. */
 		private Color color;
-		
-		/**
-		 * Instantiates a new colours.
-		 *
-		 * @param color the color
-		 */
+
 		private Colours(Color color){
 			this.color = color;
 		}
