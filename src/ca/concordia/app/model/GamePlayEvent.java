@@ -4,6 +4,7 @@
 package ca.concordia.app.model;
 
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author harvi
@@ -12,11 +13,18 @@ import java.util.HashMap;
 public class GamePlayEvent {
 
 	public enum EventType{
+		START_ARMY_ALLOCATION,
 		START_COUNTRY,
 		START_ARMY,
+		REINFORCE_ARMY_ALLOCATION,
 		REFINFORCE_COUNTRY,
 		ATTACK_COUNTRY,
 		FORTIFY_COUNTRY;
+	}
+	
+	public GamePlayEvent(EventType eventType, HashMap<String,Object> eventPayload){
+		this.event_type = eventType;
+		this.event_payload = eventPayload;
 	}
 	
 	private EventType event_type;

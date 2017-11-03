@@ -15,7 +15,9 @@ import ca.concordia.app.model.Continent;
 import ca.concordia.app.model.Country;
 import ca.concordia.app.model.DiceRoller;
 import ca.concordia.app.model.GameMap;
+import ca.concordia.app.model.GamePlayEvent;
 import ca.concordia.app.model.Player;
+import ca.concordia.app.model.GamePlayEvent.EventType;
 import ca.concordia.app.util.GameConstants;
 import ca.concordia.app.util.GamePhase;
 import ca.concordia.app.view.NewGamePlayView;
@@ -120,6 +122,10 @@ public class GamePlayService {
 		for (Player p : players) {
 			p.setCurrentPhase(GamePhase.STARTUP);
 			p.setTotalArmies(getInitialArmy());
+			HashMap<String, Object> payload = new HashMap<>();
+			payload.put("initialArmies", p.getTotalArmies());
+			GamePlayEvent gpe = new GamePlayEvent(EventType.START_ARMY_ALLOCATION, payload);
+			p.publishGamePlayEvent(gpe);
 			logger.write(p.getName()+" -> Receives -> "+p.getTotalArmies()+" armies\n");
 		}
 	}
@@ -193,12 +199,16 @@ public class GamePlayService {
 		int playersLeftForAssign = number_of_players;
 		while (playersLeftForAssign > 0) {
 			if (players.get(j % number_of_players).getTotalArmies() > 0) {
-				List<Country> playerCountryList = getCountriesConqueredBy(players.get(j % number_of_players));
+				Player p = players.get(j%number_of_players);
+				List<Country> playerCountryList = getCountriesConqueredBy(p);
 				Country randomCountry = playerCountryList.get(new Random().nextInt(playerCountryList.size()));
 				randomCountry.addArmies(1);
-				players.get(j % number_of_players)
-						.setTotalArmies(players.get(j % number_of_players).getTotalArmies() - 1);
-				logger.write(players.get(j%number_of_players).getName()+" placed an army in "+randomCountry.getCountryName()+"\n");
+				p.setTotalArmies(p.getTotalArmies() - 1);
+				HashMap<String, Object> eventPayload = new HashMap<>();
+				eventPayload.put("countryName", randomCountry.getCountryName());
+				GamePlayEvent gpe = new GamePlayEvent(EventType.START_COUNTRY, eventPayload );
+				p.publishGamePlayEvent(gpe);
+				logger.write(p.getName()+" placed an army in "+randomCountry.getCountryName()+"\n");
 			} else {
 				playersLeftForAssign--;
 			}
@@ -215,6 +225,10 @@ public class GamePlayService {
 			Player p = players.get(j % number_of_players);
 			setNewCountryRuler(p, c, 1);
 			p.subArmy(1);
+			HashMap<String, Object> eventPayload = new HashMap<>();
+			eventPayload.put("countryName", c.getCountryName());
+			GamePlayEvent gpe = new GamePlayEvent(EventType.START_COUNTRY, eventPayload );
+			p.publishGamePlayEvent(gpe);
 			logger.write(p.getName()+" -> controls the country -> "+c.getCountryName()+"\n");
 			j++;
 		}
