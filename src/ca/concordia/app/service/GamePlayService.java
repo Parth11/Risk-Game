@@ -67,9 +67,35 @@ public class GamePlayService {
 		int cardsDividedByType = totalCards / 3;
 		deckMap= new HashMap<>();
 		// infantry, cavalry, or artillery
+		
+//		String [] cardType = {"I","C","A"};
+//		Random randomeCardType = new Random();
+//		int result=randomeCardType.nextInt(2);
+//		String cardName=cardType[result];
+//		Card card = new Card(cardName, 1);
+		
+		
+		int difference = totalCards - (cardsDividedByType * 3);
+		
+		
 		deckMap.put(GameConstants.INFANTRY, cardsDividedByType);
 		deckMap.put(GameConstants.CAVALRY, cardsDividedByType);
 		deckMap.put(GameConstants.ARTILLERY, cardsDividedByType);
+		if((cardsDividedByType * 3) < totalCards)
+		{
+			String [] cardType = {GameConstants.ARTILLERY, GameConstants.CAVALRY,GameConstants.INFANTRY};
+			while(difference>0) {
+				Random randomeCardType = new Random();
+				int result=randomeCardType.nextInt(2);
+				String cardName =cardType[result];
+				int numOfcards=deckMap.get(cardName);
+				deckMap.put(cardName, numOfcards + 1);
+				difference--;
+			}
+			
+		}
+		
+		
 	}
 	
 	
@@ -246,6 +272,9 @@ public class GamePlayService {
 		if(showCardExchangeView(p)) {
 			
 			armyForCards=p.getReinforceArmyforCard()+5;
+			
+			// setting armies to the player so that next time he will get total+5
+			p.setReinforceArmyforCard(armyForCards);
 			
 		}
 		if (countriesCounquered <= 11 && countriesCounquered > 0) {
