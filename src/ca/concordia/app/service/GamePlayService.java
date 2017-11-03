@@ -16,6 +16,7 @@ import ca.concordia.app.model.Country;
 import ca.concordia.app.model.DiceRoller;
 import ca.concordia.app.model.GameMap;
 import ca.concordia.app.model.Player;
+import ca.concordia.app.util.GameConstants;
 import ca.concordia.app.util.GamePhase;
 import ca.concordia.app.view.NewGamePlayView;
 
@@ -66,9 +67,9 @@ public class GamePlayService {
 		int cardsDividedByType = totalCards / 3;
 		deckMap= new HashMap<>();
 		// infantry, cavalry, or artillery
-		deckMap.put("Infantry", cardsDividedByType);
-		deckMap.put("Cavalry", cardsDividedByType);
-		deckMap.put("Artillery", cardsDividedByType);
+		deckMap.put(GameConstants.INFANTRY, cardsDividedByType);
+		deckMap.put(GameConstants.CAVALRY, cardsDividedByType);
+		deckMap.put(GameConstants.ARTILLERY, cardsDividedByType);
 	}
 	
 	
@@ -267,23 +268,26 @@ public class GamePlayService {
 		int infantary=0;
 		int cavallry =0;
 		int artillry=0;
+		
+		//checking
 		if(p.getCards()!=null) {
 		
 			for(Card card : p.getCards()) {
 			String cardType=card.getCard_type();
-			if(cardType.equalsIgnoreCase("infantary")) {
+			if(cardType.equalsIgnoreCase(GameConstants.INFANTRY)) {
 				infantary++;
 			}
-			if(cardType.equalsIgnoreCase("cavallry")) {
+			if(cardType.equalsIgnoreCase(GameConstants.CAVALRY)) {
 				cavallry++;
 			}
-			if(cardType.equalsIgnoreCase("artillry")) {
+			if(cardType.equalsIgnoreCase(GameConstants.ARTILLERY)) {
 				artillry++;
 			}
+			if((infantary==1 && cavallry==1 && artillry==1) || infantary==3 || cavallry==3 || artillry==3) {
+				return true;
+			}
 		}
-		if((infantary==1 && cavallry==1 && artillry==1) || infantary==3 || cavallry==3 || artillry==3) {
-			return true;
-		}
+		
 		}
 		return false;
 	}

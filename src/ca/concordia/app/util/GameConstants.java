@@ -22,5 +22,10 @@ public interface GameConstants {
 	/** The Constant TERRITORY_HEADER_CONST. */
 	public static final String TERRITORY_HEADER_CONST = "[Territories]";
 	
+	 //infantry, cavalry, or artillery
+	public static final String INFANTRY = "Infantry";
+	public static final String CAVALRY = "Cavalry";
+	public static final String ARTILLERY = "Artillery";
+	
 	
 }

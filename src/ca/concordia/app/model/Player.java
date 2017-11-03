@@ -12,6 +12,7 @@ import javax.swing.plaf.basic.BasicIconFactory;
 import ca.concordia.app.controller.PhaseViewController;
 import ca.concordia.app.service.ConsoleLoggerService;
 import ca.concordia.app.service.GamePlayService;
+import ca.concordia.app.util.GameConstants;
 import ca.concordia.app.util.GamePhase;
 
 /**
@@ -26,7 +27,6 @@ public class Player extends Observable {
 	public int reinforceArmyforCard =0;
 	public String color;
 	public GamePhase game_phase;
-	public HashMap<Player, ArrayList<Card> >  playerCardMap ;
 	
 	ArrayList<Card> cards_list;
 	
@@ -37,10 +37,10 @@ public class Player extends Observable {
 //	Card card = new Card(cardName, 1);
 	
 	
+	
 	public Player(String name) {
 		this.name = name;
 		this.color = null;
-		this.playerCardMap = new HashMap<>();
 		this.addObserver(PhaseViewController.getInstance());
 	}
 	
@@ -79,6 +79,14 @@ public class Player extends Observable {
 	}
 	public ArrayList<Card> getCards() {
 		
+		// temp assigning cards to a player
+		Card card1 = new Card(GameConstants.ARTILLERY,5);
+		Card card2 = new Card(GameConstants.INFANTRY,5);
+		Card card3 = new Card(GameConstants.CAVALRY,5);
+		cards_list = new ArrayList<>();
+		cards_list.add(card1);
+		cards_list.add(card2);
+		cards_list.add(card3);
 		return cards_list;
 	}
 	public void addCard(Card card) {
@@ -91,6 +99,14 @@ public class Player extends Observable {
 	
 		
 			setCurrentPhase(GamePhase.REINFORCEMENT);
+			
+//			String[] selectionValues = { "Yes", "No" };
+//			String str = JOptionPane.showInputDialog(GamePlayService.getInstance().game_play_frame, "Do you wish to exchange the cards?", "Input",
+//					JOptionPane.YES_OPTION, BasicIconFactory.getMenuArrowIcon(), selectionValues, "Yes").toString();
+//			
+//			if (str.equalsIgnoreCase("Yes")) {
+//				
+//			}
 			
 			int numberOfArmies = GamePlayService.getInstance().getReinforcementArmyForPlayer(this);
 			
