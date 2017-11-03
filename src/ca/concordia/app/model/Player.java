@@ -1,8 +1,10 @@
 package ca.concordia.app.model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Observable;
+import java.util.Random;
 
 import javax.swing.JOptionPane;
 import javax.swing.plaf.basic.BasicIconFactory;
@@ -21,17 +23,35 @@ public class Player extends Observable {
 
 	public String name;
 	public int total_armies;
+	public int reinforceArmyforCard =0;
 	public String color;
-	public ArrayList<Card> cards_list;
 	public GamePhase game_phase;
+	public HashMap<Player, ArrayList<Card> >  playerCardMap ;
+	
+	ArrayList<Card> cards_list;
+	
+//	String [] cardType = {"I","C","A"};
+//	Random randomeCardType = new Random();
+//	int result=randomeCardType.nextInt(2);
+//	String cardName=cardType[result];
+//	Card card = new Card(cardName, 1);
+	
 	
 	public Player(String name) {
 		this.name = name;
 		this.color = null;
-		this.cards_list = new ArrayList<>();
+		this.playerCardMap = new HashMap<>();
 		this.addObserver(PhaseViewController.getInstance());
 	}
 	
+	public int getReinforceArmyforCard() {
+		return reinforceArmyforCard;
+	}
+
+	public void setReinforceArmyforCard(int reinforceArmyforCard) {
+		this.reinforceArmyforCard = reinforceArmyforCard;
+	}
+
 	public String getName() {
 		return name;
 	}
@@ -58,6 +78,7 @@ public class Player extends Observable {
 		this.color = color;
 	}
 	public ArrayList<Card> getCards() {
+		
 		return cards_list;
 	}
 	public void addCard(Card card) {
@@ -67,17 +88,12 @@ public class Player extends Observable {
 	public void doReinforcement(){
 
 		ConsoleLoggerService logger = ConsoleLoggerService.getInstance(null);
-		
-//		logger.write("Do you wish to enter Reinforcement phase?");
-//
-//		String[] options = { "Yes", "No" };
-
-//		String str = JOptionPane.showInputDialog(GamePlayService.getInstance().game_play_frame, "Enter Reinforcemet Phase?", "Input",
-//				JOptionPane.OK_OPTION, BasicIconFactory.getMenuArrowIcon(), options, "Yes").toString();
+	
 		
 			setCurrentPhase(GamePhase.REINFORCEMENT);
 			
 			int numberOfArmies = GamePlayService.getInstance().getReinforcementArmyForPlayer(this);
+			
 			logger.write(this.name + " gets " + numberOfArmies + " armies");
 			logger.write("These are your countries with current armies present in it : \n"
 					+ GamePlayService.getInstance().printCountryAllocationToConsole(this));
@@ -103,12 +119,9 @@ public class Player extends Observable {
 				notifyObservers();
 			}
 			if (numberOfArmies == 0) {
-				logger.write(
-						"You have successfully placed all the armies into the countries you selected. Moving to the next phase.");
+				logger.write("You have successfully placed all the armies into the countries you selected. Moving to the next phase.");
 				return;
-			
-
-		}
+			}
 
 	}
 	
