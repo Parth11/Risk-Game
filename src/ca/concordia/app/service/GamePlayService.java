@@ -24,36 +24,23 @@ import ca.concordia.app.view.NewGamePlayView;
  */
 public class GamePlayService {
 
-	/** The instance. 
-	*
-	*  Creaing an instance of GamePlayService and initialize it with null.
-	*/
 	private static GamePlayService instance = null;
 	
 	
 	public JFrame game_play_frame;
 
-	/** The number of players. */
 	private int number_of_players;
 
-	/** Creating an object of GameMap class. */
 	private GameMap game_map;
 
-	/** This is list of players. */
 	private List<Player> players;
 
-	/** This player country map in which key is Player and value is Country. */
 	private Map<Player, List<Country>> player_country_map;
 
-	/** The turn for the player. */
 	private int turn = 0;
 
-	/** An instance of the logger service to write to gameplay console */
 	private ConsoleLoggerService logger;
 
-	/**
-	 * Instantiates a new game play service.
-	 */
 	private GamePlayService() {
 		game_map = GameMap.getInstance();
 		players = new ArrayList<>();
@@ -72,10 +59,6 @@ public class GamePlayService {
 		return instance;
 	}
 
-	/**
-	 * Resetting players data.
-	 * 
-	 */
 	private void resetPlayersData() {
 		turn = 0;
 		for (Player p : players) {
@@ -143,9 +126,6 @@ public class GamePlayService {
 		return true;
 	}
 
-	/**
-	 * Adding the initial armies using Roun-Robin fashion.
-	 */
 	private void addInitialArmiesUsingRoundRobin() {
 		int j = 0;
 		int playersLeftForAssign = number_of_players;
@@ -164,9 +144,6 @@ public class GamePlayService {
 		}
 	}
 
-	/**
-	 * Allocating countries to players.
-	 */
 	private void allocateCountriesToPlayers() {
 		int j = 0;
 		for (Country c : game_map.getCountries()) {

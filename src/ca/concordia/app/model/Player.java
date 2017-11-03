@@ -10,56 +10,130 @@ import javax.swing.plaf.basic.BasicIconFactory;
 import ca.concordia.app.service.ConsoleLoggerService;
 import ca.concordia.app.service.GamePlayService;
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class Player.
+ *
  * @author Parth Nayak
- * 
- * 
  */
 public class Player extends Observable {
 
+	/** The name. */
 	public String name;
+	
+	/** The total armies. */
 	public int total_armies;
+	
+	/** The color. */
 	public String color;
+	
+	/** The cards list. */
 	public ArrayList<Card> cards_list;
 	
+	/**
+	 * Instantiates a new player.
+	 *
+	 * @param name the name
+	 */
 	public Player(String name) {
 		this.name = name;
 		this.color = null;
 		this.cards_list = new ArrayList<>();
 	}
 	
+	/**
+	 * Gets the name.
+	 *
+	 * @return the name
+	 */
 	public String getName() {
 		return name;
 	}
+	
+	/**
+	 * Sets the name.
+	 *
+	 * @param name the new name
+	 */
 	public void setName(String name) {
 		this.name = name;
 	}
+	
+	/**
+	 * Gets the total armies.
+	 *
+	 * @return the total armies
+	 */
 	public int getTotalArmies() {
 		return total_armies;
 	}
+	
+	/**
+	 * Sets the total armies.
+	 *
+	 * @param totalArmies the new total armies
+	 */
 	public void setTotalArmies(int totalArmies) {
 		this.total_armies = totalArmies;
 	}
 	
+	/**
+	 * Adds the army.
+	 *
+	 * @param n the n
+	 */
 	public void addArmy(int n) {
 		this.total_armies+=n;
 	}
+	
+	/**
+	 * Sub army.
+	 *
+	 * @param n the n
+	 */
 	public void subArmy(int n) {
 		this.total_armies-=n;
 	}
+	
+	/**
+	 * Gets the color.
+	 *
+	 * @return the color
+	 */
 	public String getColor() {
 		return color;
 	}
+	
+	/**
+	 * Sets the color.
+	 *
+	 * @param color the new color
+	 */
 	public void setColor(String color) {
 		this.color = color;
 	}
+	
+	/**
+	 * Gets the cards.
+	 *
+	 * @return the cards
+	 */
 	public ArrayList<Card> getCards() {
 		return cards_list;
 	}
+	
+	/**
+	 * Adds the card.
+	 *
+	 * @param card the card
+	 */
 	public void addCard(Card card) {
 		cards_list.add(card);
 	}
 	
+	/**
+	 * Do reinforcement.
+	 */
 	public void doReinforcement(){
 
 		ConsoleLoggerService logger = ConsoleLoggerService.getInstance(null);
@@ -107,11 +181,17 @@ public class Player extends Observable {
 
 	}
 	
+	/**
+	 * Do attack.
+	 */
 	public void doAttack(){
 		ConsoleLoggerService.getInstance(null).write("Skipping the attack phase for now");
 		return;
 	}
 	
+	/**
+	 * Do fortification.
+	 */
 	public void doFortification(){
 
 		ConsoleLoggerService logger = ConsoleLoggerService.getInstance(null);

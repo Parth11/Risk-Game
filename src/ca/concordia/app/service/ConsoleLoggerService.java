@@ -8,10 +8,8 @@ import javax.swing.JTextArea;
  */
 public class ConsoleLoggerService{
 	
-	/** The logger. */
 	private static ConsoleLoggerService logger = null;
 	
-	/** The console. */
 	private JTextArea console = null;
 
 	/**
