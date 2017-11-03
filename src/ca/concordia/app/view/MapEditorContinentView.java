@@ -139,7 +139,6 @@ public class MapEditorContinentView extends JFrame implements IView {
 		remove_button.setBounds(604, 275, 68, 50);
 		getContentPane().add(remove_button);
 		
-
 		JLabel lblControlValue = new JLabel("Control Value");
 		lblControlValue.setBounds(684, 34, 91, 16);
 		getContentPane().add(lblControlValue);
@@ -297,10 +296,10 @@ public class MapEditorContinentView extends JFrame implements IView {
 							available_countries.addElement(s);
 				}
 	        }
-			
-		}
+
 		available_country_list.setModel(available_countries);
 		select_countries.removeElement(selValue);
 		selected_country_list.setModel(select_countries);
 	}
+}
 }

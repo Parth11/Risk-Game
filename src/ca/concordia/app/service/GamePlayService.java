@@ -312,24 +312,26 @@ public class GamePlayService {
 		int cavallry =0;
 		int artillry=0;
 		
-		//checking
-		if(p.getCards()!=null) {
-		
-			for(Card card : p.getCards()) {
-			String cardType=card.getCard_type();
-			if(cardType.equalsIgnoreCase(GameConstants.INFANTRY)) {
-				infantary++;
+		if(p.getCards()!=null) 
+		{
+			for(Card card : p.getCards()) 
+			{
+				String cardType=card.getCard_type();
+				if(cardType.equalsIgnoreCase(GameConstants.INFANTRY)) {
+					infantary++;
+				}
+				if(cardType.equalsIgnoreCase(GameConstants.CAVALRY)) {
+					cavallry++;
+				}
+				if(cardType.equalsIgnoreCase(GameConstants.ARTILLERY)) {
+					artillry++;
+				}
+			
+				if((infantary==1 && cavallry==1 && artillry==1) || infantary==3 || cavallry==3 || artillry==3) 
+				{
+					return true;
+				}
 			}
-			if(cardType.equalsIgnoreCase(GameConstants.CAVALRY)) {
-				cavallry++;
-			}
-			if(cardType.equalsIgnoreCase(GameConstants.ARTILLERY)) {
-				artillry++;
-			}
-			if((infantary==1 && cavallry==1 && artillry==1) || infantary==3 || cavallry==3 || artillry==3) {
-				return true;
-			}
-		}
 		
 		}
 		return false;

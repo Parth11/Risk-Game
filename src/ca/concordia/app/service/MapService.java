@@ -332,8 +332,6 @@ public class MapService {
 			
 		}
 		
-		
-		
 	}
 
 	/**

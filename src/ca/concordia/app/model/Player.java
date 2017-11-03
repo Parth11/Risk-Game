@@ -30,14 +30,6 @@ public class Player extends Observable {
 	public ArrayList<Card> cards_list;
 	public List<GamePlayEvent> event_log;
 	
-//	String [] cardType = {"I","C","A"};
-//	Random randomeCardType = new Random();
-//	int result=randomeCardType.nextInt(2);
-//	String cardName=cardType[result];
-//	Card card = new Card(cardName, 1);
-	
-	
-	
 	public Player(String name) {
 		this.name = name;
 		this.color = null;
@@ -79,15 +71,6 @@ public class Player extends Observable {
 		this.color = color;
 	}
 	public ArrayList<Card> getCards() {
-		
-		// temp assigning cards to a player
-		Card card1 = new Card(GameConstants.ARTILLERY,1);
-		//Card card2 = new Card(GameConstants.INFANTRY,0);
-		Card card3 = new Card(GameConstants.CAVALRY,1);
-		cards_list = new ArrayList<>();
-		cards_list.add(card1);
-		//cards_list.add(card2);
-		cards_list.add(card3);
 		return cards_list;
 	}
 	public void addCard(Card card) {
@@ -98,7 +81,6 @@ public class Player extends Observable {
 
 		ConsoleLoggerService logger = ConsoleLoggerService.getInstance(null);
 	
-		
 			setCurrentPhase(GamePhase.REINFORCEMENT);
 			
 			int numberOfArmies = GamePlayService.getInstance().getReinforcementArmyForPlayer(this);
@@ -119,7 +101,7 @@ public class Player extends Observable {
 				logger.write("Please select the country in which you want to reinforce the army");
 
 				Country country = (Country) JOptionPane.showInputDialog(GamePlayService.getInstance().game_play_frame, "Select Country", "Input",
-						JOptionPane.YES_OPTION, BasicIconFactory.getMenuArrowIcon(),
+						JOptionPane.NO_OPTION, BasicIconFactory.getMenuArrowIcon(),
 						GamePlayService.getInstance().getCountriesConqueredBy(this).toArray(), null);
 
 				logger.write("How many armies you wish to reinforce between 1 - " + numberOfArmies);
@@ -128,7 +110,7 @@ public class Player extends Observable {
 					selectOptions[i] = i + 1;
 				}
 				Integer armiesWishToReinforce = (Integer) JOptionPane.showInputDialog(GamePlayService.getInstance().game_play_frame, "Number of Armies",
-						"Input", JOptionPane.YES_OPTION, BasicIconFactory.getMenuArrowIcon(), selectOptions,
+						"Input", JOptionPane.NO_OPTION, BasicIconFactory.getMenuArrowIcon(), selectOptions,
 						selectOptions[0]);
 				country.addArmies(armiesWishToReinforce);
 				numberOfArmies = numberOfArmies - armiesWishToReinforce;
@@ -163,7 +145,7 @@ public class Player extends Observable {
 		logger.write("Do you wish to enter Fortification phase?");
 		String[] selectionValues = { "Yes", "No" };
 		String str = JOptionPane.showInputDialog(GamePlayService.getInstance().game_play_frame, "Enter Fortification Phase?", "Input",
-				JOptionPane.YES_OPTION, BasicIconFactory.getMenuArrowIcon(), selectionValues, "Yes").toString();
+				JOptionPane.NO_OPTION, BasicIconFactory.getMenuArrowIcon(), selectionValues, "Yes").toString();
 		if (str.equalsIgnoreCase("Yes")) {
 
 			this.setCurrentPhase(GamePhase.FORTIFICATION);
@@ -179,7 +161,7 @@ public class Player extends Observable {
 			
 			do{
 				fromCountry = (Country) JOptionPane.showInputDialog(GamePlayService.getInstance().game_play_frame, "Select Country", "Input",
-						JOptionPane.YES_OPTION, BasicIconFactory.getMenuArrowIcon(), selectOptions.toArray(), null);
+						JOptionPane.NO_OPTION, BasicIconFactory.getMenuArrowIcon(), selectOptions.toArray(), null);
 
 				if (fromCountry.getNoOfArmy() == 1) {
 					logger.write("Please leave atleast one army behind, so it can defend your country from an attack.");
@@ -195,7 +177,7 @@ public class Player extends Observable {
 
 			List<Country> toCountryOptions = new ArrayList<Country>();
 			for (Country c : selectOptions) {
-				if (!c.equals(fromCountry) && GamePlayService.getInstance().isConnected(fromCountry, c)) {
+				if (!c.equals(fromCountry) && GamePlayService.getInstance().isConnected(fromCountry, c,this)) {
 					toCountryOptions.add(c);
 				}
 			}
@@ -205,7 +187,7 @@ public class Player extends Observable {
 			
 			do{
 				toCountry = (Country) JOptionPane.showInputDialog(GamePlayService.getInstance().game_play_frame, "Select Country", "Input",
-						JOptionPane.YES_OPTION, BasicIconFactory.getMenuArrowIcon(), toCountryOptions.toArray(), null);
+						JOptionPane.NO_OPTION, BasicIconFactory.getMenuArrowIcon(), toCountryOptions.toArray(), null);
 
 				boolean areBothCountriesConnected = GamePlayService.getInstance().isConnected(fromCountry, toCountry, this);
 				if (!areBothCountriesConnected) {
@@ -224,7 +206,7 @@ public class Player extends Observable {
 				optionArmies[i] = i + 1;
 			}
 			Integer armies = (Integer) JOptionPane.showInputDialog(GamePlayService.getInstance().game_play_frame, "Number of Armies to Move", "Input",
-					JOptionPane.YES_OPTION, BasicIconFactory.getMenuArrowIcon(), optionArmies, 1);
+					JOptionPane.NO_OPTION, BasicIconFactory.getMenuArrowIcon(), optionArmies, 1);
 			
 			GamePlayService.getInstance().moveArmyFromTo(this, fromCountry, toCountry, armies);
 			
