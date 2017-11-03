@@ -6,17 +6,11 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
-import java.util.List;
 
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
-import ca.concordia.app.model.Country;
-import ca.concordia.app.model.GameMap;
-import ca.concordia.app.model.Player;
 import ca.concordia.app.service.MapService;
-import ca.concordia.app.service.GamePlayService;
-import ca.concordia.app.service.ConsoleLoggerService;
 import ca.concordia.app.util.MapValidationException;
 import ca.concordia.app.view.NewGameSelectorView;
 
