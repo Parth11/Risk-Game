@@ -31,7 +31,7 @@ public class PhaseView extends JFrame{
 	public JTextField attack_throws;
 	public JTextField defence_throws;
 	public JTextField win_loss;
-	public JTextField fortifying_countries;
+	public JTextField fortifying_country;
 	public JTextField fortified_country;
 	public JTextField armies_moved;
 
@@ -229,14 +229,14 @@ public class PhaseView extends JFrame{
 		this.getContentPane().add(fortify_panel);
 		fortify_panel.setLayout(null);
 		
-		fortifying_countries = new JTextField();
-		fortifying_countries.setEditable(false);
-		fortifying_countries.setBounds(206, 16, 146, 26);
-		fortify_panel.add(fortifying_countries);
-		fortifying_countries.setColumns(10);
+		fortifying_country = new JTextField();
+		fortifying_country.setEditable(false);
+		fortifying_country.setBounds(206, 16, 146, 26);
+		fortify_panel.add(fortifying_country);
+		fortifying_country.setColumns(10);
 		
 		JLabel lblFortifyingCountry = new JLabel("Fortifying Country");
-		lblFortifyingCountry.setLabelFor(fortifying_countries);
+		lblFortifyingCountry.setLabelFor(fortifying_country);
 		lblFortifyingCountry.setBounds(15, 19, 161, 20);
 		fortify_panel.add(lblFortifyingCountry);
 		
@@ -262,4 +262,41 @@ public class PhaseView extends JFrame{
 		lblArmiesMoved.setBounds(15, 114, 151, 20);
 		fortify_panel.add(lblArmiesMoved);
 	}
+	
+	public void clearFields(){
+		
+		player_name.setText("");
+		
+		player_phase.setText("");
+		
+		player_armies.setText("");
+		
+		num_infantry.setText("");
+		
+		num_cavalry.setText("");
+		
+		num_artillery.setText("");
+		
+		reinforced_country.setText("");
+		
+		reinforce_armies.setText("");
+		
+		attacking_country.setText("");
+		
+		attacked_country.setText("");
+		
+		attack_throws.setText("");
+		
+		defence_throws.setText("");
+		
+		win_loss.setText("");
+		
+		fortifying_country.setText("");
+		
+		fortified_country.setText("");
+		
+		armies_moved.setText("");
+		
+	}
+	
 }

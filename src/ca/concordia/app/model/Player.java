@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Observable;
-import java.util.Random;
 
 import javax.swing.JOptionPane;
 import javax.swing.plaf.basic.BasicIconFactory;
 
 import ca.concordia.app.controller.PhaseViewController;
+import ca.concordia.app.model.GamePlayEvent.EventType;
 import ca.concordia.app.service.ConsoleLoggerService;
 import ca.concordia.app.service.GamePlayService;
 import ca.concordia.app.util.GameConstants;
@@ -27,20 +27,13 @@ public class Player extends Observable {
 	public int reinforceArmyforCard =0;
 	public String color;
 	public GamePhase game_phase;
-	
-	ArrayList<Card> cards_list;
-	
-//	String [] cardType = {"I","C","A"};
-//	Random randomeCardType = new Random();
-//	int result=randomeCardType.nextInt(2);
-//	String cardName=cardType[result];
-//	Card card = new Card(cardName, 1);
-	
-	
+	public ArrayList<Card> cards_list;
+	public List<GamePlayEvent> event_log;
 	
 	public Player(String name) {
 		this.name = name;
 		this.color = null;
+		this.event_log = new ArrayList<>();
 		this.addObserver(PhaseViewController.getInstance());
 	}
 	
@@ -78,7 +71,6 @@ public class Player extends Observable {
 		this.color = color;
 	}
 	public ArrayList<Card> getCards() {
-		
 		// temp assigning cards to a player
 		Card card1 = new Card(GameConstants.ARTILLERY,5);
 		Card card2 = new Card(GameConstants.INFANTRY,5);
@@ -97,27 +89,27 @@ public class Player extends Observable {
 
 		ConsoleLoggerService logger = ConsoleLoggerService.getInstance(null);
 	
-		
 			setCurrentPhase(GamePhase.REINFORCEMENT);
-			
-//			String[] selectionValues = { "Yes", "No" };
-//			String str = JOptionPane.showInputDialog(GamePlayService.getInstance().game_play_frame, "Do you wish to exchange the cards?", "Input",
-//					JOptionPane.YES_OPTION, BasicIconFactory.getMenuArrowIcon(), selectionValues, "Yes").toString();
-//			
-//			if (str.equalsIgnoreCase("Yes")) {
-//				
-//			}
 			
 			int numberOfArmies = GamePlayService.getInstance().getReinforcementArmyForPlayer(this);
 			
+			this.setTotalArmies(numberOfArmies);
+			
 			logger.write(this.name + " gets " + numberOfArmies + " armies");
+			
+			HashMap<String, Object> eventPayload = new HashMap<>();
+			eventPayload.put("reinforcementArmies", numberOfArmies);
+			GamePlayEvent gpe = new GamePlayEvent(EventType.REINFORCE_ARMY_ALLOCATION, eventPayload );
+			
+			this.publishGamePlayEvent(gpe);
+			
 			logger.write("These are your countries with current armies present in it : \n"
 					+ GamePlayService.getInstance().printCountryAllocationToConsole(this));
 			while (numberOfArmies > 0) {
 				logger.write("Please select the country in which you want to reinforce the army");
 
 				Country country = (Country) JOptionPane.showInputDialog(GamePlayService.getInstance().game_play_frame, "Select Country", "Input",
-						JOptionPane.YES_OPTION, BasicIconFactory.getMenuArrowIcon(),
+						JOptionPane.NO_OPTION, BasicIconFactory.getMenuArrowIcon(),
 						GamePlayService.getInstance().getCountriesConqueredBy(this).toArray(), null);
 
 				logger.write("How many armies you wish to reinforce between 1 - " + numberOfArmies);
@@ -126,13 +118,19 @@ public class Player extends Observable {
 					selectOptions[i] = i + 1;
 				}
 				Integer armiesWishToReinforce = (Integer) JOptionPane.showInputDialog(GamePlayService.getInstance().game_play_frame, "Number of Armies",
-						"Input", JOptionPane.YES_OPTION, BasicIconFactory.getMenuArrowIcon(), selectOptions,
+						"Input", JOptionPane.NO_OPTION, BasicIconFactory.getMenuArrowIcon(), selectOptions,
 						selectOptions[0]);
 				country.addArmies(armiesWishToReinforce);
 				numberOfArmies = numberOfArmies - armiesWishToReinforce;
 				logger.write("You are now left with "+numberOfArmies+" armies");
-				setChanged();
-				notifyObservers();
+				
+				this.setTotalArmies(numberOfArmies);
+				
+				eventPayload = new HashMap<>();
+				eventPayload.put("reinforcedCountry", country.getCountryName());
+				eventPayload.put("reinforceArmy", armiesWishToReinforce);
+				gpe = new GamePlayEvent(EventType.REFINFORCE_COUNTRY, eventPayload);
+				this.publishGamePlayEvent(gpe);
 			}
 			if (numberOfArmies == 0) {
 				logger.write("You have successfully placed all the armies into the countries you selected. Moving to the next phase.");
@@ -143,6 +141,7 @@ public class Player extends Observable {
 	
 	public void doAttack(){
 		ConsoleLoggerService.getInstance(null).write("Skipping the attack phase for now");
+		this.setCurrentPhase(GamePhase.ATTACK);
 		return;
 	}
 	
@@ -154,9 +153,11 @@ public class Player extends Observable {
 		logger.write("Do you wish to enter Fortification phase?");
 		String[] selectionValues = { "Yes", "No" };
 		String str = JOptionPane.showInputDialog(GamePlayService.getInstance().game_play_frame, "Enter Fortification Phase?", "Input",
-				JOptionPane.YES_OPTION, BasicIconFactory.getMenuArrowIcon(), selectionValues, "Yes").toString();
+				JOptionPane.NO_OPTION, BasicIconFactory.getMenuArrowIcon(), selectionValues, "Yes").toString();
 		if (str.equalsIgnoreCase("Yes")) {
 
+			this.setCurrentPhase(GamePhase.FORTIFICATION);
+			
 			logger.write("These are your countries with current armies present in it : "
 					+ GamePlayService.getInstance().printCountryAllocationToConsole(this));
 			logger.write("Please select the country from which you want to take armies");
@@ -168,7 +169,7 @@ public class Player extends Observable {
 			
 			do{
 				fromCountry = (Country) JOptionPane.showInputDialog(GamePlayService.getInstance().game_play_frame, "Select Country", "Input",
-						JOptionPane.YES_OPTION, BasicIconFactory.getMenuArrowIcon(), selectOptions.toArray(), null);
+						JOptionPane.NO_OPTION, BasicIconFactory.getMenuArrowIcon(), selectOptions.toArray(), null);
 
 				if (fromCountry.getNoOfArmy() == 1) {
 					logger.write("Please leave atleast one army behind, so it can defend your country from an attack.");
@@ -184,7 +185,7 @@ public class Player extends Observable {
 
 			List<Country> toCountryOptions = new ArrayList<Country>();
 			for (Country c : selectOptions) {
-				if (!c.equals(fromCountry) && GamePlayService.getInstance().isConnected(fromCountry, c)) {
+				if (!c.equals(fromCountry) && GamePlayService.getInstance().isConnected(fromCountry, c,this)) {
 					toCountryOptions.add(c);
 				}
 			}
@@ -194,7 +195,7 @@ public class Player extends Observable {
 			
 			do{
 				toCountry = (Country) JOptionPane.showInputDialog(GamePlayService.getInstance().game_play_frame, "Select Country", "Input",
-						JOptionPane.YES_OPTION, BasicIconFactory.getMenuArrowIcon(), toCountryOptions.toArray(), null);
+						JOptionPane.NO_OPTION, BasicIconFactory.getMenuArrowIcon(), toCountryOptions.toArray(), null);
 
 				boolean areBothCountriesConnected = GamePlayService.getInstance().isConnected(fromCountry, toCountry, this);
 				if (!areBothCountriesConnected) {
@@ -213,10 +214,16 @@ public class Player extends Observable {
 				optionArmies[i] = i + 1;
 			}
 			Integer armies = (Integer) JOptionPane.showInputDialog(GamePlayService.getInstance().game_play_frame, "Number of Armies to Move", "Input",
-					JOptionPane.YES_OPTION, BasicIconFactory.getMenuArrowIcon(), optionArmies, 1);
+					JOptionPane.NO_OPTION, BasicIconFactory.getMenuArrowIcon(), optionArmies, 1);
 			
 			GamePlayService.getInstance().moveArmyFromTo(this, fromCountry, toCountry, armies);
 			
+			HashMap<String,Object> eventPayload = new HashMap<>();
+			eventPayload.put("fromCountry", fromCountry.getCountryName());
+			eventPayload.put("toCountry", toCountry.getCountryName());
+			eventPayload.put("armies", armies);
+			GamePlayEvent gpe = new GamePlayEvent(EventType.FORTIFY_COUNTRY, eventPayload);
+			this.publishGamePlayEvent(gpe);
 			logger.write(this.name + " has completed fortification");
 			
 		} else {
@@ -226,6 +233,12 @@ public class Player extends Observable {
 	
 	public void setCurrentPhase(GamePhase currentPhase){
 		this.game_phase = currentPhase;
+	}
+	
+	public void publishGamePlayEvent(GamePlayEvent gamePlayEvent){
+		this.event_log.add(gamePlayEvent);
+		this.setChanged();
+		this.notifyObservers();
 	}
 	
 }
