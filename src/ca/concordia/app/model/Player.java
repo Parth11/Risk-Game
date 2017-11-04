@@ -139,10 +139,40 @@ public class Player extends Observable {
 
 	}
 	
-	public void doAttack(){
-		ConsoleLoggerService.getInstance(null).write("Skipping the attack phase for now");
+	public void doAttack(){		
 		this.setCurrentPhase(GamePhase.ATTACK);
+		
+		ConsoleLoggerService logger = ConsoleLoggerService.getInstance(null);
+		
+		logger.write("ATTACK PHASE HAS BEEN STARTED");
+		
+		logger.write("These are your countries with current armies present in it : \n" + GamePlayService.getInstance().printCountryAllocationToConsole(this));
+		
+		logger.write("Please select attacker country from your conquered countries list");
+
+		Country attackerCountry = (Country) JOptionPane.showInputDialog(GamePlayService.getInstance().game_play_frame, "Select Attacker Country", "Input",
+				JOptionPane.NO_OPTION, BasicIconFactory.getMenuArrowIcon(),
+				GamePlayService.getInstance().getCountriesConqueredBy(this).toArray(), null);
+		
+		Player attackPlayer = attackerCountry.getRuler();
+		
+		List<Country> neighboursOfAttackerCountry = GameMap.getInstance().getNeighbourCountries(attackerCountry);
+		
+		List<Country> listOfDefenderCountries = null;
+		Player tempPlayer;
+		for(int i = 0 ; i < neighboursOfAttackerCountry.size(); i++) {
+			tempPlayer = neighboursOfAttackerCountry.get(i).getRuler();
+			if(tempPlayer == attackPlayer) {
+				continue;
+			}
+			else {
+				listOfDefenderCountries.add(neighboursOfAttackerCountry.get(i));
+			}
+		}
+
+		
 		return;
+		
 	}
 	
 	public void doFortification(){
