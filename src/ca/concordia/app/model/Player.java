@@ -163,7 +163,9 @@ public class Player extends Observable {
 		for(int i = 0 ; i < neighboursOfAttackerCountry.size(); i++) {
 			tempPlayer = neighboursOfAttackerCountry.get(i).getRuler();
 			if(tempPlayer == attackPlayer) {
+				GamePlayService.getInstance().BeginBattle();
 				continue;
+				
 			}
 			else {
 				listOfDefenderCountries.add(neighboursOfAttackerCountry.get(i));

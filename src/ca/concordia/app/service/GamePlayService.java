@@ -736,5 +736,10 @@ public class GamePlayService {
 		s += "]\n";
 		return s;
 	}
+	
+	public void BeginBattle()
+	{
+		
+	}
 
 }
