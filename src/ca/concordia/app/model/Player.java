@@ -153,7 +153,7 @@ public class Player extends Observable {
 		Country attackerCountry = (Country) JOptionPane.showInputDialog(GamePlayService.getInstance().game_play_frame, "Select Attacker Country", "Input",
 				JOptionPane.NO_OPTION, BasicIconFactory.getMenuArrowIcon(),
 				GamePlayService.getInstance().getCountriesConqueredBy(this).toArray(), null);
-		
+		// To check minimum number of number of armies in that country min=2
 		Player attackPlayer = attackerCountry.getRuler();
 		
 		List<Country> neighboursOfAttackerCountry = GameMap.getInstance().getNeighbourCountries(attackerCountry);
@@ -163,12 +163,12 @@ public class Player extends Observable {
 		for(int i = 0 ; i < neighboursOfAttackerCountry.size(); i++) {
 			tempPlayer = neighboursOfAttackerCountry.get(i).getRuler();
 			if(tempPlayer == attackPlayer) {
-				GamePlayService.getInstance().BeginBattle();
 				continue;
 				
 			}
 			else {
 				listOfDefenderCountries.add(neighboursOfAttackerCountry.get(i));
+				GamePlayService.getInstance().BeginBattle();
 			}
 		}
 
