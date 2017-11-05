@@ -192,6 +192,8 @@ public class Player extends Observable {
 		logger.write("Attacker Country is " + attackerCountry.getCountryName().toString() + "\n Defending Country is " + defenderCountry.getCountryName().toString() + "and Defence player is " + defencePlayer.getName().toString());
 		
 		
+		
+		
 
 		
 		return;
