@@ -23,6 +23,7 @@ public class CardExchangeView extends JFrame implements IView {
 		getContentPane().setLayout(new GridLayout(5, 5));
 		int temNoofCards=15;
 		int noOfCards= p.getCards().size();
+		
 		for(int i =0; i <=temNoofCards;i++)
 		{
 			JLabel label =  new JLabel("Cards"+i);
