@@ -80,6 +80,7 @@ public class Player extends Observable {
 		cards_list.add(card2);
 		cards_list.add(card3);
 		return cards_list;
+		
 	}
 	public void addCard(Card card) {
 		cards_list.add(card);
