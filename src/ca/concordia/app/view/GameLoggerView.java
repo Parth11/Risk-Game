@@ -16,7 +16,7 @@ import ca.concordia.app.service.GamePlayService;
  *
  * @author Abhinav
  */
-public class NewGamePlayView extends JFrame implements IView {
+public class GameLoggerView extends JFrame {
 
 	private static final long serialVersionUID = -9072014196882993806L;
 	
@@ -26,9 +26,6 @@ public class NewGamePlayView extends JFrame implements IView {
 	/** The console. */
 	public JTextArea console;
 	
-	/** The game play service. */
-	public GamePlayService game_play_service;
-	
 	/** The console logger service. */
 	public ConsoleLoggerService console_logger_service;
 	
@@ -36,7 +33,7 @@ public class NewGamePlayView extends JFrame implements IView {
 	 * Instantiates a new new game play view.
 	 */
 
-	public NewGamePlayView() {
+	public GameLoggerView() {
 
 		getContentPane().setLayout(null);
 
@@ -62,22 +59,4 @@ public class NewGamePlayView extends JFrame implements IView {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
-
-	/* (non-Javadoc)
-	 * @see ca.concordia.app.view.IView#setActionListener(java.awt.event.ActionListener)
-	 */
-
-	@Override
-	public void setActionListener(ActionListener actionListener) {
-
-	}
-
-
-	/* (non-Javadoc)
-	 * @see ca.concordia.app.view.IView#setMouseListener(java.awt.event.MouseListener)
-	 */
-	@Override
-	public void setMouseListener(MouseListener mouseListener) {
-
-	}
 }

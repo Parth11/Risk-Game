@@ -85,58 +85,25 @@ public class Player extends Observable {
 		cards_list.add(card);
 	}
 	
-	public void doReinforcement(){
+	public void doReinforcement(Country country, int armiesWishToReinforce) {
 
 		ConsoleLoggerService logger = ConsoleLoggerService.getInstance(null);
-	
-			setCurrentPhase(GamePhase.REINFORCEMENT);
-			
-			int numberOfArmies = GamePlayService.getInstance().getReinforcementArmyForPlayer(this);
-			
-			this.setTotalArmies(numberOfArmies);
-			
-			logger.write(this.name + " gets " + numberOfArmies + " armies");
-			
-			HashMap<String, Object> eventPayload = new HashMap<>();
-			eventPayload.put("reinforcementArmies", numberOfArmies);
-			GamePlayEvent gpe = new GamePlayEvent(EventType.REINFORCE_ARMY_ALLOCATION, eventPayload );
-			
-			this.publishGamePlayEvent(gpe);
-			
-			logger.write("These are your countries with current armies present in it : \n"
-					+ GamePlayService.getInstance().printCountryAllocationToConsole(this));
-			while (numberOfArmies > 0) {
-				logger.write("Please select the country in which you want to reinforce the army");
 
-				Country country = (Country) JOptionPane.showInputDialog(GamePlayService.getInstance().game_play_frame, "Select Country", "Input",
-						JOptionPane.NO_OPTION, BasicIconFactory.getMenuArrowIcon(),
-						GamePlayService.getInstance().getCountriesConqueredBy(this).toArray(), null);
+		
 
-				logger.write("How many armies you wish to reinforce between 1 - " + numberOfArmies);
-				Integer[] selectOptions = new Integer[numberOfArmies];
-				for (int i = 0; i < numberOfArmies; i++) {
-					selectOptions[i] = i + 1;
-				}
-				Integer armiesWishToReinforce = (Integer) JOptionPane.showInputDialog(GamePlayService.getInstance().game_play_frame, "Number of Armies",
-						"Input", JOptionPane.NO_OPTION, BasicIconFactory.getMenuArrowIcon(), selectOptions,
-						selectOptions[0]);
-				country.addArmies(armiesWishToReinforce);
-				numberOfArmies = numberOfArmies - armiesWishToReinforce;
-				logger.write("You are now left with "+numberOfArmies+" armies");
-				
-				this.setTotalArmies(numberOfArmies);
-				
-				eventPayload = new HashMap<>();
-				eventPayload.put("reinforcedCountry", country.getCountryName());
-				eventPayload.put("reinforceArmy", armiesWishToReinforce);
-				gpe = new GamePlayEvent(EventType.REFINFORCE_COUNTRY, eventPayload);
-				this.publishGamePlayEvent(gpe);
-			}
-			if (numberOfArmies == 0) {
-				logger.write("You have successfully placed all the armies into the countries you selected. Moving to the next phase.");
-				return;
-			}
+		logger.write("These are your countries with current armies present in it : \n"
+				+ GamePlayService.getInstance().printCountryAllocationToConsole(this));
+		logger.write("Please select the country in which you want to reinforce the army");
 
+		
+		country.addArmies(armiesWishToReinforce);
+		
+		HashMap<String, Object> eventPayload = new HashMap<>();
+		eventPayload.put("reinforcedCountry", country.getCountryName());
+		eventPayload.put("reinforceArmy", armiesWishToReinforce);
+		GamePlayEvent gpe = new GamePlayEvent(EventType.REFINFORCE_COUNTRY, eventPayload);
+		this.publishGamePlayEvent(gpe);
+		
 	}
 	
 	public void doAttack(){
@@ -145,7 +112,7 @@ public class Player extends Observable {
 		return;
 	}
 	
-	public void doFortification(){
+	public void doFortification(Country fromCountry, Country toCountry, Integer armies){
 
 		ConsoleLoggerService logger = ConsoleLoggerService.getInstance(null);
 		

@@ -20,7 +20,7 @@ import ca.concordia.app.model.Player;
 import ca.concordia.app.model.GamePlayEvent.EventType;
 import ca.concordia.app.util.GameConstants;
 import ca.concordia.app.util.GamePhase;
-import ca.concordia.app.view.NewGamePlayView;
+import ca.concordia.app.view.GameLoggerView;
 
 /**
  * This is GamePlayService class through which game is going to play.
@@ -163,14 +163,9 @@ public class GamePlayService {
 	 * @param game_play_view 
 	 * @return true, if successful
 	 */
-	public boolean doStartupPhase(int numberOfPlayers, NewGamePlayView game_play_view) {
+	public void doStartupPhase(int numberOfPlayers, GameLoggerView game_play_view) {
 		
 		
-		if (game_map.getCountries().isEmpty()) 
-		{
-			return false;
-		}
-
 		logger = ConsoleLoggerService.getInstance(game_play_view.console);
 		
 		this.number_of_players = numberOfPlayers;
@@ -190,7 +185,6 @@ public class GamePlayService {
 
 		logger.write("****Startup Phase END****");
 		
-		return true;
 	}
 
 	/**
@@ -705,7 +699,7 @@ public class GamePlayService {
 	 * Initiates the game play.
 	 * @param gamePlayView object of NewGamPlayView
 	 */
-	public void doPlayGame(NewGamePlayView gamePlayView) {
+	public void doPlayGame(GameLoggerView gamePlayView) {
 
 		this.game_play_frame = gamePlayView;
 		
@@ -718,9 +712,9 @@ public class GamePlayService {
 		while (true) {
 			Player player = players.get(j % players.size());
 			logger.write("*** "+player.name+ " Turn Start ***");
-			player.doReinforcement();
+			player.doReinforcement(null,0);
 			player.doAttack();
-			player.doFortification();
+			player.doFortification(null,null,null);
 			logger.write("*** "+player.name+ " Turn End ***");
 			j++;
 		}
