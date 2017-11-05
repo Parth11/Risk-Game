@@ -80,6 +80,7 @@ public class Player extends Observable {
 		cards_list.add(card2);
 		cards_list.add(card3);
 		return cards_list;
+		
 	}
 	public void addCard(Card card) {
 		cards_list.add(card);
@@ -154,9 +155,11 @@ public class Player extends Observable {
 		Country attackerCountry = (Country) JOptionPane.showInputDialog(GamePlayService.getInstance().game_play_frame, "Select Attacker Country", "Input",
 				JOptionPane.NO_OPTION, BasicIconFactory.getMenuArrowIcon(),
 				GamePlayService.getInstance().getCountriesConqueredBy(this).toArray(), null);
+
 		
 		logger.write("Attacker Country : " + attackerCountry.getCountryName());
 		
+
 		Player attackPlayer = attackerCountry.getRuler();
 		logger.write("Attack Player : " + attackPlayer.getName());
 		
@@ -171,12 +174,15 @@ public class Player extends Observable {
 		Player tempPlayer;
 		for(int i = 0 ; i < neighboursOfAttackerCountry.size(); i++) {
 			tempPlayer = neighboursOfAttackerCountry.get(i).getRuler();
+
 			if(tempPlayer.getName().equalsIgnoreCase(attackPlayer.getName())) {
+
 				continue;
 				
 			}
 			else {
 				listOfDefenderCountries.add(neighboursOfAttackerCountry.get(i));
+				
 			}
 		}
 		
