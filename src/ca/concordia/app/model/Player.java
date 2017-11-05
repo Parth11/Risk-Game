@@ -139,12 +139,13 @@ public class Player extends Observable {
 
 	}
 	
+	
 	public void doAttack(){		
 		this.setCurrentPhase(GamePhase.ATTACK);
 		
 		ConsoleLoggerService logger = ConsoleLoggerService.getInstance(null);
 		
-		logger.write("ATTACK PHASE HAS BEEN STARTED");
+		logger.write("\n********** ATTACK PHASE BEGIN **********");
 		
 		logger.write("These are your countries with current armies present in it : \n" + GamePlayService.getInstance().printCountryAllocationToConsole(this));
 		
@@ -154,15 +155,23 @@ public class Player extends Observable {
 				JOptionPane.NO_OPTION, BasicIconFactory.getMenuArrowIcon(),
 				GamePlayService.getInstance().getCountriesConqueredBy(this).toArray(), null);
 		
+		logger.write("Attacker Country : " + attackerCountry.getCountryName());
+		
 		Player attackPlayer = attackerCountry.getRuler();
+		logger.write("Attack Player : " + attackPlayer.getName());
 		
 		List<Country> neighboursOfAttackerCountry = GameMap.getInstance().getNeighbourCountries(attackerCountry);
 		
-		List<Country> listOfDefenderCountries = null;
+		for(int i = 0 ; i < neighboursOfAttackerCountry.size(); i++) {
+			logger.write("neighbours Of AttackerCountry : " + neighboursOfAttackerCountry.get(i) + "Ruler : " + neighboursOfAttackerCountry.get(i).getRuler().getName().toString());
+			
+		}
+		
+		List<Country> listOfDefenderCountries = new ArrayList<>();
 		Player tempPlayer;
 		for(int i = 0 ; i < neighboursOfAttackerCountry.size(); i++) {
 			tempPlayer = neighboursOfAttackerCountry.get(i).getRuler();
-			if(tempPlayer == attackPlayer) {
+			if(tempPlayer.getName().equalsIgnoreCase(attackPlayer.getName())) {
 				continue;
 				
 			}
@@ -180,9 +189,7 @@ public class Player extends Observable {
 		
 		int defenceArmies = defenderCountry.getNoOfArmy();
 		
-		if(attackerArmies > 1 && defenceArmies > 0) {
-			
-		}
+		logger.write("Attacker Country is " + attackerCountry + "\n Defending Country is " + defenderCountry + "and Defence player is " + defencePlayer.getName().toString());
 		
 		
 
@@ -195,7 +202,7 @@ public class Player extends Observable {
 
 		ConsoleLoggerService logger = ConsoleLoggerService.getInstance(null);
 		
-		logger.write("Fortification Phase");
+		logger.write("\n********** FORTIFICATION PHASE BEGIN **********");
 		logger.write("Do you wish to enter Fortification phase?");
 		String[] selectionValues = { "Yes", "No" };
 		String str = JOptionPane.showInputDialog(GamePlayService.getInstance().game_play_frame, "Enter Fortification Phase?", "Input",
@@ -273,6 +280,7 @@ public class Player extends Observable {
 			logger.write(this.name + " has completed fortification");
 			
 		} else {
+			logger.write("********** FORTIFICATION PHASE ENDED **********");
 			return;
 		}
 	}

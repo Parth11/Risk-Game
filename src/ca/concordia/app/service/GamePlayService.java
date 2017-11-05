@@ -175,7 +175,7 @@ public class GamePlayService {
 		
 		this.number_of_players = numberOfPlayers;
 
-		logger.write("****Startup Phase BEGIN****\n");
+		logger.write("********** START UP PHASE BEGIN **********\n");
 		logger.write("Game starts with "+numberOfPlayers+" players\n");
 		
 		for (int i = 1; i <= numberOfPlayers; i++) {
@@ -188,7 +188,7 @@ public class GamePlayService {
 
 		addInitialArmiesUsingRoundRobin();
 
-		logger.write("****Startup Phase END****");
+		logger.write("********** START UP PHASE END **********");
 		
 		return true;
 	}
