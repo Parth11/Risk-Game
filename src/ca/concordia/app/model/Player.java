@@ -163,7 +163,6 @@ public class Player extends Observable {
 		for(int i = 0 ; i < neighboursOfAttackerCountry.size(); i++) {
 			tempPlayer = neighboursOfAttackerCountry.get(i).getRuler();
 			if(tempPlayer == attackPlayer) {
-				GamePlayService.getInstance().BeginBattle();
 				continue;
 				
 			}
@@ -171,6 +170,21 @@ public class Player extends Observable {
 				listOfDefenderCountries.add(neighboursOfAttackerCountry.get(i));
 			}
 		}
+		
+		Country defenderCountry = (Country) JOptionPane.showInputDialog(GamePlayService.getInstance().game_play_frame, "Select Defender Country", "Input",
+				JOptionPane.NO_OPTION, BasicIconFactory.getMenuArrowIcon(), listOfDefenderCountries.toArray(), null);
+		
+		Player defencePlayer = defenderCountry.getRuler();
+		
+		int attackerArmies = attackerCountry.getNoOfArmy();
+		
+		int defenceArmies = defenderCountry.getNoOfArmy();
+		
+		if(attackerArmies > 1 && defenceArmies > 0) {
+			
+		}
+		
+		
 
 		
 		return;
