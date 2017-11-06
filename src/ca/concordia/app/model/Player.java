@@ -342,6 +342,11 @@ public class Player extends Observable {
 			
 			if(cardFlag) {
 				//logic for adding card
+				String playerCard = GamePlayService.getInstance().generateCard();
+				Card card1 = new Card(playerCard,1);				
+				cards_list = new ArrayList<>();
+				cards_list.add(card1);
+				
 			}
 			
 			HashMap<String,Object> eventPayload = new HashMap<>();

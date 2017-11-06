@@ -103,7 +103,7 @@ public class GamePlayService {
 	}
 	
 	
-	public static String generateCard() {
+	public String generateCard() {
 		
 		String [] cardType = {GameConstants.ARTILLERY, GameConstants.CAVALRY,GameConstants.INFANTRY};
 		Random randomeCardType = new Random();
