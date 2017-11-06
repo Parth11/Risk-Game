@@ -35,6 +35,7 @@ public class GamePlayView extends JFrame implements IView{
 		}
 		
 		this.setVisible(true);
+		setAlwaysOnTop(true);
 	}
 
 	@Override

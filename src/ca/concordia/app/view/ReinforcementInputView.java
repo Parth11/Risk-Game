@@ -11,9 +11,10 @@ import javax.swing.JLabel;
 import ca.concordia.app.model.Country;
 
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JButton;
 
-public class ReinforcementInputView extends JFrame implements IView{
+public class ReinforcementInputView extends JDialog implements IView{
 
 	/**
 	 * 
@@ -33,7 +34,7 @@ public class ReinforcementInputView extends JFrame implements IView{
 	public ReinforcementInputView(List<Country> countries, Integer armies) {
 	
 		this.setBounds(400,400, 450, 221);
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		this.setAlwaysOnTop(true);
 		getContentPane().setLayout(null);
 		

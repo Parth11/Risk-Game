@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Random;
 
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 
 import ca.concordia.app.model.Card;
@@ -37,7 +38,7 @@ public class GamePlayService {
 	
 	private HashMap<String,Integer> deckMap;
 	
-	public JFrame game_play_frame;
+	public JDialog game_play_frame;
 
 	/** The number of players. */
 	private int number_of_players;

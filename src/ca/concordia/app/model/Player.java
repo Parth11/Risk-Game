@@ -112,90 +112,20 @@ public class Player extends Observable {
 		return;
 	}
 	
-	public void doFortification(Country fromCountry, Country toCountry, Integer armies){
+	public void doFortification(Country fromCountry, Country toCountry, Integer armies) {
 
 		ConsoleLoggerService logger = ConsoleLoggerService.getInstance(null);
-		
-		logger.write("Fortification Phase");
-		logger.write("Do you wish to enter Fortification phase?");
-		String[] selectionValues = { "Yes", "No" };
-		String str = JOptionPane.showInputDialog(GamePlayService.getInstance().game_play_frame, "Enter Fortification Phase?", "Input",
-				JOptionPane.NO_OPTION, BasicIconFactory.getMenuArrowIcon(), selectionValues, "Yes").toString();
-		if (str.equalsIgnoreCase("Yes")) {
 
-			this.setCurrentPhase(GamePhase.FORTIFICATION);
-			
-			logger.write("These are your countries with current armies present in it : "
-					+ GamePlayService.getInstance().printCountryAllocationToConsole(this));
-			logger.write("Please select the country from which you want to take armies");
-			List<Country> selectOptions = GamePlayService.getInstance().getCountriesConqueredBy(this);
-			
-			boolean inputCaptured = false;
-			
-			Country fromCountry;
-			
-			do{
-				fromCountry = (Country) JOptionPane.showInputDialog(GamePlayService.getInstance().game_play_frame, "Select Country", "Input",
-						JOptionPane.NO_OPTION, BasicIconFactory.getMenuArrowIcon(), selectOptions.toArray(), null);
+		GamePlayService.getInstance().moveArmyFromTo(this, fromCountry, toCountry, armies);
 
-				if (fromCountry.getNoOfArmy() == 1) {
-					logger.write("Please leave atleast one army behind, so it can defend your country from an attack.");
-					logger.write("Please select again");
-				}
-				else{
-					inputCaptured = true;
-				}
-			}while(!inputCaptured);
-			
-			
-			logger.write("Please select the country to which you want to add armies :");
+		HashMap<String, Object> eventPayload = new HashMap<>();
+		eventPayload.put("fromCountry", fromCountry.getCountryName());
+		eventPayload.put("toCountry", toCountry.getCountryName());
+		eventPayload.put("armies", armies);
+		GamePlayEvent gpe = new GamePlayEvent(EventType.FORTIFY_COUNTRY, eventPayload);
+		this.publishGamePlayEvent(gpe);
+		logger.write(this.name + " has completed fortification");
 
-			List<Country> toCountryOptions = new ArrayList<Country>();
-			for (Country c : selectOptions) {
-				if (!c.equals(fromCountry) && GamePlayService.getInstance().isConnected(fromCountry, c,this)) {
-					toCountryOptions.add(c);
-				}
-			}
-			
-			inputCaptured = false;
-			Country toCountry;
-			
-			do{
-				toCountry = (Country) JOptionPane.showInputDialog(GamePlayService.getInstance().game_play_frame, "Select Country", "Input",
-						JOptionPane.NO_OPTION, BasicIconFactory.getMenuArrowIcon(), toCountryOptions.toArray(), null);
-
-				boolean areBothCountriesConnected = GamePlayService.getInstance().isConnected(fromCountry, toCountry, this);
-				if (!areBothCountriesConnected) {
-					logger.write("Not connected ! Select Again");
-				}
-				else{
-					inputCaptured = true;
-				}
-			}while(!inputCaptured);
-			
-			logger.write("Please select the number of armies from " + fromCountry.getCountryName() + ", which has : "
-					+ fromCountry.getNoOfArmy() + " armies to move to : " + toCountry.getCountryName());
-			Integer[] optionArmies = new Integer[fromCountry.getNoOfArmy() - 1];
-
-			for (int i = 0; i < optionArmies.length; i++) {
-				optionArmies[i] = i + 1;
-			}
-			Integer armies = (Integer) JOptionPane.showInputDialog(GamePlayService.getInstance().game_play_frame, "Number of Armies to Move", "Input",
-					JOptionPane.NO_OPTION, BasicIconFactory.getMenuArrowIcon(), optionArmies, 1);
-			
-			GamePlayService.getInstance().moveArmyFromTo(this, fromCountry, toCountry, armies);
-			
-			HashMap<String,Object> eventPayload = new HashMap<>();
-			eventPayload.put("fromCountry", fromCountry.getCountryName());
-			eventPayload.put("toCountry", toCountry.getCountryName());
-			eventPayload.put("armies", armies);
-			GamePlayEvent gpe = new GamePlayEvent(EventType.FORTIFY_COUNTRY, eventPayload);
-			this.publishGamePlayEvent(gpe);
-			logger.write(this.name + " has completed fortification");
-			
-		} else {
-			return;
-		}
 	}
 	
 	public void setCurrentPhase(GamePhase currentPhase){

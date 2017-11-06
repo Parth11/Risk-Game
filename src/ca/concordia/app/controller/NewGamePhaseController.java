@@ -43,15 +43,11 @@ public class NewGamePhaseController implements ActionListener, MouseListener {
 	
 	Country to_country;
 	
-	
-	
-	
 	public NewGamePhaseController(Integer numPlayers) {
 		game_logger_view = new GameLoggerView();
 		game_play_view = new GamePlayView(numPlayers);
 		game_play_service = GamePlayService.getInstance();
 		init(numPlayers);
-
 	}
 	
 	/**
@@ -88,7 +84,9 @@ public class NewGamePhaseController implements ActionListener, MouseListener {
 	}
 	
 	private void fortifyPlayer(){
-		
+		current_player.setCurrentPhase(GamePhase.FORTIFICATION);
+		fortification_view = new FortificationInputView(current_player);
+		fortification_view.setActionListener(this);
 	}
 	
 	/* (non-Javadoc)
@@ -149,6 +147,13 @@ public class NewGamePhaseController implements ActionListener, MouseListener {
 			else{
 				fortifyPlayer();
 			}
+		}
+		else if(e.getSource().equals(fortification_view.btn_submit)){
+			Country from = (Country) fortification_view.from_country.getSelectedItem();
+			Country to = (Country) fortification_view.to_country.getSelectedItem();
+			Integer armies = (Integer) fortification_view.armies.getSelectedItem();
+			fortification_view.dispose();
+			current_player.doFortification(from, to, armies);
 		}
 	}
 

@@ -2,6 +2,7 @@ package ca.concordia.app.view;
 
 import java.awt.EventQueue;
 
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
@@ -11,7 +12,7 @@ import javax.swing.border.LineBorder;
 import java.awt.Color;
 import javax.swing.JPanel;
 
-public class PhaseView extends JFrame{
+public class PhaseView extends JDialog{
 
 	/**
 	 * 

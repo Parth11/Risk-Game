@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
 
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -16,7 +17,7 @@ import ca.concordia.app.service.GamePlayService;
  *
  * @author Abhinav
  */
-public class GameLoggerView extends JFrame {
+public class GameLoggerView extends JDialog {
 
 	private static final long serialVersionUID = -9072014196882993806L;
 	
@@ -56,7 +57,7 @@ public class GameLoggerView extends JFrame {
 	private void initialize() {
 		this.setVisible(true);
 		setBounds(0, 0, 1000, 800);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 	}
 
 }
