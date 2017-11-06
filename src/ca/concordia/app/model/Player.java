@@ -1,6 +1,7 @@
 package ca.concordia.app.model;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Observable;
@@ -29,6 +30,7 @@ public class Player extends Observable {
 	public GamePhase game_phase;
 	public ArrayList<Card> cards_list;
 	public List<GamePlayEvent> event_log;
+	public boolean cardFlag = false;
 	
 	public Player(String name) {
 		this.name = name;
@@ -191,16 +193,75 @@ public class Player extends Observable {
 		
 		Player defencePlayer = defenderCountry.getRuler();
 		
-		int attackerArmies = attackerCountry.getNoOfArmy();
-		
-		int defenceArmies = defenderCountry.getNoOfArmy();
-		
 		logger.write("Attacker Country is " + attackerCountry.getCountryName().toString() + "\n Defending Country is " + defenderCountry.getCountryName().toString() + "and Defence player is " + defencePlayer.getName().toString());
 		
+		if(!GamePlayService.getInstance().canWar(attackerCountry, defenderCountry)) {
+			return;
+		}
 		
+		DiceRoller attackDice = new DiceRoller(GamePlayService.getInstance(), GamePlayService.getInstance().getAttackDiceLimit(attackPlayer, attackerCountry));
+		DiceRoller defenceDice = new DiceRoller(GamePlayService.getInstance(), GamePlayService.getInstance().getAttackDiceLimit(defencePlayer, defenderCountry));
 		
+		logger.write("Attack Dice" + attackDice.no_of_dice);
+		logger.write("Defence Dice" + defenceDice.no_of_dice);
 		
+		attackDice.rollAll();
+		defenceDice.rollAll();
+		
+		int[] attackResult = attackDice.getResults();
+		int [] defenceResult = defenceDice.getResults();
+		
+		Arrays.sort(attackResult);
+		Arrays.sort(defenceResult);
+		
+		int n = attackResult.length>defenceResult.length?defenceResult.length:attackResult.length;
+		
+		int[] storeAttackResult = new int[n], storeDefenceResult = new int[n];
+		
+		for(int i = 0 ; i < n; i++) {
+			storeAttackResult[i] = attackResult[i];
+			storeDefenceResult[i] = defenceResult[i];
+			
+			if(attackResult[i] > defenceResult[i]) {
+				GamePlayService.getInstance().subArmies(defencePlayer, defenderCountry, 1);
+			}
+			else {
+				GamePlayService.getInstance().subArmies(attackPlayer, attackerCountry, 1);
+			}
+		}
+		
+		// if defence country is completely defeated
+		if(defenderCountry.getNoOfArmy()<=0) {
+			defenderCountry.setRuler(null, 0);
+			GamePlayService.getInstance().unmapPlayerToCountry(defencePlayer, defenderCountry);
+			GamePlayService.getInstance().mapPlayerToCountry(attackPlayer, attackerCountry);
+			
+			
+			Integer[] attackerArmies = new Integer[attackerCountry.getNoOfArmy()];
 
+			for (int i = 0; i < attackerArmies.length; i++) {
+				attackerArmies[i] = i + 1;
+			}
+			Integer armies = (Integer) JOptionPane.showInputDialog(GamePlayService.getInstance().game_play_frame, "Number of Armies to Move", "Input",
+					JOptionPane.NO_OPTION, BasicIconFactory.getMenuArrowIcon(), attackerArmies, attackerArmies[0]);
+			
+			
+			GamePlayService.getInstance().moveArmyFromTo(attackPlayer, attackerCountry, defenderCountry, armies);
+			
+			cardFlag = true;
+		}
+		
+		//still want to continue or what
+		String[] selectionValues = { "Yes", "No" };
+		String str = JOptionPane.showInputDialog(GamePlayService.getInstance().game_play_frame, "Do you want to continue attack", "Input",
+				JOptionPane.NO_OPTION, BasicIconFactory.getMenuArrowIcon(), selectionValues, "Yes").toString();
+		if (str.equalsIgnoreCase("Yes")) {
+			doAttack();
+		}
+		else {
+			return;
+		}
+		
 		
 		return;
 		
@@ -278,6 +339,10 @@ public class Player extends Observable {
 					JOptionPane.NO_OPTION, BasicIconFactory.getMenuArrowIcon(), optionArmies, 1);
 			
 			GamePlayService.getInstance().moveArmyFromTo(this, fromCountry, toCountry, armies);
+			
+			if(cardFlag) {
+				//logic for adding card
+			}
 			
 			HashMap<String,Object> eventPayload = new HashMap<>();
 			eventPayload.put("fromCountry", fromCountry.getCountryName());

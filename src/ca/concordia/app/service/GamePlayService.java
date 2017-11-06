@@ -103,6 +103,14 @@ public class GamePlayService {
 	}
 	
 	
+	public static String generateCard() {
+		
+		String [] cardType = {GameConstants.ARTILLERY, GameConstants.CAVALRY,GameConstants.INFANTRY};
+		Random randomeCardType = new Random();
+		int result = randomeCardType.nextInt(2);
+		String cardName = cardType[result];
+		return cardName;
+	}
 
 	/**
 	 * Gets the instance single of GamePlayService class.
@@ -574,11 +582,12 @@ public class GamePlayService {
 	 * @param fromCountry the from country
 	 * @param toCountry the to country
 	 * @return true, if successful
-	 */
+	 */	
 	public boolean canWar(Country fromCountry, Country toCountry) {
-		return game_map.getNeighbourCountries(fromCountry).contains(toCountry)
-				&& fromCountry.getRuler() != toCountry.getRuler() && fromCountry.getNoOfArmy() > 1
-				&& toCountry.getNoOfArmy() > 0;
+		return game_map.getNeighbourCountries(fromCountry).contains(toCountry) //should be neighbours
+				&& fromCountry.getRuler() != toCountry.getRuler() // shouldn't both countries belong to same player
+				&& fromCountry.getNoOfArmy() > 1 // attacker should have more than 1 army
+				&& toCountry.getNoOfArmy() > 0; // defence should have atleast 1 army to protect the country
 	}
 
 	/**
@@ -647,7 +656,7 @@ public class GamePlayService {
 	 * @param p the player
 	 * @param c the country
 	 */
-	private void mapPlayerToCountry(Player p, Country c) {
+	public void mapPlayerToCountry(Player p, Country c) {
 		List<Country> cList = player_country_map.get(p);
 		if (cList == null) {
 			cList = new ArrayList<>();
@@ -662,7 +671,7 @@ public class GamePlayService {
 	 * @param p the player
 	 * @param c the country
 	 */
-	private void unmapPlayerToCountry(Player p, Country c) {
+	public void unmapPlayerToCountry(Player p, Country c) {
 		List<Country> cList = player_country_map.get(p);
 		if (cList != null) {
 			cList.remove(c);
@@ -736,5 +745,4 @@ public class GamePlayService {
 		s += "]\n";
 		return s;
 	}
-
 }
