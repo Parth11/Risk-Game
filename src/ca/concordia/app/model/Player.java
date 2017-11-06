@@ -154,10 +154,24 @@ public class Player extends Observable {
 		logger.write("These are your countries with current armies present in it : \n" + GamePlayService.getInstance().printCountryAllocationToConsole(this));
 		
 		logger.write("Please select attacker country from your conquered countries list");
-
+		List<Country> listofAttackingCountries = new ArrayList<>();
+		
+		for(Country c:GamePlayService.getInstance().getCountriesConqueredBy(this) )
+		{
+			if(c.getNoOfArmy()>1)
+			{
+				listofAttackingCountries.add(c);
+			}
+			
+		}
+		if(listofAttackingCountries.isEmpty())
+		{
+			return;
+		}
+		
 		Country attackerCountry = (Country) JOptionPane.showInputDialog(GamePlayService.getInstance().game_play_frame, "Select Attacker Country", "Input",
 				JOptionPane.NO_OPTION, BasicIconFactory.getMenuArrowIcon(),
-				GamePlayService.getInstance().getCountriesConqueredBy(this).toArray(), null);
+				listofAttackingCountries.toArray(), null);
 
 		
 		logger.write("Attacker Country : " + attackerCountry.getCountryName());
