@@ -2,6 +2,7 @@ package ca.concordia.app.model;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Observable;
@@ -168,7 +169,9 @@ public class Player extends Observable {
 		List<Country> neighboursOfAttackerCountry = GameMap.getInstance().getNeighbourCountries(attackerCountry);
 		
 		for(int i = 0 ; i < neighboursOfAttackerCountry.size(); i++) {
-			logger.write("neighbours Of AttackerCountry : " + neighboursOfAttackerCountry.get(i) + "Ruler : " + neighboursOfAttackerCountry.get(i).getRuler().getName().toString());
+			logger.write("neighbours Of AttackerCountry : " + neighboursOfAttackerCountry.get(i) + "Ruler : " + neighboursOfAttackerCountry.get(i).getRuler().getName().toString()
+					
+					+" Armies : "+ neighboursOfAttackerCountry.get(i).getNoOfArmy());
 			
 		}
 		
@@ -193,49 +196,88 @@ public class Player extends Observable {
 		
 		Player defencePlayer = defenderCountry.getRuler();
 		
-		logger.write("Attacker Country is " + attackerCountry.getCountryName().toString() + "\n Defending Country is " + defenderCountry.getCountryName().toString() + "and Defence player is " + defencePlayer.getName().toString());
+		logger.write("Attacker Country is " + attackerCountry.getCountryName().toString() + "\n Defending Country is " + defenderCountry.getCountryName().toString() + " and Defence player is " + defencePlayer.getName().toString());
 		
 		if(!GamePlayService.getInstance().canWar(attackerCountry, defenderCountry)) {
 			return;
 		}
 		
 		DiceRoller attackDice = new DiceRoller(GamePlayService.getInstance(), GamePlayService.getInstance().getAttackDiceLimit(attackPlayer, attackerCountry));
-		DiceRoller defenceDice = new DiceRoller(GamePlayService.getInstance(), GamePlayService.getInstance().getAttackDiceLimit(defencePlayer, defenderCountry));
+		DiceRoller defenceDice = new DiceRoller(GamePlayService.getInstance(), GamePlayService.getInstance().getDefenceDiceLimit(defencePlayer, defenderCountry));
 		
-		logger.write("Attack Dice" + attackDice.no_of_dice);
-		logger.write("Defence Dice" + defenceDice.no_of_dice);
+		logger.write("Attack Dice : " + attackDice.no_of_dice);
+		logger.write("Defence Dice : " + defenceDice.no_of_dice);
 		
 		attackDice.rollAll();
 		defenceDice.rollAll();
+		
+		
 		
 		int[] attackResult = attackDice.getResults();
 		int [] defenceResult = defenceDice.getResults();
 		
 		Arrays.sort(attackResult);
+		Collections.reverse(Arrays.asList(attackResult));
 		Arrays.sort(defenceResult);
+		Collections.reverse(Arrays.asList(defenceResult));
+		
+		for(int i = 0; i < attackDice.no_of_dice ; i++)
+			logger.write("Attack dice rolling : " + attackResult[i] );
+		
+		for(int i = 0; i <defenceDice.no_of_dice; i++)
+			logger.write("Defence dice rolling : " + defenceResult[i]);
 		
 		int n = attackResult.length>defenceResult.length?defenceResult.length:attackResult.length;
 		
-		int[] storeAttackResult = new int[n], storeDefenceResult = new int[n];
+		//int[] storeAttackResult = new int[n], storeDefenceResult = new int[n];
 		
 		for(int i = 0 ; i < n; i++) {
-			storeAttackResult[i] = attackResult[i];
-			storeDefenceResult[i] = defenceResult[i];
+//			storeAttackResult[i] = attackResult[i];
+//			storeDefenceResult[i] = defenceResult[i];
+
+			int attackResultInt = attackResult[i];
+			int defenceResultInt = attackResult[i];
 			
-			if(attackResult[i] > defenceResult[i]) {
+			if(attackResultInt > defenceResultInt) {
+				logger.write("Attacker win and Defender will loose the armies");
+				logger.write("Now "+defenderCountry.getCountryName()+" has "+defenderCountry.getNoOfArmy());
+				
 				GamePlayService.getInstance().subArmies(defencePlayer, defenderCountry, 1);
+				
+				
+				
+				logger.write("After " + defenderCountry.getCountryName() + " has " + defenderCountry.getNoOfArmy());
 			}
 			else {
+				logger.write("Defender win and attacker will loose the armies");
+				logger.write("Now "+attackerCountry.getCountryName()+" has " + attackerCountry.getNoOfArmy());
+				
 				GamePlayService.getInstance().subArmies(attackPlayer, attackerCountry, 1);
+				
+				logger.write("After "+attackerCountry.getCountryName()+" has " + attackerCountry.getNoOfArmy());
 			}
 		}
 		
+		
 		// if defence country is completely defeated
-		if(defenderCountry.getNoOfArmy()<=0) {
-			defenderCountry.setRuler(null, 0);
-			GamePlayService.getInstance().unmapPlayerToCountry(defencePlayer, defenderCountry);
-			GamePlayService.getInstance().mapPlayerToCountry(attackPlayer, attackerCountry);
+		
+		if(defenderCountry.getNoOfArmy() < 1) {
 			
+			//1. Remove a country from defender's country list
+			GamePlayService.getInstance().unmapPlayerToCountry(defencePlayer, defenderCountry);
+			
+			//2. Add defending country in attacker country list
+			GamePlayService.getInstance().mapPlayerToCountry(attackPlayer, defenderCountry);
+			
+			//3. Check defender is eleminated from the game or not
+			if(GamePlayService.getInstance().getCountriesConqueredBy(defencePlayer).size() == 0) {
+				logger.write("Player has no country left, player is eliminated from the game");
+				//Remove this player from the player list
+				GamePlayService.getInstance().getPlayers().remove(defencePlayer);
+			}
+			
+			//4. Set the attacker as ruler in that denfender country
+			defenderCountry.setRuler(attackPlayer, 0);
 			
 			Integer[] attackerArmies = new Integer[attackerCountry.getNoOfArmy()];
 
@@ -263,6 +305,8 @@ public class Player extends Observable {
 		}
 		
 		
+		
+		logger.write("\n********** ATTACK PHASE ENDED **********");
 		return;
 		
 	}

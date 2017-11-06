@@ -446,8 +446,8 @@ public class GamePlayService {
 		if ((c.getNoOfArmy() == 0 || player_country_map.get(p).contains(c)) && ((c.getNoOfArmy() - subAmount) >= 0)) {
 			p.subArmy(subAmount);
 			c.removeArmies(subAmount);
-			if (c.getNoOfArmy() == 0)
-				c.setRuler(null, 0);
+//			if (c.getNoOfArmy() == 0)
+//				c.setRuler(null, 0);
 			return true;
 		}
 		return false;
