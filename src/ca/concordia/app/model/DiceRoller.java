@@ -10,11 +10,7 @@ import ca.concordia.app.service.GamePlayService;
  */
 
 public class DiceRoller {
-	/**
-	 * create a object of type GamePlayService
-	 */
-	GamePlayService game;
-	
+
 	/**
 	 * number of dice
 	 */
@@ -30,8 +26,7 @@ public class DiceRoller {
 	 * @param game
 	 * @param noOfDice
 	 */
-	public DiceRoller(GamePlayService game, int noOfDice) {
-		this.game=game;
+	public DiceRoller(int noOfDice) {
 		this.no_of_dice = noOfDice;
 		this.result = new int[noOfDice];
 	}
@@ -48,15 +43,11 @@ public class DiceRoller {
 	/**
 	 * Roll all dice
 	 */
-	public void rollAll() {
+	public int[] rollAll() {
 		for(int i=1; i<=no_of_dice; i++)
 			roll(i);
-	}
-	/**
-	 * 
-	 * @return the result of the rolled dice.
-	 */
-	public int[] getResults() {
+		
 		return result;
 	}
+
 }
