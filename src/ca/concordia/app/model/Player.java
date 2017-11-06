@@ -1,6 +1,8 @@
 package ca.concordia.app.model;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Observable;
@@ -29,6 +31,7 @@ public class Player extends Observable {
 	public GamePhase game_phase;
 	public ArrayList<Card> cards_list;
 	public List<GamePlayEvent> event_log;
+	public boolean cardFlag = false;
 	
 	public Player(String name) {
 		this.name = name;
@@ -80,6 +83,7 @@ public class Player extends Observable {
 		cards_list.add(card2);
 		cards_list.add(card3);
 		return cards_list;
+		
 	}
 	public void addCard(Card card) {
 		cards_list.add(card);
@@ -139,17 +143,193 @@ public class Player extends Observable {
 
 	}
 	
-	public void doAttack(){
-		ConsoleLoggerService.getInstance(null).write("Skipping the attack phase for now");
+	
+	public void doAttack(){		
 		this.setCurrentPhase(GamePhase.ATTACK);
+		
+		ConsoleLoggerService logger = ConsoleLoggerService.getInstance(null);
+		
+		logger.write("\n********** ATTACK PHASE BEGIN **********");
+		
+		logger.write("These are your countries with current armies present in it : \n" + GamePlayService.getInstance().printCountryAllocationToConsole(this));
+		
+		logger.write("Please select attacker country from your conquered countries list");
+		List<Country> listofAttackingCountries = new ArrayList<>();
+		
+		for(Country c:GamePlayService.getInstance().getCountriesConqueredBy(this) )
+		{
+			if(c.getNoOfArmy()>1)
+			{
+				listofAttackingCountries.add(c);
+			}
+			
+		}
+		if(listofAttackingCountries.isEmpty())
+		{
+			return;
+		}
+		
+		Country attackerCountry = (Country) JOptionPane.showInputDialog(GamePlayService.getInstance().game_play_frame, "Select Attacker Country", "Input",
+				JOptionPane.NO_OPTION, BasicIconFactory.getMenuArrowIcon(),
+				listofAttackingCountries.toArray(), null);
+
+		
+		logger.write("Attacker Country : " + attackerCountry.getCountryName());
+		
+
+		Player attackPlayer = attackerCountry.getRuler();
+		logger.write("Attack Player : " + attackPlayer.getName());
+		
+		List<Country> neighboursOfAttackerCountry = GameMap.getInstance().getNeighbourCountries(attackerCountry);
+		
+		for(int i = 0 ; i < neighboursOfAttackerCountry.size(); i++) {
+			logger.write("neighbours Of AttackerCountry : " + neighboursOfAttackerCountry.get(i) + "Ruler : " + neighboursOfAttackerCountry.get(i).getRuler().getName().toString()
+					
+					+" Armies : "+ neighboursOfAttackerCountry.get(i).getNoOfArmy());
+			
+		}
+		
+		List<Country> listOfDefenderCountries = new ArrayList<>();
+		Player tempPlayer;
+		for(int i = 0 ; i < neighboursOfAttackerCountry.size(); i++) {
+			tempPlayer = neighboursOfAttackerCountry.get(i).getRuler();
+
+			if(tempPlayer.getName().equalsIgnoreCase(attackPlayer.getName())) {
+
+				continue;
+				
+			}
+			else {
+				listOfDefenderCountries.add(neighboursOfAttackerCountry.get(i));
+				
+			}
+		}
+		
+		Country defenderCountry = (Country) JOptionPane.showInputDialog(GamePlayService.getInstance().game_play_frame, "Select Defender Country", "Input",
+				JOptionPane.NO_OPTION, BasicIconFactory.getMenuArrowIcon(), listOfDefenderCountries.toArray(), null);
+		
+		Player defencePlayer = defenderCountry.getRuler();
+		
+		logger.write("Attacker Country is " + attackerCountry.getCountryName().toString() + "\n Defending Country is " + defenderCountry.getCountryName().toString() + " and Defence player is " + defencePlayer.getName().toString());
+		
+		if(!GamePlayService.getInstance().canWar(attackerCountry, defenderCountry)) {
+			return;
+		}
+		
+		DiceRoller attackDice = new DiceRoller(GamePlayService.getInstance(), GamePlayService.getInstance().getAttackDiceLimit(attackPlayer, attackerCountry));
+		DiceRoller defenceDice = new DiceRoller(GamePlayService.getInstance(), GamePlayService.getInstance().getDefenceDiceLimit(defencePlayer, defenderCountry));
+		
+		logger.write("Attack Dice : " + attackDice.no_of_dice);
+		logger.write("Defence Dice : " + defenceDice.no_of_dice);
+		
+		attackDice.rollAll();
+		defenceDice.rollAll();
+		
+		
+		
+		int[] attackResult = attackDice.getResults();
+		int [] defenceResult = defenceDice.getResults();
+		
+		Arrays.sort(attackResult);
+		Collections.reverse(Arrays.asList(attackResult));
+		Arrays.sort(defenceResult);
+		Collections.reverse(Arrays.asList(defenceResult));
+		
+		for(int i = 0; i < attackDice.no_of_dice ; i++)
+			logger.write("Attack dice rolling : " + attackResult[i] );
+		
+		for(int i = 0; i <defenceDice.no_of_dice; i++)
+			logger.write("Defence dice rolling : " + defenceResult[i]);
+		
+		int n = attackResult.length>defenceResult.length?defenceResult.length:attackResult.length;
+		
+		//int[] storeAttackResult = new int[n], storeDefenceResult = new int[n];
+		
+		for(int i = 0 ; i < n; i++) {
+//			storeAttackResult[i] = attackResult[i];
+//			storeDefenceResult[i] = defenceResult[i];
+
+			int attackResultInt = attackResult[i];
+			int defenceResultInt = attackResult[i];
+			
+			if(attackResultInt > defenceResultInt) {
+				logger.write("Attacker win and Defender will loose the armies");
+				logger.write("Now "+defenderCountry.getCountryName()+" has "+defenderCountry.getNoOfArmy());
+				
+				GamePlayService.getInstance().subArmies(defencePlayer, defenderCountry, 1);
+				
+				
+				
+				logger.write("After " + defenderCountry.getCountryName() + " has " + defenderCountry.getNoOfArmy());
+			}
+			else {
+				logger.write("Defender win and attacker will loose the armies");
+				logger.write("Now "+attackerCountry.getCountryName()+" has " + attackerCountry.getNoOfArmy());
+				
+				GamePlayService.getInstance().subArmies(attackPlayer, attackerCountry, 1);
+				
+				logger.write("After "+attackerCountry.getCountryName()+" has " + attackerCountry.getNoOfArmy());
+			}
+		}
+		
+		
+		// if defence country is completely defeated
+		
+		if(defenderCountry.getNoOfArmy() < 1) {
+			
+			//1. Remove a country from defender's country list
+			GamePlayService.getInstance().unmapPlayerToCountry(defencePlayer, defenderCountry);
+			
+			//2. Add defending country in attacker country list
+			GamePlayService.getInstance().mapPlayerToCountry(attackPlayer, defenderCountry);
+			
+			//3. Check defender is eleminated from the game or not
+			if(GamePlayService.getInstance().getCountriesConqueredBy(defencePlayer).size() == 0) {
+				logger.write("Player has no country left, player is eliminated from the game");
+				//Remove this player from the player list
+				GamePlayService.getInstance().getPlayers().remove(defencePlayer);
+			}
+			
+			//4. Set the attacker as ruler in that denfender country
+			defenderCountry.setRuler(attackPlayer, 0);
+			
+			Integer[] attackerArmies = new Integer[attackerCountry.getNoOfArmy()];
+
+			for (int i = 0; i < attackerArmies.length; i++) {
+				attackerArmies[i] = i + 1;
+			}
+			Integer armies = (Integer) JOptionPane.showInputDialog(GamePlayService.getInstance().game_play_frame, "Number of Armies to Move", "Input",
+					JOptionPane.NO_OPTION, BasicIconFactory.getMenuArrowIcon(), attackerArmies, attackerArmies[0]);
+			
+			
+			GamePlayService.getInstance().moveArmyFromTo(attackPlayer, attackerCountry, defenderCountry, armies);
+			
+			cardFlag = true;
+		}
+		
+		//still want to continue or what
+		String[] selectionValues = { "Yes", "No" };
+		String str = JOptionPane.showInputDialog(GamePlayService.getInstance().game_play_frame, "Do you want to continue attack", "Input",
+				JOptionPane.NO_OPTION, BasicIconFactory.getMenuArrowIcon(), selectionValues, "Yes").toString();
+		if (str.equalsIgnoreCase("Yes")) {
+			doAttack();
+		}
+		else {
+			return;
+		}
+		
+		
+		
+		logger.write("\n********** ATTACK PHASE ENDED **********");
 		return;
+		
 	}
 	
 	public void doFortification(){
 
 		ConsoleLoggerService logger = ConsoleLoggerService.getInstance(null);
 		
-		logger.write("Fortification Phase");
+		logger.write("\n********** FORTIFICATION PHASE BEGIN **********");
 		logger.write("Do you wish to enter Fortification phase?");
 		String[] selectionValues = { "Yes", "No" };
 		String str = JOptionPane.showInputDialog(GamePlayService.getInstance().game_play_frame, "Enter Fortification Phase?", "Input",
@@ -218,6 +398,15 @@ public class Player extends Observable {
 			
 			GamePlayService.getInstance().moveArmyFromTo(this, fromCountry, toCountry, armies);
 			
+			if(cardFlag) {
+				//logic for adding card
+				String playerCard = GamePlayService.getInstance().generateCard();
+				Card card1 = new Card(playerCard,1);				
+				cards_list = new ArrayList<>();
+				cards_list.add(card1);
+				
+			}
+			
 			HashMap<String,Object> eventPayload = new HashMap<>();
 			eventPayload.put("fromCountry", fromCountry.getCountryName());
 			eventPayload.put("toCountry", toCountry.getCountryName());
@@ -227,6 +416,7 @@ public class Player extends Observable {
 			logger.write(this.name + " has completed fortification");
 			
 		} else {
+			logger.write("********** FORTIFICATION PHASE ENDED **********");
 			return;
 		}
 	}
