@@ -1,6 +1,7 @@
 package ca.concordia.app.service;
 
 import javax.swing.JTextArea;
+import javax.swing.text.DefaultCaret;
 
 /**
  * The Class ConsoleLoggerService.
@@ -23,8 +24,12 @@ public class ConsoleLoggerService{
 	public static ConsoleLoggerService getInstance(JTextArea jt) {
 		if(logger==null)
 			logger = new ConsoleLoggerService();
-		if(jt!=null)
+		if(jt!=null){
 			logger.console = jt;
+			DefaultCaret caret = (DefaultCaret) logger.console.getCaret();
+			caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
+			logger.console.setCaret(caret);
+		}
 		return logger;
 	}
 

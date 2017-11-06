@@ -97,6 +97,10 @@ public class FortificationInputView extends JDialog implements IView {
 		public void itemStateChanged(ItemEvent e) {
 
 			if(e.getSource().equals(from_country) && e.getStateChange() == ItemEvent.SELECTED){
+				
+				to_country.removeAllItems();
+				armies.removeAllItems();
+				
 				Country c = (Country) from_country.getSelectedItem();
 				
 				if(c.getNoOfArmy()<2){
@@ -105,7 +109,7 @@ public class FortificationInputView extends JDialog implements IView {
 					return;
 				}
 				
-				for(int i=0;i< c.getNoOfArmy()-1;i++){
+				for(int i=1;i<c.getNoOfArmy();i++){
 					armies.addItem(i);
 				}
 				

@@ -56,26 +56,29 @@ public class NewGamePhaseController implements ActionListener, MouseListener {
 
 	private void init(Integer numPlayers) {
 		game_play_service.doStartupPhase(numPlayers,game_logger_view);
-		current_player = game_play_service.getPlayers().get(0);
+		current_player = game_play_service.getCurrentTurnPlayer();
+				
+		prepareToReinforce();
+	}
+
+	private void prepareToReinforce(){
 		reinforcement_armies = game_play_service.getReinforcementArmyForPlayer(current_player);
+		current_player.setCurrentPhase(GamePhase.REINFORCEMENT);
+		reinforcePlayer();
+	}
+
+	private void reinforcePlayer() {
 		
+		
+		current_player.setTotalArmies(reinforcement_armies);
 		
 		HashMap<String, Object> eventPayload = new HashMap<>();
 		eventPayload.put("reinforcementArmies", reinforcement_armies);
 		GamePlayEvent gpe = new GamePlayEvent(EventType.REINFORCE_ARMY_ALLOCATION, eventPayload);
-
 		current_player.publishGamePlayEvent(gpe);
 
-		
-		reinforcePlayer();
-		//GamePlayService.getInstance().doPlayGame(game_logger_view);
-	}
-
-
-	private void reinforcePlayer(){
-		current_player.setCurrentPhase(GamePhase.REINFORCEMENT);
-		current_player.setTotalArmies(reinforcement_armies);
-		reinforcement_view = new ReinforcementInputView(game_play_service.getCountriesConqueredBy(current_player),reinforcement_armies);
+		reinforcement_view = new ReinforcementInputView(game_play_service.getCountriesConqueredBy(current_player),
+				reinforcement_armies);
 		reinforcement_view.setActionListener(this);
 	}
 	
@@ -154,7 +157,13 @@ public class NewGamePhaseController implements ActionListener, MouseListener {
 			Integer armies = (Integer) fortification_view.armies.getSelectedItem();
 			fortification_view.dispose();
 			current_player.doFortification(from, to, armies);
+			triggerNextPlayer();
 		}
+	}
+
+	private void triggerNextPlayer() {
+		current_player = game_play_service.changeTurnToNextPlayer();
+		prepareToReinforce();
 	}
 
 }

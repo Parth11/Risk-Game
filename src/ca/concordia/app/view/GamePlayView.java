@@ -15,10 +15,6 @@ public class GamePlayView extends JFrame implements IView{
 	 */
 	private static final long serialVersionUID = -4197727817255615951L;
 
-	public static void main(String[] args){
-		GamePlayView gpv = new GamePlayView(6);
-	}
-	
 	public GamePlayView(Integer numberOfPlayers) {
 		
 		this.setBounds(700, 400, 320, 390);
