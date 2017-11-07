@@ -33,7 +33,7 @@ public class ReinforcementInputView extends JDialog implements IView{
 	 */
 	public ReinforcementInputView(List<Country> countries, Integer armies) {
 	
-		this.setBounds(400,400, 450, 221);
+		this.setBounds(410,600, 450, 221);
 		this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		this.setAlwaysOnTop(true);
 		getContentPane().setLayout(null);

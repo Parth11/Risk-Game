@@ -40,7 +40,7 @@ public class FortificationInputView extends JDialog implements IView {
 		
 		current_player = p;
 		
-		setBounds(100, 100, 450, 300);
+		setBounds(410, 600, 450, 300);
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setAlwaysOnTop(true);
 		getContentPane().setLayout(null);
@@ -61,9 +61,20 @@ public class FortificationInputView extends JDialog implements IView {
 		lblToCountry.setBounds(31, 90, 118, 20);
 		getContentPane().add(lblToCountry);
 		
+		
+		Country c = (Country) from_country.getItemAt(0);
+		
 		to_country = new JComboBox<>();
 		lblToCountry.setLabelFor(to_country);
 		to_country.setBounds(164, 87, 189, 26);
+		List<Country> countries = GamePlayService.getInstance().getCountriesConqueredBy(c.getRuler());
+		int index = countries.indexOf(c);
+		for(int i=0;i<countries.size();i++){
+			if(i!=index &&
+					GamePlayService.getInstance().isConnected(c, countries.get(i), c.getRuler())){
+				to_country.addItem(countries.get(i));
+			}
+		}
 		getContentPane().add(to_country);
 		
 		JLabel lblArmies = new JLabel("Armies");
@@ -73,6 +84,9 @@ public class FortificationInputView extends JDialog implements IView {
 		armies = new JComboBox<>();
 		lblArmies.setLabelFor(armies);
 		armies.setBounds(164, 129, 189, 26);
+		for(int i=1;i<c.getNoOfArmy();i++){
+			armies.addItem(i);
+		}
 		getContentPane().add(armies);
 		
 		btn_submit = new JButton("Submit");
@@ -118,14 +132,14 @@ public class FortificationInputView extends JDialog implements IView {
 				
 				int index = countries.indexOf(c);
 				for(int i=0;i<countries.size();i++){
-					if(i!=index){
+					if(i!=index &&
+							GamePlayService.getInstance().isConnected(c, countries.get(i), c.getRuler())){
 						to_country.addItem(countries.get(i));
 					}
 				}
 				
 			}
 		
-			
 		}
 		
 	}

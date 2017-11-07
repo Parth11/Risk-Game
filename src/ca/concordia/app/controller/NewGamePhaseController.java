@@ -6,6 +6,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.HashMap;
 
+import javax.swing.JOptionPane;
+
 import ca.concordia.app.model.Country;
 import ca.concordia.app.model.GamePlayEvent;
 import ca.concordia.app.model.Player;
@@ -144,6 +146,7 @@ public class NewGamePhaseController implements ActionListener, MouseListener {
 			reinforcement_view.dispose();
 			reinforcement_armies -= armiesToReinforce;
 			current_player.doReinforcement(c,armiesToReinforce);
+			JOptionPane.showMessageDialog(game_play_view, "Reinforcement Successful");
 			if(reinforcement_armies!=0){
 				reinforcePlayer();
 			}
@@ -163,6 +166,7 @@ public class NewGamePhaseController implements ActionListener, MouseListener {
 
 	private void triggerNextPlayer() {
 		current_player = game_play_service.changeTurnToNextPlayer();
+		game_play_view.changeCurrentPlayer();
 		prepareToReinforce();
 	}
 

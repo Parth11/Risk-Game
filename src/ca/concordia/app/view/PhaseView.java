@@ -49,7 +49,7 @@ public class PhaseView extends JDialog{
 	 */
 	private void initialize() {
 		
-		this.setBounds(1050, 100, 1128, 713);
+		this.setBounds(870, 100, 984, 713);
 		this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		this.getContentPane().setLayout(null);
 		
@@ -140,7 +140,7 @@ public class PhaseView extends JDialog{
 		this.getContentPane().add(lblConquests);
 		
 		JPanel reinforce_panel = new JPanel();
-		reinforce_panel.setBounds(637, 29, 454, 107);
+		reinforce_panel.setBounds(574, 29, 366, 107);
 		this.getContentPane().add(reinforce_panel);
 		reinforce_panel.setLayout(null);
 		
@@ -167,7 +167,7 @@ public class PhaseView extends JDialog{
 		reinforce_armies.setColumns(10);
 		
 		JPanel attack_panel = new JPanel();
-		attack_panel.setBounds(637, 164, 454, 242);
+		attack_panel.setBounds(584, 152, 366, 242);
 		this.getContentPane().add(attack_panel);
 		attack_panel.setLayout(null);
 		
@@ -226,7 +226,7 @@ public class PhaseView extends JDialog{
 		attack_panel.add(lblWinloss);
 		
 		JPanel fortify_panel = new JPanel();
-		fortify_panel.setBounds(637, 436, 454, 205);
+		fortify_panel.setBounds(584, 436, 366, 205);
 		this.getContentPane().add(fortify_panel);
 		fortify_panel.setLayout(null);
 		
