@@ -192,9 +192,10 @@ public class Player extends Observable {
 			List<Country> defenderCountries = new ArrayList<>();
 			for(Country neighbour:neighboursOfAttackerCountry) 
 			{
-				logger.write("\n Neighbour:" + neighbour.getCountryName() + "("+neighbour.getNoOfArmy()+") : ruled by: " + neighbour.getRuler().getName());
 				if(!neighbour.getRuler().getName().equalsIgnoreCase(getName())) 
 				{
+					logger.write("\n Neighbour:" + neighbour.getCountryName() + "("+neighbour.getNoOfArmy()+") : ruled by: " + neighbour.getRuler().getName());
+					
 					defenderCountries.add(neighbour);
 				}
 			}
@@ -214,11 +215,19 @@ public class Player extends Observable {
 				int[] defenceResult =defenceDice.rollAll();
 				
 				Arrays.sort(attackResult);
-				List attackResList=Arrays.asList(attackResult);
+				List<Integer> attackResList = new ArrayList<Integer>();
+				for (int i: attackResult)
+				{
+					attackResList.add(i);
+				}
 				Collections.reverse(attackResList);
 				
 				Arrays.sort(defenceResult);
-				List defendResList=Arrays.asList(attackResult);
+				List<Integer> defendResList = new ArrayList<Integer>();
+				for (int i: defenceResult)
+				{
+					defendResList.add(i);
+				}
 				Collections.reverse(defendResList);
 				
 				logger.write("Attack dice rolling : " +attackDice.toString() );
@@ -227,21 +236,23 @@ public class Player extends Observable {
 				int n = attackResult.length>defenceResult.length?defenceResult.length:attackResult.length;
 				
 				boolean isAttackerWon=false;
-				for(int i = 0 ; i < n; i++) {
-
-					int attackResultInt = attackResult[i];
-					int defenceResultInt = attackResult[i];
+				for(int i = 0 ; i < n; i++) 
+				{
+					int attackResultInt = attackResList.get(i);
+					int defenceResultInt =defendResList.get(i);
 					
-					if(attackResultInt > defenceResultInt) {
+					if(attackResultInt > defenceResultInt) 
+					{
 						isAttackerWon=true;
 						gamePlay.subArmies(defenderCountry.getRuler(), defenderCountry, 1);
 					}
-					else {
+					else 
+					{
 						isAttackerWon=false;
 						gamePlay.subArmies(attackerCountry.getRuler(), attackerCountry, 1);
 					}
-					
 				}
+				
 				if(isAttackerWon)
 					logger.write("\nAttacker win attack and Defender will lose the armies");
 				else 
