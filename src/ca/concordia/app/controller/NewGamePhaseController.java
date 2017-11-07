@@ -14,6 +14,7 @@ import ca.concordia.app.model.Player;
 import ca.concordia.app.model.GamePlayEvent.EventType;
 import ca.concordia.app.service.GamePlayService;
 import ca.concordia.app.util.GamePhase;
+import ca.concordia.app.view.AttackInputView;
 import ca.concordia.app.view.FortificationInputView;
 import ca.concordia.app.view.GameLoggerView;
 import ca.concordia.app.view.GamePlayView;
@@ -23,7 +24,7 @@ import ca.concordia.app.view.ReinforcementInputView;
 /**
  * The Class NewGamePhaseController manages the starting of the game.
  * 
- * @author Parth
+ * @author harvi
  */
 public class NewGamePhaseController implements ActionListener, MouseListener {
 
@@ -44,6 +45,8 @@ public class NewGamePhaseController implements ActionListener, MouseListener {
 	Country from_country;
 	
 	Country to_country;
+	
+	AttackInputView attack_view;
 	
 	public NewGamePhaseController(Integer numPlayers) {
 		game_logger_view = new GameLoggerView();
@@ -85,7 +88,10 @@ public class NewGamePhaseController implements ActionListener, MouseListener {
 	}
 	
 	private void initiateAttack(){
-		current_player.doAttack();
+		current_player.setCurrentPhase(GamePhase.ATTACK);
+		attack_view = new AttackInputView();
+		attack_view.setActionListener(this);
+		attack_view.setVisible(true);
 	}
 	
 	private void fortifyPlayer(){
@@ -151,8 +157,15 @@ public class NewGamePhaseController implements ActionListener, MouseListener {
 				reinforcePlayer();
 			}
 			else{
-				fortifyPlayer();
+				initiateAttack();
 			}
+		}
+		else if(e.getSource().equals(attack_view.btn_battle)){
+			
+		}	
+		else if(e.getSource().equals(attack_view.btn_submit)){
+			attack_view.dispose();
+			fortifyPlayer();
 		}
 		else if(e.getSource().equals(fortification_view.btn_submit)){
 			Country from = (Country) fortification_view.from_country.getSelectedItem();

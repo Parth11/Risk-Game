@@ -4,23 +4,18 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.MouseListener;
-import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 
 import ca.concordia.app.model.Country;
 import ca.concordia.app.model.Player;
 import ca.concordia.app.service.GamePlayService;
-
-import javax.swing.JComboBox;
-import javax.swing.ComboBoxModel;
-import javax.swing.JButton;
 
 public class FortificationInputView extends JDialog implements IView {
 
