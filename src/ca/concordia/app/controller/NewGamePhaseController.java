@@ -160,6 +160,7 @@ public class NewGamePhaseController implements ActionListener, MouseListener {
 			Integer armies = (Integer) fortification_view.armies.getSelectedItem();
 			fortification_view.dispose();
 			current_player.doFortification(from, to, armies);
+			JOptionPane.showMessageDialog(game_play_view, "Fortification Successful");
 			triggerNextPlayer();
 		}
 	}

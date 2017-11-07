@@ -15,7 +15,7 @@ import ca.concordia.app.service.ConsoleLoggerService;
  *
  * @author Abhinav
  */
-public class GameLoggerView extends JDialog implements Observer {
+public class GameLoggerView extends JDialog {
 
 	private static final long serialVersionUID = -9072014196882993806L;
 	
@@ -57,11 +57,4 @@ public class GameLoggerView extends JDialog implements Observer {
 		setBounds(0, 0, 823, 575);
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 	}
-
-	@Override
-	public void update(Observable o, Object arg) {
-		// TODO Auto-generated method stub
-		
-	}
-
 }

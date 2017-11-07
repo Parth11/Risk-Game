@@ -49,7 +49,7 @@ public class PhaseView extends JDialog{
 	 */
 	private void initialize() {
 		
-		this.setBounds(870, 100, 984, 713);
+		this.setBounds(870, 0, 984, 713);
 		this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		this.getContentPane().setLayout(null);
 		

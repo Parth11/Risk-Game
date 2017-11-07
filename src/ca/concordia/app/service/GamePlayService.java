@@ -129,7 +129,7 @@ public class GamePlayService {
 			payload.put("initialArmies", p.getTotalArmies());
 			GamePlayEvent gpe = new GamePlayEvent(EventType.START_ARMY_ALLOCATION, payload);
 			p.publishGamePlayEvent(gpe);
-			logger.write(p.getName()+" -> Receives -> "+p.getTotalArmies()+" armies\n");
+		//	logger.write(p.getName()+" -> Receives -> "+p.getTotalArmies()+" armies\n");
 		}
 	}
 
@@ -165,7 +165,6 @@ public class GamePlayService {
 	 * @return true, if successful
 	 */
 	public void doStartupPhase(int numberOfPlayers, GameLoggerView game_play_view) {
-		
 		
 		logger = ConsoleLoggerService.getInstance(game_play_view.console);
 		
@@ -226,7 +225,7 @@ public class GamePlayService {
 			eventPayload.put("countryName", c.getCountryName());
 			GamePlayEvent gpe = new GamePlayEvent(EventType.START_COUNTRY, eventPayload );
 			p.publishGamePlayEvent(gpe);
-			logger.write(p.getName()+" -> controls the country -> "+c.getCountryName()+"\n");
+			//logger.write(p.getName()+" -> controls the country -> "+c.getCountryName()+"\n");
 			j++;
 		}
 	}

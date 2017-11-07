@@ -35,6 +35,7 @@ public class Player extends Observable {
 		this.color = null;
 		this.event_log = new ArrayList<>();
 		this.addObserver(PhaseViewController.getInstance());
+		this.addObserver(ConsoleLoggerService.getInstance(null));
 	}
 	
 	public int getReinforceArmyforCard() {
