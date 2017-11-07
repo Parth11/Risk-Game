@@ -3,13 +3,14 @@ package ca.concordia.app.service;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Random;
+import java.util.Set;
 
 import javax.swing.JDialog;
-import javax.swing.JFrame;
 
 import ca.concordia.app.model.Card;
 import ca.concordia.app.model.Continent;
@@ -722,7 +723,7 @@ public class GamePlayService {
 			Player player = players.get(j % players.size());
 			logger.write("*** "+player.name+ " Turn Start ***");
 			player.doReinforcement(null,0);
-			player.doAttack();
+			player.doAttack(null,null,null,null);
 			player.doFortification(null,null,null);
 			logger.write("*** "+player.name+ " Turn End ***");
 			j++;
@@ -740,4 +741,35 @@ public class GamePlayService {
 		s += " \n";
 		return s;
 	}
+	
+	public List<Country> getEligibleAttackingCountriesForPlayer(Player p){
+		Set<Country> attackingCountries = new HashSet<>();
+		List<Country> countries = getCountriesConqueredBy(p);
+		for(Country c : countries){
+			if(c.getNoOfArmy()>1){
+				List<Country> neighbourCountries = game_map.getNeighbourCountries(c);
+				for(Country n : neighbourCountries){
+					if(!n.getRuler().getName().equals(p.getName())){
+						attackingCountries.add(n);
+					}
+				}
+			}
+		}
+		return new ArrayList<>(attackingCountries);
+	}
+	
+	public List<Country> getEligibleAttackableCountries(Country c){
+		List<Country> neighboursOfAttackerCountry = game_map.getNeighbourCountries(c);
+		
+		List<Country> defenderCountries = new ArrayList<>();
+		for(Country neighbour:neighboursOfAttackerCountry) 
+		{
+			if(!neighbour.getRuler().getName().equalsIgnoreCase(c.getRuler().getName())) 
+			{
+				defenderCountries.add(neighbour);
+			}
+		}
+		return defenderCountries;
+	}
+	
 }
