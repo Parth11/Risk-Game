@@ -192,7 +192,7 @@ public class Player extends Observable {
 			List<Country> defenderCountries = new ArrayList<>();
 			for(Country neighbour:neighboursOfAttackerCountry) 
 			{
-				logger.write("Neighbour:" + neighbour.getCountryName() + "("+neighbour.getNoOfArmy()+") : ruled by: " + neighbour.getRuler().getName());
+				logger.write("\n Neighbour:" + neighbour.getCountryName() + "("+neighbour.getNoOfArmy()+") : ruled by: " + neighbour.getRuler().getName());
 				if(!neighbour.getRuler().getName().equalsIgnoreCase(getName())) 
 				{
 					defenderCountries.add(neighbour);
@@ -202,13 +202,13 @@ public class Player extends Observable {
 			Country defenderCountry = (Country) JOptionPane.showInputDialog(gamePlay.game_play_frame, "Select Defender Country", "Input",
 					JOptionPane.NO_OPTION, BasicIconFactory.getMenuArrowIcon(), defenderCountries.toArray(), null);
 		
-			logger.write(attackerCountry.getCountryName()+ " attacks on " + defenderCountry.getCountryName() + "owned by " + defenderCountry.getRuler().getName());
+			logger.write("\n"+attackerCountry.getCountryName()+ " attacks on " + defenderCountry.getCountryName() + " owned by " + defenderCountry.getRuler().getName());
 			
 			if(GamePlayService.getInstance().canWar(attackerCountry, defenderCountry)) 
 			{
 				DiceRoller attackDice = new DiceRoller(gamePlay.getAttackDiceLimit(attackerCountry));
 				DiceRoller defenceDice = new DiceRoller(gamePlay.getDefenceDiceLimit(defenderCountry));
-				logger.write("Attack by Dice : " + attackDice.no_of_dice+" Defence by Dice : " + defenceDice.no_of_dice);
+				logger.write("\n Attack by Dice : " + attackDice.no_of_dice+" Defence by Dice : " + defenceDice.no_of_dice);
 				
 				int[] attackResult= attackDice.rollAll();
 				int[] defenceResult =defenceDice.rollAll();
@@ -221,31 +221,32 @@ public class Player extends Observable {
 				List defendResList=Arrays.asList(attackResult);
 				Collections.reverse(defendResList);
 				
-				logger.write("Attack dice rolling : " + String.join(" ", attackResList) );
-				logger.write("Defence dice rolling : " + String.join(" ", defendResList) );
+				logger.write("Attack dice rolling : " +attackDice.toString() );
+				logger.write("Defence dice rolling : " + defenceDice.toString() );
 				
 				int n = attackResult.length>defenceResult.length?defenceResult.length:attackResult.length;
 				
+				boolean isAttackerWon=false;
 				for(int i = 0 ; i < n; i++) {
 
 					int attackResultInt = attackResult[i];
 					int defenceResultInt = attackResult[i];
 					
 					if(attackResultInt > defenceResultInt) {
-						logger.write("Attacker win attack and Defender will lose the armies");
-						logger.write("Before attack :"+defenderCountry.getCountryName()+"("+defenderCountry.getNoOfArmy()+")");
+						isAttackerWon=true;
 						gamePlay.subArmies(defenderCountry.getRuler(), defenderCountry, 1);
-						logger.write("After attack" + defenderCountry.getCountryName()+"(" + defenderCountry.getNoOfArmy()+")");
 					}
 					else {
-						logger.write("Defender win attack and attacker will lose the armies");
-						logger.write("Before attack :"+attackerCountry.getCountryName()+"(" + attackerCountry.getNoOfArmy()+")");
+						isAttackerWon=false;
 						gamePlay.subArmies(attackerCountry.getRuler(), attackerCountry, 1);
-						logger.write("After attack"+attackerCountry.getCountryName()+"(" + attackerCountry.getNoOfArmy()+")");
 					}
+					
 				}
+				if(isAttackerWon)
+					logger.write("\nAttacker win attack and Defender will lose the armies");
+				else 
+					logger.write("\nDefender win attack and attacker will lose the armies");
 				
-				//4. Set the attacker as ruler in that denfender country
 				
 				defenderCountry.setRuler(attackerCountry.getRuler(), 0);
 				// if defence country is completely defeated
@@ -261,7 +262,7 @@ public class Player extends Observable {
 					
 					//3. Check defender is eleminated from the game or not
 					if(gamePlay.getCountriesConqueredBy(defenderCountry.getRuler()).size() == 0) {
-						logger.write(defenderCountry.getRuler().getName()+" has no country left, player is eliminated from the game");
+						logger.write("\n"+defenderCountry.getRuler().getName()+" has no country left, player is eliminated from the game");
 						//Remove this player from the player list
 						gamePlay.getPlayers().remove(defenderCountry.getRuler());
 					}

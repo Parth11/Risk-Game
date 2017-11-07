@@ -49,5 +49,15 @@ public class DiceRoller {
 		
 		return result;
 	}
+	
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		String s="";
+		for(int a:result) {
+			s+=" "+a;
+		}
+		return s;
+	}
 
 }
