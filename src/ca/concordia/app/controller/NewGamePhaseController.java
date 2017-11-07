@@ -5,13 +5,15 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.swing.JOptionPane;
 
 import ca.concordia.app.model.Country;
+import ca.concordia.app.model.DiceRoller;
 import ca.concordia.app.model.GamePlayEvent;
-import ca.concordia.app.model.Player;
 import ca.concordia.app.model.GamePlayEvent.EventType;
+import ca.concordia.app.model.Player;
 import ca.concordia.app.service.GamePlayService;
 import ca.concordia.app.util.GamePhase;
 import ca.concordia.app.view.AttackInputView;
@@ -73,8 +75,7 @@ public class NewGamePhaseController implements ActionListener, MouseListener {
 	}
 
 	private void reinforcePlayer() {
-		
-		
+
 		current_player.setTotalArmies(reinforcement_armies);
 		
 		HashMap<String, Object> eventPayload = new HashMap<>();
@@ -89,7 +90,11 @@ public class NewGamePhaseController implements ActionListener, MouseListener {
 	
 	private void initiateAttack(){
 		current_player.setCurrentPhase(GamePhase.ATTACK);
-		attack_view = new AttackInputView();
+		if(!current_player.canAttack()){
+			JOptionPane.showMessageDialog(game_play_view, "This player cannot attack. Moving to Fortification");
+			fortifyPlayer();
+		}
+		attack_view = new AttackInputView(current_player);
 		attack_view.setActionListener(this);
 		attack_view.setVisible(true);
 	}
@@ -161,7 +166,51 @@ public class NewGamePhaseController implements ActionListener, MouseListener {
 			}
 		}
 		else if(e.getSource().equals(attack_view.btn_battle)){
+			if(game_play_service.canWar((Country)attack_view.attack_country.getSelectedItem(), 
+												(Country)attack_view.defence_country.getSelectedItem())){
+				
+				DiceRoller attackRoller = new DiceRoller((Integer)attack_view.num_attacks.getSelectedItem());
+				DiceRoller defenceRoller = new DiceRoller((Integer)attack_view.num_defences.getSelectedItem());
 			
+				List<Integer> attacks = attackRoller.rollAll();
+				List<Integer> defences = defenceRoller.rollAll();
+				
+				switch(attacks.size()){
+				case 1:
+					attack_view.attack_dice1.setText(String.valueOf(attacks.get(0)));
+					break;
+				case 2:
+					attack_view.attack_dice1.setText(String.valueOf(attacks.get(0)));
+					attack_view.attack_dice2.setText(String.valueOf(attacks.get(1)));
+					break;
+				case 3:
+					attack_view.attack_dice1.setText(String.valueOf(attacks.get(0)));
+					attack_view.attack_dice2.setText(String.valueOf(attacks.get(1)));
+					attack_view.attack_dice3.setText(String.valueOf(attacks.get(2)));
+					break;
+				}
+				
+				switch(defences.size()){
+				case 1:
+					attack_view.defence_dice1.setText(String.valueOf(defences.get(0)));
+					break;
+				case 2:
+					attack_view.defence_dice1.setText(String.valueOf(defences.get(0)));
+					attack_view.defence_dice2.setText(String.valueOf(defences.get(1)));
+					break;
+				}
+				
+				
+				
+				current_player.doAttack((Country)attack_view.attack_country.getSelectedItem(),
+										(Country)attack_view.defence_country.getSelectedItem(), attacks, defences);
+			
+				attack_view.renderAttackViewForPlayer(current_player);
+			}
+			else{
+				JOptionPane.showMessageDialog(attack_view, "These Countries Cannot Go To War", "Error", JOptionPane.ERROR_MESSAGE);
+				return;
+			}
 		}	
 		else if(e.getSource().equals(attack_view.btn_submit)){
 			attack_view.dispose();
