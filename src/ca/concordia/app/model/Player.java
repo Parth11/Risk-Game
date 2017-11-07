@@ -221,6 +221,7 @@ public class Player extends Observable {
 					attackResList.add(i);
 				}
 				Collections.reverse(attackResList);
+				System.out.println(attackResList);
 				
 				Arrays.sort(defenceResult);
 				List<Integer> defendResList = new ArrayList<Integer>();
@@ -229,7 +230,7 @@ public class Player extends Observable {
 					defendResList.add(i);
 				}
 				Collections.reverse(defendResList);
-				
+				System.out.println(defendResList);
 				logger.write("Attack dice rolling : " +attackDice.toString() );
 				logger.write("Defence dice rolling : " + defenceDice.toString() );
 				
@@ -259,9 +260,9 @@ public class Player extends Observable {
 					logger.write("\nDefender win attack and attacker will lose the armies");
 				
 				
-				defenderCountry.setRuler(attackerCountry.getRuler(), 0);
-				// if defence country is completely defeated
+				//defenderCountry.setRuler(attackerCountry.getRuler(), 0);
 				
+				// if defence country is completely defeated
 				if(defenderCountry.getNoOfArmy() < 1) 
 				{
 					
@@ -278,6 +279,8 @@ public class Player extends Observable {
 						gamePlay.getPlayers().remove(defenderCountry.getRuler());
 					}
 					
+					defenderCountry.setRuler(attackerCountry.getRuler(), 0);
+					
 					Integer[] attackerArmies = new Integer[attackerCountry.getNoOfArmy()];
 
 					for (int i = 0; i < attackerArmies.length; i++) {
@@ -286,8 +289,19 @@ public class Player extends Observable {
 					Integer armies = (Integer) JOptionPane.showInputDialog(gamePlay.game_play_frame, "Number of Armies to Move", "Input",
 							JOptionPane.NO_OPTION, BasicIconFactory.getMenuArrowIcon(), attackerArmies, attackerArmies[0]);
 					
+					//based on the attacker dice it will move armies into defender country
+					if(armies >= attackDice.no_of_dice) {
+
+						gamePlay.moveArmyFromTo(attackerCountry.getRuler(), attackerCountry, defenderCountry, armies);
+
+						}
+
+						else {
+
+						logger.write("You have to select greater than equal to dice you rolled which is " + attackDice.no_of_dice);
+
+						}
 					
-					gamePlay.moveArmyFromTo(attackerCountry.getRuler(), attackerCountry, defenderCountry, armies);
 					
 					cardFlag = true;
 				}
