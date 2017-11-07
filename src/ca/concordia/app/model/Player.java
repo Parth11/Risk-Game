@@ -211,8 +211,22 @@ public class Player extends Observable {
 				DiceRoller defenceDice = new DiceRoller(gamePlay.getDefenceDiceLimit(defenderCountry));
 				logger.write("\n Attack by Dice : " + attackDice.no_of_dice+" Defence by Dice : " + defenceDice.no_of_dice);
 				
+				Integer[] a = new Integer[attackDice.no_of_dice];
+				
+				for(int i = 0 ; i<attackDice.no_of_dice; i++){
+					a[i] = i+1;
+				}
+				
+				
+				
+				
+				Integer b = (Integer) JOptionPane.showInputDialog(GamePlayService.getInstance().game_play_frame, "Select the number of Dice you Want to Roll",
+						"Input", JOptionPane.NO_OPTION, BasicIconFactory.getMenuArrowIcon(), a,a[0]);
+				
+				
 				int[] attackResult= attackDice.rollAll();
 				int[] defenceResult =defenceDice.rollAll();
+				
 				
 				Arrays.sort(attackResult);
 				List<Integer> attackResList = new ArrayList<Integer>();
