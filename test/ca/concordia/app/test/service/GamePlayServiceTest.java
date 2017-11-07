@@ -1,6 +1,8 @@
 package ca.concordia.app.test.service;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.net.URISyntaxException;
 import java.util.List;
@@ -38,6 +40,9 @@ public class GamePlayServiceTest {
 		assertEquals(0, players.get(1).getTotalArmies());
 		assertEquals(0, players.get(2).getTotalArmies());
 		assertEquals(0, players.get(3).getTotalArmies());
+
+	
+	
 	}
 	
 	@Test
@@ -69,7 +74,19 @@ public class GamePlayServiceTest {
 	@Test
 	public void testReinforcementPhaseCalculateArmies() {
 		int count = game_play.getReinforcementArmyForPlayer(players.get(0));
-		assertEquals(23, count);
+		assertEquals(8, count);
 	}
+	
+	@Test
+	public void testCanWar() {
+		Country c1 = game_play.getCountriesConqueredBy(players.get(0)).get(0);
+		Country c2 = game_play.getCountriesConqueredBy(players.get(0)).get(1);
+		boolean c3= game_play.canWar(c1, c2);
+		assertFalse(c3);
+		
+	}
+	
 
+	
+	
 }

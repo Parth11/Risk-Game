@@ -92,7 +92,7 @@ public class GamePlayService {
 	/**
 	 * This is startup phase. 
 	 * As per the number of players it will generate the data, initializing players data, 
-	 * allocating countries to players and it will add aremies using round-robin fashion.
+	 * allocating countries to players and it will add armies using round-robin fashion.
 	 * 
 	 * @param numberOfPlayers the number of players
 	 * @param game_play_view 
@@ -104,7 +104,10 @@ public class GamePlayService {
 		if (game_map.getCountries().isEmpty())
 			return false;
 
-		logger = ConsoleLoggerService.getInstance(game_play_view.console);
+		if(game_play_view==null)
+			logger = ConsoleLoggerService.getInstance(null);
+		else 
+			logger = ConsoleLoggerService.getInstance(game_play_view.console);
 		
 		this.number_of_players = numberOfPlayers;
 
