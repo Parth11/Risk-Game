@@ -33,6 +33,11 @@ public class GamePlayServiceTest {
 		game_play.doStartupPhase(4,null);
 		players = game_play.getPlayers();
 	}
+	
+	@Test
+	public void testDoStartUp() {
+		assertTrue(game_play.doStartupPhase(4, null));
+	}
 
 	@Test
 	public void testInitialArmies() {
@@ -41,8 +46,6 @@ public class GamePlayServiceTest {
 		assertEquals(0, players.get(2).getTotalArmies());
 		assertEquals(0, players.get(3).getTotalArmies());
 
-	
-	
 	}
 	
 	@Test
