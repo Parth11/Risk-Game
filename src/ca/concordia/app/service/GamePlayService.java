@@ -104,6 +104,14 @@ public class GamePlayService {
 	}
 	
 	
+	public String generateCard() {
+		
+		String [] cardType = {GameConstants.ARTILLERY, GameConstants.CAVALRY,GameConstants.INFANTRY};
+		Random randomeCardType = new Random();
+		int result = randomeCardType.nextInt(2);
+		String cardName = cardType[result];
+		return cardName;
+	}
 
 	/**
 	 * Gets the instance single of GamePlayService class.
@@ -170,7 +178,7 @@ public class GamePlayService {
 		
 		this.number_of_players = numberOfPlayers;
 
-		logger.write("****Startup Phase BEGIN****\n");
+		logger.write("********** START UP PHASE BEGIN **********\n");
 		logger.write("Game starts with "+numberOfPlayers+" players\n");
 		
 		for (int i = 1; i <= numberOfPlayers; i++) {
@@ -183,7 +191,7 @@ public class GamePlayService {
 
 		addInitialArmiesUsingRoundRobin();
 
-		logger.write("****Startup Phase END****");
+		logger.write("********** START UP PHASE END **********");
 		
 	}
 
@@ -432,8 +440,8 @@ public class GamePlayService {
 		if ((c.getNoOfArmy() == 0 || player_country_map.get(p).contains(c)) && ((c.getNoOfArmy() - subAmount) >= 0)) {
 			p.subArmy(subAmount);
 			c.removeArmies(subAmount);
-			if (c.getNoOfArmy() == 0)
-				c.setRuler(null, 0);
+//			if (c.getNoOfArmy() == 0)
+//				c.setRuler(null, 0);
 			return true;
 		}
 		return false;
@@ -568,11 +576,12 @@ public class GamePlayService {
 	 * @param fromCountry the from country
 	 * @param toCountry the to country
 	 * @return true, if successful
-	 */
+	 */	
 	public boolean canWar(Country fromCountry, Country toCountry) {
-		return game_map.getNeighbourCountries(fromCountry).contains(toCountry)
-				&& fromCountry.getRuler() != toCountry.getRuler() && fromCountry.getNoOfArmy() > 1
-				&& toCountry.getNoOfArmy() > 0;
+		return game_map.getNeighbourCountries(fromCountry).contains(toCountry) //should be neighbours
+				&& fromCountry.getRuler() != toCountry.getRuler() // shouldn't both countries belong to same player
+				&& fromCountry.getNoOfArmy() > 1 // attacker should have more than 1 army
+				&& toCountry.getNoOfArmy() > 0; // defence should have atleast 1 army to protect the country
 	}
 
 	/**
@@ -582,8 +591,8 @@ public class GamePlayService {
 	 * @param c the c
 	 * @return the attack dice limit
 	 */
-	public int getAttackDiceLimit(Player p, Country c) {
-		if (player_country_map.get(p).contains(c) && c.getNoOfArmy() > 1) {
+	public int getAttackDiceLimit(Country c) {
+		if (player_country_map.get(c.getRuler()).contains(c) && c.getNoOfArmy() > 1) {
 			return c.getNoOfArmy() > 3 ? 3 : c.getNoOfArmy() - 1;
 		}
 
@@ -597,8 +606,8 @@ public class GamePlayService {
 	 * @param c the c
 	 * @return the defence dice limit
 	 */
-	public int getDefenceDiceLimit(Player p, Country c) {
-		if (player_country_map.get(p).contains(c)) {
+	public int getDefenceDiceLimit(Country c) {
+		if (player_country_map.get(c.getRuler()).contains(c)) {
 			// max 2 dies, min 1 dies
 			return c.getNoOfArmy() == 1 ? 1 : 2;
 		}
@@ -613,11 +622,11 @@ public class GamePlayService {
 	 * @return the attack dice roller
 	 */
 	public DiceRoller getAttackDiceRoller(Player p, Country c) {
-		int n = getAttackDiceLimit(p, c);
+		int n = getAttackDiceLimit(c);
 		if (n == -1)
 			return null;
 		else
-			return new DiceRoller(instance, n);
+			return new DiceRoller( n);
 	}
 
 	/**
@@ -628,11 +637,11 @@ public class GamePlayService {
 	 * @return the defence dice roller
 	 */
 	public DiceRoller getDefenceDiceRoller(Player p, Country c) {
-		int n = getDefenceDiceLimit(p, c);
+		int n = getDefenceDiceLimit(c);
 		if (n == -1)
 			return null;
 		else
-			return new DiceRoller(instance, n);
+			return new DiceRoller( n);
 	}
 
 	/**
@@ -641,7 +650,7 @@ public class GamePlayService {
 	 * @param p the player
 	 * @param c the country
 	 */
-	private void mapPlayerToCountry(Player p, Country c) {
+	public void mapPlayerToCountry(Player p, Country c) {
 		List<Country> cList = player_country_map.get(p);
 		if (cList == null) {
 			cList = new ArrayList<>();
@@ -656,7 +665,7 @@ public class GamePlayService {
 	 * @param p the player
 	 * @param c the country
 	 */
-	private void unmapPlayerToCountry(Player p, Country c) {
+	public void unmapPlayerToCountry(Player p, Country c) {
 		List<Country> cList = player_country_map.get(p);
 		if (cList != null) {
 			cList.remove(c);
@@ -723,12 +732,12 @@ public class GamePlayService {
 	//print the player country allocation during gameplay
 	public String printCountryAllocationToConsole(Player player) {
 
-		String s = player.name + " - [ ";
+		String s = "\n";
 		List<Country> countries = getCountriesConqueredBy(player);
+		
 		for (Country c : countries)
 			s += "" + c.getCountryName() + "(" + c.getNoOfArmy() + "), ";
-		s += "]\n";
+		s += " \n";
 		return s;
 	}
-
 }
