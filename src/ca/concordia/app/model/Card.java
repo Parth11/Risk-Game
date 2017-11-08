@@ -8,18 +8,13 @@ package ca.concordia.app.model;
  */
 public class Card {
 
-	
-	
 	private String card_type;
 	private int numerOfCard;
 
 	public Card(String card_type, int numerOfCard) {
-		super();
 		this.card_type = card_type;
 		this.numerOfCard = numerOfCard;
 	}
-	
-	
 
 	public String getCard_type() {
 		return card_type;

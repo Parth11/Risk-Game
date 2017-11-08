@@ -10,6 +10,7 @@ import java.util.Observable;
 
 import javax.swing.JOptionPane;
 import javax.swing.plaf.basic.BasicIconFactory;
+import javax.swing.undo.CannotRedoException;
 
 import ca.concordia.app.controller.PhaseViewController;
 import ca.concordia.app.model.GamePlayEvent.EventType;
@@ -17,6 +18,7 @@ import ca.concordia.app.service.ConsoleLoggerService;
 import ca.concordia.app.service.GamePlayService;
 import ca.concordia.app.util.GameConstants;
 import ca.concordia.app.util.GamePhase;
+import ca.concordia.app.view.CardExchangeView;
 
 /**
  * @author Parth Nayak
@@ -30,9 +32,12 @@ public class Player extends Observable {
 	public int reinforceArmyforCard =0;
 	public String color;
 	public GamePhase game_phase;
-	public ArrayList<Card> cards_list;
+	public ArrayList<Card> cards_list= new ArrayList<>();
 	public List<GamePlayEvent> event_log;
 	public boolean cardFlag = false;
+	
+	int reemburseTurn=1;
+	//public int[] reemburse=new int[] {5,10,15};
 	
 	public Player(String name) {
 		this.name = name;
@@ -74,23 +79,21 @@ public class Player extends Observable {
 	public void setColor(String color) {
 		this.color = color;
 	}
+	
 	public ArrayList<Card> getCards() {
-		// temp assigning cards to a player
-		Card card1 = new Card(GameConstants.ARTILLERY,5);
-		Card card2 = new Card(GameConstants.INFANTRY,5);
-		Card card3 = new Card(GameConstants.CAVALRY,5);
-		cards_list = new ArrayList<>();
-		cards_list.add(card1);
-		cards_list.add(card2);
-		cards_list.add(card3);
 		return cards_list;
-		
 	}
+	
 	public void addCard(Card card) {
 		cards_list.add(card);
 	}
 	
 	public void doReinforcement(){
+		
+		if(GamePlayService.getInstance().checkPlayerCardsIsGreater())
+		{
+			CardExchangeView cardView = new CardExchangeView();
+		}
 
 		ConsoleLoggerService logger = ConsoleLoggerService.getInstance(null);
 	
@@ -211,8 +214,22 @@ public class Player extends Observable {
 				DiceRoller defenceDice = new DiceRoller(gamePlay.getDefenceDiceLimit(defenderCountry));
 				logger.write("\n Attack by Dice : " + attackDice.no_of_dice+" Defence by Dice : " + defenceDice.no_of_dice);
 				
+				Integer[] a = new Integer[attackDice.no_of_dice];
+				
+				for(int i = 0 ; i<attackDice.no_of_dice; i++){
+					a[i] = i+1;
+				}
+				
+				
+				
+				
+				Integer b = (Integer) JOptionPane.showInputDialog(GamePlayService.getInstance().game_play_frame, "Select the number of Dice you Want to Roll",
+						"Input", JOptionPane.NO_OPTION, BasicIconFactory.getMenuArrowIcon(), a,a[0]);
+				
+				
 				int[] attackResult= attackDice.rollAll();
 				int[] defenceResult =defenceDice.rollAll();
+				
 				
 				Arrays.sort(attackResult);
 				List<Integer> attackResList = new ArrayList<Integer>();
@@ -221,6 +238,7 @@ public class Player extends Observable {
 					attackResList.add(i);
 				}
 				Collections.reverse(attackResList);
+				System.out.println(attackResList);
 				
 				Arrays.sort(defenceResult);
 				List<Integer> defendResList = new ArrayList<Integer>();
@@ -229,41 +247,36 @@ public class Player extends Observable {
 					defendResList.add(i);
 				}
 				Collections.reverse(defendResList);
-				
+				System.out.println(defendResList);
 				logger.write("Attack dice rolling : " +attackDice.toString() );
 				logger.write("Defence dice rolling : " + defenceDice.toString() );
 				
 				int n = attackResult.length>defenceResult.length?defenceResult.length:attackResult.length;
 				
-				boolean isAttackerWon=false;
+				
 				for(int i = 0 ; i < n; i++) 
 				{
 					int attackResultInt = attackResList.get(i);
 					int defenceResultInt =defendResList.get(i);
 					
 					if(attackResultInt > defenceResultInt) 
-					{
-						isAttackerWon=true;
+					{	
 						gamePlay.subArmies(defenderCountry.getRuler(), defenderCountry, 1);
 					}
 					else 
 					{
-						isAttackerWon=false;
 						gamePlay.subArmies(attackerCountry.getRuler(), attackerCountry, 1);
 					}
 				}
 				
-				if(isAttackerWon)
-					logger.write("\nAttacker win attack and Defender will lose the armies");
-				else 
-					logger.write("\nDefender win attack and attacker will lose the armies");
 				
 				
-				defenderCountry.setRuler(attackerCountry.getRuler(), 0);
+				//defenderCountry.setRuler(attackerCountry.getRuler(), 0);
+				
 				// if defence country is completely defeated
-				
-				if(defenderCountry.getNoOfArmy() < 1) 
+				if(defenderCountry.getNoOfArmy() == 0) 
 				{
+					logger.write("\nAttacker win attack and Defender will lose the armies");
 					
 					//1. Remove a country from defender's country list
 					gamePlay.unmapPlayerToCountry(defenderCountry.getRuler(), defenderCountry);
@@ -277,17 +290,39 @@ public class Player extends Observable {
 						//Remove this player from the player list
 						gamePlay.getPlayers().remove(defenderCountry.getRuler());
 					}
+					// if defender lost his last country
+					if(gamePlay.getCountriesConqueredBy(defenderCountry.getRuler()).size()==0) {
+						attackerCountry.getRuler().cards_list.addAll(defenderCountry.getRuler().getCards());
+						defenderCountry.getRuler().getCards().clear();
+					}
+					
+					
+					defenderCountry.setRuler(attackerCountry.getRuler(), 0);
+					
+					
 					
 					Integer[] attackerArmies = new Integer[attackerCountry.getNoOfArmy()];
 
 					for (int i = 0; i < attackerArmies.length; i++) {
 						attackerArmies[i] = i + 1;
 					}
+					
 					Integer armies = (Integer) JOptionPane.showInputDialog(gamePlay.game_play_frame, "Number of Armies to Move", "Input",
 							JOptionPane.NO_OPTION, BasicIconFactory.getMenuArrowIcon(), attackerArmies, attackerArmies[0]);
 					
+					//based on the attacker dice it will move armies into defender country
+					if(armies >= attackDice.no_of_dice) {
+
+						gamePlay.moveArmyFromTo(attackerCountry.getRuler(), attackerCountry, defenderCountry, armies);
+
+						}
+
+						else {
+
+						logger.write("You have to select greater than equal to dice you rolled which is " + attackDice.no_of_dice);
+
+						}
 					
-					gamePlay.moveArmyFromTo(attackerCountry.getRuler(), attackerCountry, defenderCountry, armies);
 					
 					cardFlag = true;
 				}
@@ -385,9 +420,10 @@ public class Player extends Observable {
 			if(cardFlag) {
 				//logic for adding card
 				String playerCard = GamePlayService.getInstance().generateCard();
-				Card card1 = new Card(playerCard,1);				
-				cards_list = new ArrayList<>();
+				Card card1 = new Card(playerCard,1);								
 				cards_list.add(card1);
+				GamePlayService.getInstance().removeCardsfromDeck(card1.getCard_type());
+				cardFlag=false;
 				
 			}
 			
@@ -400,6 +436,16 @@ public class Player extends Observable {
 			logger.write(this.name + " has completed fortification");
 			
 		} else {
+			if(cardFlag) {
+				//logic for adding card
+				String playerCard = GamePlayService.getInstance().generateCard();
+				Card card1 = new Card(playerCard,1);
+				
+				cards_list.add(card1);
+				GamePlayService.getInstance().removeCardsfromDeck(card1.getCard_type());
+				cardFlag=false;
+				
+			}
 			logger.write("********** FORTIFICATION PHASE ENDED **********");
 			return;
 		}
@@ -415,4 +461,17 @@ public class Player extends Observable {
 		this.notifyObservers();
 	}
 	
+	public void reemburseCards() {
+		int noOfReemburseArmy= reemburseTurn*5;
+		GamePlayService gamePlay=GamePlayService.getInstance();
+		List<Card> cardsEmburse=getCards();
+		for(Card c:cardsEmburse) {
+			gamePlay.addCardsToDeck(c.getCard_type());
+			cards_list.remove(c);
+		}
+	
+		reemburseTurn++;
+		total_armies+=noOfReemburseArmy;
+		
+	}
 }

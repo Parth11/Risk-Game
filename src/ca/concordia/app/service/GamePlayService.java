@@ -20,7 +20,9 @@ import ca.concordia.app.model.Player;
 import ca.concordia.app.model.GamePlayEvent.EventType;
 import ca.concordia.app.util.GameConstants;
 import ca.concordia.app.util.GamePhase;
+import ca.concordia.app.view.CardExchangeView;
 import ca.concordia.app.view.NewGamePlayView;
+
 
 /**
  * This is GamePlayService class through which game is going to play.
@@ -102,10 +104,27 @@ public class GamePlayService {
 		
 	}
 	
+	public void removeCardsfromDeck(String cardType )
+	{
+			int value = deckMap.get(cardType);
+			deckMap.remove(cardType,value-1);								
+	}
+	public void addCardsToDeck(String cardType )
+	{
+			int value = deckMap.get(cardType);
+			deckMap.remove(cardType,value+1);								
+	}
+	
+	public void cardReimburcement()
+	{
+		
+	}
+	
 	
 	public String generateCard() {
 		
 		String [] cardType = {GameConstants.ARTILLERY, GameConstants.CAVALRY,GameConstants.INFANTRY};
+		
 		Random randomeCardType = new Random();
 		int result = randomeCardType.nextInt(2);
 		String cardName = cardType[result];
@@ -345,6 +364,15 @@ public class GamePlayService {
 		
 		}
 		return false;
+	}
+	
+	public boolean checkPlayerCardsIsGreater(){
+		
+	    if(GamePlayService.getInstance().getCurrentTurnPlayer().getCards().size() == 5){
+			return true;
+		}
+		return false;
+		
 	}
 
 	/**
