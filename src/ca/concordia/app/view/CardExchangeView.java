@@ -11,20 +11,23 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 
 import ca.concordia.app.model.Player;
+import ca.concordia.app.service.GamePlayService;
+
 import java.awt.GridLayout;
 
 public class CardExchangeView extends JFrame implements IView {
 	
-	private Player p;
-	
-	CardExchangeView()
+	public CardExchangeView()
 	{
 		
 		getContentPane().setLayout(new GridLayout(5, 5));
-		int temNoofCards=15;
+		//int temNoofCards=15;
+		Player p = GamePlayService.getInstance().getCurrentTurnPlayer();
+		
+		
 		int noOfCards= p.getCards().size();
 		
-		for(int i =0; i <=temNoofCards;i++)
+		for(int i =0; i <=noOfCards;i++)
 		{
 			JLabel label =  new JLabel("Cards"+i);
 			label.setBorder(BorderFactory.createLineBorder(Color.BLUE));

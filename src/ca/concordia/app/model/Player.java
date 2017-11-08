@@ -10,6 +10,7 @@ import java.util.Observable;
 
 import javax.swing.JOptionPane;
 import javax.swing.plaf.basic.BasicIconFactory;
+import javax.swing.undo.CannotRedoException;
 
 import ca.concordia.app.controller.PhaseViewController;
 import ca.concordia.app.model.GamePlayEvent.EventType;
@@ -17,6 +18,7 @@ import ca.concordia.app.service.ConsoleLoggerService;
 import ca.concordia.app.service.GamePlayService;
 import ca.concordia.app.util.GameConstants;
 import ca.concordia.app.util.GamePhase;
+import ca.concordia.app.view.CardExchangeView;
 
 /**
  * @author Parth Nayak
@@ -30,7 +32,7 @@ public class Player extends Observable {
 	public int reinforceArmyforCard =0;
 	public String color;
 	public GamePhase game_phase;
-	public ArrayList<Card> cards_list;
+	public ArrayList<Card> cards_list= new ArrayList<>();
 	public List<GamePlayEvent> event_log;
 	public boolean cardFlag = false;
 	
@@ -76,13 +78,13 @@ public class Player extends Observable {
 	}
 	public ArrayList<Card> getCards() {
 		// temp assigning cards to a player
-		Card card1 = new Card(GameConstants.ARTILLERY,5);
-		Card card2 = new Card(GameConstants.INFANTRY,5);
-		Card card3 = new Card(GameConstants.CAVALRY,5);
-		cards_list = new ArrayList<>();
-		cards_list.add(card1);
-		cards_list.add(card2);
-		cards_list.add(card3);
+//		Card card1 = new Card(GameConstants.ARTILLERY,5);
+//		Card card2 = new Card(GameConstants.INFANTRY,5);
+//		Card card3 = new Card(GameConstants.CAVALRY,5);
+//		cards_list = new ArrayList<>();
+//		cards_list.add(card1);
+//		cards_list.add(card2);
+//		cards_list.add(card3);
 		return cards_list;
 		
 	}
@@ -91,6 +93,13 @@ public class Player extends Observable {
 	}
 	
 	public void doReinforcement(){
+		
+		
+		
+		
+		if(GamePlayService.getInstance().checkPlayerCardsIsGreater()){
+			CardExchangeView cardView = new CardExchangeView();
+		}
 
 		ConsoleLoggerService logger = ConsoleLoggerService.getInstance(null);
 	
@@ -413,9 +422,10 @@ public class Player extends Observable {
 			if(cardFlag) {
 				//logic for adding card
 				String playerCard = GamePlayService.getInstance().generateCard();
-				Card card1 = new Card(playerCard,1);				
-				cards_list = new ArrayList<>();
+				Card card1 = new Card(playerCard,1);								
 				cards_list.add(card1);
+				GamePlayService.getInstance().removeCardsfromDeck(card1.getCard_type());
+				cardFlag=false;
 				
 			}
 			
@@ -428,6 +438,16 @@ public class Player extends Observable {
 			logger.write(this.name + " has completed fortification");
 			
 		} else {
+			if(cardFlag) {
+				//logic for adding card
+				String playerCard = GamePlayService.getInstance().generateCard();
+				Card card1 = new Card(playerCard,1);
+				
+				cards_list.add(card1);
+				GamePlayService.getInstance().removeCardsfromDeck(card1.getCard_type());
+				cardFlag=false;
+				
+			}
 			logger.write("********** FORTIFICATION PHASE ENDED **********");
 			return;
 		}
