@@ -12,6 +12,7 @@ import ca.concordia.app.model.DiceRoller;
 public class DiceRollerTest {
 	
 	private DiceRoller dice_roller;
+	
 
 
 	@Test
@@ -20,7 +21,8 @@ public class DiceRollerTest {
 		result.add(1);
 		result.add(2);
 		result.add(3);
-	//	dice_roller.rollAll(result);
+		dice_roller = new DiceRoller(3);
+		
 	
 	}
 	
