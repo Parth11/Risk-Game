@@ -5,7 +5,7 @@ package ca.concordia.app.test.service;
 
 import java.net.URISyntaxException;
 
-import org.junit.BeforeClass;
+import org.junit.Before;
 import org.junit.Test;
 
 import ca.concordia.app.service.MapService;

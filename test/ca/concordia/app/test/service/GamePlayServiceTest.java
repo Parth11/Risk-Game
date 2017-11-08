@@ -10,6 +10,8 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
+//import com.sun.media.jfxmedia.events.PlayerState;
+
 import ca.concordia.app.model.Country;
 import ca.concordia.app.model.GameMap;
 import ca.concordia.app.model.Player;
@@ -77,10 +79,11 @@ public class GamePlayServiceTest {
 	@Test
 	public void testReinforcementPhaseCalculateArmies() {
 		int count = game_play.getReinforcementArmyForPlayer(players.get(0));
-		assertEquals(8, count);
+		assertEquals(23, count);
 	}
 	
 	@Test
+	//assertTrue is failing...
 	public void testCanWar() {
 		Country c1 = game_play.getCountriesConqueredBy(players.get(0)).get(0);
 		Country c2 = game_play.getCountriesConqueredBy(players.get(0)).get(1);
@@ -89,7 +92,21 @@ public class GamePlayServiceTest {
 		
 	}
 	
-
+	@Test
+	public void testAddArmies() {
+		Country c = game_play.getCountriesConqueredBy(players.get(0)).get(0);
+		assertTrue(game_play.addArmies(players.get(0), c, 2));
+	}
 	
+	@Test
+	public void testsubArmies() {
+		Country c = game_play.getCountriesConqueredBy(players.get(0)).get(0);
+		assertTrue(game_play.subArmies(players.get(0), c, 1));
+	}
 	
+	@Test
+	public void testSetNewCountryRuler() {
+		Country c = game_play.getCountriesConqueredBy(players.get(0)).get(0);
+//		Player ruler= 
+	}
 }
