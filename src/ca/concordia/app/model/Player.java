@@ -146,6 +146,15 @@ public class Player extends Observable {
 			logger.write("\nAttacker win attack and Defender will lose the armies");
 		else
 			logger.write("\nDefender win attack and attacker will lose the armies");
+		
+		HashMap<String, Object> eventPayload = new HashMap<>();
+		eventPayload.put("attackingCountry", attackerCountry.getCountryName());
+		eventPayload.put("defendingCountry", defenderCountry.getCountryName());
+		eventPayload.put("attackThrows", attackResult);
+		eventPayload.put("defenceThrows", defenceResult);
+		eventPayload.put("attackWin", isAttackerWon);
+		GamePlayEvent gpe = new GamePlayEvent(EventType.ATTACK_COUNTRY, eventPayload );
+		publishGamePlayEvent(gpe);
 
 		if (defenderCountry.getNoOfArmy() < 1) {
 

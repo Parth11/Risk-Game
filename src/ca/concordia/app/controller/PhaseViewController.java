@@ -66,6 +66,11 @@ public class PhaseViewController implements Observer{
 		
 		switch(publishedEvent.getEvent_type()){
 		case ATTACK_COUNTRY:
+			phase_view.attacking_country.setText(eventPayload.get("attackingCountry").toString());
+			phase_view.attacked_country.setText(eventPayload.get("defendingCountry").toString());
+			phase_view.attack_throws.setText(eventPayload.get("attackThrows").toString());
+			phase_view.defence_throws.setText(eventPayload.get("defenceThrows").toString());
+			phase_view.win_loss.setText(Boolean.valueOf(eventPayload.get("attackWin").toString())==Boolean.TRUE?"WIN":"LOSS");
 			break;
 		case FORTIFY_COUNTRY:
 			phase_view.fortifying_country.setText(eventPayload.get("fromCountry").toString());

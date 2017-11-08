@@ -749,8 +749,8 @@ public class GamePlayService {
 			if(c.getNoOfArmy()>1){
 				List<Country> neighbourCountries = game_map.getNeighbourCountries(c);
 				for(Country n : neighbourCountries){
-					if(!n.getRuler().getName().equals(p.getName())){
-						attackingCountries.add(n);
+					if(!n.getRuler().equals(p)){
+						attackingCountries.add(c);
 					}
 				}
 			}
@@ -764,7 +764,7 @@ public class GamePlayService {
 		List<Country> defenderCountries = new ArrayList<>();
 		for(Country neighbour:neighboursOfAttackerCountry) 
 		{
-			if(!neighbour.getRuler().getName().equalsIgnoreCase(c.getRuler().getName())) 
+			if(!neighbour.getRuler().equals(c.getRuler())) 
 			{
 				defenderCountries.add(neighbour);
 			}
