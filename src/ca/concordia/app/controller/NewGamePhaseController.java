@@ -4,12 +4,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import javax.swing.JOptionPane;
 import javax.swing.plaf.basic.BasicIconFactory;
 
+import ca.concordia.app.model.Card;
 import ca.concordia.app.model.Country;
 import ca.concordia.app.model.DiceRoller;
 import ca.concordia.app.model.GamePlayEvent;
@@ -209,14 +211,14 @@ public class NewGamePhaseController implements ActionListener, MouseListener {
 				JOptionPane.showMessageDialog(attack_view, "Attack Done");
 				
 				if(current_player.country_captured){
-					Integer[] attackerArmies = new Integer[((Country)attack_view.attack_country.getSelectedItem()).getNoOfArmy()-1];
+					List<Integer> attackerArmies = new ArrayList<Integer>();
 
-					for (int i = 0; i+attacks.size() < attackerArmies.length-attacks.size(); i++) {
-						attackerArmies[i] = i+attacks.size();
+					for (int i = 0; i < ((Country)attack_view.attack_country.getSelectedItem()).getNoOfArmy()-attacks.size(); i++) {
+						attackerArmies.add(i+attacks.size());
 					}
 					Integer armies = (Integer) JOptionPane.showInputDialog(attack_view, "Number of Armies to Move",
-							"Input", JOptionPane.NO_OPTION, BasicIconFactory.getMenuArrowIcon(), attackerArmies,
-							attackerArmies[0]);
+							"Input", JOptionPane.NO_OPTION, BasicIconFactory.getMenuArrowIcon(), attackerArmies.toArray(new Integer[attackerArmies.size()]),
+							attackerArmies.get(0));
 
 					game_play_service.moveArmyFromTo(((Country)attack_view.attack_country.getSelectedItem()).getRuler(), ((Country)attack_view.attack_country.getSelectedItem()),
 							(Country)attack_view.defence_country.getSelectedItem(), armies);
@@ -252,9 +254,14 @@ public class NewGamePhaseController implements ActionListener, MouseListener {
 			JOptionPane.showMessageDialog(game_play_view, "Fortification Successful");
 			triggerNextPlayer();
 		}
+		else if(e.getSource().equals(fortification_view.btn_skip)){
+			fortification_view.dispose();
+			triggerNextPlayer();
+		}
 	}
 
 	private void triggerNextPlayer() {
+		current_player.captureCards();
 		current_player = game_play_service.changeTurnToNextPlayer();
 		game_play_view.changeCurrentPlayer();
 		prepareToReinforce();

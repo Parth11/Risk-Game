@@ -29,6 +29,7 @@ public class FortificationInputView extends JDialog implements IView {
 	public JComboBox<Country> to_country;
 	public JComboBox<Integer> armies;
 	public JButton btn_submit;
+	public JButton btn_skip;
 
 	Player current_player;
 	
@@ -94,12 +95,18 @@ public class FortificationInputView extends JDialog implements IView {
 		btn_submit = new JButton("Submit");
 		btn_submit.setBounds(34, 183, 118, 29);
 		getContentPane().add(btn_submit);
+		
+		btn_skip = new JButton("End Fortification");
+		btn_skip.setBounds(160,183,118,29);
+		getContentPane().add(btn_skip);
+		
 		setVisible(true);
 	}
 
 	@Override
 	public void setActionListener(ActionListener actionListener) {
 		btn_submit.addActionListener(actionListener);
+		btn_skip.addActionListener(actionListener);
 	}
 
 	@Override
