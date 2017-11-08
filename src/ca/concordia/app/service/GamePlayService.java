@@ -59,7 +59,7 @@ public class GamePlayService {
 		return instance;
 	}
 
-	private void resetPlayersData() {
+	public void resetPlayersData() {
 		turn = 0;
 		for (Player p : players) {
 			p.setTotalArmies(getInitialArmy());
