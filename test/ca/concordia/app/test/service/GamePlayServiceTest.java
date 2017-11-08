@@ -79,7 +79,7 @@ public class GamePlayServiceTest {
 	@Test
 	public void testReinforcementPhaseCalculateArmies() {
 		int count = game_play.getReinforcementArmyForPlayer(players.get(0));
-		assertEquals(23, count);
+		assertEquals(30, count);
 	}
 	
 	@Test
