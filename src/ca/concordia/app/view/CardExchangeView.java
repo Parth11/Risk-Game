@@ -27,9 +27,9 @@ public class CardExchangeView extends JFrame implements IView {
 		
 		int noOfCards= p.getCards().size();
 		
-		for(int i =0; i <=noOfCards;i++)
+		for(int i =0; i <noOfCards;i++)
 		{
-			JLabel label =  new JLabel("Cards"+i);
+			JLabel label =  new JLabel(p.cards_list.get(i).getCard_type());
 			label.setBorder(BorderFactory.createLineBorder(Color.BLUE));
 			label.addMouseListener(null);
 			

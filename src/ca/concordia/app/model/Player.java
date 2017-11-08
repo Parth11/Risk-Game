@@ -253,35 +253,30 @@ public class Player extends Observable {
 				
 				int n = attackResult.length>defenceResult.length?defenceResult.length:attackResult.length;
 				
-				boolean isAttackerWon=false;
+				
 				for(int i = 0 ; i < n; i++) 
 				{
 					int attackResultInt = attackResList.get(i);
 					int defenceResultInt =defendResList.get(i);
 					
 					if(attackResultInt > defenceResultInt) 
-					{
-						isAttackerWon=true;
+					{	
 						gamePlay.subArmies(defenderCountry.getRuler(), defenderCountry, 1);
 					}
 					else 
 					{
-						isAttackerWon=false;
 						gamePlay.subArmies(attackerCountry.getRuler(), attackerCountry, 1);
 					}
 				}
 				
-				if(isAttackerWon)
-					logger.write("\nAttacker win attack and Defender will lose the armies");
-				else 
-					logger.write("\nDefender win attack and attacker will lose the armies");
 				
 				
 				//defenderCountry.setRuler(attackerCountry.getRuler(), 0);
 				
 				// if defence country is completely defeated
-				if(defenderCountry.getNoOfArmy() < 1) 
+				if(defenderCountry.getNoOfArmy() == 0) 
 				{
+					logger.write("\nAttacker win attack and Defender will lose the armies");
 					
 					//1. Remove a country from defender's country list
 					gamePlay.unmapPlayerToCountry(defenderCountry.getRuler(), defenderCountry);
@@ -295,14 +290,23 @@ public class Player extends Observable {
 						//Remove this player from the player list
 						gamePlay.getPlayers().remove(defenderCountry.getRuler());
 					}
+					// if defender lost his last country
+					if(gamePlay.getCountriesConqueredBy(defenderCountry.getRuler()).size()==0) {
+						attackerCountry.getRuler().cards_list.addAll(defenderCountry.getRuler().getCards());
+						defenderCountry.getRuler().getCards().clear();
+					}
+					
 					
 					defenderCountry.setRuler(attackerCountry.getRuler(), 0);
+					
+					
 					
 					Integer[] attackerArmies = new Integer[attackerCountry.getNoOfArmy()];
 
 					for (int i = 0; i < attackerArmies.length; i++) {
 						attackerArmies[i] = i + 1;
 					}
+					
 					Integer armies = (Integer) JOptionPane.showInputDialog(gamePlay.game_play_frame, "Number of Armies to Move", "Input",
 							JOptionPane.NO_OPTION, BasicIconFactory.getMenuArrowIcon(), attackerArmies, attackerArmies[0]);
 					
@@ -465,10 +469,9 @@ public class Player extends Observable {
 			gamePlay.addCardsToDeck(c.getCard_type());
 			cards_list.remove(c);
 		}
-		
+	
 		reemburseTurn++;
 		total_armies+=noOfReemburseArmy;
-		
 		
 	}
 }
