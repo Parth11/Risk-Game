@@ -1,15 +1,9 @@
 package ca.concordia.app.model;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Observable;
-
-import javax.swing.JOptionPane;
-import javax.swing.plaf.basic.BasicIconFactory;
 
 import ca.concordia.app.controller.PhaseViewController;
 import ca.concordia.app.model.GamePlayEvent.EventType;
@@ -32,7 +26,8 @@ public class Player extends Observable {
 	public GamePhase game_phase;
 	public ArrayList<Card> cards_list;
 	public List<GamePlayEvent> event_log;
-	public boolean cardFlag = false;
+	public boolean card_flag = false;
+	public boolean country_captured = false;
 	
 	public Player(String name) {
 		this.name = name;
@@ -128,6 +123,8 @@ public class Player extends Observable {
 
 		int n = attackResult.size() > defenceResult.size() ? defenceResult.size() : attackResult.size();
 
+		List<String> outcomes = new ArrayList<String>();
+		
 		boolean isAttackerWon = false;
 		for (int i = 0; i < n; i++) {
 			int attackResultInt = attackResult.get(i);
@@ -136,9 +133,11 @@ public class Player extends Observable {
 			if (attackResultInt > defenceResultInt) {
 				isAttackerWon = true;
 				gamePlay.subArmies(defenderCountry.getRuler(), defenderCountry, 1);
+				outcomes.add("WIN");
 			} else {
 				isAttackerWon = false;
 				gamePlay.subArmies(attackerCountry.getRuler(), attackerCountry, 1);
+				outcomes.add("LOSS");
 			}
 		}
 
@@ -152,7 +151,7 @@ public class Player extends Observable {
 		eventPayload.put("defendingCountry", defenderCountry.getCountryName());
 		eventPayload.put("attackThrows", attackResult);
 		eventPayload.put("defenceThrows", defenceResult);
-		eventPayload.put("attackWin", isAttackerWon);
+		eventPayload.put("attackWin", outcomes);
 		GamePlayEvent gpe = new GamePlayEvent(EventType.ATTACK_COUNTRY, eventPayload );
 		publishGamePlayEvent(gpe);
 
@@ -171,19 +170,12 @@ public class Player extends Observable {
 				// Remove this player from the player list
 				gamePlay.getPlayers().remove(defenderCountry.getRuler());
 			}
+			
+			
+			defenderCountry.setRuler(attackerCountry.getRuler(), 0);
 
-			Integer[] attackerArmies = new Integer[attackerCountry.getNoOfArmy()];
-
-			for (int i = 0; i < attackerArmies.length; i++) {
-				attackerArmies[i] = i + 1;
-			}
-			Integer armies = (Integer) JOptionPane.showInputDialog(gamePlay.game_play_frame, "Number of Armies to Move",
-					"Input", JOptionPane.NO_OPTION, BasicIconFactory.getMenuArrowIcon(), attackerArmies,
-					attackerArmies[0]);
-
-			gamePlay.moveArmyFromTo(attackerCountry.getRuler(), attackerCountry, defenderCountry, armies);
-
-			cardFlag = true;
+			card_flag = true;
+			country_captured = true;
 		}
 
 	}
@@ -202,7 +194,7 @@ public class Player extends Observable {
 		this.publishGamePlayEvent(gpe);
 		logger.write(this.name + " has completed fortification");
 			
-		if(cardFlag) {
+		if(card_flag) {
 			//logic for adding card
 			String playerCard = GamePlayService.getInstance().generateCard();
 			Card card1 = new Card(playerCard,1);				

@@ -156,6 +156,13 @@ public class AttackInputView extends JDialog implements IView{
 			for (int i = 1; i <= n; i++) {
 				num_defences.addItem(i);
 			} 
+			
+			attack_dice1.setText("");
+			attack_dice2.setText("");
+			attack_dice3.setText("");
+			
+			defence_dice1.setText("");
+			defence_dice2.setText("");
 		}
 		else{
 			JOptionPane.showMessageDialog(this, "Cannot Attack Anymore. Fortify Now", "Error", JOptionPane.ERROR_MESSAGE);
@@ -200,7 +207,7 @@ public class AttackInputView extends JDialog implements IView{
 			} }
 			else if(e.getSource().equals(defence_country) && e.getStateChange() == ItemEvent.SELECTED){
 				num_defences.removeAllItems();
-				int nDefence = GamePlayService.getInstance().getAttackDiceLimit((Country)defence_country.getSelectedItem());
+				int nDefence = GamePlayService.getInstance().getDefenceDiceLimit((Country)defence_country.getSelectedItem());
 				int n = nDefence > ((Country)attack_country.getSelectedItem()).getNoOfArmy() ? ((Country)attack_country.getSelectedItem()).getNoOfArmy() : nDefence;
 				for(int i = 1; i<=n; i++){
 					num_defences.addItem(i);

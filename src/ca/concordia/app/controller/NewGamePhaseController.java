@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import javax.swing.JOptionPane;
+import javax.swing.plaf.basic.BasicIconFactory;
 
 import ca.concordia.app.model.Country;
 import ca.concordia.app.model.DiceRoller;
@@ -154,10 +155,10 @@ public class NewGamePhaseController implements ActionListener, MouseListener {
 		if(e.getSource().equals(reinforcement_view.btn_submit)){
 			Country c = (Country) reinforcement_view.country_list.getSelectedItem();
 			int armiesToReinforce = (int) reinforcement_view.armies_list.getSelectedItem();
-			reinforcement_view.dispose();
 			reinforcement_armies -= armiesToReinforce;
 			current_player.doReinforcement(c,armiesToReinforce);
-			JOptionPane.showMessageDialog(game_play_view, "Reinforcement Successful");
+			JOptionPane.showMessageDialog(reinforcement_view, "Reinforcement Successful");
+			reinforcement_view.dispose();
 			if(reinforcement_armies!=0){
 				reinforcePlayer();
 			}
@@ -205,6 +206,32 @@ public class NewGamePhaseController implements ActionListener, MouseListener {
 				current_player.doAttack((Country)attack_view.attack_country.getSelectedItem(),
 										(Country)attack_view.defence_country.getSelectedItem(), attacks, defences);
 			
+				JOptionPane.showMessageDialog(attack_view, "Attack Done");
+				
+				if(current_player.country_captured){
+					Integer[] attackerArmies = new Integer[((Country)attack_view.attack_country.getSelectedItem()).getNoOfArmy()-1];
+
+					for (int i = 0; i+attacks.size() < attackerArmies.length-attacks.size(); i++) {
+						attackerArmies[i] = i+attacks.size();
+					}
+					Integer armies = (Integer) JOptionPane.showInputDialog(attack_view, "Number of Armies to Move",
+							"Input", JOptionPane.NO_OPTION, BasicIconFactory.getMenuArrowIcon(), attackerArmies,
+							attackerArmies[0]);
+
+					game_play_service.moveArmyFromTo(((Country)attack_view.attack_country.getSelectedItem()).getRuler(), ((Country)attack_view.attack_country.getSelectedItem()),
+							(Country)attack_view.defence_country.getSelectedItem(), armies);
+					
+					HashMap<String, Object> eventPayload = new HashMap<>();
+					eventPayload.put("attackCountry", (Country)attack_view.attack_country.getSelectedItem());
+					eventPayload.put("capturedCountry", (Country)attack_view.defence_country.getSelectedItem());
+					eventPayload.put("armies", armies);
+					GamePlayEvent gpe = new GamePlayEvent(EventType.ATTACK_CAPTURE, eventPayload);
+					current_player.publishGamePlayEvent(gpe);
+					
+					current_player.country_captured = false;
+					
+				}
+				
 				attack_view.renderAttackViewForPlayer(current_player);
 			}
 			else{

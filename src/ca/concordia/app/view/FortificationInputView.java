@@ -4,6 +4,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -46,7 +47,13 @@ public class FortificationInputView extends JDialog implements IView {
 		
 		List<Country> countrySelection = GamePlayService.getInstance().getCountriesConqueredBy(current_player);
 		
-		from_country = new JComboBox<>(countrySelection.toArray(new Country[countrySelection.size()]));
+		List<Country> countrySelectionFiltered = new ArrayList<>();
+		for(Country c : countrySelection){
+			if(c.getNoOfArmy()>1){
+				countrySelectionFiltered.add(c);
+			}
+		}
+		from_country = new JComboBox<>(countrySelectionFiltered.toArray(new Country[countrySelectionFiltered.size()]));
 		lblFromCountry.setLabelFor(from_country);
 		from_country.setBounds(164, 30, 189, 26);
 		from_country.addItemListener(new CountryListToggle());

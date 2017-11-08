@@ -1,16 +1,23 @@
 package ca.concordia.app.view;
 
-import java.awt.EventQueue;
+import java.awt.Color;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map.Entry;
 
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JTextField;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
-import java.awt.Color;
-import javax.swing.JPanel;
+
+import ca.concordia.app.model.Country;
+import ca.concordia.app.model.GameMap;
+import ca.concordia.app.model.Player;
+import ca.concordia.app.service.GamePlayService;
 
 public class PhaseView extends JDialog{
 
@@ -35,7 +42,8 @@ public class PhaseView extends JDialog{
 	public JTextField fortifying_country;
 	public JTextField fortified_country;
 	public JTextField armies_moved;
-
+	public JPanel domination_panel;
+	private Color[] colors = {Color.CYAN,Color.GRAY,Color.RED,Color.YELLOW,Color.GREEN,Color.ORANGE};
 
 	/**
 	 * Create the application.
@@ -49,7 +57,7 @@ public class PhaseView extends JDialog{
 	 */
 	private void initialize() {
 		
-		this.setBounds(870, 0, 984, 713);
+		this.setBounds(870, 0, 984, 832);
 		this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		this.getContentPane().setLayout(null);
 		
@@ -133,6 +141,7 @@ public class PhaseView extends JDialog{
 		
 		conquest_table = new JTable();
 		conquest_table.setBorder(new LineBorder(new Color(0, 0, 0), 2));
+		conquest_table.setAutoCreateRowSorter(true);
 		scrollPane.setViewportView(conquest_table);
 		
 		JLabel lblConquests = new JLabel("Conquests");
@@ -262,6 +271,12 @@ public class PhaseView extends JDialog{
 		lblArmiesMoved.setLabelFor(armies_moved);
 		lblArmiesMoved.setBounds(15, 114, 151, 20);
 		fortify_panel.add(lblArmiesMoved);
+		
+		domination_panel = new JPanel();
+		domination_panel.setBounds(30, 674, 920, 67);
+		domination_panel.setLayout(null);
+		getContentPane().add(domination_panel);
+		
 	}
 	
 	public void clearFields(){
@@ -300,4 +315,32 @@ public class PhaseView extends JDialog{
 		
 	}
 	
+	public void plotDominationView(Object[][] data){
+		
+		domination_panel.removeAll();
+		
+		int totalCountries = GameMap.getInstance().getTerritories().keySet().size();
+
+		HashMap<String, Integer> countryConquest = new HashMap<>();
+		
+		for(Player p : GamePlayService.getInstance().getPlayers()){
+			List<Country> countries = GamePlayService.getInstance().getCountriesConqueredBy(p);
+			if(countries==null){
+				return;
+			}
+			int size = countries.size();
+			countryConquest.put(p.getName()+"("+Math.floorDiv(size*100, totalCountries)+"%)", 
+					Math.floorDiv(size*domination_panel.getWidth(), totalCountries));
+		}
+		int i = 0,x=0;
+		for(Entry<String,Integer> e :countryConquest.entrySet()){
+			JLabel label = new JLabel(e.getKey());
+			label.setBackground(colors[i++]);
+			label.setOpaque(true);
+			label.setBounds(x, 0, e.getValue(), domination_panel.getHeight());
+			x += e.getValue();
+			domination_panel.add(label);
+		}
+		
+	}
 }
