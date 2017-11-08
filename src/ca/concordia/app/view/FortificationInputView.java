@@ -70,13 +70,14 @@ public class FortificationInputView extends JDialog implements IView {
 		to_country = new JComboBox<>();
 		lblToCountry.setLabelFor(to_country);
 		to_country.setBounds(164, 87, 189, 26);
-		List<Country> countries = GamePlayService.getInstance().getCountriesConqueredBy(c.getRuler());
-		int index = countries.indexOf(c);
-		for(int i=0;i<countries.size();i++){
-			if(i!=index &&
-					GamePlayService.getInstance().isConnected(c, countries.get(i), c.getRuler())){
-				to_country.addItem(countries.get(i));
-			}
+		if (c!=null) {
+			List<Country> countries = GamePlayService.getInstance().getCountriesConqueredBy(c.getRuler());
+			int index = countries.indexOf(c);
+			for (int i = 0; i < countries.size(); i++) {
+				if (i != index && GamePlayService.getInstance().isConnected(c, countries.get(i), c.getRuler())) {
+					to_country.addItem(countries.get(i));
+				}
+			} 
 		}
 		getContentPane().add(to_country);
 		

@@ -20,7 +20,9 @@ public class GamePlayEvent {
 		REFINFORCE_COUNTRY,
 		ATTACK_COUNTRY,
 		ATTACK_CAPTURE,
-		FORTIFY_COUNTRY;
+		FORTIFY_COUNTRY,
+		CARD_WIN,
+		CARD_EXCHANGE;
 	}
 	
 	public GamePlayEvent(EventType eventType, HashMap<String,Object> eventPayload){

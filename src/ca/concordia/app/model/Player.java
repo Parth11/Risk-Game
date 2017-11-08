@@ -28,7 +28,6 @@ public class Player extends Observable {
 	public List<GamePlayEvent> event_log;
 	public boolean card_flag = false;
 	public boolean country_captured = false;
-	public boolean cardFlag = false;
 	
 	public int reimburse_turn=1;
 
@@ -245,6 +244,13 @@ public class Player extends Observable {
 			String playerCard = GamePlayService.getInstance().generateCard();
 			Card card1 = new Card(playerCard,1);				
 			cards_list.add(card1);
+			
+			HashMap<String, Object> eventPayload = new HashMap<>();
+			eventPayload.put("player", this);
+			eventPayload.put("card", card1);
+			GamePlayEvent gpe = new GamePlayEvent(EventType.CARD_WIN, eventPayload );
+			
+			publishGamePlayEvent(gpe);
 		}
 	}
 }

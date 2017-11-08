@@ -93,10 +93,6 @@ public class NewGamePhaseController implements ActionListener, MouseListener {
 	
 	private void initiateAttack(){
 		current_player.setCurrentPhase(GamePhase.ATTACK);
-		if(!current_player.canAttack()){
-			JOptionPane.showMessageDialog(game_play_view, "This player cannot attack. Moving to Fortification");
-			fortifyPlayer();
-		}
 		attack_view = new AttackInputView(current_player);
 		attack_view.setActionListener(this);
 		attack_view.setVisible(true);

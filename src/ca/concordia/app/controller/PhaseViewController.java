@@ -9,9 +9,11 @@ import java.util.Observer;
 
 import javax.swing.table.DefaultTableModel;
 
+import ca.concordia.app.model.Card;
 import ca.concordia.app.model.GamePlayEvent;
 import ca.concordia.app.model.Player;
 import ca.concordia.app.service.GamePlayService;
+import ca.concordia.app.util.GameConstants;
 import ca.concordia.app.view.PhaseView;
 
 /**
@@ -51,7 +53,6 @@ public class PhaseViewController implements Observer{
 		
 		phase_view.player_name.setText(currentPlayer.getName());
 		phase_view.player_phase.setText(currentPlayer.game_phase.name());
-		phase_view.player_armies.setText(String.valueOf(currentPlayer.getTotalArmies()));
 		
 		Object[][] gamePlayState = GamePlayService.getInstance().getGamePlayState();
 		
@@ -64,6 +65,24 @@ public class PhaseViewController implements Observer{
 		GamePlayEvent publishedEvent = currentPlayer.event_log.get(currentPlayer.event_log.size()-1);
 	
 		Map<String,Object> eventPayload = publishedEvent.getEvent_payload();
+		Player p = (Player) eventPayload.get("player");
+		int a=0,c=0,i = 0;
+		for(Card card : p.getCards()){
+			switch(card.getCard_type()){
+			case GameConstants.ARTILLERY:
+				a++;
+				break;
+			case GameConstants.CAVALRY:
+				c++;
+				break;
+			case GameConstants.INFANTRY:
+				i++;
+				break;
+			}
+		}
+		phase_view.num_artillery.setText(String.valueOf(a));
+		phase_view.num_cavalry.setText(String.valueOf(c));
+		phase_view.num_infantry.setText(String.valueOf(i));
 		
 		switch(publishedEvent.getEvent_type()){
 		case ATTACK_COUNTRY:
@@ -83,14 +102,20 @@ public class PhaseViewController implements Observer{
 		case REFINFORCE_COUNTRY:
 			phase_view.reinforced_country.setText(eventPayload.get("reinforcedCountry").toString());
 			phase_view.reinforce_armies.setText(eventPayload.get("reinforceArmy").toString());
+			phase_view.player_armies.setText(String.valueOf(currentPlayer.getTotalArmies()));
 			break;
 		case REINFORCE_ARMY_ALLOCATION:
+			phase_view.player_armies.setText(String.valueOf(currentPlayer.getTotalArmies()));
 			break;
 		case START_ARMY:
 			break;
 		case START_ARMY_ALLOCATION:
 			break;
 		case START_COUNTRY:
+			break;
+		case CARD_WIN:
+			break;
+		case CARD_EXCHANGE:
 			break;
 		default:
 			break;
