@@ -72,6 +72,9 @@ public class NewGamePhaseController implements ActionListener, MouseListener {
 	}
 
 	private void prepareToReinforce(){
+		if(game_play_service.showCardExchangeView(current_player)){
+			
+		}
 		reinforcement_armies = game_play_service.getReinforcementArmyForPlayer(current_player);
 		current_player.setCurrentPhase(GamePhase.REINFORCEMENT);
 		reinforcePlayer();

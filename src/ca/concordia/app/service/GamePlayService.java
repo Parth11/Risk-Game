@@ -329,7 +329,7 @@ public class GamePlayService {
 
 	}
 
-	private boolean showCardExchangeView(Player p) {
+	public boolean showCardExchangeView(Player p) {
 		// TODO Auto-generated method stub
 		int infantary=0;
 		int cavallry =0;
