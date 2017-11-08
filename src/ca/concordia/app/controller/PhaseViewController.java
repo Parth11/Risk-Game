@@ -65,9 +65,8 @@ public class PhaseViewController implements Observer{
 		GamePlayEvent publishedEvent = currentPlayer.event_log.get(currentPlayer.event_log.size()-1);
 	
 		Map<String,Object> eventPayload = publishedEvent.getEvent_payload();
-		Player p = (Player) eventPayload.get("player");
 		int a=0,c=0,i = 0;
-		for(Card card : p.getCards()){
+		for(Card card : currentPlayer.getCards()){
 			switch(card.getCard_type()){
 			case GameConstants.ARTILLERY:
 				a++;
