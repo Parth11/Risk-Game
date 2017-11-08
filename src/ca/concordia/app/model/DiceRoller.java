@@ -33,6 +33,7 @@ public class DiceRoller {
 		this.no_of_dice = noOfDice;
 		this.result = new ArrayList<>();
 	}
+
 	/**
 	 * Roll the dice
 	 * @param diesNo
@@ -41,9 +42,8 @@ public class DiceRoller {
 	public int roll(int diesNo) {
 		return (int)((Math.random() * 6) + 1);
 	}
-	/**
-	 * Roll all dice
-	 */
+
+
 	public List<Integer> rollAll() {
 		for(int i=1; i<=no_of_dice; i++)
 			result.add(roll(i));
