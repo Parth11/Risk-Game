@@ -35,7 +35,7 @@ public class GamePlayServiceTest {
 		game_play.doStartupPhase(4,null);
 		players = game_play.getPlayers();
 	}
-	//**********STARTUP PHASE****//
+	//**********STARTUP PHASE STARTED****//
 	
 	@Test
 	public void testDoStartUp() {
@@ -56,6 +56,19 @@ public class GamePlayServiceTest {
 		game_play.resetPlayersData();
 		assertEquals(30,game_play.getInitialArmy());
 	}
+	
+	@Test
+	public void testallocateCountriesToPlayers() {
+		game_play.allocateCountriesToPlayers();
+		System.out.println(game_map.getCountries().size());		
+		assertEquals(22, game_play.getCountriesConqueredBy(players.get(0)).size());
+		assertEquals(22, game_play.getCountriesConqueredBy(players.get(1)).size());
+		assertEquals(22, game_play.getCountriesConqueredBy(players.get(2)).size());
+		assertEquals(21, game_play.getCountriesConqueredBy(players.get(3)).size());
+		
+	}
+	
+	//******** STARTUP PHASE ENDED *********/
 	
 	@Test
 	public void testIsNotConnectedPlayerCountries() {

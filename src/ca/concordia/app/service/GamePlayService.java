@@ -147,7 +147,7 @@ public class GamePlayService {
 		}
 	}
 
-	private void allocateCountriesToPlayers() {
+	public void allocateCountriesToPlayers() {
 		int j = 0;
 		for (Country c : game_map.getCountries()) {
 			Player p = players.get(j % number_of_players);
