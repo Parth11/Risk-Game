@@ -197,14 +197,6 @@ public class Player extends Observable {
 		this.publishGamePlayEvent(gpe);
 		logger.write(this.name + " has completed fortification");
 			
-		if(card_flag) {
-			//logic for adding card
-			String playerCard = GamePlayService.getInstance().generateCard();
-			Card card1 = new Card(playerCard,1);				
-			cards_list = new ArrayList<>();
-			cards_list.add(card1);
-		}
-			
 		logger.write(this.name + " has completed fortification");
 			
 	}
@@ -246,5 +238,13 @@ public class Player extends Observable {
 		reimburse_turn++;
 		total_armies+=noOfReemburseArmy;
 		
+	}
+	
+	public void captureCards(){
+		if(card_flag) {
+			String playerCard = GamePlayService.getInstance().generateCard();
+			Card card1 = new Card(playerCard,1);				
+			cards_list.add(card1);
+		}
 	}
 }
