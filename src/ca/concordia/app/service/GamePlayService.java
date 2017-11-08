@@ -107,8 +107,12 @@ public class GamePlayService {
 	public void removeCardsfromDeck(String cardType )
 	{
 			int value = deckMap.get(cardType);
-			deckMap.remove(GameConstants.ARTILLERY,value-1);
-								
+			deckMap.remove(cardType,value-1);								
+	}
+	public void addCardsToDeck(String cardType )
+	{
+			int value = deckMap.get(cardType);
+			deckMap.remove(cardType,value+1);								
 	}
 	
 	public void cardReimburcement()
@@ -364,16 +368,10 @@ public class GamePlayService {
 	
 	public boolean checkPlayerCardsIsGreater(){
 		
-		
-		if(GamePlayService.getInstance().getCurrentTurnPlayer().getCards()==null){
-			return false;
-		}
-		else if(GamePlayService.getInstance().getCurrentTurnPlayer().getCards().size() >= 5){
-		
+	    if(GamePlayService.getInstance().getCurrentTurnPlayer().getCards().size() == 5){
 			return true;
 		}
 		return false;
-		
 		
 	}
 

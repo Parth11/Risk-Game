@@ -36,6 +36,9 @@ public class Player extends Observable {
 	public List<GamePlayEvent> event_log;
 	public boolean cardFlag = false;
 	
+	int reemburseTurn=1;
+	//public int[] reemburse=new int[] {5,10,15};
+	
 	public Player(String name) {
 		this.name = name;
 		this.color = null;
@@ -76,28 +79,19 @@ public class Player extends Observable {
 	public void setColor(String color) {
 		this.color = color;
 	}
+	
 	public ArrayList<Card> getCards() {
-		// temp assigning cards to a player
-//		Card card1 = new Card(GameConstants.ARTILLERY,5);
-//		Card card2 = new Card(GameConstants.INFANTRY,5);
-//		Card card3 = new Card(GameConstants.CAVALRY,5);
-//		cards_list = new ArrayList<>();
-//		cards_list.add(card1);
-//		cards_list.add(card2);
-//		cards_list.add(card3);
 		return cards_list;
-		
 	}
+	
 	public void addCard(Card card) {
 		cards_list.add(card);
 	}
 	
 	public void doReinforcement(){
 		
-		
-		
-		
-		if(GamePlayService.getInstance().checkPlayerCardsIsGreater()){
+		if(GamePlayService.getInstance().checkPlayerCardsIsGreater())
+		{
 			CardExchangeView cardView = new CardExchangeView();
 		}
 
@@ -463,4 +457,18 @@ public class Player extends Observable {
 		this.notifyObservers();
 	}
 	
+	public void reemburseCards() {
+		int noOfReemburseArmy= reemburseTurn*5;
+		GamePlayService gamePlay=GamePlayService.getInstance();
+		List<Card> cardsEmburse=getCards();
+		for(Card c:cardsEmburse) {
+			gamePlay.addCardsToDeck(c.getCard_type());
+			cards_list.remove(c);
+		}
+		
+		reemburseTurn++;
+		total_armies+=noOfReemburseArmy;
+		
+		
+	}
 }
