@@ -9,8 +9,8 @@ import ca.concordia.app.controller.PhaseViewController;
 import ca.concordia.app.model.GamePlayEvent.EventType;
 import ca.concordia.app.service.ConsoleLoggerService;
 import ca.concordia.app.service.GamePlayService;
-import ca.concordia.app.util.GameConstants;
 import ca.concordia.app.util.GamePhase;
+import ca.concordia.app.view.CardExchangeView;
 
 /**
  * @author Parth Nayak
@@ -24,11 +24,14 @@ public class Player extends Observable {
 	public int reinforceArmyforCard =0;
 	public String color;
 	public GamePhase game_phase;
-	public ArrayList<Card> cards_list;
+	public ArrayList<Card> cards_list= new ArrayList<>();
 	public List<GamePlayEvent> event_log;
 	public boolean card_flag = false;
 	public boolean country_captured = false;
+	public boolean cardFlag = false;
 	
+	public int reimburse_turn=1;
+
 	public Player(String name) {
 		this.name = name;
 		this.color = null;
@@ -70,23 +73,21 @@ public class Player extends Observable {
 	public void setColor(String color) {
 		this.color = color;
 	}
+	
 	public ArrayList<Card> getCards() {
-		// temp assigning cards to a player
-		Card card1 = new Card(GameConstants.ARTILLERY,5);
-		Card card2 = new Card(GameConstants.INFANTRY,5);
-		Card card3 = new Card(GameConstants.CAVALRY,5);
-		cards_list = new ArrayList<>();
-		cards_list.add(card1);
-		cards_list.add(card2);
-		cards_list.add(card3);
 		return cards_list;
-		
 	}
+	
 	public void addCard(Card card) {
 		cards_list.add(card);
 	}
 	
 	public void doReinforcement(Country country, int armiesWishToReinforce) {
+		
+		if(GamePlayService.getInstance().checkPlayerCardsIsGreater())
+		{
+			CardExchangeView cardView = new CardExchangeView();
+		}
 
 		ConsoleLoggerService logger = ConsoleLoggerService.getInstance(null);
 
@@ -175,7 +176,9 @@ public class Player extends Observable {
 			defenderCountry.setRuler(attackerCountry.getRuler(), 0);
 
 			card_flag = true;
+			
 			country_captured = true;
+
 		}
 
 	}
@@ -200,7 +203,6 @@ public class Player extends Observable {
 			Card card1 = new Card(playerCard,1);				
 			cards_list = new ArrayList<>();
 			cards_list.add(card1);
-				
 		}
 			
 		logger.write(this.name + " has completed fortification");
@@ -232,4 +234,17 @@ public class Player extends Observable {
 		return result;
 	}
 	
+	public void reimburseCards() {
+		int noOfReemburseArmy= reimburse_turn*5;
+		GamePlayService gamePlay=GamePlayService.getInstance();
+		List<Card> cardsEmburse=getCards();
+		for(Card c:cardsEmburse) {
+			gamePlay.addCardsToDeck(c.getCard_type());
+			cards_list.remove(c);
+		}
+	
+		reimburse_turn++;
+		total_armies+=noOfReemburseArmy;
+		
+	}
 }
