@@ -60,9 +60,6 @@ public class NewGamePhaseController implements ActionListener, MouseListener {
 		init(numPlayers);
 	}
 	
-	/**
-	 * Initializes the start
-	 */
 
 	private void init(Integer numPlayers) {
 		game_play_service.doStartupPhase(numPlayers,game_logger_view);

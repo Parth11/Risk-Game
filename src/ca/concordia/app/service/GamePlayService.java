@@ -32,37 +32,24 @@ import ca.concordia.app.view.GameLoggerView;
  */
 public class GamePlayService {
 
-	/** The instance. 
-	*
-	*  Creaing an instance of GamePlayService and initialize it with null.
-	*/
 	private static GamePlayService instance = null;
 	
 	private HashMap<String,Integer> deckMap;
 	
 	public JDialog game_play_frame;
 
-	/** The number of players. */
 	private int number_of_players;
 
-	/** Creating an object of GameMap class. */
 	private GameMap game_map;
 
-	/** This is list of players. */
 	private List<Player> players;
 
-	/** This player country map in which key is Player and value is Country. */
 	private Map<Player, List<Country>> player_country_map;
 
-	/** The turn for the player. */
 	private int turn = 0;
 
-	/** An instance of the logger service to write to gameplay console */
 	private ConsoleLoggerService logger;
 
-	/**
-	 * Instantiates a new game play service.
-	 */
 	private GamePlayService() {
 		game_map = GameMap.getInstance();
 		players = new ArrayList<>();
@@ -143,11 +130,7 @@ public class GamePlayService {
 		return instance;
 	}
 
-	/**
-	 * Resetting players data.
-	 * 
-	 */
-	private void resetPlayersData() {
+	public void resetPlayersData() {
 		turn = 0;
 		for (Player p : players) {
 			p.setCurrentPhase(GamePhase.STARTUP);
@@ -185,7 +168,7 @@ public class GamePlayService {
 	/**
 	 * This is startup phase. 
 	 * As per the number of players it will generate the data, initializing players data, 
-	 * allocating countries to players and it will add aremies using round-robin fashion.
+	 * allocating countries to players and it will add armies using round-robin fashion.
 	 * 
 	 * @param numberOfPlayers the number of players
 	 * @param game_play_view 
@@ -214,9 +197,6 @@ public class GamePlayService {
 		
 	}
 
-	/**
-	 * Adding the initial armies using Roun-Robin fashion.
-	 */
 	private void addInitialArmiesUsingRoundRobin() {
 		int j = 0;
 		int playersLeftForAssign = number_of_players;
@@ -239,10 +219,7 @@ public class GamePlayService {
 		}
 	}
 
-	/**
-	 * Allocating countries to players.
-	 */
-	private void allocateCountriesToPlayers() {
+	public void allocateCountriesToPlayers() {
 		int j = 0;
 		for (Country c : game_map.getCountries()) {
 			Player p = players.get(j % number_of_players);

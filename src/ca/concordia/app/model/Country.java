@@ -8,31 +8,16 @@ package ca.concordia.app.model;
  */
 public class Country {
 	
-	/**
-	 * The Country name of type String.
-	 */
 	private String country_name;
-	/**
-	 * The location at x coordinate of type Int.
-	 */
+
 	private int loc_x;
-	/**
-	 * The location at y coordinate of type Int.
-	 */
+
 	private int loc_y;
-	
-	/**
-	 * The continent name of type String.
-	 */
+
 	private String continent_name;
 	
-	/**
-	 * the number of armys of type int.
-	 */
 	private int no_of_army = 0;
-	/**
-	 * Object of type player.
-	 */
+
 	private Player ruler;
 	
 	/**

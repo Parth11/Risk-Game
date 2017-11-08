@@ -12,14 +12,18 @@ import ca.concordia.app.service.GamePlayService;
 import ca.concordia.app.util.GamePhase;
 import ca.concordia.app.view.CardExchangeView;
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class Player.
+ *
  * @author Parth Nayak
- * 
- * 
  */
 public class Player extends Observable {
 
+	/** The name. */
 	public String name;
+	
+	/** The total armies. */
 	public int total_armies;
 	public int reinforceArmyforCard =0;
 	public String color;
@@ -28,7 +32,6 @@ public class Player extends Observable {
 	public List<GamePlayEvent> event_log;
 	public boolean card_flag = false;
 	public boolean country_captured = false;
-	
 	public int reimburse_turn=1;
 
 	public Player(String name) {
@@ -50,25 +53,66 @@ public class Player extends Observable {
 	public String getName() {
 		return name;
 	}
+	
+	/**
+	 * Sets the name.
+	 *
+	 * @param name the new name
+	 */
 	public void setName(String name) {
 		this.name = name;
 	}
+	
+	/**
+	 * Gets the total armies.
+	 *
+	 * @return the total armies
+	 */
 	public int getTotalArmies() {
 		return total_armies;
 	}
+	
+	/**
+	 * Sets the total armies.
+	 *
+	 * @param totalArmies the new total armies
+	 */
 	public void setTotalArmies(int totalArmies) {
 		this.total_armies = totalArmies;
 	}
 	
+	/**
+	 * Adds the army.
+	 *
+	 * @param n the n
+	 */
 	public void addArmy(int n) {
 		this.total_armies+=n;
 	}
+	
+	/**
+	 * Sub army.
+	 *
+	 * @param n the n
+	 */
 	public void subArmy(int n) {
 		this.total_armies-=n;
 	}
+	
+	/**
+	 * Gets the color.
+	 *
+	 * @return the color
+	 */
 	public String getColor() {
 		return color;
 	}
+	
+	/**
+	 * Sets the color.
+	 *
+	 * @param color the new color
+	 */
 	public void setColor(String color) {
 		this.color = color;
 	}

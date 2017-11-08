@@ -19,16 +19,10 @@ public class DrawingBase extends JPanel {
 	
 	private static final long serialVersionUID = 1L;
 
-	/**
-	 * The field is set to blank initially
-	 *
-	 */
 	private String display_text = "";
-
-	/** The x. coordinate */
+	
 	private int x = 0;
 
-	/** The y. coordinate */
 	private int y = 0;
 
 	/**

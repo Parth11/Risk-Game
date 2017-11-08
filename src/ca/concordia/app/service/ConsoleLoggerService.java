@@ -15,10 +15,8 @@ import ca.concordia.app.model.Player;
  */
 public class ConsoleLoggerService implements Observer{
 	
-	/** The logger. */
 	private static ConsoleLoggerService logger = null;
 	
-	/** The console. */
 	private JTextArea console = null;
 
 	/**

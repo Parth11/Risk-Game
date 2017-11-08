@@ -13,28 +13,14 @@ import java.util.List;
  */
 public class GameMap {
 	
-	/**
-	 * Created an instance of GameMap class.
-	 */
 	private static GameMap instance;
-	
-	/**
-	 * Countries list of type List
-	 */
+
 	private List<Country> countries;
-	
-	/**
-	 * Continent list of type List
-	 */
+
 	private List<Continent> continents;
-	/**
-	 * territories of type Hashmap.
-	 */
+
 	private HashMap<Country, ArrayList<String>> territories;
 	
-	/**
-	 * Initializes the variables.
-	 */
 	private GameMap(){
 		this.countries = new ArrayList<Country>();
 		this.continents = new ArrayList<Continent>();

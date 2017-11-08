@@ -19,7 +19,6 @@ import javax.swing.JComboBox;
 
 public class NewGameSelectorView extends JFrame implements IView{
 
-	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 	
 	/** The browse map. */
@@ -30,7 +29,6 @@ public class NewGameSelectorView extends JFrame implements IView{
 	
 	/** The cancel button. */
 	public JButton cancel_button;
-	
 	
 	/** The choose map. */
 	public JComboBox<Integer> num_players;
@@ -81,9 +79,7 @@ public class NewGameSelectorView extends JFrame implements IView{
 		initialize();
 	}
 
-	/**
-	 * Initialize the contents of the frame.
-	 */
+
 	private void initialize() {
 		setBounds(100, 100, 881, 536);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

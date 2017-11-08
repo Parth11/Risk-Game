@@ -13,7 +13,6 @@ import javax.swing.JOptionPane;
  */
 public class RiskExceptionHandler implements UncaughtExceptionHandler {
 
-	/** The parent component. */
 	private Component parent_component;
 	
 	/**
