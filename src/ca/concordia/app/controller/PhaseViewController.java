@@ -8,7 +8,6 @@ import java.util.Observable;
 import java.util.Observer;
 
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
 
 import ca.concordia.app.model.GamePlayEvent;
 import ca.concordia.app.model.Player;
@@ -60,12 +59,21 @@ public class PhaseViewController implements Observer{
 
 		phase_view.conquest_table.setModel(dataModel);
 		
+		phase_view.plotDominationView(gamePlayState);
+		
 		GamePlayEvent publishedEvent = currentPlayer.event_log.get(currentPlayer.event_log.size()-1);
 	
 		Map<String,Object> eventPayload = publishedEvent.getEvent_payload();
 		
 		switch(publishedEvent.getEvent_type()){
 		case ATTACK_COUNTRY:
+			phase_view.attacking_country.setText(eventPayload.get("attackingCountry").toString());
+			phase_view.attacked_country.setText(eventPayload.get("defendingCountry").toString());
+			phase_view.attack_throws.setText(eventPayload.get("attackThrows").toString());
+			phase_view.defence_throws.setText(eventPayload.get("defenceThrows").toString());
+			phase_view.win_loss.setText(eventPayload.get("attackWin").toString());
+			break;
+		case ATTACK_CAPTURE:
 			break;
 		case FORTIFY_COUNTRY:
 			phase_view.fortifying_country.setText(eventPayload.get("fromCountry").toString());
@@ -88,7 +96,7 @@ public class PhaseViewController implements Observer{
 			break;
 		
 		}
-		
+		phase_view.revalidate();
 		phase_view.repaint();
 		
 	}

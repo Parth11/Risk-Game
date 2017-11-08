@@ -3,12 +3,14 @@ package ca.concordia.app.service;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Random;
+import java.util.Set;
 
-import javax.swing.JFrame;
+import javax.swing.JDialog;
 
 import ca.concordia.app.model.Card;
 import ca.concordia.app.model.Continent;
@@ -20,8 +22,7 @@ import ca.concordia.app.model.Player;
 import ca.concordia.app.model.GamePlayEvent.EventType;
 import ca.concordia.app.util.GameConstants;
 import ca.concordia.app.util.GamePhase;
-import ca.concordia.app.view.CardExchangeView;
-import ca.concordia.app.view.NewGamePlayView;
+import ca.concordia.app.view.GameLoggerView;
 
 
 /**
@@ -39,7 +40,7 @@ public class GamePlayService {
 	
 	private HashMap<String,Integer> deckMap;
 	
-	public JFrame game_play_frame;
+	public JDialog game_play_frame;
 
 	/** The number of players. */
 	private int number_of_players;
@@ -155,7 +156,7 @@ public class GamePlayService {
 			payload.put("initialArmies", p.getTotalArmies());
 			GamePlayEvent gpe = new GamePlayEvent(EventType.START_ARMY_ALLOCATION, payload);
 			p.publishGamePlayEvent(gpe);
-			logger.write(p.getName()+" -> Receives -> "+p.getTotalArmies()+" armies\n");
+		//	logger.write(p.getName()+" -> Receives -> "+p.getTotalArmies()+" armies\n");
 		}
 	}
 
@@ -190,14 +191,8 @@ public class GamePlayService {
 	 * @param game_play_view 
 	 * @return true, if successful
 	 */
-	public boolean doStartupPhase(int numberOfPlayers, NewGamePlayView game_play_view) {
+	public void doStartupPhase(int numberOfPlayers, GameLoggerView game_play_view) {
 		
-		
-		if (game_map.getCountries().isEmpty()) 
-		{
-			return false;
-		}
-
 		logger = ConsoleLoggerService.getInstance(game_play_view.console);
 		
 		this.number_of_players = numberOfPlayers;
@@ -217,7 +212,6 @@ public class GamePlayService {
 
 		logger.write("********** START UP PHASE END **********");
 		
-		return true;
 	}
 
 	/**
@@ -258,7 +252,7 @@ public class GamePlayService {
 			eventPayload.put("countryName", c.getCountryName());
 			GamePlayEvent gpe = new GamePlayEvent(EventType.START_COUNTRY, eventPayload );
 			p.publishGamePlayEvent(gpe);
-			logger.write(p.getName()+" -> controls the country -> "+c.getCountryName()+"\n");
+			//logger.write(p.getName()+" -> controls the country -> "+c.getCountryName()+"\n");
 			j++;
 		}
 	}
@@ -742,7 +736,7 @@ public class GamePlayService {
 	 * Initiates the game play.
 	 * @param gamePlayView object of NewGamPlayView
 	 */
-	public void doPlayGame(NewGamePlayView gamePlayView) {
+	public void doPlayGame(GameLoggerView gamePlayView) {
 
 		this.game_play_frame = gamePlayView;
 		
@@ -755,9 +749,9 @@ public class GamePlayService {
 		while (true) {
 			Player player = players.get(j % players.size());
 			logger.write("*** "+player.name+ " Turn Start ***");
-			player.doReinforcement();
-			player.doAttack();
-			player.doFortification();
+			player.doReinforcement(null,0);
+			player.doAttack(null,null,null,null);
+			player.doFortification(null,null,null);
 			logger.write("*** "+player.name+ " Turn End ***");
 			j++;
 		}
@@ -774,4 +768,35 @@ public class GamePlayService {
 		s += " \n";
 		return s;
 	}
+	
+	public List<Country> getEligibleAttackingCountriesForPlayer(Player p){
+		Set<Country> attackingCountries = new HashSet<>();
+		List<Country> countries = getCountriesConqueredBy(p);
+		for(Country c : countries){
+			if(c.getNoOfArmy()>1){
+				List<Country> neighbourCountries = game_map.getNeighbourCountries(c);
+				for(Country n : neighbourCountries){
+					if(!n.getRuler().equals(p)){
+						attackingCountries.add(c);
+					}
+				}
+			}
+		}
+		return new ArrayList<>(attackingCountries);
+	}
+	
+	public List<Country> getEligibleAttackableCountries(Country c){
+		List<Country> neighboursOfAttackerCountry = game_map.getNeighbourCountries(c);
+		
+		List<Country> defenderCountries = new ArrayList<>();
+		for(Country neighbour:neighboursOfAttackerCountry) 
+		{
+			if(!neighbour.getRuler().equals(c.getRuler())) 
+			{
+				defenderCountries.add(neighbour);
+			}
+		}
+		return defenderCountries;
+	}
+	
 }

@@ -1,6 +1,9 @@
 package ca.concordia.app.model;
 
-import ca.concordia.app.service.GamePlayService;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 
 /**
  * For Rolling Dice during attack phase 
@@ -19,7 +22,7 @@ public class DiceRoller {
 	/**
 	 * result of the dice
 	 */
-	int[] result;
+	List<Integer> result;
 	
 	/**
 	 * Parameterized constructor
@@ -28,25 +31,24 @@ public class DiceRoller {
 	 */
 	public DiceRoller(int noOfDice) {
 		this.no_of_dice = noOfDice;
-		this.result = new int[noOfDice];
+		this.result = new ArrayList<>();
 	}
+
 	/**
 	 * Roll the dice
 	 * @param diesNo
 	 * @return
 	 */
 	public int roll(int diesNo) {
-		int i = diesNo-1, res = 0;
-		result[i] = res = (int)((Math.random() * 6) + 1);
-		return res;
+		return (int)((Math.random() * 6) + 1);
 	}
-	/**
-	 * Roll all dice
-	 */
-	public int[] rollAll() {
+
+
+	public List<Integer> rollAll() {
 		for(int i=1; i<=no_of_dice; i++)
-			roll(i);
-		
+			result.add(roll(i));
+		Collections.sort(result);
+		Collections.reverse(result);
 		return result;
 	}
 	

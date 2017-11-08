@@ -1,0 +1,21 @@
+[Map]
+author=Team 6
+warn=yes
+image=noname.bmp
+wrap=no
+scroll=horizontal
+
+[Continents]
+C1=3
+C2=7
+
+[Territories]
+A,394,389,C1,B,D,E
+B,276,297,C1,A,C
+C,184,382,C1,B,D
+D,281,458,C1,A,C
+
+E,517,380,C2,A,F,H
+F,626,292,C2,E,G
+G,720,370,C2,F,H
+H,635,465,C2,E,G
