@@ -39,8 +39,12 @@ public class GameMapTest {
 	public void testGetCountryNeighboursAsCSV() {
 		Country c=game_map.getCountryByName("1");
 	   String s = game_map.getCountryNeighboursAsCSV(c);
-	   System.out.println(s);
 	   assertEquals("2,12",s);
 	}
 	
+	@Test
+	public void testgetCountriesByContinent() {
+		country = game_map.getCountriesByContinent("Quebec");
+		assertEquals(8,country.size());
+	}
 }
