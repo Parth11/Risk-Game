@@ -126,11 +126,6 @@ public class Player extends Observable {
 	}
 	
 	public void doReinforcement(Country country, int armiesWishToReinforce) {
-		
-		if(GamePlayService.getInstance().checkPlayerCardsIsGreater())
-		{
-			CardExchangeView cardView = new CardExchangeView();
-		}
 
 		ConsoleLoggerService logger = ConsoleLoggerService.getInstance(null);
 

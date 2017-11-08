@@ -103,9 +103,24 @@ public class GamePlayService {
 			deckMap.remove(cardType,value+1);								
 	}
 	
-	public void cardReimburcement()
-	{
+	public boolean cardReimbursement(Player player, int a, int i, int c) {
+		boolean flag = false;
 		
+		if(a==3){
+			flag = true;
+		}
+		else if(i==3){
+			flag = true;
+		}
+		else if(c==3){
+			flag = true;
+		}
+		else if(a==1 && i==1 && c==3){
+			flag = true;
+		}
+		
+		
+		return flag;
 	}
 	
 	

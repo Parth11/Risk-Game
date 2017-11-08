@@ -5,6 +5,11 @@ import java.awt.event.MouseListener;
 
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+
+import ca.concordia.app.model.Card;
+import ca.concordia.app.model.Player;
+import ca.concordia.app.util.GameConstants;
+
 import javax.swing.JComboBox;
 import javax.swing.JButton;
 
@@ -21,7 +26,39 @@ public class CardExchangeView extends JDialog implements IView {
 	public JComboBox<Integer> num_infantry;
 
 	
-	public CardExchangeView() {
+	public CardExchangeView(Player player) {
+		
+		int a=0,i=0,c=0;
+		for(Card card : player.getCards()){
+			switch(card.getCard_type()){
+			case GameConstants.ARTILLERY:
+				a++;
+				break;
+			case GameConstants.CAVALRY:
+				i++;
+				break;
+			case GameConstants.INFANTRY:
+				c++;
+				break;
+			}
+		}
+		
+		
+		Integer[] artillery = new Integer[a];
+		Integer[] cavalry = new Integer[c];
+		Integer[] infantry = new Integer[i];
+		
+		for(int j=0;j<a;j++){
+			artillery[j] = j+1; 
+		}
+		for(int j=0;j<i;j++){
+			infantry[j] = j+1; 
+		}
+		for(int j=0;j<c;j++){
+			cavalry[j] = j+1; 
+		}
+		
+		
 		setBounds(100, 100, 324, 300);
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		getContentPane().setLayout(null);
@@ -38,15 +75,15 @@ public class CardExchangeView extends JDialog implements IView {
 		lblNewLabel.setBounds(27, 117, 117, 32);
 		getContentPane().add(lblNewLabel);
 		
-		num_artillery = new JComboBox<>();
+		num_artillery = new JComboBox<>(artillery);
 		num_artillery.setBounds(159, 30, 106, 26);
 		getContentPane().add(num_artillery);
 		
-		num_cavalry = new JComboBox<>();
+		num_cavalry = new JComboBox<>(cavalry);
 		num_cavalry.setBounds(159, 75, 106, 26);
 		getContentPane().add(num_cavalry);
 		
-		num_infantry = new JComboBox<>();
+		num_infantry = new JComboBox<>(infantry);
 		num_infantry.setBounds(159, 120, 106, 26);
 		getContentPane().add(num_infantry);
 		
