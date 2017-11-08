@@ -9,26 +9,25 @@ package ca.concordia.app.model;
 public class Card {
 
 	private String card_type;
-	private int numerOfCard;
 
-	public Card(String card_type, int numerOfCard) {
+	public Card(String card_type) {
 		this.card_type = card_type;
-		this.numerOfCard = numerOfCard;
 	}
 
-	public String getCard_type() {
+	public String getCardType() {
 		return card_type;
 	}
-	public void setCard_type(String card_type) {
-		this.card_type = card_type;
+	public void setCardType(String cardType) {
+		this.card_type = cardType;
 	}
-	public int getNumerOfCard() {
-		return numerOfCard;
+	@Override
+	public boolean equals(Object obj) {
+		return this.card_type.equals(((Card)obj).getCardType());
 	}
-	public void setNumerOfCard(int numerOfCard) {
-		this.numerOfCard = numerOfCard;
-	}
-
 	
 	
+	@Override
+	public String toString() {
+		return this.card_type;
+	}
 }

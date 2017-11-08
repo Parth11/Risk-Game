@@ -29,8 +29,9 @@ public class CardExchangeView extends JDialog implements IView {
 	public CardExchangeView(Player player) {
 		
 		int a=0,i=0,c=0;
+		boolean isEnabled = player.getCards().size()>=5?false:true;
 		for(Card card : player.getCards()){
-			switch(card.getCard_type()){
+			switch(card.getCardType()){
 			case GameConstants.ARTILLERY:
 				a++;
 				break;
@@ -44,18 +45,18 @@ public class CardExchangeView extends JDialog implements IView {
 		}
 		
 		
-		Integer[] artillery = new Integer[a];
-		Integer[] cavalry = new Integer[c];
-		Integer[] infantry = new Integer[i];
+		Integer[] artillery = new Integer[a+1];
+		Integer[] cavalry = new Integer[c+1];
+		Integer[] infantry = new Integer[i+1];
 		
-		for(int j=0;j<a;j++){
-			artillery[j] = j+1; 
+		for(int j=0;j<=a;j++){
+			artillery[j] = j; 
 		}
-		for(int j=0;j<i;j++){
-			infantry[j] = j+1; 
+		for(int j=0;j<=i;j++){
+			infantry[j] = j; 
 		}
-		for(int j=0;j<c;j++){
-			cavalry[j] = j+1; 
+		for(int j=0;j<=c;j++){
+			cavalry[j] = j; 
 		}
 		
 		
@@ -93,6 +94,7 @@ public class CardExchangeView extends JDialog implements IView {
 		
 		btn_skip = new JButton("Skip");
 		btn_skip.setBounds(150, 182, 115, 29);
+		btn_skip.setEnabled(isEnabled);
 		getContentPane().add(btn_skip);
 		setVisible(true);
 	}

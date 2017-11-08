@@ -95,27 +95,27 @@ public class GamePlayService {
 	public void removeCardsfromDeck(String cardType )
 	{
 			int value = deckMap.get(cardType);
-			deckMap.remove(cardType,value-1);								
+			deckMap.put(cardType,value-1);								
 	}
 	public void addCardsToDeck(String cardType )
 	{
 			int value = deckMap.get(cardType);
-			deckMap.remove(cardType,value+1);								
+			deckMap.put(cardType,value+1);								
 	}
 	
 	public boolean cardReimbursement(Player player, int a, int i, int c) {
 		boolean flag = false;
 		
-		if(a==3){
+		if(a==3 && i==0 && c==0){
 			flag = true;
 		}
-		else if(i==3){
+		else if(i==3 && a==0 && c==0){
 			flag = true;
 		}
-		else if(c==3){
+		else if(c==3 && a==0 && i==0){
 			flag = true;
 		}
-		else if(a==1 && i==1 && c==3){
+		else if(a==1 && i==1 && c==1){
 			flag = true;
 		}
 		
@@ -296,27 +296,23 @@ public class GamePlayService {
 
 		int countArmy = 0;
 		int countriesCounquered = getCountriesConqueredBy(p).size();
-		int armyForCards=0;
 		
-		if(showCardExchangeView(p)) {
-			
-			armyForCards=p.getReinforceArmyforCard() + GameConstants.REINFORCEMENT_ARMIES_FOR_CARDS;
-			
-			// setting armies to the player so that next time he will get total+5
-			p.setReinforceArmyforCard(armyForCards);
-			
-		}
 		if (countriesCounquered <= 11 && countriesCounquered > 0) {
 			countArmy = 3;
 		} else {
 			countArmy = countriesCounquered / 3;
 		}
+		
+		if(p.reinforce_army_for_card>0) {
+			countArmy += p.reinforce_army_for_card;
+			p.reinforce_army_for_card = 0;
+		}
+		
 
 		List<Continent> ruledContinents = getContinentsCounqueredBy(p);
 		for (Continent c : ruledContinents)
 			countArmy += c.getControlValue();
 		
-		countArmy+=armyForCards;
 		return countArmy;
 
 	}
@@ -331,7 +327,7 @@ public class GamePlayService {
 		{
 			for(Card card : p.getCards()) 
 			{
-				String cardType=card.getCard_type();
+				String cardType=card.getCardType();
 				if(cardType.equalsIgnoreCase(GameConstants.INFANTRY)) {
 					infantary++;
 				}

@@ -1,6 +1,7 @@
 package ca.concordia.app.model;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Observable;
@@ -9,6 +10,7 @@ import ca.concordia.app.controller.PhaseViewController;
 import ca.concordia.app.model.GamePlayEvent.EventType;
 import ca.concordia.app.service.ConsoleLoggerService;
 import ca.concordia.app.service.GamePlayService;
+import ca.concordia.app.util.GameConstants;
 import ca.concordia.app.util.GamePhase;
 import ca.concordia.app.view.CardExchangeView;
 
@@ -25,7 +27,7 @@ public class Player extends Observable {
 	
 	/** The total armies. */
 	public int total_armies;
-	public int reinforceArmyforCard =0;
+	public int reinforce_army_for_card =0;
 	public String color;
 	public GamePhase game_phase;
 	public ArrayList<Card> cards_list= new ArrayList<>();
@@ -43,11 +45,11 @@ public class Player extends Observable {
 	}
 	
 	public int getReinforceArmyforCard() {
-		return reinforceArmyforCard;
+		return reinforce_army_for_card;
 	}
 
 	public void setReinforceArmyforCard(int reinforceArmyforCard) {
-		this.reinforceArmyforCard = reinforceArmyforCard;
+		this.reinforce_army_for_card = reinforceArmyforCard;
 	}
 
 	public String getName() {
@@ -264,32 +266,49 @@ public class Player extends Observable {
 		return result;
 	}
 	
-	public void reimburseCards() {
-		int noOfReemburseArmy= reimburse_turn*5;
-		GamePlayService gamePlay=GamePlayService.getInstance();
-		List<Card> cardsEmburse=getCards();
-		for(Card c:cardsEmburse) {
-			gamePlay.addCardsToDeck(c.getCard_type());
-			cards_list.remove(c);
-		}
-	
-		reimburse_turn++;
-		total_armies+=noOfReemburseArmy;
+	public void reimburseCards(int a, int i, int c) {
 		
+		for(int j=0;j<a;j++){
+			Card card = new Card(GameConstants.ARTILLERY);
+			this.cards_list.remove(card);
+			GamePlayService.getInstance().addCardsToDeck(GameConstants.ARTILLERY);
+		}
+		for(int j=0;j<i;j++){
+			Card card = new Card(GameConstants.INFANTRY);
+			this.cards_list.remove(card);
+			GamePlayService.getInstance().addCardsToDeck(GameConstants.INFANTRY);
+		}
+		for(int j=0;j<c;j++){
+			Card card = new Card(GameConstants.CAVALRY);
+			this.cards_list.remove(card);
+			GamePlayService.getInstance().addCardsToDeck(GameConstants.CAVALRY);
+		}
+		
+		this.reinforce_army_for_card = reimburse_turn*5;
+		reimburse_turn++;
+		
+		HashMap<String, Object> eventPayload = new HashMap<>();
+		eventPayload.put("armies", this.reinforce_army_for_card);
+		int[] array = {a,i,c};
+		eventPayload.put("cards", Arrays.asList(array));
+		GamePlayEvent gpe = new GamePlayEvent(EventType.CARD_EXCHANGE, eventPayload );
+		this.publishGamePlayEvent(gpe);
 	}
 	
 	public void captureCards(){
 		if(card_flag) {
-			String playerCard = GamePlayService.getInstance().generateCard();
-			Card card1 = new Card(playerCard,1);				
-			cards_list.add(card1);
-			
-			HashMap<String, Object> eventPayload = new HashMap<>();
-			eventPayload.put("player", this);
-			eventPayload.put("card", card1);
-			GamePlayEvent gpe = new GamePlayEvent(EventType.CARD_WIN, eventPayload );
-			
-			publishGamePlayEvent(gpe);
+			for(int i=0;i<5;i++){
+				String playerCard = GamePlayService.getInstance().generateCard();
+				Card card1 = new Card(playerCard);				
+				cards_list.add(card1);
+				
+				HashMap<String, Object> eventPayload = new HashMap<>();
+				eventPayload.put("player", this);
+				eventPayload.put("card", card1);
+				GamePlayEvent gpe = new GamePlayEvent(EventType.CARD_WIN, eventPayload );
+				
+				publishGamePlayEvent(gpe);
+			}
 		}
 	}
 }
