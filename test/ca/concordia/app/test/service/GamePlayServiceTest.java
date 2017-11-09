@@ -335,6 +335,9 @@ public class GamePlayServiceTest {
 			assertTrue(b4);
 	}
 	
+	/**
+	 * Test for putting player on country
+	 * */
 	@Test
 	public void testmapPlayerToCountry() {
 		
@@ -355,6 +358,9 @@ public class GamePlayServiceTest {
 		assertTrue(b);
 	}
 	
+	/**
+	 * Test for removing player from country
+	 * */
 	@Test
 	public void testUnmapPlayerToCountry() {
 		
