@@ -381,4 +381,21 @@ public class GamePlayServiceTest {
 		assertTrue(b);
 	}
 
+	/**
+	 * Test for ending game or not
+	 * */
+	@Test
+	public void testIsThisTheEnd() {
+		
+		players = game_play.getPlayers();
+		System.out.println(players.size());
+		
+		
+		game_play.getPlayers().remove(players.get(1));
+		game_play.getPlayers().remove(players.get(2));
+		game_play.getPlayers().remove(players.get(0));
+		
+		System.out.println(players.size());
+		assertTrue(game_play.isThisTheEnd());
+	}
 }
