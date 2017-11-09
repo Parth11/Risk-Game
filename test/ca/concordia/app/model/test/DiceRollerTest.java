@@ -24,7 +24,7 @@ public class DiceRollerTest {
 		result.add(3);
 		dice_roller = new DiceRoller(3);
 		List<Integer> attack = dice_roller.rollAll();
-		assertNotEquals(result,attack);
+		assertNotSame(result, attack);
 	
 	}
 
