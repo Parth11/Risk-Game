@@ -27,7 +27,7 @@ public class GamePlayServiceTest {
 	private GameMap game_map;
 	private MapService map_service;
 	private List<Player> players;
-	
+
 	@Before
 	public void init() throws MapValidationException, URISyntaxException {
 		map_service = MapService.getInstance();
@@ -37,11 +37,11 @@ public class GamePlayServiceTest {
 		game_play.doStartupPhase(4);
 		players = game_play.getPlayers();
 	}
-	//**********STARTUP PHASE STARTED****//
-	
+	// **********STARTUP PHASE STARTED****//
+
 	@Test
 	public void testDoStartUp() {
-		assertEquals(game_play.getNumberOfPlayers(),4);
+		assertEquals(game_play.getNumberOfPlayers(), 4);
 	}
 
 	@Test
@@ -52,40 +52,40 @@ public class GamePlayServiceTest {
 		assertEquals(0, players.get(3).getTotalArmies());
 
 	}
-	
+
 	@Test
 	public void testResetPlayerData() {
 		game_play.resetPlayersData();
-		assertEquals(30,game_play.getInitialArmy());
+		assertEquals(30, game_play.getInitialArmy());
 	}
-	
+
 	@Test
 	public void testAllocateCountriesToPlayers() {
 		game_play.allocateCountriesToPlayers();
-		System.out.println(game_map.getCountries().size());		
+		System.out.println(game_map.getCountries().size());
 		assertEquals(22, game_play.getCountriesConqueredBy(players.get(0)).size());
 		assertEquals(22, game_play.getCountriesConqueredBy(players.get(1)).size());
 		assertEquals(22, game_play.getCountriesConqueredBy(players.get(2)).size());
 		assertEquals(21, game_play.getCountriesConqueredBy(players.get(3)).size());
-		
+
 	}
-	
-	//******** STARTUP PHASE ENDED *********/
-	
+
+	// ******** STARTUP PHASE ENDED *********/
+
 	@Test
 	public void testIsNotConnectedPlayerCountries() {
 		Country c1 = game_play.getCountriesConqueredBy(players.get(0)).get(0);
 		Country c2 = game_play.getCountriesConqueredBy(players.get(0)).get(1);
 		assertFalse(game_play.isConnected(c1, c2, players.get(0)));
 	}
-	
+
 	@Test
 	public void testIsConnectedPlayerCountries() {
 		Country c1 = game_play.getCountriesConqueredBy(players.get(0)).get(0);
 		Country c3 = game_play.getCountriesConqueredBy(players.get(0)).get(4);
 		assertTrue(game_play.isConnected(c1, c3, players.get(0)));
 	}
-	
+
 	@Test
 	public void testFortificationPhaseMoveArmy() {
 		Country c1 = game_play.getCountriesConqueredBy(players.get(0)).get(0);
@@ -94,116 +94,125 @@ public class GamePlayServiceTest {
 		int n2 = c2.getNoOfArmy();
 		int i = 1;
 		game_play.moveArmyFromTo(players.get(0), c1, c2, 1);
-		assertEquals(c1.getNoOfArmy(), n1-i);
-		assertEquals(c2.getNoOfArmy(), n2+1);
+		assertEquals(c1.getNoOfArmy(), n1 - i);
+		assertEquals(c2.getNoOfArmy(), n2 + 1);
 	}
-	
+
 	@Test
 	public void testReinforcementPhaseCalculateArmies() {
 		int count = game_play.getReinforcementArmyForPlayer(players.get(0));
 		assertEquals(30, count);
 	}
-	
+
 	@Test
-	//assertTrue is failing...
+	// assertTrue is failing...
 	public void testCanWar() {
 		Country c1 = game_play.getCountriesConqueredBy(players.get(0)).get(0);
 		Country c2 = game_play.getCountriesConqueredBy(players.get(0)).get(1);
-		boolean c3= game_play.canWar(c1, c2);
+		boolean c3 = game_play.canWar(c1, c2);
 		assertFalse(c3);
-		
+
 	}
-	
+
 	@Test
 	public void testAddArmies() {
 		Country c = game_play.getCountriesConqueredBy(players.get(0)).get(0);
 		assertTrue(game_play.addArmies(players.get(0), c, 2));
 	}
-	
+
 	@Test
 	public void testSubArmies() {
 		Country c = game_play.getCountriesConqueredBy(players.get(0)).get(0);
 		assertTrue(game_play.subArmies(players.get(0), c, 1));
 	}
 
-	
 	@Test
-	public void testGetEligibleAttackingCountriesForPlayer(){
-		Player p = players.get(0);		
+	public void testGetEligibleAttackingCountriesForPlayer() {
+		Player p = players.get(0);
 		Country c = game_play.getCountriesConqueredBy(p).get(0);
 		List<Country> countries = game_play.getEligibleAttackingCountriesForPlayer(p);
 		assertFalse(countries.contains(c));
-		
+
 	}
-	
+
 	@Test
 	public void testGetReinforcementArmyForPlayer() {
 		Player p = players.get(0);
 		int befoeSize = game_play.getReinforcementArmyForPlayer(p);
 
 		p.reimburseCards(3, 0, 0);
-			
+
 		int afterSize = game_play.getReinforcementArmyForPlayer(p);
-		
-		assertEquals(befoeSize+5, afterSize);
+
+		assertEquals(befoeSize + 5, afterSize);
 	}
-	
+
 	@Test
 	public void testGenerateDeck() {
-		
+
 		game_play.generateDeck();
-		
+
 		int deckSize = game_map.getCountries().size();
 		int cavalryCards = game_play.getDeckMap().get(GameConstants.CAVALRY);
 		int artilleryCards = game_play.getDeckMap().get(GameConstants.ARTILLERY);
 		int infantryCards = game_play.getDeckMap().get(GameConstants.INFANTRY);
 		int finalCards = cavalryCards + artilleryCards + infantryCards;
-		
+
 		assertEquals(deckSize, finalCards);
 	}
-	
+
 	@Test
 	public void testRemoveCardsfromDeck() {
 		game_play.generateCard();
-		HashMap<String,Integer> deckMap = game_play.getDeckMap();
-		
+		HashMap<String, Integer> deckMap = game_play.getDeckMap();
+
 		int cavalryCards = game_play.getDeckMap().get(GameConstants.CAVALRY);
 		int artilleryCards = game_play.getDeckMap().get(GameConstants.ARTILLERY);
 		int infantryCards = game_play.getDeckMap().get(GameConstants.INFANTRY);
-		
+
 		game_play.removeCardsfromDeck(GameConstants.ARTILLERY);
 		game_play.removeCardsfromDeck(GameConstants.CAVALRY);
 		game_play.removeCardsfromDeck(GameConstants.INFANTRY);
-		
+
 		assertEquals(artilleryCards, game_play.getDeckMap().get(GameConstants.ARTILLERY) + 1);
 		assertEquals(cavalryCards, game_play.getDeckMap().get(GameConstants.CAVALRY) + 1);
 		assertEquals(infantryCards, game_play.getDeckMap().get(GameConstants.INFANTRY) + 1);
-		
-		
+
 	}
-	
+
 	@Test
 	public void testAddCardsToDeck() {
 		game_play.generateCard();
-		HashMap<String,Integer> deckMap = game_play.getDeckMap();
-		
+		HashMap<String, Integer> deckMap = game_play.getDeckMap();
+
 		int cavalryCards = game_play.getDeckMap().get(GameConstants.CAVALRY);
 		int artilleryCards = game_play.getDeckMap().get(GameConstants.ARTILLERY);
 		int infantryCards = game_play.getDeckMap().get(GameConstants.INFANTRY);
-		
+
 		game_play.addCardsToDeck(GameConstants.ARTILLERY);
 		game_play.addCardsToDeck(GameConstants.CAVALRY);
 		game_play.addCardsToDeck(GameConstants.INFANTRY);
-		
+
 		assertEquals(artilleryCards, game_play.getDeckMap().get(GameConstants.ARTILLERY) - 1);
 		assertEquals(cavalryCards, game_play.getDeckMap().get(GameConstants.CAVALRY) - 1);
 		assertEquals(infantryCards, game_play.getDeckMap().get(GameConstants.INFANTRY) - 1);
-		
+
 	}
-	
+
 	@Test
 	public void testCardReimbursement() {
+
+		// checking same sorts
 		assertTrue(game_play.cardReimbursement(players.get(0), 3, 0, 0));
-	}
+		assertTrue(game_play.cardReimbursement(players.get(0), 0, 3, 0));
+		assertTrue(game_play.cardReimbursement(players.get(0), 0, 0, 3));
+
+		//checking different sorts
+		assertTrue(game_play.cardReimbursement(players.get(0), 1, 1, 1));
 		
+		//invalid checking
+		assertFalse(game_play.cardReimbursement(players.get(0), 2, 1, 1));
+
+	}
+
 }
