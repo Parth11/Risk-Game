@@ -96,6 +96,7 @@ public class CardExchangeView extends JDialog implements IView {
 		btn_skip.setBounds(150, 182, 115, 29);
 		btn_skip.setEnabled(isEnabled);
 		getContentPane().add(btn_skip);
+		setTitle("Card Exchange View");
 		setVisible(true);
 	}
 

@@ -4,7 +4,6 @@
 package ca.concordia.app.model;
 
 import java.util.HashMap;
-import java.util.Map;
 
 /**
  * @author harvi

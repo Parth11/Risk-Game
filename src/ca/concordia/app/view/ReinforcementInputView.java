@@ -5,14 +5,12 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
 import java.util.List;
 
-import javax.swing.JFrame;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 
 import ca.concordia.app.model.Country;
-
-import javax.swing.JComboBox;
-import javax.swing.JDialog;
-import javax.swing.JButton;
 
 public class ReinforcementInputView extends JDialog implements IView{
 
@@ -32,7 +30,7 @@ public class ReinforcementInputView extends JDialog implements IView{
 	 * Create the application.
 	 */
 	public ReinforcementInputView(List<Country> countries, Integer armies) {
-	
+		setTitle("Reinforcement Input View");
 		this.setBounds(410,600, 450, 221);
 		this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		this.setAlwaysOnTop(true);

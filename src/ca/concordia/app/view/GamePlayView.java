@@ -1,7 +1,6 @@
 package ca.concordia.app.view;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
@@ -25,6 +24,7 @@ public class GamePlayView extends JFrame implements IView{
 	public GamePlayView(Integer numberOfPlayers) {
 		this.num_players = numberOfPlayers;
 		this.setBounds(100, 600, 320, 390);
+		setTitle("Game Play View");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		getContentPane().setLayout(null);
 		

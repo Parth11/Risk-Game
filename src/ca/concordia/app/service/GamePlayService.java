@@ -18,11 +18,10 @@ import ca.concordia.app.model.Country;
 import ca.concordia.app.model.DiceRoller;
 import ca.concordia.app.model.GameMap;
 import ca.concordia.app.model.GamePlayEvent;
-import ca.concordia.app.model.Player;
 import ca.concordia.app.model.GamePlayEvent.EventType;
+import ca.concordia.app.model.Player;
 import ca.concordia.app.util.GameConstants;
 import ca.concordia.app.util.GamePhase;
-import ca.concordia.app.view.GameLoggerView;
 
 
 /**
@@ -58,14 +57,6 @@ public class GamePlayService {
 		int totalCards = game_map.getCountries().size();
 		int cardsDividedByType = totalCards / 3;
 		deckMap= new HashMap<>();
-		// infantry, cavalry, or artillery
-		
-//		String [] cardType = {"I","C","A"};
-//		Random randomeCardType = new Random();
-//		int result=randomeCardType.nextInt(2);
-//		String cardName=cardType[result];
-//		Card card = new Card(cardName, 1);
-		
 		
 		int difference = totalCards - (cardsDividedByType * 3);
 		

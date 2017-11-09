@@ -4,11 +4,10 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JTextField;
-import javax.swing.JComboBox;
 
 /**
  * The Class NewGameSelectorView 
@@ -45,6 +44,7 @@ public class NewGameSelectorView extends JFrame implements IView{
 	 * Create the application.
 	 */
 	public NewGameSelectorView() {
+		setTitle("Start Game");
 		getContentPane().setLayout(null);
 		
 		label_players = new JLabel("How many Players?");

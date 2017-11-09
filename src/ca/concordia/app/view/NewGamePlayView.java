@@ -37,7 +37,7 @@ public class NewGamePlayView extends JFrame implements IView {
 	 */
 
 	public NewGamePlayView() {
-
+		setTitle("Game Console View");
 		getContentPane().setLayout(null);
 
 		scroll_pane = new JScrollPane();
