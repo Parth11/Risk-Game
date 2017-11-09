@@ -5,14 +5,12 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
 import java.util.List;
 
-import javax.swing.JFrame;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 
 import ca.concordia.app.model.Country;
-
-import javax.swing.JComboBox;
-import javax.swing.JDialog;
-import javax.swing.JButton;
 
 public class ReinforcementInputView extends JDialog implements IView{
 

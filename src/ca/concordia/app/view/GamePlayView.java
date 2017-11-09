@@ -1,7 +1,6 @@
 package ca.concordia.app.view;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;

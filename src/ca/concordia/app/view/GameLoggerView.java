@@ -1,8 +1,6 @@
 package ca.concordia.app.view;
 
 import java.awt.Color;
-import java.util.Observable;
-import java.util.Observer;
 
 import javax.swing.JDialog;
 import javax.swing.JScrollPane;

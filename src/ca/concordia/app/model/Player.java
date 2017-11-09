@@ -1,7 +1,6 @@
 package ca.concordia.app.model;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Observable;
@@ -12,7 +11,6 @@ import ca.concordia.app.service.ConsoleLoggerService;
 import ca.concordia.app.service.GamePlayService;
 import ca.concordia.app.util.GameConstants;
 import ca.concordia.app.util.GamePhase;
-import ca.concordia.app.view.CardExchangeView;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -142,8 +140,6 @@ public class Player extends Observable {
 	
 	public void doAttack(Country attackerCountry, Country defenderCountry, List<Integer> attackResult,
 			List<Integer> defenceResult) {
-
-		ConsoleLoggerService logger = ConsoleLoggerService.getInstance(null);
 
 		GamePlayService gamePlay = GamePlayService.getInstance();
 
