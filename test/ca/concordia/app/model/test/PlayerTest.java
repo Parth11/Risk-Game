@@ -120,4 +120,29 @@ public class PlayerTest {
 		assertEquals(beforePlayerCards, afterPlayerCards);
 		
 	}
+	
+	@Test
+	public void testCaptureCards() {
+		Country c1 = game_play.getCountriesConqueredBy(players.get(0)).get(0);
+		Country c2 = game_play.getCountriesConqueredBy(players.get(1)).get(0);
+		
+		List<Integer> attack = new ArrayList<>();
+		attack.add(6);
+		attack.add(6);
+		
+		List<Integer> defense = new ArrayList<>();
+		defense.add(1);
+		defense.add(2);
+		
+		int beforePlayerCard = players.get(0).getCards().size();
+		System.out.println(beforePlayerCard);
+		players.get(0).doAttack(c1, c2, attack, defense);
+		players.get(0).captureCards();
+		int afterPlayerCard = players.get(0).getCards().size();
+		System.out.println(afterPlayerCard);
+		
+		//need to check captureCards coz in that for loop is executing 5 times.
+		assertEquals(beforePlayerCard+5, afterPlayerCard);
+	}
+	
 }
