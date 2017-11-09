@@ -34,7 +34,7 @@ public class GamePlayService {
 	private static GamePlayService instance = null;
 	
 	private HashMap<String,Integer> deckMap;
-	
+
 	/**
 	 * A object of JDialog 
 	 */
@@ -61,12 +61,19 @@ public class GamePlayService {
 		players = new ArrayList<>();
 		player_country_map = new HashMap<>();
 		logger = ConsoleLoggerService.getInstance(null);
+		generateDeck();
+		
+	}
+	
+	
+	
+	public void generateDeck() {
+		// TODO Auto-generated method stub
 		int totalCards = game_map.getCountries().size();
 		int cardsDividedByType = totalCards / 3;
 		deckMap= new HashMap<>();
 		
 		int difference = totalCards - (cardsDividedByType * 3);
-		
 		
 		deckMap.put(GameConstants.INFANTRY, cardsDividedByType);
 		deckMap.put(GameConstants.CAVALRY, cardsDividedByType);
@@ -84,12 +91,17 @@ public class GamePlayService {
 				deckMap.put(cardName, numOfcards + 1);
 				difference--;
 			}
-			
 		}
-		
-		
 	}
-	
+
+	public HashMap<String, Integer> getDeckMap() {
+		return deckMap;
+	}
+
+	public void setDeckMap(HashMap<String, Integer> deckMap) {
+		this.deckMap = deckMap;
+	}
+
 	/**
 	 * Removes the cards for the master deck
 	 * @param cardType
@@ -133,7 +145,6 @@ public class GamePlayService {
 		else if(a==1 && i==1 && c==1){
 			flag = true;
 		}
-		
 		
 		return flag;
 	}
