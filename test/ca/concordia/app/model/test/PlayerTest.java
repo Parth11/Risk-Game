@@ -9,11 +9,13 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
+import ca.concordia.app.model.Card;
 import ca.concordia.app.model.Country;
 import ca.concordia.app.model.GameMap;
 import ca.concordia.app.model.Player;
 import ca.concordia.app.service.GamePlayService;
 import ca.concordia.app.service.MapService;
+import ca.concordia.app.util.GameConstants;
 import ca.concordia.app.util.MapValidationException;
 
 public class PlayerTest {
@@ -71,5 +73,51 @@ public class PlayerTest {
 		
 	}
 	
-	
+	@Test
+	public void testReimburseCards() {
+		
+		Player p = players.get(0);
+		game_play.generateDeck();
+		int beforeDeckSize = game_play.getDeckMap().size();
+		
+		
+		String firstGeneratedCard = game_play.generateCard();		
+		Card c1 = new Card(firstGeneratedCard);		
+		//add that card
+		p.getCards().add(c1);
+		
+		String secondGeneratedCard = game_play.generateCard();		
+		Card c2 = new Card(secondGeneratedCard);		
+		//add that card
+		p.getCards().add(c2);
+		
+		String thirdGeneratedCard = game_play.generateCard();		
+		Card c3 = new Card(thirdGeneratedCard);		
+		//add that card
+		p.getCards().add(c3);
+		
+		int beforePlayerCards = p.getCards().size();
+		
+		int a=0,i=0,c=0;
+		for(int k =0 ;k<3;k++) {
+		if(firstGeneratedCard.equals(GameConstants.ARTILLERY)) {
+			a+=1;
+		}
+		else if(secondGeneratedCard.equals(GameConstants.CAVALRY)) {
+			c+=1;
+		}
+		else {
+			i+=1;
+		}
+		}
+		int afterPlayerCards = p.getCards().size();
+		System.out.println(p.getCards().size());
+		System.out.println("a : "+a+" i : "+i+" c : "+c);
+		p.reimburseCards(a, i, c);
+		int afterDeckSize = game_play.getDeckMap().size();
+		
+		assertEquals(beforeDeckSize, afterDeckSize);
+		assertEquals(beforePlayerCards, afterPlayerCards);
+		
+	}
 }

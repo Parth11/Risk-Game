@@ -5,11 +5,14 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import ca.concordia.app.model.Card;
 
 //import com.sun.media.jfxmedia.events.PlayerState;
 
@@ -147,6 +150,7 @@ public class GamePlayServiceTest {
 		assertEquals(befoeSize + 5, afterSize);
 	}
 
+	//********* CARDS TESTCASES**********//
 	@Test
 	public void testGenerateDeck() {
 
