@@ -42,29 +42,24 @@ public class DrawingBase extends JPanel {
 		repaint();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see javax.swing.JComponent#getPreferredSize()
+	/**
+	 * @return Dimension
 	 */
 	public Dimension getPreferredSize() {
 		return (new Dimension(500, 400));
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
+	/**
+	 * For painting the component.
+	 * @param g 
 	 */
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		g.drawString(display_text, x, y);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see javax.swing.JComponent#getX()
+	/**
+	 * @return x
 	 */
 	public int getX() {
 		return x;
@@ -80,10 +75,8 @@ public class DrawingBase extends JPanel {
 		this.x = x;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see javax.swing.JComponent#getY()
+	/**
+	 * @return y
 	 */
 	public int getY() {
 		return y;
@@ -99,10 +92,8 @@ public class DrawingBase extends JPanel {
 		this.y = y;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.awt.Component#toString()
+	/**
+	 * @return String
 	 */
 	public String toString() {
 		return "(" + getX() + "," + getY() + ")";
@@ -132,7 +123,7 @@ public class DrawingBase extends JPanel {
 	 * Connect neighbours on the map as per user input.
 	 *
 	 * @param name
-	 *            the name
+	 *  
 	 */
 	public void connectNeighbours(String name) {
 		GameMap gameMap = GameMap.getInstance();

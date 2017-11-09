@@ -46,63 +46,52 @@ public class MainController implements ActionListener, MouseListener {
 		Thread.setDefaultUncaughtExceptionHandler(new RiskExceptionHandler(main_view));
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.awt.event.MouseListener#mouseClicked(java.awt.event.MouseEvent)
+	/**
+	 * Mouse click event
+	 * @param e
 	 */
 	@Override
 	public void mouseClicked(MouseEvent e) {
 
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.awt.event.MouseListener#mousePressed(java.awt.event.MouseEvent)
+	/**
+	 * Mouse pressed event 
+	 * @param e
 	 */
 	@Override
 	public void mousePressed(MouseEvent e) {
 
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * java.awt.event.MouseListener#mouseReleased(java.awt.event.MouseEvent)
+	/**
+	 * Mouse released event 
+	 * @param e
 	 */
 	@Override
 	public void mouseReleased(MouseEvent e) {
 
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.awt.event.MouseListener#mouseEntered(java.awt.event.MouseEvent)
+	/**
+	 * Mouse Entered event
+	 * @param e
 	 */
 	@Override
 	public void mouseEntered(MouseEvent e) {
 
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.awt.event.MouseListener#mouseExited(java.awt.event.MouseEvent)
+	/**
+	 * Mouse Exited event
+	 * @param e
 	 */
 	@Override
 	public void mouseExited(MouseEvent e) {
 
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-	 */
+
 	
 	/**
 	 * Calls the actionPerformed method of java.

@@ -37,40 +37,45 @@ public class NewGameSelectorController implements ActionListener,MouseListener {
 		new_game_selector.setVisible(true);
 	}
 
-	/* (non-Javadoc)
-	 * @see java.awt.event.MouseListener#mouseClicked(java.awt.event.MouseEvent)
+	/**
+	 * mouse clicked event
+	 * @param e
 	 */
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		
 	}
 
-	/* (non-Javadoc)
-	 * @see java.awt.event.MouseListener#mousePressed(java.awt.event.MouseEvent)
+	/**
+	 * mouse clicked pressed
+	 * @param e
 	 */
 	@Override
 	public void mousePressed(MouseEvent e) {
 		
 	}
 
-	/* (non-Javadoc)
-	 * @see java.awt.event.MouseListener#mouseReleased(java.awt.event.MouseEvent)
+	/**
+	 * mouse clicked released
+	 * @param e
 	 */
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		
 	}
 
-	/* (non-Javadoc)
-	 * @see java.awt.event.MouseListener#mouseEntered(java.awt.event.MouseEvent)
+	/**
+	 * mouse clicked entered
+	 * @param e
 	 */
 	@Override
 	public void mouseEntered(MouseEvent e) {
 		
 	}
 
-	/* (non-Javadoc)
-	 * @see java.awt.event.MouseListener#mouseExited(java.awt.event.MouseEvent)
+	/**
+	 * mouse clicked exited
+	 * @param e
 	 */
 	@Override
 	public void mouseExited(MouseEvent e) {
@@ -78,7 +83,7 @@ public class NewGameSelectorController implements ActionListener,MouseListener {
 	}
 
 	/**
-	 * Calls the actionPerformed method of java during game start phase.
+	 * Calls the actionPerformed method of java during game start phase. Selects the map on which the game will be played.
 	 * @param e
 	 */
 	@Override

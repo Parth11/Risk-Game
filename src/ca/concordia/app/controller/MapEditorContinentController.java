@@ -58,32 +58,36 @@ public class MapEditorContinentController implements ActionListener, MouseListen
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see java.awt.event.MouseListener#mousePressed(java.awt.event.MouseEvent)
+	/**
+	 * Mouse pressed event 
+	 * @param e
 	 */
 	@Override
 	public void mousePressed(MouseEvent e) {
 
 	}
 
-	/* (non-Javadoc)
-	 * @see java.awt.event.MouseListener#mouseReleased(java.awt.event.MouseEvent)
+	/**
+	 * mouse released event
+	 * @param e
 	 */
 	@Override
 	public void mouseReleased(MouseEvent e) {
 
 	}
 
-	/* (non-Javadoc)
-	 * @see java.awt.event.MouseListener#mouseEntered(java.awt.event.MouseEvent)
+	/**
+	 * mouse entered event
+	 * @param e
 	 */
 	@Override
 	public void mouseEntered(MouseEvent e) {
 
 	}
 
-	/* (non-Javadoc)
-	 * @see java.awt.event.MouseListener#mouseExited(java.awt.event.MouseEvent)
+	/**
+	 *  mouse exited event
+	 *  @param e
 	 */
 	@Override
 	public void mouseExited(MouseEvent e) {
