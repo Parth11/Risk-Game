@@ -19,9 +19,9 @@ public class Continent {
 
 	/**
 	 * A parameterized constructor.
-	 * @param continentName
-	 * @param controlValue
-	 * @param colour
+	 * @param continentName the name of continent
+	 * @param controlValue the control value
+	 * @param colour the color on the map
 	 */
 	public Continent(String continentName, int controlValue, Color colour) {
 		this.continent_name = continentName;
@@ -39,7 +39,7 @@ public class Continent {
 	
 	/**
 	 * Sets the continent name.
-	 * @param continentName
+	 * @param continentName Name of Continent
 	 */
 	public void setContinentName(String continentName) {
 		this.continent_name = continentName;
@@ -55,7 +55,7 @@ public class Continent {
 
 	/**
 	 * Sets the control value of the continent.
-	 * @param controlValue
+	 * @param controlValue The control value of the continent
 	 */
 	public void setControlValue(int controlValue) {
 		this.control_value = controlValue;
@@ -70,7 +70,7 @@ public class Continent {
 	
 	/**
 	 * sets the color to the continent.
-	 * @param color
+	 * @param color the color allocated to this continent
 	 */
 	public void setColor(Color color) {
 		this.colour = color;
