@@ -1,7 +1,7 @@
 /**
  * 
  */
-package ca.concordia.app.test.service;
+package ca.concordia.app.service.test;
 
 import java.net.URISyntaxException;
 

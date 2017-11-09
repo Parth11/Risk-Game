@@ -200,7 +200,7 @@ public class PlayerTest {
 		System.out.println(afterPlayerCard);
 		
 		//need to check captureCards coz in that for loop is executing 5 times.
-		assertEquals(beforePlayerCard+5, afterPlayerCard);
+		assertEquals(beforePlayerCard+1, afterPlayerCard);
 	}
 	
 }

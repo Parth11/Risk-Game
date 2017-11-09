@@ -1,4 +1,4 @@
-package ca.concordia.app.test.service;
+package ca.concordia.app.service.test;
 
 import static org.junit.Assert.assertEquals;
 
