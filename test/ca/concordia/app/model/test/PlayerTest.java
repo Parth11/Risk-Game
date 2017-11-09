@@ -160,4 +160,20 @@ public class PlayerTest {
 		assertTrue(b);
 		
 	}
+	
+	@Test
+	public void testdoFortification() {
+		Player p = players.get(0);
+		Country c1 = game_play.getCountriesConqueredBy(p).get(0);
+		Country c2 = game_play.getCountriesConqueredBy(p).get(1);
+		
+		System.out.println(c1.getNoOfArmy());
+		System.out.println(c2.getNoOfArmy());
+		
+		int c1Armies = c1.getNoOfArmy();
+		int movingArmies = c1.getNoOfArmy()-1;
+		p.doFortification(c1, c2, movingArmies);
+		
+		assertEquals(c1Armies, c1.getNoOfArmy()+movingArmies);		
+	}
 }
