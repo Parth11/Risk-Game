@@ -18,21 +18,33 @@ import ca.concordia.app.model.Country;
 import ca.concordia.app.model.Player;
 import ca.concordia.app.service.GamePlayService;
 
+
+/**
+ * The Class FortificationInputView , describes UI for the Fortification.
+ */
 public class FortificationInputView extends JDialog implements IView {
 
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 2912847319751663392L;
+	
 	public JComboBox<Country> from_country;
+
 	public JComboBox<Country> to_country;
+	
 	public JComboBox<Integer> armies;
+
 	public JButton btn_submit;
+	
 	public JButton btn_skip;
 
+	/** The current player object of Player  */
 	Player current_player;
 	
+	/**
+	 * Instantiates a new fortification input view.
+	 *
+	 * @param p the p
+	 */
 	public FortificationInputView(Player p) {
 		
 		current_player = p;
@@ -104,19 +116,32 @@ public class FortificationInputView extends JDialog implements IView {
 		setVisible(true);
 	}
 
+	/* (non-Javadoc)
+	 * @see ca.concordia.app.view.IView#setActionListener(java.awt.event.ActionListener)
+	 */
 	@Override
 	public void setActionListener(ActionListener actionListener) {
 		btn_submit.addActionListener(actionListener);
 		btn_skip.addActionListener(actionListener);
 	}
 
+	/* (non-Javadoc)
+	 * @see ca.concordia.app.view.IView#setMouseListener(java.awt.event.MouseListener)
+	 */
 	@Override
 	public void setMouseListener(MouseListener mouseListener) {
 		
 	}
 	
+	/**
+	 * The Class CountryListToggle.
+	 */
 	class CountryListToggle implements ItemListener {
 
+	/**
+	 * Sets the UI for the state change events.
+	 * @param ItemEvent e
+	 */
 		@Override
 		public void itemStateChanged(ItemEvent e) {
 

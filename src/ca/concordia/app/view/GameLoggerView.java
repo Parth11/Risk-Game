@@ -19,13 +19,10 @@ public class GameLoggerView extends JDialog {
 
 	private static final long serialVersionUID = -9072014196882993806L;
 	
-	/** The scroll pane. */
 	public JScrollPane scroll_pane;
 	
-	/** The console. */
 	public JTextArea console;
 	
-	/** The console logger service. */
 	public ConsoleLoggerService console_logger_service;
 	
 	/**
@@ -49,7 +46,7 @@ public class GameLoggerView extends JDialog {
 	}
 
 	/**
-	 * Initialize.
+	 * Initialize window.
 	 */
 
 	private void initialize() {

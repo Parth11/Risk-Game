@@ -19,31 +19,71 @@ import ca.concordia.app.model.GameMap;
 import ca.concordia.app.model.Player;
 import ca.concordia.app.service.GamePlayService;
 
+/**
+ * The Class defines the Phase View of the game. 
+ */
 public class PhaseView extends JDialog{
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
+	
+	/** The player name. */
 	public JTextField player_name;
+	
+	/** The player phase. */
 	public JTextField player_phase;
+	
+	/** The player armies. */
 	public JTextField player_armies;
+	
+	/** The num infantry. */
 	public JTextField num_infantry;
+	
+	/** The num cavalry. */
 	public JTextField num_cavalry;
+	
+	/** The num artillery. */
 	public JTextField num_artillery;
+	
+	/** The conquest table. */
 	public JTable conquest_table;
+	
+	/** The reinforced country. */
 	public JTextField reinforced_country;
+	
+	/** The reinforce armies. */
 	public JTextField reinforce_armies;
+	
+	/** The attacking country. */
 	public JTextField attacking_country;
+	
+	/** The attacked country. */
 	public JTextField attacked_country;
+	
+	/** The attack throws. */
 	public JTextField attack_throws;
+	
+	/** The defence throws. */
 	public JTextField defence_throws;
+	
+	/** The win loss. */
 	public JTextField win_loss;
+	
+	/** The fortifying country. */
 	public JTextField fortifying_country;
+	
+	/** The fortified country. */
 	public JTextField fortified_country;
+	
+	/** The armies moved. */
 	public JTextField armies_moved;
+	
+	/** The domination panel. */
 	public JPanel domination_panel;
+	
+	/** The colors. */
 	private Color[] colors = {Color.CYAN,Color.GRAY,Color.RED,Color.YELLOW,Color.GREEN,Color.ORANGE};
+	
+	/** The armies exchanged. */
 	public JTextField armies_exchanged;
 
 	/**
@@ -290,6 +330,9 @@ public class PhaseView extends JDialog{
 		
 	}
 	
+	/**
+	 * Clears all the fields.
+	 */
 	public void clearFields(){
 		
 		player_name.setText("");
@@ -328,6 +371,11 @@ public class PhaseView extends JDialog{
 		
 	}
 	
+	/**
+	 * Plot domination view.
+	 *
+	 * @param data the data
+	 */
 	public void plotDominationView(Object[][] data){
 		
 		domination_panel.removeAll();

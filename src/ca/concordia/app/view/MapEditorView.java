@@ -26,7 +26,7 @@ import ca.concordia.app.util.ContinentColourMap;
 
 
 /**
- * The Class MapEditorView.
+ * The Class MapEditorView generates the Map Editor view UI
  * 
  * @author Harvi
  */
@@ -36,36 +36,26 @@ public class MapEditorView extends JFrame implements IView {
 
 	private static String WINDOW_TITLE = "Create Map";
 
-	/** The country name value. */
 	public JTextField country_name_value;
 
-	/** The map area. */
 	public MapEditorPanel map_area;
 
-	/** The country editor panel. */
 	public JPanel country_editor_panel;
 
-	/** The country name. */
 	public JLabel country_name;
 
-	/** The neighbours list. */
 	public JList<String> neighbours_list;
 
-	/** The save button. */
 	public JButton save_button;
 
-	/** The cancel button. */
 	public JButton cancel_button;
 
-	/** The next button. */
 	public JButton next_button;
 
 	private JScrollPane scroll_pane;
 
-	/** The open dialog. */
 	public JFileChooser open_dialog;
 	
-	/** The remove country button. */
 	public JButton remove_country_button;
 
 	/**

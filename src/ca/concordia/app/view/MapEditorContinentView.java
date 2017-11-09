@@ -75,7 +75,10 @@ public class MapEditorContinentView extends JFrame implements IView {
 	public MapEditorContinentView() {
 		initialize();
 	}
-
+	
+	/**
+	 * This method initializes the game map view.
+	 */
 	private void initialize() {
 		this.setBounds(100, 100, 1300, 800);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -233,7 +236,7 @@ public class MapEditorContinentView extends JFrame implements IView {
 	}
 	
 	/**
-	 * Repaint selected countries.
+	 * Repaint selected countries on map.
 	 *
 	 * @param selValue the sel value
 	 */

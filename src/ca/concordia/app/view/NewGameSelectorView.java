@@ -42,7 +42,7 @@ public class NewGameSelectorView extends JFrame implements IView{
 	public int final_players;
 	
 	/**
-	 * Create the application.
+	 * Create the view for selecting New Game
 	 */
 	public NewGameSelectorView() {
 		getContentPane().setLayout(null);
