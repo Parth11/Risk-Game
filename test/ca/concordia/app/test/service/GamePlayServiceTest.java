@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.junit.Before;
@@ -18,6 +19,7 @@ import ca.concordia.app.model.GameMap;
 import ca.concordia.app.model.Player;
 import ca.concordia.app.service.GamePlayService;
 import ca.concordia.app.service.MapService;
+import ca.concordia.app.util.GameConstants;
 import ca.concordia.app.util.MapValidationException;
 
 public class GamePlayServiceTest {
@@ -59,7 +61,7 @@ public class GamePlayServiceTest {
 	}
 	
 	@Test
-	public void testallocateCountriesToPlayers() {
+	public void testAllocateCountriesToPlayers() {
 		game_play.allocateCountriesToPlayers();
 		System.out.println(game_map.getCountries().size());		
 		assertEquals(22, game_play.getCountriesConqueredBy(players.get(0)).size());
@@ -120,14 +122,14 @@ public class GamePlayServiceTest {
 	}
 	
 	@Test
-	public void testsubArmies() {
+	public void testSubArmies() {
 		Country c = game_play.getCountriesConqueredBy(players.get(0)).get(0);
 		assertTrue(game_play.subArmies(players.get(0), c, 1));
 	}
 
 	
 	@Test
-	public void testgetEligibleAttackingCountriesForPlayer(){
+	public void testGetEligibleAttackingCountriesForPlayer(){
 		Player p = players.get(0);		
 		Country c = game_play.getCountriesConqueredBy(p).get(0);
 		List<Country> countries = game_play.getEligibleAttackingCountriesForPlayer(p);
@@ -136,7 +138,7 @@ public class GamePlayServiceTest {
 	}
 	
 	@Test
-	public void testgetReinforcementArmyForPlayer() {
+	public void testGetReinforcementArmyForPlayer() {
 		Player p = players.get(0);
 		int befoeSize = game_play.getReinforcementArmyForPlayer(p);
 
@@ -145,6 +147,45 @@ public class GamePlayServiceTest {
 		int afterSize = game_play.getReinforcementArmyForPlayer(p);
 		
 		assertEquals(befoeSize+5, afterSize);
+	}
+	
+	@Test
+	public void testGenerateDeck() {
+		
+		game_play.generateDeck();
+		
+		int deckSize = game_map.getCountries().size();
+		int cavalryCards = game_play.getDeckMap().get(GameConstants.CAVALRY);
+		int artilleryCards = game_play.getDeckMap().get(GameConstants.ARTILLERY);
+		int infantryCards = game_play.getDeckMap().get(GameConstants.INFANTRY);
+		int finalCards = cavalryCards + artilleryCards + infantryCards;
+		
+		assertEquals(deckSize, finalCards);
+	}
+	
+	@Test
+	public void testremoveCardsfromDeck() {
+		game_play.generateCard();
+		HashMap<String,Integer> deckMap = game_play.getDeckMap();
+		
+		int cavalryCards = game_play.getDeckMap().get(GameConstants.CAVALRY);
+		int artilleryCards = game_play.getDeckMap().get(GameConstants.ARTILLERY);
+		int infantryCards = game_play.getDeckMap().get(GameConstants.INFANTRY);
+		
+		game_play.removeCardsfromDeck(GameConstants.ARTILLERY);
+		game_play.removeCardsfromDeck(GameConstants.CAVALRY);
+		game_play.removeCardsfromDeck(GameConstants.INFANTRY);
+		
+		assertEquals(artilleryCards, game_play.getDeckMap().get(GameConstants.ARTILLERY) + 1);
+		assertEquals(cavalryCards, game_play.getDeckMap().get(GameConstants.CAVALRY) + 1);
+		assertEquals(infantryCards, game_play.getDeckMap().get(GameConstants.INFANTRY) + 1);
+		
+		
+	}
+	
+	@Test
+	public void testaddCardsToDeck() {
+		
 	}
 
 }
