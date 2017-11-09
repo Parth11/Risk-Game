@@ -15,7 +15,7 @@ import ca.concordia.app.util.MapValidationException;
 import ca.concordia.app.view.NewGameSelectorView;
 
 /**
- * The Class NewGameSelectorController.
+ * This is a controller class for New Game Selection.
  *
  * @author harvi
  */
