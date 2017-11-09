@@ -81,7 +81,7 @@ public class MapEditorView extends JFrame implements IView {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
+		setTitle("Map Editor View");
 		getContentPane().add(map_area);
 
 		country_editor_panel = new JPanel();

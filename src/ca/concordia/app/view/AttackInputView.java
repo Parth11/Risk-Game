@@ -41,7 +41,7 @@ public class AttackInputView extends JDialog implements IView{
 	public DiceRoller defence_dice;
 	
 	public AttackInputView(Player p) {
-		
+		setTitle("Attack Input View");
 		setBounds(410, 600, 450, 465);
 		setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
 		getContentPane().setLayout(null);

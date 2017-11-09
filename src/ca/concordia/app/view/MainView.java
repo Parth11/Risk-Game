@@ -25,11 +25,8 @@ public class MainView extends JFrame implements IView{
 	 * @param args the arguments
 	 */
 	public static void main(String[] args) {
-			
-		
 		MainView window = new MainView();
 		window.setVisible(true);
-	
 	}
 
 	/**
@@ -45,6 +42,7 @@ public class MainView extends JFrame implements IView{
 	private void initialize() {
 		
 		this.setBounds(100, 100, 1280, 763);
+		setTitle("Risk");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.getContentPane().setLayout(null);
 		

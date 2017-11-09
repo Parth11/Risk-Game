@@ -25,6 +25,7 @@ public class GamePlayView extends JFrame implements IView{
 	public GamePlayView(Integer numberOfPlayers) {
 		this.num_players = numberOfPlayers;
 		this.setBounds(100, 600, 320, 390);
+		setTitle("Game Play View");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		getContentPane().setLayout(null);
 		

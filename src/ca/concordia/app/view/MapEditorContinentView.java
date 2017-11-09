@@ -77,6 +77,7 @@ public class MapEditorContinentView extends JFrame implements IView {
 	}
 
 	private void initialize() {
+		setTitle("Map Continent Editor View");
 		this.setBounds(100, 100, 1300, 800);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.getContentPane().setLayout(null);

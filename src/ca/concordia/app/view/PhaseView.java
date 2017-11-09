@@ -58,6 +58,7 @@ public class PhaseView extends JDialog{
 	 */
 	private void initialize() {
 		
+		setTitle("Risk Statistics View");
 		this.setBounds(870, 0, 984, 832);
 		this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		this.getContentPane().setLayout(null);

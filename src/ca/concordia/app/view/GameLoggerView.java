@@ -35,7 +35,7 @@ public class GameLoggerView extends JDialog {
 	public GameLoggerView() {
 
 		getContentPane().setLayout(null);
-
+		setTitle("Game Logger View");
 		scroll_pane = new JScrollPane();
 		scroll_pane.setBounds(15, 16, 773, 485);
 		getContentPane().add(scroll_pane);

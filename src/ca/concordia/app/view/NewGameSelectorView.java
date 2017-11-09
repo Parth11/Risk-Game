@@ -45,6 +45,7 @@ public class NewGameSelectorView extends JFrame implements IView{
 	 * Create the application.
 	 */
 	public NewGameSelectorView() {
+		setTitle("Start Game");
 		getContentPane().setLayout(null);
 		
 		label_players = new JLabel("How many Players?");

@@ -37,7 +37,7 @@ public class FortificationInputView extends JDialog implements IView {
 	public FortificationInputView(Player p) {
 		
 		current_player = p;
-		
+		setTitle("Fortification Input View");
 		setBounds(410, 600, 450, 300);
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setAlwaysOnTop(true);
