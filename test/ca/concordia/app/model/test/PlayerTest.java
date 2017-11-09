@@ -145,4 +145,19 @@ public class PlayerTest {
 		assertEquals(beforePlayerCard+5, afterPlayerCard);
 	}
 	
+	@Test
+	public void testDoReinforcement() {
+		Player p = players.get(0);
+		Country c1 = game_play.getCountriesConqueredBy(p).get(0);
+		
+		int playerReinforceArmies = game_play.getReinforcementArmyForPlayer(p);
+		int beforeArmies = c1.getNoOfArmy();
+
+		p.doReinforcement(c1, playerReinforceArmies);
+		
+		int afterArmies = c1.getNoOfArmy();
+		boolean b = afterArmies > beforeArmies;
+		assertTrue(b);
+		
+	}
 }
