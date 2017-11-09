@@ -58,11 +58,16 @@ public class PlayerTest {
 	
 	/**
 	 * Test case to check whether attack is happening or not.
+	 * and also it will check that after attacking it was valid move or not.
 	 */
 	@Test
 	public void testDoAttack() {
 		Country c1 = game_play.getCountriesConqueredBy(players.get(0)).get(0);
 		Country c2 = game_play.getCountriesConqueredBy(players.get(1)).get(0);
+		
+		c1.setNoOfArmy(5);
+		c2.setNoOfArmy(1);
+		String beforeC2Ruler = c2.getRuler().getName();
 		
 		List<Integer> attack = new ArrayList<>();
 		attack.add(6);
@@ -73,6 +78,13 @@ public class PlayerTest {
 		defense.add(2);
 		
 		players.get(0).doAttack(c1, c2, attack, defense);
+		System.out.println(c1.getNoOfArmy());
+		System.out.println(c2.getNoOfArmy());
+		
+		String afterC2Ruler = c2.getRuler().getName();
+		
+		boolean b = afterC2Ruler != beforeC2Ruler;
+		assertTrue(b); 
 		
 		assertTrue(players.get(0).card_flag);
 		
