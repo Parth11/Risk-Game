@@ -262,7 +262,7 @@ public class Player extends Observable {
 	
 	public void captureCards(){
 		if(card_flag) {
-			for(int i=0;i<5;i++){
+			//for(int i=0;i<5;i++){
 				String playerCard = GamePlayService.getInstance().generateCard();
 				Card card1 = new Card(playerCard);				
 				cards_list.add(card1);
@@ -273,7 +273,7 @@ public class Player extends Observable {
 				GamePlayEvent gpe = new GamePlayEvent(EventType.CARD_WIN, eventPayload );
 				
 				publishGamePlayEvent(gpe);
-			}
+			//}
 		}
 	}
 }
