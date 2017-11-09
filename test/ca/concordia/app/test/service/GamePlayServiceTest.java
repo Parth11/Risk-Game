@@ -122,5 +122,13 @@ public class GamePlayServiceTest {
 		assertTrue(game_play.subArmies(players.get(0), c, 1));
 	}
 
+	@Test
+	public void testgetEligibleAttackingCountriesForPlayer(){
+		Player p = players.get(0);		
+		Country c = game_play.getCountriesConqueredBy(p).get(0);
+		List<Country> countries = game_play.getEligibleAttackingCountriesForPlayer(p);
+		assertFalse(countries.contains(c));
+		
+	}
 
 }
