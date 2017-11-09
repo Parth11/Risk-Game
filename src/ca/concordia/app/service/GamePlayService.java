@@ -36,6 +36,9 @@ public class GamePlayService {
 	
 	private HashMap<String,Integer> deckMap;
 	
+	/**
+	 * A object of JDialog 
+	 */
 	public JDialog game_play_frame;
 
 	private int number_of_players;
@@ -92,17 +95,34 @@ public class GamePlayService {
 		
 	}
 	
+	/**
+	 * Removes the cards for the master deck
+	 * @param cardType
+	 */
 	public void removeCardsfromDeck(String cardType )
 	{
 			int value = deckMap.get(cardType);
 			deckMap.put(cardType,value-1);								
 	}
+	
+	/**
+	 * Adds the cards to the master deck
+	 * @param cardType
+	 */
 	public void addCardsToDeck(String cardType )
 	{
 			int value = deckMap.get(cardType);
 			deckMap.put(cardType,value+1);								
 	}
 	
+	/**
+	 * Criteria for card reimbursement
+	 * @param player
+	 * @param a
+	 * @param i
+	 * @param c
+	 * @return
+	 */
 	public boolean cardReimbursement(Player player, int a, int i, int c) {
 		boolean flag = false;
 		
@@ -123,7 +143,10 @@ public class GamePlayService {
 		return flag;
 	}
 	
-	
+	/**
+	 * Randomly generates cards Strings
+	 * @return
+	 */
 	public String generateCard() {
 		
 		String [] cardType = {GameConstants.ARTILLERY, GameConstants.CAVALRY,GameConstants.INFANTRY};
@@ -144,7 +167,10 @@ public class GamePlayService {
 			instance = new GamePlayService();
 		return instance;
 	}
-
+	
+	/**
+	 * Resets players data.
+	 */
 	public void resetPlayersData() {
 		turn = 0;
 		for (Player p : players) {
@@ -212,6 +238,9 @@ public class GamePlayService {
 		
 	}
 
+	/**
+	 * Adding the initial Armies in a round robin fashion.
+	 */
 	private void addInitialArmiesUsingRoundRobin() {
 		int j = 0;
 		int playersLeftForAssign = number_of_players;
@@ -233,7 +262,10 @@ public class GamePlayService {
 			j++;
 		}
 	}
-
+	
+	/**
+	 * Allocating countries to the players
+	 */
 	public void allocateCountriesToPlayers() {
 		int j = 0;
 		for (Country c : game_map.getCountries()) {
@@ -317,6 +349,11 @@ public class GamePlayService {
 
 	}
 
+	/**
+	 * To Show the card exchange view
+	 * @param p
+	 * @return
+	 */
 	public boolean showCardExchangeView(Player p) {
 		// TODO Auto-generated method stub
 		int infantary=0;
@@ -348,6 +385,10 @@ public class GamePlayService {
 		return false;
 	}
 	
+	/**
+	 * Check if the player has 5 cards
+	 * @return True or False
+	 */
 	public boolean checkPlayerCardsIsGreater(){
 		
 	    if(GamePlayService.getInstance().getCurrentTurnPlayer().getCards().size() == 5){
@@ -744,8 +785,12 @@ public class GamePlayService {
 			j++;
 		}
 	}
-
-	//print the player country allocation during gameplay
+	
+	/**
+	 * print the player country allocation during gameplay
+	 * @param player
+	 * @return
+	 */
 	public String printCountryAllocationToConsole(Player player) {
 
 		String s = "\n";
@@ -757,6 +802,11 @@ public class GamePlayService {
 		return s;
 	}
 	
+	/**
+	 * Check if the attacking country is a neighbor and of the current player
+	 * @param p
+	 * @return The Attacking List
+	 */
 	public List<Country> getEligibleAttackingCountriesForPlayer(Player p){
 		Set<Country> attackingCountries = new HashSet<>();
 		List<Country> countries = getCountriesConqueredBy(p);
@@ -773,6 +823,11 @@ public class GamePlayService {
 		return new ArrayList<>(attackingCountries);
 	}
 	
+	/**
+	 * Check if the attacked country is a neighbor and of differnt ruler
+	 * @param c
+	 * @return List of Attackable countries
+	 */
 	public List<Country> getEligibleAttackableCountries(Country c){
 		List<Country> neighboursOfAttackerCountry = game_map.getNeighbourCountries(c);
 		
@@ -787,6 +842,10 @@ public class GamePlayService {
 		return defenderCountries;
 	}
 	
+	/**
+	 * Check if the game has ended or not
+	 * @return true or false
+	 */
 	public boolean isThisTheEnd(){
 		if(getPlayers().size()==1 ){
 			return true;
