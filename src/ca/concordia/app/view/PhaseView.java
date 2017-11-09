@@ -100,7 +100,7 @@ public class PhaseView extends JDialog{
 		
 		setTitle("Risk Statistics View");
 		this.setBounds(870, 0, 984, 832);
-		this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		this.getContentPane().setLayout(null);
 		
 		JLabel lblCurrentPlayer = new JLabel("Current Player");

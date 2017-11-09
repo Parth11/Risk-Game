@@ -3,8 +3,10 @@ package ca.concordia.app.view;
 import java.awt.Color;
 
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.text.DefaultCaret;
 
 import ca.concordia.app.service.ConsoleLoggerService;
 
@@ -13,7 +15,7 @@ import ca.concordia.app.service.ConsoleLoggerService;
  *
  * @author Abhinav
  */
-public class GameLoggerView extends JDialog {
+public class GameLoggerView extends JFrame {
 
 	private static final long serialVersionUID = -9072014196882993806L;
 	
@@ -39,6 +41,9 @@ public class GameLoggerView extends JDialog {
 		scroll_pane.setViewportView(console);
 		console.setForeground(Color.WHITE);
 		console.setBackground(Color.BLACK);
+		DefaultCaret caret = (DefaultCaret) console.getCaret();
+		caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
+		console.setCaret(caret);
 		console_logger_service = ConsoleLoggerService.getInstance(console);
 		initialize();
 	}
@@ -50,6 +55,6 @@ public class GameLoggerView extends JDialog {
 	private void initialize() {
 		this.setVisible(true);
 		setBounds(0, 0, 823, 575);
-		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 }
