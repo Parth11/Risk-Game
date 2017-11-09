@@ -65,10 +65,10 @@ public class GamePlayService {
 		
 	}
 	
-	
-	
+	/**
+	 * Auto Generates Deck of Cards 
+	 */
 	public void generateDeck() {
-		// TODO Auto-generated method stub
 		int totalCards = game_map.getCountries().size();
 		int cardsDividedByType = totalCards / 3;
 		deckMap= new HashMap<>();
@@ -93,11 +93,17 @@ public class GamePlayService {
 			}
 		}
 	}
-
+	
+	/**
+	* returns the deck of cards
+	*/
 	public HashMap<String, Integer> getDeckMap() {
 		return deckMap;
 	}
 
+	/**
+	* @param deckMap sets the deck of cards
+	*/
 	public void setDeckMap(HashMap<String, Integer> deckMap) {
 		this.deckMap = deckMap;
 	}
