@@ -334,4 +334,45 @@ public class GamePlayServiceTest {
 		else
 			assertTrue(b4);
 	}
+	
+	@Test
+	public void testmapPlayerToCountry() {
+		
+		Player p1 = players.get(0);
+		Player p2 = players.get(1);
+		
+		Country c1 = game_play.getCountriesConqueredBy(p1).get(0);
+		Country c2 = game_play.getCountriesConqueredBy(p2).get(0);
+		
+		int beforeSize = game_play.getCountriesConqueredBy(p1).size();
+		
+		game_play.mapPlayerToCountry(p1, c2);
+		
+		int afterSize = game_play.getCountriesConqueredBy(p1).size();
+		
+		boolean b = afterSize > beforeSize;
+		
+		assertTrue(b);
+	}
+	
+	@Test
+	public void testUnmapPlayerToCountry() {
+		
+		Player p1 = players.get(0);
+		Player p2 = players.get(1);
+		
+		Country c1 = game_play.getCountriesConqueredBy(p1).get(0);
+		
+		
+		int beforeSize = game_play.getCountriesConqueredBy(p1).size();
+		System.out.println(beforeSize);
+		game_play.unmapPlayerToCountry(p1, c1);
+		
+		int afterSize = game_play.getCountriesConqueredBy(p1).size();
+		System.out.println(afterSize);
+		boolean b = afterSize < beforeSize;
+		
+		assertTrue(b);
+	}
+
 }
