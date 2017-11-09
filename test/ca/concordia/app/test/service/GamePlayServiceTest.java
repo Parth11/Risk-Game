@@ -1,16 +1,15 @@
 package ca.concordia.app.test.service;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.net.URISyntaxException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
-
-import ca.concordia.app.model.Card;
 
 //import com.sun.media.jfxmedia.events.PlayerState;
 
@@ -201,5 +200,10 @@ public class GamePlayServiceTest {
 		assertEquals(infantryCards, game_play.getDeckMap().get(GameConstants.INFANTRY) - 1);
 		
 	}
-
+	
+	@Test
+	public void testCardReimbursement() {
+		assertTrue(game_play.cardReimbursement(players.get(0), 3, 0, 0));
+	}
+		
 }
