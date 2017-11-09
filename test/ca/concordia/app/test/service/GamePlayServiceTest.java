@@ -3,10 +3,13 @@ package ca.concordia.app.test.service;
 import static org.junit.Assert.*;
 
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import ca.concordia.app.model.Card;
 
 //import com.sun.media.jfxmedia.events.PlayerState;
 
@@ -122,6 +125,7 @@ public class GamePlayServiceTest {
 		assertTrue(game_play.subArmies(players.get(0), c, 1));
 	}
 
+	
 	@Test
 	public void testgetEligibleAttackingCountriesForPlayer(){
 		Player p = players.get(0);		
@@ -129,6 +133,18 @@ public class GamePlayServiceTest {
 		List<Country> countries = game_play.getEligibleAttackingCountriesForPlayer(p);
 		assertFalse(countries.contains(c));
 		
+	}
+	
+	@Test
+	public void testgetReinforcementArmyForPlayer() {
+		Player p = players.get(0);
+		int befoeSize = game_play.getReinforcementArmyForPlayer(p);
+
+		p.reimburseCards(3, 0, 0);
+			
+		int afterSize = game_play.getReinforcementArmyForPlayer(p);
+		
+		assertEquals(befoeSize+5, afterSize);
 	}
 
 }
