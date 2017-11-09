@@ -72,6 +72,7 @@ public class NewGamePhaseController implements ActionListener, MouseListener {
 	}
 
 	private void prepareToReinforce(){
+		ConsoleLoggerService.getInstance(null).write("->->"+current_player.getName()+"******REINFORCEMENT PHASE BEGIN*******\n");
 		current_player.setCurrentPhase(GamePhase.REINFORCEMENT);
 		GamePlayEvent gpe = new GamePlayEvent(EventType.GENERIC_UPDATE, new HashMap<>());
 		current_player.publishGamePlayEvent(gpe);
@@ -169,6 +170,8 @@ public class NewGamePhaseController implements ActionListener, MouseListener {
 				reinforcePlayer();
 			}
 			else{
+				ConsoleLoggerService.getInstance(null).write("->->"+current_player.getName()+"******REINFORCEMENT PHASE END*******\n");
+				ConsoleLoggerService.getInstance(null).write("->->"+current_player.getName()+"******ATTACK PHASE BEGIN*******\n");
 				initiateAttack();
 			}
 		}
@@ -248,6 +251,7 @@ public class NewGamePhaseController implements ActionListener, MouseListener {
 						game_play_view.dispose();
 						
 						new MainController();
+						System.exit(0);
 					}
 					
 				}
@@ -261,6 +265,8 @@ public class NewGamePhaseController implements ActionListener, MouseListener {
 		}	
 		else if(e.getSource().equals(attack_view.btn_submit)){
 			attack_view.dispose();
+			ConsoleLoggerService.getInstance(null).write("->->"+current_player.getName()+"******ATTACK PHASE END*******\n");
+			ConsoleLoggerService.getInstance(null).write("->->"+current_player.getName()+"******FORTIFICATION PHASE BEGIN*******\n");
 			fortifyPlayer();
 		}
 		else if(e.getSource().equals(fortification_view.btn_submit)){
@@ -302,11 +308,14 @@ public class NewGamePhaseController implements ActionListener, MouseListener {
 			card_exchange_view.dispose();
 			reinforcement_armies = game_play_service.getReinforcementArmyForPlayer(current_player);
 			current_player.setCurrentPhase(GamePhase.REINFORCEMENT);
-			reinforcePlayer();;
+			reinforcePlayer();
 		}
 	}
 
 	private void triggerNextPlayer() {
+		
+		ConsoleLoggerService.getInstance(null).write("->->"+current_player.getName()+"******FORTIFICATION PHASE END*******\n");
+
 		current_player.captureCards();
 		current_player = game_play_service.changeTurnToNextPlayer();
 		game_play_view.changeCurrentPlayer();

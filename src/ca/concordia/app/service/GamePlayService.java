@@ -300,9 +300,11 @@ public class GamePlayService {
 		
 
 		List<Continent> ruledContinents = getContinentsCounqueredBy(p);
-		for (Continent c : ruledContinents)
+		for (Continent c : ruledContinents){
+			ConsoleLoggerService.getInstance(null).write(p.getName()+" -> is the ruler of the continent ->"+c.getContinentName()+
+					" -> and gets additional armies -> "+c.getControlValue()+"\n");
 			countArmy += c.getControlValue();
-		
+		}
 		return countArmy;
 
 	}
