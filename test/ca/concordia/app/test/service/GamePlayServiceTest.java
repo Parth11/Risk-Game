@@ -121,9 +121,5 @@ public class GamePlayServiceTest {
 		Country c = game_play.getCountriesConqueredBy(players.get(0)).get(0);
 		assertTrue(game_play.subArmies(players.get(0), c, 1));
 	}
-	
-	@Test public void isSameCountries()
-	{
-		assertNotSame(game_play.getCountriesConqueredBy(players.get(0)).get(0).getCountryName(), game_play.getCountriesConqueredBy(players.get(1)).get(0).getCountryName());
-	}
+
 }
