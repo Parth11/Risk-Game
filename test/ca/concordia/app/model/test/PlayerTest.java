@@ -18,6 +18,11 @@ import ca.concordia.app.service.MapService;
 import ca.concordia.app.util.GameConstants;
 import ca.concordia.app.util.MapValidationException;
 
+/**
+ * This Class will test the Player class methods.
+ * @author Shivangi
+ *
+ */
 public class PlayerTest {
 
 	private GamePlayService game_play;
@@ -89,6 +94,9 @@ public class PlayerTest {
 		
 	}
 	
+	/**
+	 * This method tests the Fortification phase by checking the number of armies between two countries.
+	 */
 	@Test
 	public void testdoFortification() {
 		Player p = players.get(0);
@@ -104,7 +112,10 @@ public class PlayerTest {
 		
 		assertEquals(c1Armies, c1.getNoOfArmy()+movingArmies);		
 	}
-
+	
+	/**
+	 * This method check the Reimburse of Card
+	 */
 	@Test
 	public void testReimburseCards() {
 		
@@ -153,6 +164,9 @@ public class PlayerTest {
 		
 	}
 	
+	/**
+	 * This method will check the card capturing after attack 
+	 */
 	@Test
 	public void testCaptureCards() {
 		Country c1 = game_play.getCountriesConqueredBy(players.get(0)).get(0);

@@ -24,13 +24,27 @@ import ca.concordia.app.service.MapService;
 import ca.concordia.app.util.GameConstants;
 import ca.concordia.app.util.MapValidationException;
 
+/**
+ * This class will test all the methods described in the GamePlayService Class.
+ * 
+ */
+
 public class GamePlayServiceTest {
 
 	private GamePlayService game_play;
+	
 	private GameMap game_map;
+	
 	private MapService map_service;
+	
 	private List<Player> players;
 
+	/**
+	 * Initialize.
+	 *
+	 * @throws MapValidationException the map validation exception
+	 * @throws URISyntaxException the URI syntax exception
+	 */
 	@Before
 	public void init() throws MapValidationException, URISyntaxException {
 		map_service = MapService.getInstance();
@@ -42,11 +56,17 @@ public class GamePlayServiceTest {
 	}
 	// **********STARTUP PHASE STARTED****//
 
+	/**
+	 * Test  start up phase.
+	 */
 	@Test
 	public void testDoStartUp() {
 		assertEquals(game_play.getNumberOfPlayers(), 4);
 	}
 
+	/**
+	 * Test initial armies.
+	 */
 	@Test
 	public void testInitialArmies() {
 		assertEquals(0, players.get(0).getTotalArmies());
@@ -56,12 +76,18 @@ public class GamePlayServiceTest {
 
 	}
 
+	/**
+	 * Test data of player is getting  reset or not.
+	 */
 	@Test
 	public void testResetPlayerData() {
 		game_play.resetPlayersData();
 		assertEquals(30, game_play.getInitialArmy());
 	}
 
+	/**
+	 * Test allocate countries to players.
+	 */
 	@Test
 	public void testAllocateCountriesToPlayers() {
 		game_play.allocateCountriesToPlayers();
@@ -75,6 +101,9 @@ public class GamePlayServiceTest {
 
 	// ******** STARTUP PHASE ENDED *********/
 
+	/**
+	 * Test is not connected player countries.
+	 */
 	@Test
 	public void testIsNotConnectedPlayerCountries() {
 		Country c1 = game_play.getCountriesConqueredBy(players.get(0)).get(0);
@@ -82,6 +111,9 @@ public class GamePlayServiceTest {
 		assertFalse(game_play.isConnected(c1, c2, players.get(0)));
 	}
 
+	/**
+	 * Test is connected player countries.
+	 */
 	@Test
 	public void testIsConnectedPlayerCountries() {
 		Country c1 = game_play.getCountriesConqueredBy(players.get(0)).get(0);
@@ -89,6 +121,9 @@ public class GamePlayServiceTest {
 		assertTrue(game_play.isConnected(c1, c3, players.get(0)));
 	}
 
+	/**
+	 * Test fortification phase move army.
+	 */
 	@Test
 	public void testFortificationPhaseMoveArmy() {
 		Country c1 = game_play.getCountriesConqueredBy(players.get(0)).get(0);
@@ -101,12 +136,18 @@ public class GamePlayServiceTest {
 		assertEquals(c2.getNoOfArmy(), n2 + 1);
 	}
 
+	/**
+	 * Test reinforcement phase calculate armies.
+	 */
 	@Test
 	public void testReinforcementPhaseCalculateArmies() {
 		int count = game_play.getReinforcementArmyForPlayer(players.get(0));
 		assertEquals(30, count);
 	}
 
+	/**
+	 * Test can war.
+	 */
 	@Test
 	// assertTrue is failing...
 	public void testCanWar() {
@@ -117,18 +158,27 @@ public class GamePlayServiceTest {
 
 	}
 
+	/**
+	 * Test add armies.
+	 */
 	@Test
 	public void testAddArmies() {
 		Country c = game_play.getCountriesConqueredBy(players.get(0)).get(0);
 		assertTrue(game_play.addArmies(players.get(0), c, 2));
 	}
 
+	/**
+	 * Test sub armies.
+	 */
 	@Test
 	public void testSubArmies() {
 		Country c = game_play.getCountriesConqueredBy(players.get(0)).get(0);
 		assertTrue(game_play.subArmies(players.get(0), c, 1));
 	}
 
+	/**
+	 * Test get eligible attacking countries for player.
+	 */
 	@Test
 	public void testGetEligibleAttackingCountriesForPlayer() {
 		Player p = players.get(0);
@@ -138,6 +188,9 @@ public class GamePlayServiceTest {
 
 	}
 
+	/**
+	 * Test get reinforcement army for player.
+	 */
 	@Test
 	public void testGetReinforcementArmyForPlayer() {
 		Player p = players.get(0);
@@ -150,6 +203,9 @@ public class GamePlayServiceTest {
 		assertEquals(befoeSize + 5, afterSize);
 	}
 
+	/**
+	 * Test generate deck.
+	 */
 	//********* CARDS TESTCASES**********//
 	@Test
 	public void testGenerateDeck() {
@@ -165,6 +221,9 @@ public class GamePlayServiceTest {
 		assertEquals(deckSize, finalCards);
 	}
 
+	/**
+	 * Test remove cards  from deck.
+	 */
 	@Test
 	public void testRemoveCardsfromDeck() {
 		game_play.generateCard();
@@ -184,6 +243,9 @@ public class GamePlayServiceTest {
 
 	}
 
+	/**
+	 * Test add cards to deck.
+	 */
 	@Test
 	public void testAddCardsToDeck() {
 		game_play.generateCard();
@@ -203,6 +265,9 @@ public class GamePlayServiceTest {
 
 	}
 
+	/**
+	 * Test card reimbursement.
+	 */
 	@Test
 	public void testCardReimbursement() {
 
@@ -219,6 +284,9 @@ public class GamePlayServiceTest {
 
 	}
 
+	/**
+	 * Test set new country ruler.
+	 */
 	@Test
 	public void testSetNewCountryRuler() {
 		Player p = players.get(0);
@@ -235,6 +303,9 @@ public class GamePlayServiceTest {
 		assertFalse(b);
 	}
 	
+	/**
+	 * Test move army from to.
+	 */
 	@Test
 	public void testMoveArmyFromTo() {
 		Player p = players.get(0);

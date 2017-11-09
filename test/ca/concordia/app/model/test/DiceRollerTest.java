@@ -9,6 +9,11 @@ import org.junit.Test;
 
 import ca.concordia.app.model.DiceRoller;
 
+/**
+ * This class will test the DiceRoller class method
+ * @author Shivangi
+ *
+ */
 public class DiceRollerTest {
 	
 	private DiceRoller dice_roller;

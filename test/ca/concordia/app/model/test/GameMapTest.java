@@ -14,15 +14,31 @@ import ca.concordia.app.model.Player;
 import ca.concordia.app.service.GamePlayService;
 import ca.concordia.app.service.MapService;
 import ca.concordia.app.util.MapValidationException;
+// TODO: Auto-generated Javadoc
 
+/**
+ * The Class GameMapTest will check the methods of the GameMap Class.
+ *
+ * @author Shivangi
+ */
 public class GameMapTest {
 
 	private GamePlayService game_play;
+	
 	private GameMap game_map;
+	
 	private MapService map_service;
+	
 	private List<Player> players;
+	
 	private List<Country> country;
 	
+	/**
+	 * Initialize
+	 *
+	 * @throws MapValidationException the map validation exception
+	 * @throws URISyntaxException the URI syntax exception
+	 */
 	@Before
 	public void init() throws MapValidationException, URISyntaxException {
 		map_service = MapService.getInstance();
@@ -35,6 +51,9 @@ public class GameMapTest {
 
 	}
 	
+	/**
+	 * Test get country neighbours as CSV.
+	 */
 	@Test
 	public void testGetCountryNeighboursAsCSV() {
 		Country c=game_map.getCountryByName("1");
@@ -42,6 +61,9 @@ public class GameMapTest {
 	   assertEquals("2,12",s);
 	}
 	
+	/**
+	 * Testget countries by continent.
+	 */
 	@Test
 	public void testgetCountriesByContinent() {
 		country = game_map.getCountriesByContinent("Quebec");
