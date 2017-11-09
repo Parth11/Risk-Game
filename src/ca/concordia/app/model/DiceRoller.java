@@ -14,14 +14,10 @@ import java.util.List;
 
 public class DiceRoller {
 
-	/**
-	 * number of dice
-	 */
+	
 	int no_of_dice;
 	
-	/**
-	 * result of the dice
-	 */
+	
 	List<Integer> result;
 	
 	/**
@@ -44,6 +40,10 @@ public class DiceRoller {
 	}
 
 
+	/**
+	 * 
+	 * @return the result as a List
+	 */
 	public List<Integer> rollAll() {
 		for(int i=1; i<=no_of_dice; i++)
 			result.add(roll(i));
@@ -52,6 +52,9 @@ public class DiceRoller {
 		return result;
 	}
 	
+	/**
+	 * @return the dice value in String format
+	 */
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
