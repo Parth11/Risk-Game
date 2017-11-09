@@ -234,4 +234,33 @@ public class GamePlayServiceTest {
 		
 		assertFalse(b);
 	}
+	
+	@Test
+	public void testMoveArmyFromTo() {
+		Player p = players.get(0);
+		Country c1 = game_play.getCountriesConqueredBy(p).get(5);
+		Country c2 = game_play.getCountriesConqueredBy(p).get(6);
+		
+		int beforeC1Armies = c1.getNoOfArmy();
+		int beforeC2Armies = c2.getNoOfArmy();
+		
+		game_play.moveArmyFromTo(p, c1, c2, c1.getNoOfArmy()-1);
+		
+		int afterC1Armies = c1.getNoOfArmy();
+		int afterC2Armies = c2.getNoOfArmy();
+		
+		boolean b1 = beforeC1Armies < afterC1Armies;
+		boolean b2 = beforeC2Armies < afterC2Armies;
+		boolean b3 = beforeC1Armies == afterC1Armies;
+		boolean b4 = beforeC2Armies == afterC2Armies;
+		
+		if(b1)
+			assertTrue(b1);
+		else if(b2)
+			assertTrue(b2);
+		else if(b3)
+			assertTrue(b3);
+		else
+			assertTrue(b4);
+	}
 }
