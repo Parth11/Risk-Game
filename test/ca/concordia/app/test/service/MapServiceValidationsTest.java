@@ -12,17 +12,18 @@ import ca.concordia.app.service.MapService;
 import ca.concordia.app.util.MapValidationException;
 
 /**
- * @author harvi
+ * This class will test and validate the Map Service.
  *
+ * @author harvi
  */
 public class MapServiceValidationsTest extends MapService {
 
 	/**
 	 * Test method for
 	 * {@link ca.concordia.app.service.MapService#loadMap(java.lang.String)}.
-	 * 
-	 * @throws URISyntaxException
-	 * @throws MapValidationException
+	 *
+	 * @throws MapValidationException the map validation exception
+	 * @throws URISyntaxException the URI syntax exception
 	 */
 
 	@Test(expected = MapValidationException.class)
@@ -37,6 +38,12 @@ public class MapServiceValidationsTest extends MapService {
 
 	}
 
+	/**
+	 * Test connected map.
+	 *
+	 * @throws MapValidationException the map validation exception
+	 * @throws URISyntaxException the URI syntax exception
+	 */
 	@Test
 	public void testConnectedMap() throws MapValidationException, URISyntaxException {
 
@@ -44,6 +51,12 @@ public class MapServiceValidationsTest extends MapService {
 
 	}
 
+	/**
+	 * Test connected map 1.
+	 *
+	 * @throws MapValidationException the map validation exception
+	 * @throws URISyntaxException the URI syntax exception
+	 */
 	@Test(expected = MapValidationException.class)
 	public void testConnectedMap1() throws MapValidationException, URISyntaxException {
 		try {
@@ -55,6 +68,12 @@ public class MapServiceValidationsTest extends MapService {
 
 	}
 
+	/**
+	 * Test connected map 2.
+	 *
+	 * @throws MapValidationException the map validation exception
+	 * @throws URISyntaxException the URI syntax exception
+	 */
 	@Test
 	public void testConnectedMap2() throws MapValidationException, URISyntaxException {
 
@@ -62,6 +81,12 @@ public class MapServiceValidationsTest extends MapService {
 
 	}
 
+	/**
+	 * Test connected map 3.
+	 *
+	 * @throws MapValidationException the map validation exception
+	 * @throws URISyntaxException the URI syntax exception
+	 */
 	@Test(expected = MapValidationException.class)
 	public void testConnectedMap3() throws MapValidationException, URISyntaxException {
 		try {

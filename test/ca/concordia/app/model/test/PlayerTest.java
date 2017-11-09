@@ -18,6 +18,11 @@ import ca.concordia.app.service.MapService;
 import ca.concordia.app.util.GameConstants;
 import ca.concordia.app.util.MapValidationException;
 
+/**
+ * This Class will test the Player class methods.
+ * @author Shivangi
+ *
+ */
 public class PlayerTest {
 
 	private GamePlayService game_play;
@@ -53,11 +58,16 @@ public class PlayerTest {
 	
 	/**
 	 * Test case to check whether attack is happening or not.
+	 * and also it will check that after attacking it was valid move or not.
 	 */
 	@Test
 	public void testDoAttack() {
 		Country c1 = game_play.getCountriesConqueredBy(players.get(0)).get(0);
 		Country c2 = game_play.getCountriesConqueredBy(players.get(1)).get(0);
+		
+		c1.setNoOfArmy(5);
+		c2.setNoOfArmy(1);
+		String beforeC2Ruler = c2.getRuler().getName();
 		
 		List<Integer> attack = new ArrayList<>();
 		attack.add(6);
@@ -68,6 +78,13 @@ public class PlayerTest {
 		defense.add(2);
 		
 		players.get(0).doAttack(c1, c2, attack, defense);
+		System.out.println(c1.getNoOfArmy());
+		System.out.println(c2.getNoOfArmy());
+		
+		String afterC2Ruler = c2.getRuler().getName();
+		
+		boolean b = afterC2Ruler != beforeC2Ruler;
+		assertTrue(b); 
 		
 		assertTrue(players.get(0).card_flag);
 		
@@ -89,6 +106,9 @@ public class PlayerTest {
 		
 	}
 	
+	/**
+	 * This method tests the Fortification phase by checking the number of armies between two countries.
+	 */
 	@Test
 	public void testdoFortification() {
 		Player p = players.get(0);
@@ -104,7 +124,10 @@ public class PlayerTest {
 		
 		assertEquals(c1Armies, c1.getNoOfArmy()+movingArmies);		
 	}
-
+	
+	/**
+	 * This method check the Reimburse of Card
+	 */
 	@Test
 	public void testReimburseCards() {
 		
@@ -153,6 +176,9 @@ public class PlayerTest {
 		
 	}
 	
+	/**
+	 * This method will check the card capturing after attack 
+	 */
 	@Test
 	public void testCaptureCards() {
 		Country c1 = game_play.getCountriesConqueredBy(players.get(0)).get(0);
