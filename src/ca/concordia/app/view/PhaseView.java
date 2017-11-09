@@ -44,7 +44,7 @@ public class PhaseView extends JDialog{
 	public JTextField armies_moved;
 	public JPanel domination_panel;
 	private Color[] colors = {Color.CYAN,Color.GRAY,Color.RED,Color.YELLOW,Color.GREEN,Color.ORANGE};
-	private JTextField armies_exchanged;
+	public JTextField armies_exchanged;
 
 	/**
 	 * Create the application.

@@ -787,4 +787,7 @@ public class GamePlayService {
 		return defenderCountries;
 	}
 	
+	public boolean checkGameStatus(){
+		return false;
+	}
 }

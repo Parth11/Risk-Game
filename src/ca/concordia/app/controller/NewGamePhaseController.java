@@ -70,13 +70,15 @@ public class NewGamePhaseController implements ActionListener, MouseListener {
 	}
 
 	private void prepareToReinforce(){
+		current_player.setCurrentPhase(GamePhase.REINFORCEMENT);
+		GamePlayEvent gpe = new GamePlayEvent(EventType.GENERIC_UPDATE, new HashMap<>());
+		current_player.publishGamePlayEvent(gpe);
 		if(game_play_service.showCardExchangeView(current_player)){
 			card_exchange_view = new CardExchangeView(current_player);
 			card_exchange_view.setActionListener(this);
 		}
 		else{
 			reinforcement_armies = game_play_service.getReinforcementArmyForPlayer(current_player);
-			current_player.setCurrentPhase(GamePhase.REINFORCEMENT);
 			reinforcePlayer();
 		}
 	}
@@ -270,8 +272,9 @@ public class NewGamePhaseController implements ActionListener, MouseListener {
 			current_player.reimburseCards(a, i, c);
 			JOptionPane.showMessageDialog(card_exchange_view, "Cards Reimbursed!");
 			card_exchange_view.dispose();
-			if(current_player.getCards().size()>=5){
+			if(game_play_service.showCardExchangeView(current_player)){
 				card_exchange_view = new CardExchangeView(current_player);
+				card_exchange_view.setActionListener(this);
 			}
 			else{
 				reinforcement_armies = game_play_service.getReinforcementArmyForPlayer(current_player);

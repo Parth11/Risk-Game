@@ -115,7 +115,7 @@ public class PhaseViewController implements Observer{
 		case CARD_WIN:
 			break;
 		case CARD_EXCHANGE:
-			phase_view.armies_moved.setText(String.valueOf(eventPayload.get("armies").toString()));
+			phase_view.armies_exchanged.setText(String.valueOf(eventPayload.get("armies").toString()));
 			break;
 		default:
 			break;

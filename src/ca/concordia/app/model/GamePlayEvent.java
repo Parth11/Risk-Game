@@ -22,7 +22,8 @@ public class GamePlayEvent {
 		ATTACK_CAPTURE,
 		FORTIFY_COUNTRY,
 		CARD_WIN,
-		CARD_EXCHANGE;
+		CARD_EXCHANGE,
+		GENERIC_UPDATE;
 	}
 	
 	public GamePlayEvent(EventType eventType, HashMap<String,Object> eventPayload){

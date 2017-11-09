@@ -36,10 +36,10 @@ public class CardExchangeView extends JDialog implements IView {
 				a++;
 				break;
 			case GameConstants.CAVALRY:
-				i++;
+				c++;
 				break;
 			case GameConstants.INFANTRY:
-				c++;
+				i++;
 				break;
 			}
 		}
