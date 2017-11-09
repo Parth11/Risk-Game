@@ -53,20 +53,30 @@ public class NewGamePhaseController implements ActionListener, MouseListener {
 	
 	CardExchangeView card_exchange_view;
 	
+	
+	/**
+	 * Opens the game logger window, the game play window and the game play service window.
+	 * @param numPlayers
+	 */
 	public NewGamePhaseController(Integer numPlayers) {
 		game_logger_view = new GameLoggerView();
 		game_play_service = GamePlayService.getInstance();
 		init(numPlayers);
 	}
 	
-
+	/**
+	 * Initiates the game logger view and calls the <code>prepareToReinforce</code> method
+	 * @param numPlayers
+	 */
 	private void init(Integer numPlayers) {
 		ConsoleLoggerService.getInstance(game_logger_view.console);
 		game_play_service.doStartupPhase(numPlayers);
 		current_player = game_play_service.getCurrentTurnPlayer();
 		prepareToReinforce();
 	}
-
+	/**
+	 * It Sets the Game phase to REINFORCEMENT and shows the card exchange view
+	 */
 	private void prepareToReinforce(){
 		ConsoleLoggerService.getInstance(null).write("->->"+current_player.getName()+"******REINFORCEMENT PHASE BEGIN*******\n");
 		current_player.setCurrentPhase(GamePhase.REINFORCEMENT);
@@ -81,7 +91,10 @@ public class NewGamePhaseController implements ActionListener, MouseListener {
 			reinforcePlayer();
 		}
 	}
-
+	
+	/**
+	 * This method initiates the reinforcement view which will help the user to put the armies on the desired country.
+	 */
 	private void reinforcePlayer() {
 
 		current_player.setTotalArmies(reinforcement_armies);
@@ -96,6 +109,9 @@ public class NewGamePhaseController implements ActionListener, MouseListener {
 		reinforcement_view.setActionListener(this);
 	}
 	
+	/**
+	 * initiates the attack view. Sets the game phase to Attack
+	 */
 	private void initiateAttack(){
 		current_player.setCurrentPhase(GamePhase.ATTACK);
 		attack_view = new AttackInputView(current_player);
@@ -103,55 +119,65 @@ public class NewGamePhaseController implements ActionListener, MouseListener {
 		attack_view.setVisible(true);
 	}
 	
+	/**
+	 * Sets the game phase to Fortification.
+	 */
 	private void fortifyPlayer(){
 		current_player.setCurrentPhase(GamePhase.FORTIFICATION);
 		fortification_view = new FortificationInputView(current_player);
 		fortification_view.setActionListener(this);
 	}
 	
-	/* (non-Javadoc)
-	 * @see java.awt.event.MouseListener#mouseClicked(java.awt.event.MouseEvent)
+	/**
+	 * mouse clicked event
+	 * @param e
 	 */
-
 	@Override
 	public void mouseClicked(MouseEvent e) {
 
 	}
 
-	/* (non-Javadoc)
-	 * @see java.awt.event.MouseListener#mousePressed(java.awt.event.MouseEvent)
+	/**
+	 * mouse pressed event
+	 * @param e
 	 */
 	@Override
 	public void mousePressed(MouseEvent e) {
 
 	}
 
-	/* (non-Javadoc)
-	 * @see java.awt.event.MouseListener#mouseReleased(java.awt.event.MouseEvent)
+	
+	/**
+	 * mouse released event
+	 * @param e
 	 */
 	@Override
 	public void mouseReleased(MouseEvent e) {
 
 	}
 
-	/* (non-Javadoc)
-	 * @see java.awt.event.MouseListener#mouseEntered(java.awt.event.MouseEvent)
+	/**
+	 * mouse entered event
+	 * @param e
 	 */
 	@Override
 	public void mouseEntered(MouseEvent e) {
 
 	}
 
-	/* (non-Javadoc)
-	 * @see java.awt.event.MouseListener#mouseExited(java.awt.event.MouseEvent)
+	/**
+	 * mouse exited event
+	 * @param e
 	 */
 	@Override
 	public void mouseExited(MouseEvent e) {
 
 	}
 
-	/* (non-Javadoc)
-	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	
+	/**
+	 * Gets the country on which you want to put armies on, attack initiation, and fortification initiation.
+	 * @param e
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {

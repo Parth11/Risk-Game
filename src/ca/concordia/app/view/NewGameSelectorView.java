@@ -41,7 +41,7 @@ public class NewGameSelectorView extends JFrame implements IView{
 	public int final_players;
 	
 	/**
-	 * Create the application.
+	 * Create the view for selecting New Game
 	 */
 	public NewGameSelectorView() {
 		setTitle("Start Game");
@@ -84,10 +84,6 @@ public class NewGameSelectorView extends JFrame implements IView{
 		setBounds(100, 100, 881, 536);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
-
-	/* (non-Javadoc)
-	 * @see ca.concordia.app.view.IView#setActionListener(java.awt.event.ActionListener)
-	 */
 	
 	/**
 	 * calls the setActionlistener

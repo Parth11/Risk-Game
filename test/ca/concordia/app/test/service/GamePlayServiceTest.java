@@ -121,10 +121,14 @@ public class GamePlayServiceTest {
 		Country c = game_play.getCountriesConqueredBy(players.get(0)).get(0);
 		assertTrue(game_play.subArmies(players.get(0), c, 1));
 	}
-	
+
 	@Test
-	public void testSetNewCountryRuler() {
-		Country c = game_play.getCountriesConqueredBy(players.get(0)).get(0);
-//		Player ruler= 
+	public void testgetEligibleAttackingCountriesForPlayer(){
+		Player p = players.get(0);		
+		Country c = game_play.getCountriesConqueredBy(p).get(0);
+		List<Country> countries = game_play.getEligibleAttackingCountriesForPlayer(p);
+		assertFalse(countries.contains(c));
+		
 	}
+
 }

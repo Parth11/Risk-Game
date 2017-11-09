@@ -26,14 +26,15 @@ import ca.concordia.app.util.ContinentColourMap;
 
 
 /**
- * The Class MapEditorView.
- * 
+ * The Class MapEditorView generates the Map Editor view UI.
+ *
  * @author Harvi
  */
 public class MapEditorView extends JFrame implements IView {
 
 	private static final long serialVersionUID = 1L;
 
+	/** The window title. */
 	private static String WINDOW_TITLE = "Create Map";
 
 	/** The country name value. */
@@ -60,6 +61,7 @@ public class MapEditorView extends JFrame implements IView {
 	/** The next button. */
 	public JButton next_button;
 
+	/** The scroll pane. */
 	private JScrollPane scroll_pane;
 
 	/** The open dialog. */
@@ -139,8 +141,9 @@ public class MapEditorView extends JFrame implements IView {
 	}
 
 	/**
-	 * Calls the setActionListener java method
-	 * @param actionListener
+	 * Calls the setActionListener java method.
+	 *
+	 * @param actionListener the new action listener
 	 */
 	@Override
 	public void setActionListener(ActionListener actionListener) {

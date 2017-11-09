@@ -19,27 +19,58 @@ import ca.concordia.app.model.DiceRoller;
 import ca.concordia.app.model.Player;
 import ca.concordia.app.service.GamePlayService;
 
+/**
+ * The Class AttackInputView.
+ */
 public class AttackInputView extends JDialog implements IView{
 
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1856165156719508723L;
+	
+	/** The attack country. */
 	public JComboBox<Country> attack_country;
+	
+	/** The defence country. */
 	public JComboBox<Country> defence_country;
+	
+	/** The attack dice 1. */
 	public JTextField attack_dice1;
+	
+	/** The attack dice 2. */
 	public JTextField attack_dice2;
+	
+	/** The attack dice 3. */
 	public JTextField attack_dice3;
+	
+	/** The defence dice 1. */
 	public JTextField defence_dice1;
+	
+	/** The defence dice 2. */
 	public JTextField defence_dice2;
+	
+	/** The btn submit. */
 	public JButton btn_submit;
+	
+	/** The btn battle. */
 	public JButton btn_battle;
+	
+	/** The num defences. */
 	public JComboBox<Integer> num_defences;
+	
+	/** The num attacks. */
 	public JComboBox<Integer> num_attacks;
+	
+	/** The attack dice. */
 	public DiceRoller attack_dice;
+	
+	/** The defence dice. */
 	public DiceRoller defence_dice;
 	
+	/**
+	 * Instantiates a new attack input view.
+	 *
+	 * @param p the p
+	 */
 	public AttackInputView(Player p) {
 		setTitle("Attack Input View");
 		setBounds(410, 600, 450, 465);
@@ -131,6 +162,11 @@ public class AttackInputView extends JDialog implements IView{
 		renderAttackViewForPlayer(p);
 	}
 	
+	/**
+	 * Render attack view for player.
+	 *
+	 * @param p the p
+	 */
 	public void renderAttackViewForPlayer(Player p){
 		
 		if (p.canAttack()) {
@@ -170,19 +206,36 @@ public class AttackInputView extends JDialog implements IView{
 		}
 	}
 
+
 	@Override
 	public void setActionListener(ActionListener actionListener) {
 		btn_battle.addActionListener(actionListener);
 		btn_submit.addActionListener(actionListener);
 	}
 
+
 	@Override
 	public void setMouseListener(MouseListener mouseListener) {
 		
 	}
 	
+	/**
+	 * The listener interface for receiving selectItem events.
+	 * The class that is interested in processing a selectItem
+	 * event implements this interface, and the object created
+	 * with that class is registered with a component using the
+	 * component's <code>addSelectItemListener<code> method. When
+	 * the selectItem event occurs, that object's appropriate
+	 * method is invoked.
+	 *
+	 * @see SelectItemEvent
+	 */
 	class SelectItemListener implements ItemListener{
 
+		/**
+		 * This method is used to manage the UI events.
+		 * @param ItemEvent e
+		 */
 		@Override
 		public void itemStateChanged(ItemEvent e) {
 			if(e.getSource().equals(attack_country) && e.getStateChange() == ItemEvent.SELECTED){

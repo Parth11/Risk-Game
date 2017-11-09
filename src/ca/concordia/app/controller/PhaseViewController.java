@@ -17,6 +17,7 @@ import ca.concordia.app.util.GameConstants;
 import ca.concordia.app.view.PhaseView;
 
 /**
+ * Shows a log of which phase is being played by which player.
  * @author harvi
  *
  */
@@ -35,6 +36,10 @@ public class PhaseViewController implements Observer{
 		
 	}
 	
+	/**
+	 * Used for applying Singleton pattern
+	 * @return instance
+	 */
 	public static PhaseViewController getInstance(){
 		if(instance==null){
 			instance = new PhaseViewController();
@@ -42,6 +47,11 @@ public class PhaseViewController implements Observer{
 		return instance;
 	}
 	
+	/**
+	 * An in-build java method of Observer class which publishes event whenever the update is notified
+	 * @param o
+	 * @param arg 
+	 */
 	@Override
 	public void update(Observable o, Object arg) {
 

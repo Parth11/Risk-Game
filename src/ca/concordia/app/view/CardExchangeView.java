@@ -13,19 +13,35 @@ import ca.concordia.app.util.GameConstants;
 import javax.swing.JComboBox;
 import javax.swing.JButton;
 
+/**
+ * The Class CardExchangeView contains detail of the card exchange view.
+ */
 public class CardExchangeView extends JDialog implements IView {
 
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = -2050079622333794747L;
+	
+	/** The btn skip. */
 	public JButton btn_skip;
+	
+	/** The btn exchange. */
 	public JButton btn_exchange;
+	
+	/** The num artillery. */
 	public JComboBox<Integer> num_artillery;
+	
+	/** The num cavalry. */
 	public JComboBox<Integer> num_cavalry;
+	
+	/** The num infantry. */
 	public JComboBox<Integer> num_infantry;
 
 	
+	/**
+	 * Instantiates a new card exchange view.
+	 *
+	 * @param player the player
+	 */
 	public CardExchangeView(Player player) {
 		
 		int a=0,i=0,c=0;
@@ -100,12 +116,20 @@ public class CardExchangeView extends JDialog implements IView {
 		setVisible(true);
 	}
 
+	/**
+	 * Adds the action listener.
+	 * @param ActionListener actionListener
+	 */
 	@Override
 	public void setActionListener(ActionListener actionListener) {
 		btn_exchange.addActionListener(actionListener);
 		btn_skip.addActionListener(actionListener);
 	}
-
+	
+	/**
+	 * sets Mouse listener.
+	 * @param MouseListener mouseListener
+	 */
 	@Override
 	public void setMouseListener(MouseListener mouseListener) {
 

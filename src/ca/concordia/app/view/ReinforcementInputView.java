@@ -12,23 +12,29 @@ import javax.swing.JLabel;
 
 import ca.concordia.app.model.Country;
 
+/**
+ * The Class ReinforcementInputView.
+ */
 public class ReinforcementInputView extends JDialog implements IView{
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -3027080226694856782L;
+	
+	/** The country list. */
 	public JComboBox<Country> country_list;
+	
+	/** The armies list. */
 	public JComboBox<Integer> armies_list;
+	
+	/** The btn submit. */
 	public JButton btn_submit;
 
 	/**
 	 * Launch the application.
+	 *
+	 * @param countries the countries
+	 * @param armies the armies
 	 */
 
-	/**
-	 * Create the application.
-	 */
 	public ReinforcementInputView(List<Country> countries, Integer armies) {
 		setTitle("Reinforcement Input View");
 		this.setBounds(410,600, 450, 221);
@@ -66,11 +72,17 @@ public class ReinforcementInputView extends JDialog implements IView{
 		setVisible(true);
 	}
 
+	/* (non-Javadoc)
+	 * @see ca.concordia.app.view.IView#setActionListener(java.awt.event.ActionListener)
+	 */
 	@Override
 	public void setActionListener(ActionListener actionListener) {
 		btn_submit.addActionListener(actionListener);
 	}
 
+	/* (non-Javadoc)
+	 * @see ca.concordia.app.view.IView#setMouseListener(java.awt.event.MouseListener)
+	 */
 	@Override
 	public void setMouseListener(MouseListener mouseListener) {
 		

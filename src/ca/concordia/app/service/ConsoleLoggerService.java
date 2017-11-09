@@ -11,7 +11,7 @@ import ca.concordia.app.model.GamePlayEvent;
 import ca.concordia.app.model.Player;
 
 /**
- * The Class ConsoleLoggerService.
+ * The Class ConsoleLoggerService. Logs the events of the Game
  * @author Hardik
  */
 public class ConsoleLoggerService implements Observer{
@@ -39,7 +39,7 @@ public class ConsoleLoggerService implements Observer{
 	}
 
 	/**
-	 * Write.
+	 * Writes on the JTestArea
 	 *
 	 * @param s the s
 	 */
@@ -49,7 +49,9 @@ public class ConsoleLoggerService implements Observer{
 			console.repaint();
 		}
 	}
-
+	/**
+	 * in-build observer method of the Observer class. Update based on the event changed
+	 */
 	@Override
 	public void update(Observable o, Object arg) {
 		Player p =  (Player) o;

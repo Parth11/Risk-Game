@@ -12,18 +12,17 @@ import ca.concordia.app.service.GamePlayService;
 import ca.concordia.app.util.GameConstants;
 import ca.concordia.app.util.GamePhase;
 
-// TODO: Auto-generated Javadoc
+
 /**
- * The Class Player.
+ * The Class Player which does Attack Reinforcement and Fortification. 
+ * It will the Observable as it will notify based on the atate of the player
  *
  * @author Parth Nayak
  */
 public class Player extends Observable {
 
-	/** The name. */
-	public String name;
 	
-	/** The total armies. */
+	public String name;
 	public int total_armies;
 	public int reinforce_army_for_card =0;
 	public String color;
@@ -34,6 +33,10 @@ public class Player extends Observable {
 	public boolean country_captured = false;
 	public int reimburse_turn=1;
 
+	/**
+	 * Parameterized constructor Which sets the attributes of the player.
+	 * @param name
+	 */
 	public Player(String name) {
 		this.name = name;
 		this.color = null;
@@ -42,20 +45,32 @@ public class Player extends Observable {
 		this.addObserver(ConsoleLoggerService.getInstance(null));
 	}
 	
+	/**
+	 * Returns the reinforced army cards
+	 * @return reinforce_army_for_card
+	 */
 	public int getReinforceArmyforCard() {
 		return reinforce_army_for_card;
 	}
 
+	/**
+	 * Sets the reinforce card
+	 * @param reinforceArmyforCard
+	 */
 	public void setReinforceArmyforCard(int reinforceArmyforCard) {
 		this.reinforce_army_for_card = reinforceArmyforCard;
 	}
-
+	
+	/**
+	 * returns the name of the player
+	 * @return name
+	 */
 	public String getName() {
 		return name;
 	}
 	
 	/**
-	 * Sets the name.
+	 * Sets the name of the player.
 	 *
 	 * @param name the new name
 	 */
@@ -117,14 +132,28 @@ public class Player extends Observable {
 		this.color = color;
 	}
 	
+	/**
+	 * Returns the player cards that he has won.
+	 * @return cards_list
+	 */
 	public ArrayList<Card> getCards() {
 		return cards_list;
 	}
 	
+	/**
+	 * Adds the card in the list 
+	 * @param card
+	 */
 	public void addCard(Card card) {
 		cards_list.add(card);
 	}
 	
+	
+	/**
+	 * Does the Reinforcement for the player
+	 * @param country
+	 * @param armiesWishToReinforce
+	 */
 	public void doReinforcement(Country country, int armiesWishToReinforce) {
 
 		country.addArmies(armiesWishToReinforce);
@@ -137,7 +166,13 @@ public class Player extends Observable {
 		
 	}
 	
-	
+	/**
+	 * Initiates Battle between two players with their selected country
+	 * @param attackerCountry
+	 * @param defenderCountry
+	 * @param attackResult
+	 * @param defenceResult
+	 */
 	public void doAttack(Country attackerCountry, Country defenderCountry, List<Integer> attackResult,
 			List<Integer> defenceResult) {
 
@@ -195,6 +230,12 @@ public class Player extends Observable {
 
 	}
 	
+	/**
+	 * Does the Fortification for the Player.
+	 * @param fromCountry
+	 * @param toCountry
+	 * @param armies
+	 */
 	public void doFortification(Country fromCountry, Country toCountry, Integer armies) {
 
 		GamePlayService.getInstance().moveArmyFromTo(this, fromCountry, toCountry, armies);
@@ -206,32 +247,55 @@ public class Player extends Observable {
 		GamePlayEvent gpe = new GamePlayEvent(EventType.FORTIFY_COUNTRY, eventPayload);
 		this.publishGamePlayEvent(gpe);
 	}
-	
+	/**
+	 * Sets the current phase of the player.
+	 * @param currentPhase
+	 */
 	public void setCurrentPhase(GamePhase currentPhase){
 		this.game_phase = currentPhase;
 	}
 	
+	/**
+	 * Publishes the event and calls the <code>notifyObservers</> method
+	 * @param gamePlayEvent
+	 */
 	public void publishGamePlayEvent(GamePlayEvent gamePlayEvent){
 		this.event_log.add(gamePlayEvent);
 		this.setChanged();
 		this.notifyObservers();
 	}
 	
+	/**
+	 * return name in String format
+	 */
 	@Override
 	public String toString() {
 		return this.name;
 	}
 	
+	/**
+	 *@return true or False 
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		return this.name.equals(((Player)obj).getName());
 	}
 	
+	/**
+	 * Checks the eligibility for the attacking country 
+	 * @return
+	 */
 	public boolean canAttack(){
 		boolean result = GamePlayService.getInstance().getEligibleAttackingCountriesForPlayer(this).size()>0? true: false;
 		return result;
 	}
 	
+	/**
+	 * Reimbursed Cards for getting army
+	 * @param a
+	 * @param i
+	 * @param c
+	 */
 	public void reimburseCards(int a, int i, int c) {
 		
 		for(int j=0;j<a;j++){
@@ -260,6 +324,9 @@ public class Player extends Observable {
 		this.publishGamePlayEvent(gpe);
 	}
 	
+	/**
+	 * Gives cards to the player if he win the round
+	 */
 	public void captureCards(){
 		if(card_flag) {
 			//for(int i=0;i<5;i++){

@@ -6,11 +6,16 @@ package ca.concordia.app.model;
 import java.util.HashMap;
 
 /**
+ * Events which helps trigger the Observer Pattern
  * @author harvi
  *
  */
 public class GamePlayEvent {
 
+	/**
+	 * an enum for the different event types
+	 *
+	 */
 	public enum EventType{
 		START_ARMY_ALLOCATION,
 		START_COUNTRY,
@@ -27,6 +32,11 @@ public class GamePlayEvent {
 		THE_END;
 	}
 	
+	/**
+	 * Parameterized constructor
+	 * @param eventType
+	 * @param eventPayload
+	 */
 	public GamePlayEvent(EventType eventType, HashMap<String,Object> eventPayload){
 		this.event_type = eventType;
 		this.event_payload = eventPayload;
@@ -36,18 +46,34 @@ public class GamePlayEvent {
 	
 	private HashMap<String,Object> event_payload;
 
+	/**
+	 * 
+	 * @return the event type
+	 */
 	public EventType getEvent_type() {
 		return event_type;
 	}
 
+	/**
+	 * Sets the event type
+	 * @param event_type
+	 */
 	public void setEvent_type(EventType event_type) {
 		this.event_type = event_type;
 	}
 
+	/**
+	 * 
+	 * @return the event_payload
+	 */
 	public HashMap<String, Object> getEvent_payload() {
 		return event_payload;
 	}
-
+	
+	/**
+	 * Sets the event load 
+	 * @param event_payload
+	 */
 	public void setEvent_payload(HashMap<String, Object> event_payload) {
 		this.event_payload = event_payload;
 	}
