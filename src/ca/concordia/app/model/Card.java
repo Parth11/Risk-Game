@@ -12,7 +12,7 @@ public class Card {
 
 	/**
 	 * A constructor. Sets the card type
-	 * @param card_type
+	 * @param card_type type of card (Atrillery, Cavalry, Infantry)  
 	 */
 	public Card(String card_type) {
 		this.card_type = card_type;
@@ -27,7 +27,7 @@ public class Card {
 	}
 	/**
 	 * Sets the card type
-	 * @param cardType
+	 * @param cardType type of card {Artillery, Cavalry, Infantry} 
 	 */
 	public void setCardType(String cardType) {
 		this.card_type = cardType;

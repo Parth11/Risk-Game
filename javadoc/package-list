@@ -1,7 +1,1 @@
-ca.concordia.app.component
-ca.concordia.app.controller
 ca.concordia.app.model
-ca.concordia.app.service
-ca.concordia.app.test.service
-ca.concordia.app.util
-ca.concordia.app.view
