@@ -11,15 +11,16 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.plaf.basic.BasicIconFactory;
 
-import ca.concordia.app.model.Card;
 import ca.concordia.app.model.Country;
 import ca.concordia.app.model.DiceRoller;
 import ca.concordia.app.model.GamePlayEvent;
 import ca.concordia.app.model.GamePlayEvent.EventType;
 import ca.concordia.app.model.Player;
+import ca.concordia.app.service.ConsoleLoggerService;
 import ca.concordia.app.service.GamePlayService;
 import ca.concordia.app.util.GamePhase;
 import ca.concordia.app.view.AttackInputView;
+import ca.concordia.app.view.CardExchangeView;
 import ca.concordia.app.view.FortificationInputView;
 import ca.concordia.app.view.GameLoggerView;
 import ca.concordia.app.view.GamePlayView;
@@ -53,6 +54,8 @@ public class NewGamePhaseController implements ActionListener, MouseListener {
 	
 	AttackInputView attack_view;
 	
+	CardExchangeView card_exchange_view;
+	
 	public NewGamePhaseController(Integer numPlayers) {
 		game_logger_view = new GameLoggerView();
 		game_play_view = new GamePlayView(numPlayers);
@@ -62,19 +65,24 @@ public class NewGamePhaseController implements ActionListener, MouseListener {
 	
 
 	private void init(Integer numPlayers) {
-		game_play_service.doStartupPhase(numPlayers,game_logger_view);
+		ConsoleLoggerService.getInstance(game_logger_view.console);
+		game_play_service.doStartupPhase(numPlayers);
 		current_player = game_play_service.getCurrentTurnPlayer();
-				
 		prepareToReinforce();
 	}
 
 	private void prepareToReinforce(){
-		if(game_play_service.showCardExchangeView(current_player)){
-			
-		}
-		reinforcement_armies = game_play_service.getReinforcementArmyForPlayer(current_player);
 		current_player.setCurrentPhase(GamePhase.REINFORCEMENT);
-		reinforcePlayer();
+		GamePlayEvent gpe = new GamePlayEvent(EventType.GENERIC_UPDATE, new HashMap<>());
+		current_player.publishGamePlayEvent(gpe);
+		if(game_play_service.showCardExchangeView(current_player)){
+			card_exchange_view = new CardExchangeView(current_player);
+			card_exchange_view.setActionListener(this);
+		}
+		else{
+			reinforcement_armies = game_play_service.getReinforcementArmyForPlayer(current_player);
+			reinforcePlayer();
+		}
 	}
 
 	private void reinforcePlayer() {
@@ -253,6 +261,34 @@ public class NewGamePhaseController implements ActionListener, MouseListener {
 		else if(e.getSource().equals(fortification_view.btn_skip)){
 			fortification_view.dispose();
 			triggerNextPlayer();
+		}
+		else if(e.getSource().equals(card_exchange_view.btn_exchange)){
+			Integer a =  card_exchange_view.num_artillery.getSelectedItem()!=null?(Integer) card_exchange_view.num_artillery.getSelectedItem():0;
+			Integer i = card_exchange_view.num_infantry.getSelectedItem()!=null?(Integer) card_exchange_view.num_infantry.getSelectedItem():0;
+			Integer c =card_exchange_view.num_cavalry.getSelectedItem()!=null?(Integer) card_exchange_view.num_cavalry.getSelectedItem():0;
+			
+			if(!game_play_service.cardReimbursement(current_player, a, i, c)){
+				JOptionPane.showMessageDialog(card_exchange_view, "Invalid Exchange Combo", "Error", JOptionPane.ERROR_MESSAGE);
+				return;
+			}
+			current_player.reimburseCards(a, i, c);
+			JOptionPane.showMessageDialog(card_exchange_view, "Cards Reimbursed!");
+			card_exchange_view.dispose();
+			if(game_play_service.showCardExchangeView(current_player)){
+				card_exchange_view = new CardExchangeView(current_player);
+				card_exchange_view.setActionListener(this);
+			}
+			else{
+				reinforcement_armies = game_play_service.getReinforcementArmyForPlayer(current_player);
+				current_player.setCurrentPhase(GamePhase.REINFORCEMENT);
+				reinforcePlayer();
+			}
+		}
+		else if(e.getSource().equals(card_exchange_view.btn_skip)){
+			card_exchange_view.dispose();
+			reinforcement_armies = game_play_service.getReinforcementArmyForPlayer(current_player);
+			current_player.setCurrentPhase(GamePhase.REINFORCEMENT);
+			reinforcePlayer();;
 		}
 	}
 

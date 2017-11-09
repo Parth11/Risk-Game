@@ -5,6 +5,11 @@ import java.awt.event.MouseListener;
 
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+
+import ca.concordia.app.model.Card;
+import ca.concordia.app.model.Player;
+import ca.concordia.app.util.GameConstants;
+
 import javax.swing.JComboBox;
 import javax.swing.JButton;
 
@@ -21,7 +26,40 @@ public class CardExchangeView extends JDialog implements IView {
 	public JComboBox<Integer> num_infantry;
 
 	
-	public CardExchangeView() {
+	public CardExchangeView(Player player) {
+		
+		int a=0,i=0,c=0;
+		boolean isEnabled = player.getCards().size()>=5?false:true;
+		for(Card card : player.getCards()){
+			switch(card.getCardType()){
+			case GameConstants.ARTILLERY:
+				a++;
+				break;
+			case GameConstants.CAVALRY:
+				c++;
+				break;
+			case GameConstants.INFANTRY:
+				i++;
+				break;
+			}
+		}
+		
+		
+		Integer[] artillery = new Integer[a+1];
+		Integer[] cavalry = new Integer[c+1];
+		Integer[] infantry = new Integer[i+1];
+		
+		for(int j=0;j<=a;j++){
+			artillery[j] = j; 
+		}
+		for(int j=0;j<=i;j++){
+			infantry[j] = j; 
+		}
+		for(int j=0;j<=c;j++){
+			cavalry[j] = j; 
+		}
+		
+		
 		setBounds(100, 100, 324, 300);
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		getContentPane().setLayout(null);
@@ -38,15 +76,15 @@ public class CardExchangeView extends JDialog implements IView {
 		lblNewLabel.setBounds(27, 117, 117, 32);
 		getContentPane().add(lblNewLabel);
 		
-		num_artillery = new JComboBox<>();
+		num_artillery = new JComboBox<>(artillery);
 		num_artillery.setBounds(159, 30, 106, 26);
 		getContentPane().add(num_artillery);
 		
-		num_cavalry = new JComboBox<>();
+		num_cavalry = new JComboBox<>(cavalry);
 		num_cavalry.setBounds(159, 75, 106, 26);
 		getContentPane().add(num_cavalry);
 		
-		num_infantry = new JComboBox<>();
+		num_infantry = new JComboBox<>(infantry);
 		num_infantry.setBounds(159, 120, 106, 26);
 		getContentPane().add(num_infantry);
 		
@@ -56,6 +94,7 @@ public class CardExchangeView extends JDialog implements IView {
 		
 		btn_skip = new JButton("Skip");
 		btn_skip.setBounds(150, 182, 115, 29);
+		btn_skip.setEnabled(isEnabled);
 		getContentPane().add(btn_skip);
 		setVisible(true);
 	}

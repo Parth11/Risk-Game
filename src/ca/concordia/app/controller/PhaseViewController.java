@@ -67,7 +67,7 @@ public class PhaseViewController implements Observer{
 		Map<String,Object> eventPayload = publishedEvent.getEvent_payload();
 		int a=0,c=0,i = 0;
 		for(Card card : currentPlayer.getCards()){
-			switch(card.getCard_type()){
+			switch(card.getCardType()){
 			case GameConstants.ARTILLERY:
 				a++;
 				break;
@@ -115,6 +115,7 @@ public class PhaseViewController implements Observer{
 		case CARD_WIN:
 			break;
 		case CARD_EXCHANGE:
+			phase_view.armies_exchanged.setText(String.valueOf(eventPayload.get("armies").toString()));
 			break;
 		default:
 			break;

@@ -44,6 +44,7 @@ public class PhaseView extends JDialog{
 	public JTextField armies_moved;
 	public JPanel domination_panel;
 	private Color[] colors = {Color.CYAN,Color.GRAY,Color.RED,Color.YELLOW,Color.GREEN,Color.ORANGE};
+	public JTextField armies_exchanged;
 
 	/**
 	 * Create the application.
@@ -277,6 +278,16 @@ public class PhaseView extends JDialog{
 		domination_panel.setLayout(null);
 		getContentPane().add(domination_panel);
 		
+		JLabel lblArmiesExchanged = new JLabel("Armies Exchanged");
+		lblArmiesExchanged.setBounds(307, 215, 149, 31);
+		getContentPane().add(lblArmiesExchanged);
+		
+		armies_exchanged = new JTextField();
+		armies_exchanged.setEditable(false);
+		armies_exchanged.setBounds(484, 215, 52, 26);
+		getContentPane().add(armies_exchanged);
+		armies_exchanged.setColumns(10);
+		
 	}
 	
 	public void clearFields(){
@@ -312,6 +323,8 @@ public class PhaseView extends JDialog{
 		fortified_country.setText("");
 		
 		armies_moved.setText("");
+		
+		armies_exchanged.setText("");
 		
 	}
 	
