@@ -72,7 +72,39 @@ public class PlayerTest {
 		assertTrue(players.get(0).card_flag);
 		
 	}
+
+	@Test
+	public void testDoReinforcement() {
+		Player p = players.get(0);
+		Country c1 = game_play.getCountriesConqueredBy(p).get(0);
+		
+		int playerReinforceArmies = game_play.getReinforcementArmyForPlayer(p);
+		int beforeArmies = c1.getNoOfArmy();
+
+		p.doReinforcement(c1, playerReinforceArmies);
+		
+		int afterArmies = c1.getNoOfArmy();
+		boolean b = afterArmies > beforeArmies;
+		assertTrue(b);
+		
+	}
 	
+	@Test
+	public void testdoFortification() {
+		Player p = players.get(0);
+		Country c1 = game_play.getCountriesConqueredBy(p).get(0);
+		Country c2 = game_play.getCountriesConqueredBy(p).get(1);
+		
+		System.out.println(c1.getNoOfArmy());
+		System.out.println(c2.getNoOfArmy());
+		
+		int c1Armies = c1.getNoOfArmy();
+		int movingArmies = c1.getNoOfArmy()-1;
+		p.doFortification(c1, c2, movingArmies);
+		
+		assertEquals(c1Armies, c1.getNoOfArmy()+movingArmies);		
+	}
+
 	@Test
 	public void testReimburseCards() {
 		
@@ -145,35 +177,4 @@ public class PlayerTest {
 		assertEquals(beforePlayerCard+5, afterPlayerCard);
 	}
 	
-	@Test
-	public void testDoReinforcement() {
-		Player p = players.get(0);
-		Country c1 = game_play.getCountriesConqueredBy(p).get(0);
-		
-		int playerReinforceArmies = game_play.getReinforcementArmyForPlayer(p);
-		int beforeArmies = c1.getNoOfArmy();
-
-		p.doReinforcement(c1, playerReinforceArmies);
-		
-		int afterArmies = c1.getNoOfArmy();
-		boolean b = afterArmies > beforeArmies;
-		assertTrue(b);
-		
-	}
-	
-	@Test
-	public void testdoFortification() {
-		Player p = players.get(0);
-		Country c1 = game_play.getCountriesConqueredBy(p).get(0);
-		Country c2 = game_play.getCountriesConqueredBy(p).get(1);
-		
-		System.out.println(c1.getNoOfArmy());
-		System.out.println(c2.getNoOfArmy());
-		
-		int c1Armies = c1.getNoOfArmy();
-		int movingArmies = c1.getNoOfArmy()-1;
-		p.doFortification(c1, c2, movingArmies);
-		
-		assertEquals(c1Armies, c1.getNoOfArmy()+movingArmies);		
-	}
 }
