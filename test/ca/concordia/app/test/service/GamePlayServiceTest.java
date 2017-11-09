@@ -127,12 +127,4 @@ public class GamePlayServiceTest {
 		Country c = game_play.getCountriesConqueredBy(players.get(0)).get(0);
 //		Player ruler= 
 	}
-	
-	@Test 
-	public void testgetEligibleAttackableCountries()
-	{
-		assertNotSame(game_play.getCountriesConqueredBy(players.get(0)).get(0), game_play.getCountriesConqueredBy(players.get(0)).get(2));
-	}
-	
-	
 }
