@@ -189,9 +189,9 @@ public class GamePlayService {
 	 * @param game_play_view 
 	 * @return true, if successful
 	 */
-	public void doStartupPhase(int numberOfPlayers, GameLoggerView game_play_view) {
+	public void doStartupPhase(int numberOfPlayers) {
 		
-		logger = ConsoleLoggerService.getInstance(game_play_view.console);
+		logger = ConsoleLoggerService.getInstance(null);
 		
 		this.number_of_players = numberOfPlayers;
 

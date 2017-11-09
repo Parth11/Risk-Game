@@ -30,7 +30,7 @@ public class GamePlayServiceTest {
 		game_map = GameMap.getInstance();
 		game_play = GamePlayService.getInstance();
 		game_map = map_service.loadMap("maps/Canada.map");
-		game_play.doStartupPhase(4,null);
+		game_play.doStartupPhase(4);
 		players = game_play.getPlayers();
 	}
 	//**********STARTUP PHASE STARTED****//

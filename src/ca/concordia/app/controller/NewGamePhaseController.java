@@ -16,6 +16,7 @@ import ca.concordia.app.model.DiceRoller;
 import ca.concordia.app.model.GamePlayEvent;
 import ca.concordia.app.model.GamePlayEvent.EventType;
 import ca.concordia.app.model.Player;
+import ca.concordia.app.service.ConsoleLoggerService;
 import ca.concordia.app.service.GamePlayService;
 import ca.concordia.app.util.GamePhase;
 import ca.concordia.app.view.AttackInputView;
@@ -64,7 +65,8 @@ public class NewGamePhaseController implements ActionListener, MouseListener {
 	
 
 	private void init(Integer numPlayers) {
-		game_play_service.doStartupPhase(numPlayers,game_logger_view);
+		ConsoleLoggerService.getInstance(game_logger_view.console);
+		game_play_service.doStartupPhase(numPlayers);
 		current_player = game_play_service.getCurrentTurnPlayer();
 		prepareToReinforce();
 	}
