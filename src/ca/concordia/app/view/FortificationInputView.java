@@ -16,6 +16,7 @@ import javax.swing.JOptionPane;
 
 import ca.concordia.app.model.Country;
 import ca.concordia.app.model.Player;
+import ca.concordia.app.service.ConsoleLoggerService;
 import ca.concordia.app.service.GamePlayService;
 
 public class FortificationInputView extends JDialog implements IView {
@@ -54,6 +55,7 @@ public class FortificationInputView extends JDialog implements IView {
 				countrySelectionFiltered.add(c);
 			}
 		}
+		
 		from_country = new JComboBox<>(countrySelectionFiltered.toArray(new Country[countrySelectionFiltered.size()]));
 		lblFromCountry.setLabelFor(from_country);
 		from_country.setBounds(164, 30, 189, 26);
@@ -88,8 +90,10 @@ public class FortificationInputView extends JDialog implements IView {
 		armies = new JComboBox<>();
 		lblArmies.setLabelFor(armies);
 		armies.setBounds(164, 129, 189, 26);
-		for(int i=1;i<c.getNoOfArmy();i++){
-			armies.addItem(i);
+		if (c!=null) {
+			for (int i = 1; i < c.getNoOfArmy(); i++) {
+				armies.addItem(i);
+			} 
 		}
 		getContentPane().add(armies);
 		
@@ -102,6 +106,14 @@ public class FortificationInputView extends JDialog implements IView {
 		getContentPane().add(btn_skip);
 		
 		setVisible(true);
+		
+		if(countrySelectionFiltered.isEmpty()){
+			ConsoleLoggerService.getInstance(null).write(current_player.getName()+
+					" -> does not have eligible countries to fortify ->\n");
+			JOptionPane.showMessageDialog(this, "Cannot Fortify. Skip to continue", "Error", JOptionPane.ERROR_MESSAGE);
+			btn_submit.setEnabled(false);
+		}
+		
 	}
 
 	@Override

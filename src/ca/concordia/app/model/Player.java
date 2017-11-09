@@ -129,13 +129,6 @@ public class Player extends Observable {
 	
 	public void doReinforcement(Country country, int armiesWishToReinforce) {
 
-		ConsoleLoggerService logger = ConsoleLoggerService.getInstance(null);
-
-		logger.write("These are your countries with current armies present in it : \n"
-				+ GamePlayService.getInstance().printCountryAllocationToConsole(this));
-		logger.write("Please select the country in which you want to reinforce the army");
-
-		
 		country.addArmies(armiesWishToReinforce);
 		
 		HashMap<String, Object> eventPayload = new HashMap<>();
@@ -152,40 +145,25 @@ public class Player extends Observable {
 
 		ConsoleLoggerService logger = ConsoleLoggerService.getInstance(null);
 
-		logger.write("\n********** ATTACK PHASE BEGIN **********\n");
-
 		GamePlayService gamePlay = GamePlayService.getInstance();
-
-		logger.write(attackerCountry.getRuler().getName() + " is attacking from: " + attackerCountry.getCountryName()
-				+ "(" + attackerCountry.getNoOfArmy() + ")");
-
-		logger.write("\n" + attackerCountry.getCountryName() + " attacks on " + defenderCountry.getCountryName()
-				+ " owned by " + defenderCountry.getRuler().getName());
 
 		int n = attackResult.size() > defenceResult.size() ? defenceResult.size() : attackResult.size();
 
 		List<String> outcomes = new ArrayList<String>();
 		
-		boolean isAttackerWon = false;
 		for (int i = 0; i < n; i++) {
 			int attackResultInt = attackResult.get(i);
 			int defenceResultInt = defenceResult.get(i);
 
 			if (attackResultInt > defenceResultInt) {
-				isAttackerWon = true;
 				gamePlay.subArmies(defenderCountry.getRuler(), defenderCountry, 1);
 				outcomes.add("WIN");
 			} else {
-				isAttackerWon = false;
 				gamePlay.subArmies(attackerCountry.getRuler(), attackerCountry, 1);
 				outcomes.add("LOSS");
 			}
 		}
 
-		if (isAttackerWon)
-			logger.write("\nAttacker win attack and Defender will lose the armies");
-		else
-			logger.write("\nDefender win attack and attacker will lose the armies");
 		
 		HashMap<String, Object> eventPayload = new HashMap<>();
 		eventPayload.put("attackingCountry", attackerCountry.getCountryName());
@@ -206,10 +184,8 @@ public class Player extends Observable {
 
 			// 3. Check defender is eleminated from the game or not
 			if (gamePlay.getCountriesConqueredBy(defenderCountry.getRuler()).size() == 0) {
-				logger.write("\n" + defenderCountry.getRuler().getName()
-						+ " has no country left, player is eliminated from the game");
 				// Remove this player from the player list
-				gamePlay.getPlayers().remove(defenderCountry.getRuler());
+				gamePlay.knockPlayerOut(defenderCountry.getRuler());
 			}
 			
 			
@@ -225,8 +201,6 @@ public class Player extends Observable {
 	
 	public void doFortification(Country fromCountry, Country toCountry, Integer armies) {
 
-		ConsoleLoggerService logger = ConsoleLoggerService.getInstance(null);
-
 		GamePlayService.getInstance().moveArmyFromTo(this, fromCountry, toCountry, armies);
 
 		HashMap<String, Object> eventPayload = new HashMap<>();
@@ -235,10 +209,6 @@ public class Player extends Observable {
 		eventPayload.put("armies", armies);
 		GamePlayEvent gpe = new GamePlayEvent(EventType.FORTIFY_COUNTRY, eventPayload);
 		this.publishGamePlayEvent(gpe);
-		logger.write(this.name + " has completed fortification");
-			
-		logger.write(this.name + " has completed fortification");
-			
 	}
 	
 	public void setCurrentPhase(GamePhase currentPhase){
@@ -284,14 +254,13 @@ public class Player extends Observable {
 			GamePlayService.getInstance().addCardsToDeck(GameConstants.CAVALRY);
 		}
 		
-		this.reinforce_army_for_card = reimburse_turn*5;
+		this.reinforce_army_for_card += reimburse_turn*5;
 		reimburse_turn++;
 		
 		HashMap<String, Object> eventPayload = new HashMap<>();
 		eventPayload.put("armies", this.reinforce_army_for_card);
-		int[] array = {a,i,c};
-		eventPayload.put("cards", Arrays.asList(array));
-		GamePlayEvent gpe = new GamePlayEvent(EventType.CARD_EXCHANGE, eventPayload );
+		eventPayload.put("cards", new String("["+a+","+i+","+c+"]"));
+		GamePlayEvent gpe = new GamePlayEvent(EventType.CARD_EXCHANGE, eventPayload);
 		this.publishGamePlayEvent(gpe);
 	}
 	

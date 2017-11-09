@@ -208,7 +208,7 @@ public class GamePlayService {
 
 		addInitialArmiesUsingRoundRobin();
 
-		logger.write("********** START UP PHASE END **********");
+		logger.write("********** START UP PHASE END **********\n");
 		
 	}
 
@@ -719,31 +719,6 @@ public class GamePlayService {
 		return this.game_map;
 	}
 
-	/**
-	 * Initiates the game play.
-	 * @param gamePlayView object of NewGamPlayView
-	 */
-	public void doPlayGame(GameLoggerView gamePlayView) {
-
-		this.game_play_frame = gamePlayView;
-		
-		logger = ConsoleLoggerService.getInstance(gamePlayView.console);
-
-		logger.write("Startup Phase Completed");
-		logger.write("Number of Players : " + players.size());
-
-		int j = 0;
-		while (true) {
-			Player player = players.get(j % players.size());
-			logger.write("*** "+player.name+ " Turn Start ***");
-			player.doReinforcement(null,0);
-			player.doAttack(null,null,null,null);
-			player.doFortification(null,null,null);
-			logger.write("*** "+player.name+ " Turn End ***");
-			j++;
-		}
-	}
-
 	//print the player country allocation during gameplay
 	public String printCountryAllocationToConsole(Player player) {
 
@@ -791,5 +766,17 @@ public class GamePlayService {
 			return true;
 		}
 		return false;
+	}
+
+	public void knockPlayerOut(Player ruler) {
+		this.getPlayers().remove(ruler);
+		this.number_of_players--;
+		this.turn--;
+		
+		HashMap<String, Object> eventPayload = new HashMap<>();
+		eventPayload.put("deadPlayer", ruler.getName());
+		GamePlayEvent gpe = new GamePlayEvent(EventType.PLAYER_DEAD, eventPayload );
+
+		ruler.publishGamePlayEvent(gpe);
 	}
 }

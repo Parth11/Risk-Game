@@ -60,7 +60,7 @@ public class CardExchangeView extends JDialog implements IView {
 		}
 		
 		
-		setBounds(100, 100, 324, 300);
+		setBounds(410, 600, 324, 300);
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		getContentPane().setLayout(null);
 		

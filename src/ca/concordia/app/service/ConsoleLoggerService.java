@@ -94,6 +94,9 @@ public class ConsoleLoggerService implements Observer{
 		case START_ARMY_COUNTRY:
 			write(p.getName()+" -> placed an army in -> "+e.getEvent_payload().get("countryName")+"\n");
 			break;
+		case PLAYER_DEAD:
+			write(p.getName()+" -> your rule has ended \n");
+			break;
 		case THE_END:
 			write(p.getName()+" -> has won the game"+"\n");
 			break;

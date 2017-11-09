@@ -24,6 +24,7 @@ public class GamePlayEvent {
 		CARD_WIN,
 		CARD_EXCHANGE,
 		GENERIC_UPDATE,
+		PLAYER_DEAD,
 		THE_END;
 	}
 	
