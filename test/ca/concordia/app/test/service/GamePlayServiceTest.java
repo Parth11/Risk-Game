@@ -219,4 +219,19 @@ public class GamePlayServiceTest {
 
 	}
 
+	@Test
+	public void testSetNewCountryRuler() {
+		Player p = players.get(0);
+		Country c1 = game_play.getCountriesConqueredBy(p).get(0);
+		
+		Player oldC1Ruler = c1.getRuler();
+		
+		game_play.setNewCountryRuler(players.get(1), c1, 0);
+		
+		Player newC1Ruler = c1.getRuler();
+		
+		boolean b = oldC1Ruler.getName() != newC1Ruler.getName() ;
+		
+		assertFalse(b);
+	}
 }
