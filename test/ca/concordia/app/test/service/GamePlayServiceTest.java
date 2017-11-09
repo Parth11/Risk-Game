@@ -164,7 +164,7 @@ public class GamePlayServiceTest {
 	}
 	
 	@Test
-	public void testremoveCardsfromDeck() {
+	public void testRemoveCardsfromDeck() {
 		game_play.generateCard();
 		HashMap<String,Integer> deckMap = game_play.getDeckMap();
 		
@@ -184,7 +184,21 @@ public class GamePlayServiceTest {
 	}
 	
 	@Test
-	public void testaddCardsToDeck() {
+	public void testAddCardsToDeck() {
+		game_play.generateCard();
+		HashMap<String,Integer> deckMap = game_play.getDeckMap();
+		
+		int cavalryCards = game_play.getDeckMap().get(GameConstants.CAVALRY);
+		int artilleryCards = game_play.getDeckMap().get(GameConstants.ARTILLERY);
+		int infantryCards = game_play.getDeckMap().get(GameConstants.INFANTRY);
+		
+		game_play.addCardsToDeck(GameConstants.ARTILLERY);
+		game_play.addCardsToDeck(GameConstants.CAVALRY);
+		game_play.addCardsToDeck(GameConstants.INFANTRY);
+		
+		assertEquals(artilleryCards, game_play.getDeckMap().get(GameConstants.ARTILLERY) - 1);
+		assertEquals(cavalryCards, game_play.getDeckMap().get(GameConstants.CAVALRY) - 1);
+		assertEquals(infantryCards, game_play.getDeckMap().get(GameConstants.INFANTRY) - 1);
 		
 	}
 
