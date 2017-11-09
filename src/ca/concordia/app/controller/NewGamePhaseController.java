@@ -236,6 +236,20 @@ public class NewGamePhaseController implements ActionListener, MouseListener {
 					
 					current_player.country_captured = false;
 					
+					if(game_play_service.isThisTheEnd()){
+						eventPayload = new HashMap<>();
+						eventPayload.put("winner", current_player);
+						gpe = new GamePlayEvent(EventType.THE_END, eventPayload);
+						current_player.publishGamePlayEvent(gpe);
+						
+						JOptionPane.showMessageDialog(attack_view, "YOU WIN", "The End", JOptionPane.INFORMATION_MESSAGE);
+						
+						attack_view.dispose();
+						game_play_view.dispose();
+						
+						new MainController();
+					}
+					
 				}
 				
 				attack_view.renderAttackViewForPlayer(current_player);
@@ -298,5 +312,5 @@ public class NewGamePhaseController implements ActionListener, MouseListener {
 		game_play_view.changeCurrentPlayer();
 		prepareToReinforce();
 	}
-
+	
 }

@@ -787,7 +787,10 @@ public class GamePlayService {
 		return defenderCountries;
 	}
 	
-	public boolean checkGameStatus(){
+	public boolean isThisTheEnd(){
+		if(getPlayers().size()==1 ){
+			return true;
+		}
 		return false;
 	}
 }

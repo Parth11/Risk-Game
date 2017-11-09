@@ -23,7 +23,8 @@ public class GamePlayEvent {
 		FORTIFY_COUNTRY,
 		CARD_WIN,
 		CARD_EXCHANGE,
-		GENERIC_UPDATE;
+		GENERIC_UPDATE,
+		THE_END;
 	}
 	
 	public GamePlayEvent(EventType eventType, HashMap<String,Object> eventPayload){
