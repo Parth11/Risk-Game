@@ -6,6 +6,7 @@ import java.util.Observer;
 import javax.swing.JTextArea;
 import javax.swing.text.DefaultCaret;
 
+import ca.concordia.app.model.Country;
 import ca.concordia.app.model.GamePlayEvent;
 import ca.concordia.app.model.Player;
 
@@ -55,21 +56,46 @@ public class ConsoleLoggerService implements Observer{
 		GamePlayEvent e = p.event_log.get(p.event_log.size()-1);
 		
 		switch(e.getEvent_type()){
-		case ATTACK_COUNTRY:
-			break;
-		case FORTIFY_COUNTRY:
-			break;
-		case REFINFORCE_COUNTRY:
-			break;
-		case REINFORCE_ARMY_ALLOCATION:
-			break;
-		case START_ARMY:
-			break;
 		case START_ARMY_ALLOCATION:
 			write(p.getName()+" -> Receives -> "+e.getEvent_payload().get("initialArmies")+"\n");
 			break;
 		case START_COUNTRY:
 			write(p.getName()+" -> controls the country -> "+e.getEvent_payload().get("countryName")+"\n");
+			break;
+		case ATTACK_CAPTURE:
+			write(p.getName()+" -> captured the country -> "+((Country)e.getEvent_payload().get("capturedCountry")).getCountryName()+"\n");
+			break;
+		case ATTACK_COUNTRY:
+			write(p.getName()+" -> attacked the country -> "+e.getEvent_payload().get("defendingCountry")+
+					" -> using the country -> "+e.getEvent_payload().get("defendingCountry")+
+					" -> with the attack moves -> "+e.getEvent_payload().get("attackThrows")+
+					" -> against defence moves -> "+e.getEvent_payload().get("defenceThrows")+
+					" -> with the outcomes -> "+e.getEvent_payload().get("attackWin")+"\n");
+			break;
+		case CARD_EXCHANGE:
+			write(p.getName()+" -> exchanged the cards [Artillery,Infantry,Cavalry] -> "+e.getEvent_payload().get("cards")+
+					" -> for armies -> "+e.getEvent_payload().get("armies")+"\n");
+			break; 
+		case CARD_WIN:
+			write(p.getName()+" -> won a card of type -> "+e.getEvent_payload().get("card")+"\n");
+			break;
+		case FORTIFY_COUNTRY:
+			write(p.getName()+" -> fortified the country -> "+e.getEvent_payload().get("toCountry")+
+					" -> by moving armies -> "+e.getEvent_payload().get("armies")+
+					" -> from country -> "+e.getEvent_payload().get("fromCountry")+"\n");
+			break;
+		case REFINFORCE_COUNTRY:
+			write(p.getName()+" -> reinforced the country -> "+e.getEvent_payload().get("reinforcedCountry")+
+					" -> with armies ->"+e.getEvent_payload().get("reinforceArmy")+"\n");
+			break;
+		case REINFORCE_ARMY_ALLOCATION:
+			write(p.getName()+" -> allocated armies for reinforcement -> "+e.getEvent_payload().get("reinforcementArmies")+"\n");
+			break;
+		case START_ARMY_COUNTRY:
+			write(p.getName()+" -> placed an army in -> "+e.getEvent_payload().get("countryName")+"\n");
+			break;
+		case THE_END:
+			write(p.getName()+" -> has won the game"+"\n");
 			break;
 		default:
 			break;

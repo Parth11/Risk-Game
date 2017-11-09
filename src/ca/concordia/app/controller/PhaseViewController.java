@@ -106,7 +106,7 @@ public class PhaseViewController implements Observer{
 		case REINFORCE_ARMY_ALLOCATION:
 			phase_view.player_armies.setText(String.valueOf(currentPlayer.getTotalArmies()));
 			break;
-		case START_ARMY:
+		case START_ARMY_COUNTRY:
 			break;
 		case START_ARMY_ALLOCATION:
 			break;

@@ -224,9 +224,8 @@ public class GamePlayService {
 				p.setTotalArmies(p.getTotalArmies() - 1);
 				HashMap<String, Object> eventPayload = new HashMap<>();
 				eventPayload.put("countryName", randomCountry.getCountryName());
-				GamePlayEvent gpe = new GamePlayEvent(EventType.START_COUNTRY, eventPayload );
+				GamePlayEvent gpe = new GamePlayEvent(EventType.START_ARMY_COUNTRY, eventPayload );
 				p.publishGamePlayEvent(gpe);
-				logger.write(p.getName()+" placed an army in "+randomCountry.getCountryName()+"\n");
 			} else {
 				playersLeftForAssign--;
 			}
