@@ -47,6 +47,10 @@ public class GamePlayService {
 
 	private int turn = 0;
 
+	public int getTurn() {
+		return turn;
+	}
+
 	private ConsoleLoggerService logger;
 
 	private GamePlayService() {

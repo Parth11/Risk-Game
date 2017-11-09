@@ -23,7 +23,6 @@ import ca.concordia.app.view.AttackInputView;
 import ca.concordia.app.view.CardExchangeView;
 import ca.concordia.app.view.FortificationInputView;
 import ca.concordia.app.view.GameLoggerView;
-import ca.concordia.app.view.GamePlayView;
 import ca.concordia.app.view.ReinforcementInputView;
 
 
@@ -36,8 +35,6 @@ public class NewGamePhaseController implements ActionListener, MouseListener {
 
 	GameLoggerView game_logger_view;
 
-	GamePlayView game_play_view;
-	
 	GamePlayService game_play_service;
 
 	Player current_player;
@@ -58,7 +55,6 @@ public class NewGamePhaseController implements ActionListener, MouseListener {
 	
 	public NewGamePhaseController(Integer numPlayers) {
 		game_logger_view = new GameLoggerView();
-		game_play_view = new GamePlayView(numPlayers);
 		game_play_service = GamePlayService.getInstance();
 		init(numPlayers);
 	}
@@ -248,7 +244,6 @@ public class NewGamePhaseController implements ActionListener, MouseListener {
 						JOptionPane.showMessageDialog(attack_view, "YOU WIN", "The End", JOptionPane.INFORMATION_MESSAGE);
 						
 						attack_view.dispose();
-						game_play_view.dispose();
 						
 						new MainController();
 						System.exit(0);
@@ -273,9 +268,9 @@ public class NewGamePhaseController implements ActionListener, MouseListener {
 			Country from = (Country) fortification_view.from_country.getSelectedItem();
 			Country to = (Country) fortification_view.to_country.getSelectedItem();
 			Integer armies = (Integer) fortification_view.armies.getSelectedItem();
-			fortification_view.dispose();
 			current_player.doFortification(from, to, armies);
-			JOptionPane.showMessageDialog(game_play_view, "Fortification Successful");
+			JOptionPane.showMessageDialog(fortification_view, "Fortification Successful");
+			fortification_view.dispose();
 			triggerNextPlayer();
 		}
 		else if(e.getSource().equals(fortification_view.btn_skip)){
@@ -318,7 +313,6 @@ public class NewGamePhaseController implements ActionListener, MouseListener {
 
 		current_player.captureCards();
 		current_player = game_play_service.changeTurnToNextPlayer();
-		game_play_view.changeCurrentPlayer();
 		prepareToReinforce();
 	}
 	
