@@ -45,7 +45,7 @@ public class GameMapTest {
 		game_map = GameMap.getInstance();
 		game_play = GamePlayService.getInstance();
 		game_map = map_service.loadMap("maps/Canada.map");
-		game_play.doStartupPhase(4);
+		game_play.doStartupPhase(4,null);
 		players = game_play.getPlayers();
 		country = game_map.getCountries();
 

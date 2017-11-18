@@ -6,11 +6,13 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
+import java.util.List;
 
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
 import ca.concordia.app.service.MapService;
+import ca.concordia.app.strategies.PlayerStrategy;
 import ca.concordia.app.util.MapValidationException;
 import ca.concordia.app.view.NewGameSelectorView;
 
@@ -107,9 +109,11 @@ public class NewGameSelectorController implements ActionListener,MouseListener {
 			
 			Integer numPlayers = (Integer) new_game_selector.num_players.getSelectedItem();
 			
+			List<? extends PlayerStrategy> strategies = new_game_selector.getStrategies();
+			
 			new_game_selector.dispose();
 			
-			new_game_phase_selector = new NewGamePhaseController(numPlayers);
+			new_game_phase_selector = new NewGamePhaseController(numPlayers, strategies);
 		}
 		else if(e.getSource().equals(new_game_selector.cancel_button)){
 			new_game_selector.dispose();

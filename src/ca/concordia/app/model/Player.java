@@ -3,12 +3,14 @@ package ca.concordia.app.model;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Observable;
 
 import ca.concordia.app.controller.PhaseViewController;
 import ca.concordia.app.model.GamePlayEvent.EventType;
 import ca.concordia.app.service.ConsoleLoggerService;
 import ca.concordia.app.service.GamePlayService;
+import ca.concordia.app.strategies.PlayerStrategy;
 import ca.concordia.app.util.GameConstants;
 import ca.concordia.app.util.GamePhase;
 
@@ -32,17 +34,19 @@ public class Player extends Observable {
 	public boolean card_flag = false;
 	public boolean country_captured = false;
 	public int reimburse_turn=1;
-
+	public PlayerStrategy strategy;
+	
 	/**
 	 * Parameterized constructor Which sets the attributes of the player.
 	 * @param name
 	 */
-	public Player(String name) {
+	public Player(String name, PlayerStrategy strategy) {
 		this.name = name;
 		this.color = null;
 		this.event_log = new ArrayList<>();
 		this.addObserver(PhaseViewController.getInstance());
 		this.addObserver(ConsoleLoggerService.getInstance(null));
+		this.strategy = strategy;
 	}
 	
 	/**
@@ -149,6 +153,16 @@ public class Player extends Observable {
 	}
 	
 	
+	public void strategizeReinforcement(){
+		
+		Map<String,Object> strategyRs = strategy.computeReinforcementMove(this);
+		
+		Country country = (Country) strategyRs.get("country");
+		int armies = (int) strategyRs.get("armies");
+		
+		doReinforcement(country , armies );
+	}
+	
 	/**
 	 * Does the Reinforcement for the player
 	 * @param country
@@ -164,6 +178,15 @@ public class Player extends Observable {
 		GamePlayEvent gpe = new GamePlayEvent(EventType.REFINFORCE_COUNTRY, eventPayload);
 		this.publishGamePlayEvent(gpe);
 		
+	}
+	
+	public void strategizeAttack(){
+		Map<String,Object> strategyRs = strategy.computeAttackMove(this);
+		Country attackerCountry = (Country) strategyRs.get("attackCountry");
+		Country defenderCountry = (Country) strategyRs.get("defenceCountry");
+		List<Integer> attackResult = (List<Integer>) strategyRs.get("attacks");
+		List<Integer> defenceResult = (List<Integer>) strategyRs.get("defences");
+		doAttack(attackerCountry, defenderCountry, attackResult, defenceResult);
 	}
 	
 	/**
@@ -228,6 +251,10 @@ public class Player extends Observable {
 
 		}
 
+	}
+	
+	public void strategizeFortification(){
+		strategy.computeFortifyMove(this);
 	}
 	
 	/**

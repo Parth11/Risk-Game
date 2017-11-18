@@ -20,6 +20,7 @@ import ca.concordia.app.model.GameMap;
 import ca.concordia.app.model.GamePlayEvent;
 import ca.concordia.app.model.GamePlayEvent.EventType;
 import ca.concordia.app.model.Player;
+import ca.concordia.app.strategies.PlayerStrategy;
 import ca.concordia.app.util.GameConstants;
 import ca.concordia.app.util.GamePhase;
 
@@ -227,7 +228,7 @@ public class GamePlayService {
 	 * @param game_play_view 
 	 * @return true, if successful
 	 */
-	public void doStartupPhase(int numberOfPlayers) {
+	public void doStartupPhase(int numberOfPlayers, List<? extends PlayerStrategy> strategies) {
 		
 		logger = ConsoleLoggerService.getInstance(null);
 		
@@ -237,7 +238,7 @@ public class GamePlayService {
 		logger.write("Game starts with "+numberOfPlayers+" players\n");
 		
 		for (int i = 1; i <= numberOfPlayers; i++) {
-			players.add(new Player("Player " + i));
+			players.add(new Player("Player " + i,strategies.get(i-1)));
 		}
 
 		resetPlayersData();
@@ -368,7 +369,6 @@ public class GamePlayService {
 	 * @return
 	 */
 	public boolean showCardExchangeView(Player p) {
-		// TODO Auto-generated method stub
 		int infantary=0;
 		int cavallry =0;
 		int artillry=0;

@@ -18,6 +18,7 @@ import ca.concordia.app.model.GamePlayEvent.EventType;
 import ca.concordia.app.model.Player;
 import ca.concordia.app.service.ConsoleLoggerService;
 import ca.concordia.app.service.GamePlayService;
+import ca.concordia.app.strategies.PlayerStrategy;
 import ca.concordia.app.util.GamePhase;
 import ca.concordia.app.view.AttackInputView;
 import ca.concordia.app.view.CardExchangeView;
@@ -58,19 +59,19 @@ public class NewGamePhaseController implements ActionListener, MouseListener {
 	 * Opens the game logger window, the game play window and the game play service window.
 	 * @param numPlayers
 	 */
-	public NewGamePhaseController(Integer numPlayers) {
+	public NewGamePhaseController(Integer numPlayers, List<? extends PlayerStrategy> strategies) {
 		game_logger_view = new GameLoggerView();
 		game_play_service = GamePlayService.getInstance();
-		init(numPlayers);
+		init(numPlayers, strategies);
 	}
 	
 	/**
 	 * Initiates the game logger view and calls the <code>prepareToReinforce</code> method
 	 * @param numPlayers
 	 */
-	private void init(Integer numPlayers) {
+	private void init(Integer numPlayers,List<? extends PlayerStrategy> strategies) {
 		ConsoleLoggerService.getInstance(game_logger_view.console);
-		game_play_service.doStartupPhase(numPlayers);
+		game_play_service.doStartupPhase(numPlayers,strategies);
 		current_player = game_play_service.getCurrentTurnPlayer();
 		prepareToReinforce();
 	}
@@ -104,9 +105,15 @@ public class NewGamePhaseController implements ActionListener, MouseListener {
 		GamePlayEvent gpe = new GamePlayEvent(EventType.REINFORCE_ARMY_ALLOCATION, eventPayload);
 		current_player.publishGamePlayEvent(gpe);
 
-		reinforcement_view = new ReinforcementInputView(game_play_service.getCountriesConqueredBy(current_player),
-				reinforcement_armies);
-		reinforcement_view.setActionListener(this);
+		if(current_player.strategy==null){
+			reinforcement_view = new ReinforcementInputView(game_play_service.getCountriesConqueredBy(current_player),
+					reinforcement_armies);
+			reinforcement_view.setActionListener(this);
+		}
+		else{
+			current_player.strategizeReinforcement();
+			initiateAttack();
+		}
 	}
 	
 	/**
@@ -114,9 +121,14 @@ public class NewGamePhaseController implements ActionListener, MouseListener {
 	 */
 	private void initiateAttack(){
 		current_player.setCurrentPhase(GamePhase.ATTACK);
-		attack_view = new AttackInputView(current_player);
-		attack_view.setActionListener(this);
-		attack_view.setVisible(true);
+		if(current_player.strategy==null){
+			attack_view = new AttackInputView(current_player);
+			attack_view.setActionListener(this);
+			attack_view.setVisible(true);
+		}
+		else{
+			current_player.strategizeAttack();
+		}
 	}
 	
 	/**
@@ -124,8 +136,10 @@ public class NewGamePhaseController implements ActionListener, MouseListener {
 	 */
 	private void fortifyPlayer(){
 		current_player.setCurrentPhase(GamePhase.FORTIFICATION);
-		fortification_view = new FortificationInputView(current_player);
-		fortification_view.setActionListener(this);
+		if(current_player.strategy==null){
+			fortification_view = new FortificationInputView(current_player);
+			fortification_view.setActionListener(this);
+		}
 	}
 	
 	/**
