@@ -21,10 +21,7 @@ public class AggressiveStrategy implements PlayerStrategy {
 	 */
 	@Override
 	public Map<String, Object> computeReinforcementMove(Player p) {
-		Map<String,Object> strategyRs = new HashMap<>();
-		strategyRs.put("country", GamePlayService.getInstance().getCountriesConqueredBy(p).get(0));
-		strategyRs.put("armies", p.getTotalArmies());
-		return strategyRs;
+		return new HashMap<>();
 	}
 
 	/* (non-Javadoc)
@@ -32,14 +29,7 @@ public class AggressiveStrategy implements PlayerStrategy {
 	 */
 	@Override
 	public Map<String, Object> computeAttackMove(Player p) {
-		Map<String,Object> strategyRs = new HashMap<>();
-		strategyRs.put("attackCountry", GamePlayService.getInstance().getEligibleAttackingCountriesForPlayer(p).get(0));
-		strategyRs.put("defenceCountry", GamePlayService.getInstance().getEligibleAttackableCountries(
-				GamePlayService.getInstance().getEligibleAttackingCountriesForPlayer(p).get(0)).get(0));
-		int[] arr = {5,4,3};
-		strategyRs.put("attacks", Arrays.asList(arr));
-		strategyRs.put("defences", Arrays.asList(arr));
-		return strategyRs;
+		return new HashMap<>();
 	}
 
 	/* (non-Javadoc)
@@ -47,8 +37,7 @@ public class AggressiveStrategy implements PlayerStrategy {
 	 */
 	@Override
 	public Map<String, Object> computeFortifyMove(Player p) {
-		// TODO Auto-generated method stub
-		return null;
+		return new HashMap<>();
 	}
 
 }

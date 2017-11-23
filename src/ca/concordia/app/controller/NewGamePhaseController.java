@@ -11,6 +11,7 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.plaf.basic.BasicIconFactory;
 
+import ca.concordia.app.model.Card;
 import ca.concordia.app.model.Country;
 import ca.concordia.app.model.DiceRoller;
 import ca.concordia.app.model.GamePlayEvent;
@@ -19,6 +20,7 @@ import ca.concordia.app.model.Player;
 import ca.concordia.app.service.ConsoleLoggerService;
 import ca.concordia.app.service.GamePlayService;
 import ca.concordia.app.strategies.PlayerStrategy;
+import ca.concordia.app.util.GameConstants;
 import ca.concordia.app.util.GamePhase;
 import ca.concordia.app.view.AttackInputView;
 import ca.concordia.app.view.CardExchangeView;
@@ -84,8 +86,40 @@ public class NewGamePhaseController implements ActionListener, MouseListener {
 		GamePlayEvent gpe = new GamePlayEvent(EventType.GENERIC_UPDATE, new HashMap<>());
 		current_player.publishGamePlayEvent(gpe);
 		if(game_play_service.showCardExchangeView(current_player)){
-			card_exchange_view = new CardExchangeView(current_player);
-			card_exchange_view.setActionListener(this);
+			if(current_player.strategy==null){
+				card_exchange_view = new CardExchangeView(current_player);
+				card_exchange_view.setActionListener(this);
+			}
+			else{
+				int a=0,i=0,c=0;
+				for(Card cd : current_player.getCards()){
+					switch(cd.getCardType()){
+					case GameConstants.ARTILLERY:
+						a++;
+						break;
+					case GameConstants.CAVALRY:
+						c++;
+						break;
+					case GameConstants.INFANTRY:
+						i++;
+						break;
+					}
+				}
+				if(a>=3 && i<3 && c<3){
+					current_player.reimburseCards(3, 0, 0);
+				}
+				else if(i>=3 && a<3 && c<3){
+					current_player.reimburseCards(0, 3, 0);
+				}
+				else if(c>=3 && a<3 && i<3){
+					current_player.reimburseCards(0, 0, 3);
+				}
+				else if(a>=1 && i>=1 && c>=1){
+					current_player.reimburseCards(1, 1, 1);
+				}
+				reinforcement_armies = game_play_service.getReinforcementArmyForPlayer(current_player);
+				reinforcePlayer();
+			}
 		}
 		else{
 			reinforcement_armies = game_play_service.getReinforcementArmyForPlayer(current_player);
@@ -128,6 +162,7 @@ public class NewGamePhaseController implements ActionListener, MouseListener {
 		}
 		else{
 			current_player.strategizeAttack();
+			fortifyPlayer();
 		}
 	}
 	
@@ -139,6 +174,10 @@ public class NewGamePhaseController implements ActionListener, MouseListener {
 		if(current_player.strategy==null){
 			fortification_view = new FortificationInputView(current_player);
 			fortification_view.setActionListener(this);
+		}
+		else{
+			current_player.strategizeFortification();
+			triggerNextPlayer();
 		}
 	}
 	

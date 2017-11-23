@@ -157,10 +157,7 @@ public class Player extends Observable {
 		
 		Map<String,Object> strategyRs = strategy.computeReinforcementMove(this);
 		
-		Country country = (Country) strategyRs.get("country");
-		int armies = (int) strategyRs.get("armies");
-		
-		doReinforcement(country , armies );
+		doReinforcement((Country) strategyRs.get("country"), this.getTotalArmies());
 	}
 	
 	/**
@@ -181,12 +178,14 @@ public class Player extends Observable {
 	}
 	
 	public void strategizeAttack(){
-		Map<String,Object> strategyRs = strategy.computeAttackMove(this);
-		Country attackerCountry = (Country) strategyRs.get("attackCountry");
-		Country defenderCountry = (Country) strategyRs.get("defenceCountry");
-		List<Integer> attackResult = (List<Integer>) strategyRs.get("attacks");
-		List<Integer> defenceResult = (List<Integer>) strategyRs.get("defences");
-		doAttack(attackerCountry, defenderCountry, attackResult, defenceResult);
+		while(canAttack()){
+			Map<String,Object> strategyRs = strategy.computeAttackMove(this);
+			Country attackerCountry = (Country) strategyRs.get("attackCountry");
+			Country defenderCountry = (Country) strategyRs.get("defenceCountry");
+			List<Integer> attackResult = (List<Integer>) strategyRs.get("attacks");
+			List<Integer> defenceResult = (List<Integer>) strategyRs.get("defences");
+			doAttack(attackerCountry, defenderCountry, attackResult, defenceResult);
+		}
 	}
 	
 	/**
@@ -254,9 +253,19 @@ public class Player extends Observable {
 	}
 	
 	public void strategizeFortification(){
-		strategy.computeFortifyMove(this);
-	}
+		Map<String,Object> strategyRs = strategy.computeFortifyMove(this);
 	
+		if(strategyRs!=null){
+			doFortification((Country) strategyRs.get("from"),
+					(Country) strategyRs.get("to"), 
+						(Integer) strategyRs.get("armies"));
+		}
+		else{
+			ConsoleLoggerService.getInstance(null).write(this.getName()+
+					" -> does not have eligible countries to fortify -> Skipping Fortification \n");
+		}
+		
+	}	
 	/**
 	 * Does the Fortification for the Player.
 	 * @param fromCountry
