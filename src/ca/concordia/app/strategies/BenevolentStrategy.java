@@ -5,6 +5,7 @@ package ca.concordia.app.strategies;
 
 import java.util.Map;
 
+import ca.concordia.app.model.Country;
 import ca.concordia.app.model.Player;
 
 /**
@@ -18,7 +19,7 @@ public class BenevolentStrategy implements PlayerStrategy {
 	 */
 	@Override
 	public Map<String, Object> computeReinforcementMove(Player p) {
-		// TODO Auto-generated method stub
+		//New Strategy Pattern 
 		return null;
 	}
 
