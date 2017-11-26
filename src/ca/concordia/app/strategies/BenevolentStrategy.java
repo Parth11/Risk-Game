@@ -35,7 +35,6 @@ public class BenevolentStrategy implements PlayerStrategy {
 		strategyAs.put("country", GamePlayService.getInstance().getWeakestCountry(p));
 		return strategyAs;
 		
-		
 	}
 
 	/* (non-Javadoc)

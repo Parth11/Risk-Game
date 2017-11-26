@@ -310,6 +310,9 @@ public class MapService {
 				}
 			}
 		}
+		
+		GamePlayService.getInstance().checkCountryIsConnectedOrNot();
+		
 	}
 	
 	/**

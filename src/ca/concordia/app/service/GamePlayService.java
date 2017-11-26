@@ -23,6 +23,7 @@ import ca.concordia.app.model.Player;
 import ca.concordia.app.strategies.PlayerStrategy;
 import ca.concordia.app.util.GameConstants;
 import ca.concordia.app.util.GamePhase;
+import ca.concordia.app.util.MapValidationException;
 
 /**
  * This is GamePlayService class through which game is going to play. It also
@@ -650,6 +651,27 @@ public class GamePlayService {
 
 		return false;
 	}
+	
+	public void checkCountryIsConnectedOrNot() throws MapValidationException {
+		// Checking country connected or not in the continent
+		List<Continent> continent = GameMap.getInstance().getContinents();
+		for (int i = 0; i < continent.size(); i++) {
+			List<Country> countries = GameMap.getInstance()
+					.getCountriesByContinent(continent.get(i).getContinentName());
+
+			for (int j = 0; j < countries.size() - 1; j++) {
+				Country c1 = countries.get(j);
+				Country c2 = countries.get(j + 1);
+				if (GamePlayService.getInstance().isConnected(c1, c2, countries)) {
+					continue;
+				} else {
+					System.out.println("Countries are not connected");
+					throw new MapValidationException(c1 + " and " + c2 + " are not connected in the Map");
+
+				}
+			}
+		}
+	}
 
 	/**
 	 * Who winning after attacking.
@@ -686,10 +708,10 @@ public class GamePlayService {
 	 * @return true, if successful
 	 */
 	public boolean canWar(Country fromCountry, Country toCountry) {
-		return game_map.getNeighbourCountries(fromCountry).contains(toCountry) // should be neighbours
+		return game_map.getNeighbourCountries(fromCountry).contains(toCountry) // should be neighbors
 				&& fromCountry.getRuler() != toCountry.getRuler() // shouldn't both countries belong to same player
 				&& fromCountry.getNoOfArmy() > 1 // attacker should have more than 1 army
-				&& toCountry.getNoOfArmy() > 0; // defence should have atleast 1 army to protect the country
+				&& toCountry.getNoOfArmy() > 0; // Defense should have atleast 1 army to protect the country
 	}
 
 	/**

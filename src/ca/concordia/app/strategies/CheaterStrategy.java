@@ -3,11 +3,19 @@
  */
 package ca.concordia.app.strategies;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import ca.concordia.app.model.Country;
 import ca.concordia.app.model.Player;
+import ca.concordia.app.service.GamePlayService;
 
 /**
+ * A cheater computer player strategy whose reinforce() method doubles the number of armies on all its countries, 
+ * whose attack() method automatically conquers all the neighbors of all its countries, and whose fortify() method doubles 
+ * the number of armies on its countries that have neighbors that belong to other players.
+ * 
  * @author harvi
  *
  */
@@ -19,7 +27,19 @@ public class CheaterStrategy implements PlayerStrategy {
 	@Override
 	public Map<String, Object> computeReinforcementMove(Player p) {
 		// TODO Auto-generated method stub
-		return null;
+		
+		Map<String, Object> strategyAs = new HashMap<>();
+				
+		strategyAs.put("country", GamePlayService.getInstance().getCountriesConqueredBy(p));
+		
+		// computing logic for doubling the armies
+		for(Country c : GamePlayService.getInstance().getCountriesConqueredBy(p)) {
+			int armies = c.getNoOfArmy();
+			c.setNoOfArmy(2 * armies);
+		}
+		
+		return strategyAs;
+
 	}
 
 	/* (non-Javadoc)
@@ -28,6 +48,9 @@ public class CheaterStrategy implements PlayerStrategy {
 	@Override
 	public Map<String, Object> computeAttackMove(Player p) {
 		// TODO Auto-generated method stub
+		
+		
+		
 		return null;
 	}
 
