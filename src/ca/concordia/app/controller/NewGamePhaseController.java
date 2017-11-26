@@ -157,7 +157,7 @@ public class NewGamePhaseController implements ActionListener, MouseListener {
 		current_player.setCurrentPhase(GamePhase.ATTACK);
 		if(current_player.strategy==null){
 			attack_view = new AttackInputView(current_player);
-			attack_view.setActionListener(this);
+			attack_view.setActionListener(this);			
 			attack_view.setVisible(true);
 		}
 		else{

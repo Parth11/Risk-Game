@@ -24,20 +24,20 @@ import ca.concordia.app.strategies.PlayerStrategy;
 import ca.concordia.app.util.GameConstants;
 import ca.concordia.app.util.GamePhase;
 
-
 /**
- * This is GamePlayService class through which game is going to play.
- * It also contains startup, reinforcement and fortification phases.
+ * This is GamePlayService class through which game is going to play. It also
+ * contains startup, reinforcement and fortification phases.
+ * 
  * @author Parth Nayak
  */
 public class GamePlayService {
 
 	private static GamePlayService instance = null;
-	
-	private HashMap<String,Integer> deckMap;
+
+	private HashMap<String, Integer> deckMap;
 
 	/**
-	 * A object of JDialog 
+	 * A object of JDialog
 	 */
 	public JDialog game_play_frame;
 
@@ -63,74 +63,75 @@ public class GamePlayService {
 		player_country_map = new HashMap<>();
 		logger = ConsoleLoggerService.getInstance(null);
 		generateDeck();
-		
+
 	}
-	
+
 	/**
-	 * Auto Generates Deck of Cards 
+	 * Auto Generates Deck of Cards
 	 */
 	public void generateDeck() {
 		int totalCards = game_map.getCountries().size();
 		int cardsDividedByType = totalCards / 3;
-		deckMap= new HashMap<>();
-		
+		deckMap = new HashMap<>();
+
 		int difference = totalCards - (cardsDividedByType * 3);
-		
+
 		deckMap.put(GameConstants.INFANTRY, cardsDividedByType);
 		deckMap.put(GameConstants.CAVALRY, cardsDividedByType);
 		deckMap.put(GameConstants.ARTILLERY, cardsDividedByType);
-		
-		// setting up the cards for the scenario like 
-		if((cardsDividedByType * 3) < totalCards)
-		{
-			String [] cardType = {GameConstants.ARTILLERY, GameConstants.CAVALRY,GameConstants.INFANTRY};
-			while(difference>0) {
+
+		// setting up the cards for the scenario like
+		if ((cardsDividedByType * 3) < totalCards) {
+			String[] cardType = { GameConstants.ARTILLERY, GameConstants.CAVALRY, GameConstants.INFANTRY };
+			while (difference > 0) {
 				Random randomeCardType = new Random();
-				int result=randomeCardType.nextInt(2);
-				String cardName =cardType[result];
-				int numOfcards=deckMap.get(cardName);
+				int result = randomeCardType.nextInt(2);
+				String cardName = cardType[result];
+				int numOfcards = deckMap.get(cardName);
 				deckMap.put(cardName, numOfcards + 1);
 				difference--;
 			}
 		}
 	}
-	
+
 	/**
-	* returns the deck of cards
-	*/
+	 * returns the deck of cards
+	 */
 	public HashMap<String, Integer> getDeckMap() {
 		return deckMap;
 	}
 
 	/**
-	* @param deckMap sets the deck of cards
-	*/
+	 * @param deckMap
+	 *            sets the deck of cards
+	 */
 	public void setDeckMap(HashMap<String, Integer> deckMap) {
 		this.deckMap = deckMap;
 	}
 
 	/**
 	 * Removes the cards for the master deck
+	 * 
 	 * @param cardType
 	 */
-	public void removeCardsfromDeck(String cardType )
-	{
-			int value = deckMap.get(cardType);
-			deckMap.put(cardType,value-1);								
+	public void removeCardsfromDeck(String cardType) {
+		int value = deckMap.get(cardType);
+		deckMap.put(cardType, value - 1);
 	}
-	
+
 	/**
 	 * Adds the cards to the master deck
+	 * 
 	 * @param cardType
 	 */
-	public void addCardsToDeck(String cardType )
-	{
-			int value = deckMap.get(cardType);
-			deckMap.put(cardType,value+1);								
+	public void addCardsToDeck(String cardType) {
+		int value = deckMap.get(cardType);
+		deckMap.put(cardType, value + 1);
 	}
-	
+
 	/**
 	 * Criteria for card reimbursement
+	 * 
 	 * @param player
 	 * @param a
 	 * @param i
@@ -139,31 +140,29 @@ public class GamePlayService {
 	 */
 	public boolean cardReimbursement(Player player, int a, int i, int c) {
 		boolean flag = false;
-		
-		if(a==3 && i==0 && c==0){
+
+		if (a == 3 && i == 0 && c == 0) {
+			flag = true;
+		} else if (i == 3 && a == 0 && c == 0) {
+			flag = true;
+		} else if (c == 3 && a == 0 && i == 0) {
+			flag = true;
+		} else if (a == 1 && i == 1 && c == 1) {
 			flag = true;
 		}
-		else if(i==3 && a==0 && c==0){
-			flag = true;
-		}
-		else if(c==3 && a==0 && i==0){
-			flag = true;
-		}
-		else if(a==1 && i==1 && c==1){
-			flag = true;
-		}
-		
+
 		return flag;
 	}
-	
+
 	/**
 	 * Randomly generates cards Strings
+	 * 
 	 * @return
 	 */
 	public String generateCard() {
-		
-		String [] cardType = {GameConstants.ARTILLERY, GameConstants.CAVALRY,GameConstants.INFANTRY};
-		
+
+		String[] cardType = { GameConstants.ARTILLERY, GameConstants.CAVALRY, GameConstants.INFANTRY };
+
 		Random randomeCardType = new Random();
 		int result = randomeCardType.nextInt(2);
 		String cardName = cardType[result];
@@ -180,7 +179,7 @@ public class GamePlayService {
 			instance = new GamePlayService();
 		return instance;
 	}
-	
+
 	/**
 	 * Resets players data.
 	 */
@@ -193,7 +192,7 @@ public class GamePlayService {
 			payload.put("initialArmies", p.getTotalArmies());
 			GamePlayEvent gpe = new GamePlayEvent(EventType.START_ARMY_ALLOCATION, payload);
 			p.publishGamePlayEvent(gpe);
-		//	logger.write(p.getName()+" -> Receives -> "+p.getTotalArmies()+" armies\n");
+			// logger.write(p.getName()+" -> Receives -> "+p.getTotalArmies()+" armies\n");
 		}
 	}
 
@@ -220,25 +219,26 @@ public class GamePlayService {
 	}
 
 	/**
-	 * This is startup phase. 
-	 * As per the number of players it will generate the data, initializing players data, 
-	 * allocating countries to players and it will add armies using round-robin fashion.
+	 * This is startup phase. As per the number of players it will generate the
+	 * data, initializing players data, allocating countries to players and it will
+	 * add armies using round-robin fashion.
 	 * 
-	 * @param numberOfPlayers the number of players
-	 * @param game_play_view 
+	 * @param numberOfPlayers
+	 *            the number of players
+	 * @param game_play_view
 	 * @return true, if successful
 	 */
 	public void doStartupPhase(int numberOfPlayers, List<? extends PlayerStrategy> strategies) {
-		
+
 		logger = ConsoleLoggerService.getInstance(null);
-		
+
 		this.number_of_players = numberOfPlayers;
 
 		logger.write("********** START UP PHASE BEGIN **********\n");
-		logger.write("Game starts with "+numberOfPlayers+" players\n");
-		
+		logger.write("Game starts with " + numberOfPlayers + " players\n");
+
 		for (int i = 1; i <= numberOfPlayers; i++) {
-			players.add(new Player("Player " + i,strategies.get(i-1)));
+			players.add(new Player("Player " + i, strategies.get(i - 1)));
 		}
 
 		resetPlayersData();
@@ -248,7 +248,7 @@ public class GamePlayService {
 		addInitialArmiesUsingRoundRobin();
 
 		logger.write("********** START UP PHASE END **********\n");
-		
+
 	}
 
 	/**
@@ -259,14 +259,14 @@ public class GamePlayService {
 		int playersLeftForAssign = number_of_players;
 		while (playersLeftForAssign > 0) {
 			if (players.get(j % number_of_players).getTotalArmies() > 0) {
-				Player p = players.get(j%number_of_players);
+				Player p = players.get(j % number_of_players);
 				List<Country> playerCountryList = getCountriesConqueredBy(p);
 				Country randomCountry = playerCountryList.get(new Random().nextInt(playerCountryList.size()));
 				randomCountry.addArmies(1);
 				p.setTotalArmies(p.getTotalArmies() - 1);
 				HashMap<String, Object> eventPayload = new HashMap<>();
 				eventPayload.put("countryName", randomCountry.getCountryName());
-				GamePlayEvent gpe = new GamePlayEvent(EventType.START_ARMY_COUNTRY, eventPayload );
+				GamePlayEvent gpe = new GamePlayEvent(EventType.START_ARMY_COUNTRY, eventPayload);
 				p.publishGamePlayEvent(gpe);
 			} else {
 				playersLeftForAssign--;
@@ -274,7 +274,7 @@ public class GamePlayService {
 			j++;
 		}
 	}
-	
+
 	/**
 	 * Allocating countries to the players
 	 */
@@ -286,9 +286,10 @@ public class GamePlayService {
 			p.subArmy(1);
 			HashMap<String, Object> eventPayload = new HashMap<>();
 			eventPayload.put("countryName", c.getCountryName());
-			GamePlayEvent gpe = new GamePlayEvent(EventType.START_COUNTRY, eventPayload );
+			GamePlayEvent gpe = new GamePlayEvent(EventType.START_COUNTRY, eventPayload);
 			p.publishGamePlayEvent(gpe);
-			//logger.write(p.getName()+" -> controls the country -> "+c.getCountryName()+"\n");
+			// logger.write(p.getName()+" -> controls the country ->
+			// "+c.getCountryName()+"\n");
 			j++;
 		}
 	}
@@ -333,30 +334,30 @@ public class GamePlayService {
 	/**
 	 * Getting the reinforcement army for player.
 	 *
-	 * @param p the p
+	 * @param p
+	 *            the p
 	 * @return the reinforcement army for player
 	 */
 	public int getReinforcementArmyForPlayer(Player p) {
 
 		int countArmy = 0;
 		int countriesCounquered = getCountriesConqueredBy(p).size();
-		
+
 		if (countriesCounquered <= 11 && countriesCounquered > 0) {
 			countArmy = 3;
 		} else {
 			countArmy = countriesCounquered / 3;
 		}
-		
-		if(p.reinforce_army_for_card>0) {
+
+		if (p.reinforce_army_for_card > 0) {
 			countArmy += p.reinforce_army_for_card;
 			p.reinforce_army_for_card = 0;
 		}
-		
 
 		List<Continent> ruledContinents = getContinentsCounqueredBy(p);
-		for (Continent c : ruledContinents){
-			ConsoleLoggerService.getInstance(null).write(p.getName()+" -> is the ruler of the continent ->"+c.getContinentName()+
-					" -> and gets additional armies -> "+c.getControlValue()+"\n");
+		for (Continent c : ruledContinents) {
+			ConsoleLoggerService.getInstance(null).write(p.getName() + " -> is the ruler of the continent ->"
+					+ c.getContinentName() + " -> and gets additional armies -> " + c.getControlValue() + "\n");
 			countArmy += c.getControlValue();
 		}
 		return countArmy;
@@ -365,56 +366,57 @@ public class GamePlayService {
 
 	/**
 	 * To Show the card exchange view
+	 * 
 	 * @param p
 	 * @return
 	 */
 	public boolean showCardExchangeView(Player p) {
-		int infantary=0;
-		int cavallry =0;
-		int artillry=0;
-		
-		if(p.getCards()!=null) 
-		{
-			for(Card card : p.getCards()) 
-			{
-				String cardType=card.getCardType();
-				if(cardType.equalsIgnoreCase(GameConstants.INFANTRY)) {
+		int infantary = 0;
+		int cavallry = 0;
+		int artillry = 0;
+
+		if (p.getCards() != null) {
+			for (Card card : p.getCards()) {
+				String cardType = card.getCardType();
+				if (cardType.equalsIgnoreCase(GameConstants.INFANTRY)) {
 					infantary++;
 				}
-				if(cardType.equalsIgnoreCase(GameConstants.CAVALRY)) {
+				if (cardType.equalsIgnoreCase(GameConstants.CAVALRY)) {
 					cavallry++;
 				}
-				if(cardType.equalsIgnoreCase(GameConstants.ARTILLERY)) {
+				if (cardType.equalsIgnoreCase(GameConstants.ARTILLERY)) {
 					artillry++;
 				}
-			
-				if((infantary==1 && cavallry==1 && artillry==1) || infantary==3 || cavallry==3 || artillry==3) 
-				{
+
+				if ((infantary == 1 && cavallry == 1 && artillry == 1) || infantary == 3 || cavallry == 3
+						|| artillry == 3) {
 					return true;
 				}
 			}
-		
+
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Check if the player has 5 cards
+	 * 
 	 * @return True or False
 	 */
-	public boolean checkPlayerCardsIsGreater(){
-		
-	    if(GamePlayService.getInstance().getCurrentTurnPlayer().getCards().size() == 5){
+	public boolean checkPlayerCardsIsGreater() {
+
+		if (GamePlayService.getInstance().getCurrentTurnPlayer().getCards().size() == 5) {
 			return true;
 		}
 		return false;
-		
+
 	}
 
 	/**
 	 * Geting the countries conquered by.
 	 *
-	 * @param p the p
+	 * @param p
+	 *            the p
 	 * @return the countries conquered by
 	 */
 	public List<Country> getCountriesConqueredBy(Player p) {
@@ -424,7 +426,8 @@ public class GamePlayService {
 	/**
 	 * Getting the continents counquered by.
 	 *
-	 * @param p the p
+	 * @param p
+	 *            the p
 	 * @return the continents counquered by
 	 */
 	public List<Continent> getContinentsCounqueredBy(Player p) {
@@ -448,9 +451,12 @@ public class GamePlayService {
 	/**
 	 * Setting the new country ruler.
 	 *
-	 * @param ruler the ruler
-	 * @param country the country
-	 * @param numberOfArmies the number of armies
+	 * @param ruler
+	 *            the ruler
+	 * @param country
+	 *            the country
+	 * @param numberOfArmies
+	 *            the number of armies
 	 * @return true, if successful
 	 */
 	public boolean setNewCountryRuler(Player ruler, Country country, int numberOfArmies) {
@@ -464,10 +470,14 @@ public class GamePlayService {
 	/**
 	 * Capturing country.
 	 *
-	 * @param ruler the ruler
-	 * @param country the country
-	 * @param fromCountry the from country
-	 * @param numberOfArmies the number of armies
+	 * @param ruler
+	 *            the ruler
+	 * @param country
+	 *            the country
+	 * @param fromCountry
+	 *            the from country
+	 * @param numberOfArmies
+	 *            the number of armies
 	 */
 	public void captureCountry(Player ruler, Country country, Country fromCountry, int numberOfArmies) {
 		if (!setNewCountryRuler(ruler, fromCountry, numberOfArmies)) {
@@ -484,9 +494,12 @@ public class GamePlayService {
 	/**
 	 * Adding the armies.
 	 *
-	 * @param p the p
-	 * @param c the c
-	 * @param addAmount the add amount
+	 * @param p
+	 *            the p
+	 * @param c
+	 *            the c
+	 * @param addAmount
+	 *            the add amount
 	 * @return true, if successful
 	 */
 	public boolean addArmies(Player p, Country c, int addAmount) {
@@ -501,17 +514,20 @@ public class GamePlayService {
 	/**
 	 * The subtract armies method.
 	 *
-	 * @param p the p
-	 * @param c the c
-	 * @param subAmount the sub amount
+	 * @param p
+	 *            the p
+	 * @param c
+	 *            the c
+	 * @param subAmount
+	 *            the sub amount
 	 * @return true, if successful
 	 */
 	public boolean subArmies(Player p, Country c, int subAmount) {
 		if ((c.getNoOfArmy() == 0 || player_country_map.get(p).contains(c)) && ((c.getNoOfArmy() - subAmount) >= 0)) {
 			p.subArmy(subAmount);
 			c.removeArmies(subAmount);
-//			if (c.getNoOfArmy() == 0)
-//				c.setRuler(null, 0);
+			// if (c.getNoOfArmy() == 0)
+			// c.setRuler(null, 0);
 			return true;
 		}
 		return false;
@@ -520,21 +536,27 @@ public class GamePlayService {
 	/**
 	 * Moving army from user selected country to destination country.
 	 *
-	 * @param p the p
-	 * @param fromCountry the from country
-	 * @param toCountry the to country
-	 * @param noOfArmy the no of army
+	 * @param p
+	 *            the p
+	 * @param fromCountry
+	 *            the from country
+	 * @param toCountry
+	 *            the to country
+	 * @param noOfArmy
+	 *            the no of army
 	 */
 	public void moveArmyFromTo(Player p, Country fromCountry, Country toCountry, int noOfArmy) {
-			fromCountry.removeArmies(noOfArmy);
-			toCountry.addArmies(noOfArmy);
+		fromCountry.removeArmies(noOfArmy);
+		toCountry.addArmies(noOfArmy);
 	}
 
 	/**
 	 * Checks if it is neighbour.
 	 *
-	 * @param c1 the c 1
-	 * @param c2 the c 2
+	 * @param c1
+	 *            the c 1
+	 * @param c2
+	 *            the c 2
 	 * @return true, if is neighbour
 	 */
 	public boolean isNeighbour(Country c1, Country c2) {
@@ -544,9 +566,12 @@ public class GamePlayService {
 	/**
 	 * Checks if it is connected.
 	 *
-	 * @param c1 the c 1
-	 * @param c2 the c 2
-	 * @param p the p
+	 * @param c1
+	 *            the c 1
+	 * @param c2
+	 *            the c 2
+	 * @param p
+	 *            the p
 	 * @return true, if is connected
 	 */
 	public boolean isConnected(Country c1, Country c2, Player p) {
@@ -556,8 +581,10 @@ public class GamePlayService {
 	/**
 	 * Checks if it is connected.
 	 *
-	 * @param c1 the c 1
-	 * @param c2 the c 2
+	 * @param c1
+	 *            the c 1
+	 * @param c2
+	 *            the c 2
 	 * @return true, if is connected
 	 */
 	public boolean isConnected(Country c1, Country c2) {
@@ -567,10 +594,14 @@ public class GamePlayService {
 	/**
 	 * Checks if it is connected.
 	 *
-	 * @param c1 the c 1
-	 * @param c2 the c 2
-	 * @param p the p
-	 * @param unwantedPair the unwanted pair
+	 * @param c1
+	 *            the c 1
+	 * @param c2
+	 *            the c 2
+	 * @param p
+	 *            the p
+	 * @param unwantedPair
+	 *            the unwanted pair
 	 * @return true, if is connected
 	 */
 	private boolean isConnected(Country c1, Country c2, Player p, List<Country> unwantedPair) {
@@ -594,9 +625,12 @@ public class GamePlayService {
 	/**
 	 * Checks if it is connected.
 	 *
-	 * @param c1 the c 1
-	 * @param c2 the c 2
-	 * @param unwantedPair the unwanted pair
+	 * @param c1
+	 *            the c 1
+	 * @param c2
+	 *            the c 2
+	 * @param unwantedPair
+	 *            the unwanted pair
 	 * @return true, if is connected
 	 */
 	private boolean isConnected(Country c1, Country c2, List<Country> unwantedPair) {
@@ -620,8 +654,10 @@ public class GamePlayService {
 	/**
 	 * Who winning after attacking.
 	 *
-	 * @param attackResult the attack result
-	 * @param defenceResult the defence result
+	 * @param attackResult
+	 *            the attack result
+	 * @param defenceResult
+	 *            the defence result
 	 * @return the int
 	 */
 	public int whoWins(int[] attackResult, int[] defenceResult) {
@@ -643,12 +679,14 @@ public class GamePlayService {
 	/**
 	 * Can able to war or not.
 	 *
-	 * @param fromCountry the from country
-	 * @param toCountry the to country
+	 * @param fromCountry
+	 *            the from country
+	 * @param toCountry
+	 *            the to country
 	 * @return true, if successful
-	 */	
+	 */
 	public boolean canWar(Country fromCountry, Country toCountry) {
-		return game_map.getNeighbourCountries(fromCountry).contains(toCountry) //should be neighbours
+		return game_map.getNeighbourCountries(fromCountry).contains(toCountry) // should be neighbours
 				&& fromCountry.getRuler() != toCountry.getRuler() // shouldn't both countries belong to same player
 				&& fromCountry.getNoOfArmy() > 1 // attacker should have more than 1 army
 				&& toCountry.getNoOfArmy() > 0; // defence should have atleast 1 army to protect the country
@@ -657,8 +695,10 @@ public class GamePlayService {
 	/**
 	 * Getting the attack dice limit.
 	 *
-	 * @param p the p
-	 * @param c the c
+	 * @param p
+	 *            the p
+	 * @param c
+	 *            the c
 	 * @return the attack dice limit
 	 */
 	public int getAttackDiceLimit(Country c) {
@@ -672,8 +712,10 @@ public class GamePlayService {
 	/**
 	 * Getting the defence dice limit.
 	 *
-	 * @param p the p
-	 * @param c the c
+	 * @param p
+	 *            the p
+	 * @param c
+	 *            the c
 	 * @return the defence dice limit
 	 */
 	public int getDefenceDiceLimit(Country c) {
@@ -687,8 +729,10 @@ public class GamePlayService {
 	/**
 	 * Getting the attack dice roller.
 	 *
-	 * @param p the p
-	 * @param c the c
+	 * @param p
+	 *            the p
+	 * @param c
+	 *            the c
 	 * @return the attack dice roller
 	 */
 	public DiceRoller getAttackDiceRoller(Player p, Country c) {
@@ -696,14 +740,16 @@ public class GamePlayService {
 		if (n == -1)
 			return null;
 		else
-			return new DiceRoller( n);
+			return new DiceRoller(n);
 	}
 
 	/**
 	 * Getting the defence dice roller.
 	 *
-	 * @param p the p
-	 * @param c the c
+	 * @param p
+	 *            the p
+	 * @param c
+	 *            the c
 	 * @return the defence dice roller
 	 */
 	public DiceRoller getDefenceDiceRoller(Player p, Country c) {
@@ -711,14 +757,16 @@ public class GamePlayService {
 		if (n == -1)
 			return null;
 		else
-			return new DiceRoller( n);
+			return new DiceRoller(n);
 	}
 
 	/**
 	 * put a player on a country
 	 *
-	 * @param p the player
-	 * @param c the country
+	 * @param p
+	 *            the player
+	 * @param c
+	 *            the country
 	 */
 	public void mapPlayerToCountry(Player p, Country c) {
 		List<Country> cList = player_country_map.get(p);
@@ -732,8 +780,10 @@ public class GamePlayService {
 	/**
 	 * Remove a player from country when defeated
 	 *
-	 * @param p the player
-	 * @param c the country
+	 * @param p
+	 *            the player
+	 * @param c
+	 *            the country
 	 */
 	public void unmapPlayerToCountry(Player p, Country c) {
 		List<Country> cList = player_country_map.get(p);
@@ -776,7 +826,9 @@ public class GamePlayService {
 
 	/**
 	 * Initiates the game play.
-	 * @param gamePlayView object of NewGamPlayView
+	 * 
+	 * @param gamePlayView
+	 *            object of NewGamPlayView
 	 *
 	 * @param player
 	 * @return
@@ -785,26 +837,27 @@ public class GamePlayService {
 
 		String s = "\n";
 		List<Country> countries = getCountriesConqueredBy(player);
-		
+
 		for (Country c : countries)
 			s += "" + c.getCountryName() + "(" + c.getNoOfArmy() + "), ";
 		s += " \n";
 		return s;
 	}
-	
+
 	/**
 	 * Check if the attacking country is a neighbor and of the current player
+	 * 
 	 * @param p
 	 * @return The Attacking List
 	 */
-	public List<Country> getEligibleAttackingCountriesForPlayer(Player p){
+	public List<Country> getEligibleAttackingCountriesForPlayer(Player p) {
 		Set<Country> attackingCountries = new HashSet<>();
 		List<Country> countries = getCountriesConqueredBy(p);
-		for(Country c : countries){
-			if(c.getNoOfArmy()>1){
+		for (Country c : countries) {
+			if (c.getNoOfArmy() > 1) {
 				List<Country> neighbourCountries = game_map.getNeighbourCountries(c);
-				for(Country n : neighbourCountries){
-					if(!n.getRuler().equals(p)){
+				for (Country n : neighbourCountries) {
+					if (!n.getRuler().equals(p)) {
 						attackingCountries.add(c);
 					}
 				}
@@ -812,32 +865,32 @@ public class GamePlayService {
 		}
 		return new ArrayList<>(attackingCountries);
 	}
-	
+
 	/**
 	 * Check if the attacked country is a neighbor and of differnt ruler
+	 * 
 	 * @param c
 	 * @return List of Attackable countries
 	 */
-	public List<Country> getEligibleAttackableCountries(Country c){
+	public List<Country> getEligibleAttackableCountries(Country c) {
 		List<Country> neighboursOfAttackerCountry = game_map.getNeighbourCountries(c);
-		
+
 		List<Country> defenderCountries = new ArrayList<>();
-		for(Country neighbour:neighboursOfAttackerCountry) 
-		{
-			if(!neighbour.getRuler().equals(c.getRuler())) 
-			{
+		for (Country neighbour : neighboursOfAttackerCountry) {
+			if (!neighbour.getRuler().equals(c.getRuler())) {
 				defenderCountries.add(neighbour);
 			}
 		}
 		return defenderCountries;
 	}
-	
+
 	/**
 	 * Check if the game has ended or not
+	 * 
 	 * @return true or false
 	 */
-	public boolean isThisTheEnd(){
-		if(getPlayers().size()==1 ){
+	public boolean isThisTheEnd() {
+		if (getPlayers().size() == 1) {
 			return true;
 		}
 		return false;
@@ -847,11 +900,53 @@ public class GamePlayService {
 		this.getPlayers().remove(ruler);
 		this.number_of_players--;
 		this.turn--;
-		
+
 		HashMap<String, Object> eventPayload = new HashMap<>();
 		eventPayload.put("deadPlayer", ruler.getName());
-		GamePlayEvent gpe = new GamePlayEvent(EventType.PLAYER_DEAD, eventPayload );
+		GamePlayEvent gpe = new GamePlayEvent(EventType.PLAYER_DEAD, eventPayload);
 
 		ruler.publishGamePlayEvent(gpe);
+	}
+	
+	public Country getStrongestCountry(Player p) {
+
+		List<Country> playerCountries = GamePlayService.getInstance().getCountriesConqueredBy(p);
+
+		Country strongestCountry = null;
+		
+		int maxArmy = 1;
+		
+		for (Country country : playerCountries) {
+			
+			int playerArmy = country.getNoOfArmy();
+			
+			if (playerArmy > maxArmy) {
+				maxArmy = playerArmy;
+				strongestCountry = country;
+			}
+		}
+
+		return strongestCountry;
+	}
+	
+	public Country getWeakestCountry(Player p) {
+
+		List<Country> playerCountries = GamePlayService.getInstance().getCountriesConqueredBy(p);
+
+		Country weakestCountry = null;
+		
+		int minArmy = 1;
+		
+		for (Country country : playerCountries) {
+			
+			int playerArmy = country.getNoOfArmy();
+			
+			if (playerArmy < minArmy) {
+				minArmy = playerArmy;
+				weakestCountry = country;
+			}
+		}
+
+		return weakestCountry;
 	}
 }
