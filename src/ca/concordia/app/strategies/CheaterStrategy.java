@@ -3,6 +3,7 @@
  */
 package ca.concordia.app.strategies;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -58,7 +59,7 @@ public class CheaterStrategy implements PlayerStrategy {
 			List<Country> countries = GameMap.getInstance().getNeighbourCountries(c1);
 			for(Country c2 : countries) {
 				
-				//Check defender is eleminated from the game or not
+				//Check defender is eliminated from the game or not
 				if (GamePlayService.getInstance().getCountriesConqueredBy(c2.getRuler()).size() != 0) {
 					if(!c2.getRuler().getName().equalsIgnoreCase(c1.getRuler().getName())) {														
 						c1.setNoOfArmy(c1.getNoOfArmy()-1);
@@ -77,7 +78,7 @@ public class CheaterStrategy implements PlayerStrategy {
 				
 			}
 		}
-				
+
 		return null;
 	}
 
@@ -87,6 +88,27 @@ public class CheaterStrategy implements PlayerStrategy {
 	@Override
 	public Map<String, Object> computeFortifyMove(Player p) {
 		// TODO Auto-generated method stub
+		
+		List<Country> playerCountries = GamePlayService.getInstance().getCountriesConqueredBy(p);
+		
+		List<Country> eligibleFortifyCountries = new ArrayList<>();
+		
+		for(Country ownCountry : playerCountries) {
+			List<Country> neighborsCountries = GameMap.getInstance().getNeighbourCountries(ownCountry);
+			for(Country c : neighborsCountries) {
+				
+				if(!c.getRuler().getName().equalsIgnoreCase(ownCountry.getRuler().getName())) {
+					eligibleFortifyCountries.add(ownCountry);
+					break;
+				}
+				
+			}
+		}
+		
+		for(Country c : eligibleFortifyCountries) {
+			c.setNoOfArmy(2 * c.getNoOfArmy());
+		}
+		
 		return null;
 	}
 
