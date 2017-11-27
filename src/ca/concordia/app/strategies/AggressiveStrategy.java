@@ -22,6 +22,7 @@ import ca.concordia.app.view.AttackInputView;
  */
 public class AggressiveStrategy implements PlayerStrategy {
 
+	//An aggressive computer player strategy that focuses on attack (reinforces its strongest country, then always attack with it until it cannot attack anymore, then fortifies in order to maximize aggregation of forces in one country).
 	/* (non-Javadoc)
 	 * @see ca.concordia.app.strategies.PlayerStrategy#computeReinforcementMove(ca.concordia.app.model.Player)
 	 */
@@ -99,13 +100,11 @@ public class AggressiveStrategy implements PlayerStrategy {
 
 		countrySelectionFiltered.clear();
 
-		List<Country> countries = GamePlayService.getInstance().getCountriesConqueredBy(from.getRuler());
+		int index = countrySelection.indexOf(from);
 		
-		int index = countries.indexOf(from);
-		
-		for (int i = 0; i < countries.size(); i++) {
-			if (i != index && GamePlayService.getInstance().isConnected(from, countries.get(i), from.getRuler())) {
-				countrySelectionFiltered.add(countries.get(i));
+		for (int i = 0; i < countrySelection.size(); i++) {
+			if (i != index && GamePlayService.getInstance().isConnected(from, countrySelection.get(i), from.getRuler())) {
+				countrySelectionFiltered.add(countrySelection.get(i));
 			}
 		}
 
