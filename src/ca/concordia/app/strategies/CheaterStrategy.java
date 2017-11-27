@@ -7,7 +7,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.swing.JOptionPane;
+
 import ca.concordia.app.model.Country;
+import ca.concordia.app.model.GameMap;
 import ca.concordia.app.model.Player;
 import ca.concordia.app.service.GamePlayService;
 
@@ -47,10 +50,34 @@ public class CheaterStrategy implements PlayerStrategy {
 	 */
 	@Override
 	public Map<String, Object> computeAttackMove(Player p) {
-		// TODO Auto-generated method stub
+		// TODO Auto-generated method stub				
 		
+		List<Country> playerCountries = GamePlayService.getInstance().getCountriesConqueredBy(p);
 		
-		
+		for(Country c1 : playerCountries) {
+			List<Country> countries = GameMap.getInstance().getNeighbourCountries(c1);
+			for(Country c2 : countries) {
+				
+				//Check defender is eleminated from the game or not
+				if (GamePlayService.getInstance().getCountriesConqueredBy(c2.getRuler()).size() != 0) {
+					if(!c2.getRuler().getName().equalsIgnoreCase(c1.getRuler().getName())) {														
+						c1.setNoOfArmy(c1.getNoOfArmy()-1);
+						c2.setRuler(c1.getRuler(), 1);
+						}	
+				}
+				else {
+					// Remove this player from the player list
+					GamePlayService.getInstance().knockPlayerOut(c2.getRuler());
+				}
+				
+				if(GamePlayService.getInstance().isThisTheEnd()) {
+					//JOptionPane.showMessageDialog(attack_view, "YOU WIN", "The End", JOptionPane.INFORMATION_MESSAGE);
+					System.out.println("You win!");
+				}
+				
+			}
+		}
+				
 		return null;
 	}
 
