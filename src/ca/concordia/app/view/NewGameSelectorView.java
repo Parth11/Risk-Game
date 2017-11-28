@@ -14,6 +14,7 @@ import javax.swing.JLabel;
 
 import ca.concordia.app.strategies.PlayerStrategy;
 import ca.concordia.app.strategies.StrategyFactory;
+import ca.concordia.app.strategies.StrategyFactory.Strategy;
 
 import javax.swing.JPanel;
 
@@ -40,7 +41,7 @@ public class NewGameSelectorView extends JFrame implements IView{
 	/** The choose map. */
 	public JComboBox<Integer> num_players;
 	
-	private JComboBox<String> strategy_1,strategy_2,strategy_3,strategy_4,strategy_5,strategy_6;
+	private JComboBox<Strategy> strategy_1,strategy_2,strategy_3,strategy_4,strategy_5,strategy_6;
 
 	public JFileChooser choose_map;
 	
@@ -75,11 +76,11 @@ public class NewGameSelectorView extends JFrame implements IView{
 		getContentPane().add(browse_map);
 		
 		next_button = new JButton("Next");
-		next_button.setBounds(227, 587, 116, 25);
+		next_button.setBounds(227, 530, 116, 25);
 		getContentPane().add(next_button);
 		
 		cancel_button = new JButton("Cancel");
-		cancel_button.setBounds(53, 587, 97, 25);
+		cancel_button.setBounds(53, 530, 97, 25);
 		getContentPane().add(cancel_button);
 		
 		JPanel panel = new JPanel();
@@ -87,38 +88,38 @@ public class NewGameSelectorView extends JFrame implements IView{
 		getContentPane().add(panel);
 		panel.setLayout(null);
 		
-		JLabel lblP = new JLabel("P 1");
-		lblP.setBounds(15, 27, 69, 20);
+		JLabel lblP = new JLabel("P1");
+		lblP.setBounds(80, 25, 69, 20);
 		panel.add(lblP);
 		
 		JLabel lblP_1 = new JLabel("P2");
-		lblP_1.setBounds(15, 79, 69, 20);
+		lblP_1.setBounds(80, 75, 69, 20);
 		panel.add(lblP_1);
 		
 		JLabel lblP_2 = new JLabel("P3");
-		lblP_2.setBounds(15, 128, 69, 20);
+		lblP_2.setBounds(80, 125, 69, 20);
 		panel.add(lblP_2);
 		
 		JLabel lblP_3 = new JLabel("P4");
-		lblP_3.setBounds(15, 184, 69, 20);
+		lblP_3.setBounds(80, 175, 69, 20);
 		panel.add(lblP_3);
 		
 		JLabel lblP_4 = new JLabel("P5");
-		lblP_4.setBounds(15, 244, 69, 20);
+		lblP_4.setBounds(80, 225, 69, 20);
 		panel.add(lblP_4);
 		
 		JLabel lblP_5 = new JLabel("P6");
-		lblP_5.setBounds(15, 295, 69, 20);
+		lblP_5.setBounds(80, 275, 69, 20);
 		panel.add(lblP_5);
 		
-		String[] strategies = {"human","aggressive","benevolent","random","cheater"};
+		Strategy[] strategies = {Strategy.HUMAN,Strategy.AGGRESSIVE,Strategy.BENEVOLENT,Strategy.RANDOM,Strategy.CHEATER};
 		
 		strategy_1 = new JComboBox<>(strategies);
-		strategy_1.setBounds(207, 24, 135, 26);
+		strategy_1.setBounds(207, 25, 135, 26);
 		panel.add(strategy_1);
 		
 		strategy_2 = new JComboBox<>(strategies);
-		strategy_2.setBounds(207, 66, 135, 26);
+		strategy_2.setBounds(207, 75, 135, 26);
 		panel.add(strategy_2);
 		
 		strategy_3 = new JComboBox<>(strategies);
@@ -126,18 +127,17 @@ public class NewGameSelectorView extends JFrame implements IView{
 		panel.add(strategy_3);
 		
 		strategy_4 = new JComboBox<>(strategies);
-		strategy_4.setBounds(207, 181, 135, 26);
+		strategy_4.setBounds(207, 175, 135, 26);
 		panel.add(strategy_4);
 		
 		strategy_5 = new JComboBox<>(strategies);
-		strategy_5.setBounds(207, 241, 135, 26);
+		strategy_5.setBounds(207, 225, 135, 26);
 		panel.add(strategy_5);
 		
 		strategy_6 = new JComboBox<>(strategies);
-		strategy_6.setBounds(207, 292, 135, 26);
+		strategy_6.setBounds(207, 275, 135, 26);
 		panel.add(strategy_6);
 		
-
 		
 		choose_map = new JFileChooser();
 		
