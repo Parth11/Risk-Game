@@ -13,6 +13,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import ca.concordia.app.model.GamePlayEvent.GameMode;
+import ca.concordia.app.service.GamePlayService;
 import ca.concordia.app.service.MapService;
 import ca.concordia.app.strategies.PlayerStrategy;
 import ca.concordia.app.util.MapValidationException;
@@ -34,14 +35,12 @@ public class NewGameSelectorController implements ActionListener, MouseListener 
 	/**
 	 * Instantiates a new new game selector controller.
 	 */
-	public NewGameSelectorController() {
-		new_game_selector = new NewGameSelectorView();
+	public NewGameSelectorController(int noOfMaps) {
+		new_game_selector = new NewGameSelectorView(noOfMaps);
 		new_game_selector.setActionListener(this);
 		new_game_selector.setMouseListener(this);
 		new_game_selector.setVisible(true);
 
-		
-		
 	}
 
 	/**
@@ -102,21 +101,33 @@ public class NewGameSelectorController implements ActionListener, MouseListener 
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource().equals(new_game_selector.browse_map)) {
+		if (e.getSource().equals(new_game_selector.browse_map1)) {
 			int retVal = new_game_selector.choose_map.showOpenDialog(new_game_selector);
 
 			if (retVal == JFileChooser.APPROVE_OPTION) {
 				File mapFile = new_game_selector.choose_map.getSelectedFile();
-
-				try {
-					MapService.getInstance().loadMap(mapFile);
-				} catch (MapValidationException e1) {
-					JOptionPane.showMessageDialog(new_game_selector, e1.getMessage(), "Error",
-							JOptionPane.ERROR_MESSAGE);
-					return;
+				if (GamePlayService.getInstance().getGameMode() == GameMode.SINGLE_GAME) {
+					try {
+						MapService.getInstance().loadMap(mapFile);
+					} catch (MapValidationException e1) {
+						JOptionPane.showMessageDialog(new_game_selector, e1.getMessage(), "Error",
+								JOptionPane.ERROR_MESSAGE);
+						return;
+					}
+					JOptionPane.showMessageDialog(new_game_selector, "Map Loaded Successfully! Click Next to Play!",
+							"Map Loaded", JOptionPane.INFORMATION_MESSAGE);
+				} else {
+					try {
+						MapService.getInstance().addTournamentMap(mapFile.getAbsolutePath());
+						JOptionPane.showMessageDialog(new_game_selector, "Map Loaded Successfully!", "Map Loaded",
+								JOptionPane.INFORMATION_MESSAGE);
+					} catch (MapValidationException e1) {
+						JOptionPane.showMessageDialog(new_game_selector, e1.getMessage(), "Same map added already",
+								JOptionPane.ERROR_MESSAGE);
+						return;
+					}
 				}
-				JOptionPane.showMessageDialog(new_game_selector, "Map Loaded Successfully! Click Next to Play!",
-						"Map Loaded", JOptionPane.INFORMATION_MESSAGE);
+
 			}
 		} else if (e.getSource().equals(new_game_selector.next_button)) {
 
@@ -130,6 +141,74 @@ public class NewGameSelectorController implements ActionListener, MouseListener 
 		} else if (e.getSource().equals(new_game_selector.cancel_button)) {
 			new_game_selector.dispose();
 			new MainController();
+		} 
+		else if (e.getSource().equals(new_game_selector.browse_map2))
+		{
+			int retVal = new_game_selector.choose_map.showOpenDialog(new_game_selector);
+
+			if (retVal == JFileChooser.APPROVE_OPTION) {
+				File mapFile = new_game_selector.choose_map.getSelectedFile();
+				try {
+					MapService.getInstance().addTournamentMap(mapFile.getAbsolutePath());
+				} catch (MapValidationException e1) {
+					JOptionPane.showMessageDialog(new_game_selector, e1.getMessage(), "Same map added already",
+							JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+				JOptionPane.showMessageDialog(new_game_selector, "Map Loaded Successfully!", "Map Loaded",
+						JOptionPane.INFORMATION_MESSAGE);
+			}
+		}
+		else if (e.getSource().equals(new_game_selector.browse_map3))
+		{
+			int retVal = new_game_selector.choose_map.showOpenDialog(new_game_selector);
+
+			if (retVal == JFileChooser.APPROVE_OPTION) {
+				File mapFile = new_game_selector.choose_map.getSelectedFile();
+				try {
+					MapService.getInstance().addTournamentMap(mapFile.getAbsolutePath());
+				} catch (MapValidationException e1) {
+					JOptionPane.showMessageDialog(new_game_selector, e1.getMessage(), "Same map added already",
+							JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+				JOptionPane.showMessageDialog(new_game_selector, "Map Loaded Successfully!", "Map Loaded",
+						JOptionPane.INFORMATION_MESSAGE);
+			}
+		}
+		else if (e.getSource().equals(new_game_selector.browse_map4))
+		{
+			int retVal = new_game_selector.choose_map.showOpenDialog(new_game_selector);
+
+			if (retVal == JFileChooser.APPROVE_OPTION) {
+				File mapFile = new_game_selector.choose_map.getSelectedFile();
+				try {
+					MapService.getInstance().addTournamentMap(mapFile.getAbsolutePath());
+				} catch (MapValidationException e1) {
+					JOptionPane.showMessageDialog(new_game_selector, e1.getMessage(), "Same map added already",
+							JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+				JOptionPane.showMessageDialog(new_game_selector, "Map Loaded Successfully!", "Map Loaded",
+						JOptionPane.INFORMATION_MESSAGE);
+			}
+		}
+		else if (e.getSource().equals(new_game_selector.browse_map5))
+		{
+			int retVal = new_game_selector.choose_map.showOpenDialog(new_game_selector);
+
+			if (retVal == JFileChooser.APPROVE_OPTION) {
+				File mapFile = new_game_selector.choose_map.getSelectedFile();
+				try {
+					MapService.getInstance().addTournamentMap(mapFile.getAbsolutePath());
+				} catch (MapValidationException e1) {
+					JOptionPane.showMessageDialog(new_game_selector, e1.getMessage(), "Same map added already",
+							JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+				JOptionPane.showMessageDialog(new_game_selector, "Map Loaded Successfully!", "Map Loaded",
+						JOptionPane.INFORMATION_MESSAGE);
+			}
 		}
 	}
 

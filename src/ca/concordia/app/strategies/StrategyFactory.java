@@ -38,7 +38,7 @@ public class StrategyFactory {
 
 	    private String name;       
 
-	    private Strategy(String s) {
+	    Strategy(String s) {
 	        name = s;
 	    }
 

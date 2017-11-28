@@ -21,6 +21,7 @@ import ca.concordia.app.model.GameMap;
 import ca.concordia.app.util.CountryComparator;
 import ca.concordia.app.util.GameConstants;
 import ca.concordia.app.util.MapValidationException;
+import ca.concordia.app.util.RiskExceptionHandler;
 
 /**
  * The Class MapService.
@@ -29,6 +30,8 @@ public class MapService {
 
 	/** The instance. */
 	public static MapService instance;
+	
+	public ArrayList<String> tournamentMaps= new ArrayList<>();
 	
 	/**
 	 * Gets the single instance of MapService.
@@ -354,6 +357,14 @@ public class MapService {
 			}
 		}
 		
+	}
+
+	public void addTournamentMap(String absolutePath) throws MapValidationException{
+		// TODO Auto-generated method stub
+		if(!tournamentMaps.contains(absolutePath))
+			tournamentMaps.add(absolutePath);
+		else
+			throw new MapValidationException("Invalid selection of map for Tournament");
 	}
 
 }

@@ -124,9 +124,30 @@ public class MainController implements ActionListener, MouseListener {
 				
 				if(selectedMode!=null) 
 				{
-					GamePlayService.getInstance().setGameMode(selectedMode);
 					
-					new NewGameSelectorController();
+					
+					if(selectedMode==GameMode.SINGLE_GAME) {
+						GamePlayService.getInstance().setGameMode(GameMode.SINGLE_GAME);
+						new NewGameSelectorController(1);
+						
+					}
+					else {
+						JFrame maps = new JFrame("Select Number of Maps");
+						String[] mapsArray= new String[] {"1","2","3","4","5"};
+						int nMaps=0;
+						do
+						{
+							String noOfMaps = (String) JOptionPane.showInputDialog(frame, "How many maps you want in Game?",
+									"Tournament Mode", JOptionPane.QUESTION_MESSAGE, null,mapsArray, mapsArray[0]);
+							nMaps=Integer.parseInt(noOfMaps);
+							
+							GamePlayService.getInstance().setGameMode(GameMode.TOURNAMENT);
+							
+							new NewGameSelectorController(nMaps);
+							
+						}while(nMaps<1);
+						
+					}
 					
 					
 					
