@@ -48,10 +48,13 @@ public class GamePlayService {
 
 	private GameMap game_map;
 
+	int maxTurns=0;
+	
 	private List<Player> players;
 
 	private Map<Player, List<Country>> player_country_map;
 
+	
 	private int turn = 0;
 
 	public int getTurn() {
@@ -71,7 +74,16 @@ public class GamePlayService {
 	}
 	
 	
-	
+	public int getMaxTurns() {
+		return maxTurns;
+	}
+
+	public void setMaxTurns(int maxTurns) {
+		this.maxTurns = maxTurns;
+	}
+
+
+
 	public GameMode getGameMode() {
 		return game_mode;
 	}

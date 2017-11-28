@@ -135,9 +135,26 @@ public class NewGameSelectorController implements ActionListener, MouseListener 
 
 			List<? extends PlayerStrategy> strategies = new_game_selector.getStrategies();
 
-			new_game_selector.dispose();
+			if(GamePlayService.getInstance().getGameMode()==GameMode.TOURNAMENT) 
+			{
+				Integer numMaxTurn=Integer.parseInt(new_game_selector.noOfMaxTurn.getText());
+				
+				if(numMaxTurn>=10 && numMaxTurn<=50) {
+					GamePlayService.getInstance().setMaxTurns(numMaxTurn);
+					new_game_selector.dispose();
+					new_game_phase_selector = new NewGamePhaseController(numPlayers, strategies);
+				}
+				else {
+					new_game_selector.maxTurns.setText("Max Turn range of 10 to 50");
+				}
+					
+			}
+			else {
+				new_game_selector.dispose();
 
-			new_game_phase_selector = new NewGamePhaseController(numPlayers, strategies);
+				new_game_phase_selector = new NewGamePhaseController(numPlayers, strategies);
+			}
+			
 		} else if (e.getSource().equals(new_game_selector.cancel_button)) {
 			new_game_selector.dispose();
 			new MainController();

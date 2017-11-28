@@ -211,26 +211,32 @@ public class NewGameSelectorView extends JFrame implements IView {
 
 		strategy_1 = new JComboBox<Strategy>(strategies);
 		strategy_1.setBounds(207, 25, 135, 26);
+		strategy_1.setSelectedIndex(0);
 		panel.add(strategy_1);
 
 		strategy_2 = new JComboBox<Strategy>(strategies);
 		strategy_2.setBounds(207, 75, 135, 26);
+		strategy_2.setSelectedIndex(1);
 		panel.add(strategy_2);
 
 		strategy_3 = new JComboBox<Strategy>(strategies);
 		strategy_3.setBounds(207, 125, 135, 26);
+		strategy_3.setSelectedIndex(2);
 		panel.add(strategy_3);
 
 		strategy_4 = new JComboBox<Strategy>(strategies);
 		strategy_4.setBounds(207, 175, 135, 26);
+		strategy_4.setSelectedIndex(3);
 		panel.add(strategy_4);
 
 		strategy_5 = new JComboBox<Strategy>(strategies);
 		strategy_5.setBounds(207, 225, 135, 26);
+		strategy_5.setSelectedIndex(4);
 		panel.add(strategy_5);
 
 		strategy_6 = new JComboBox<Strategy>(strategies);
 		strategy_6.setBounds(207, 275, 135, 26);
+		strategy_6.setSelectedIndex(0);
 		panel.add(strategy_6);
 
 		choose_map = new JFileChooser();
