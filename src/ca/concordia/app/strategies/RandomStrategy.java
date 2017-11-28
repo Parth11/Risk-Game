@@ -8,8 +8,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.swing.JOptionPane;
+import javax.swing.plaf.basic.BasicIconFactory;
+
 import ca.concordia.app.model.Country;
+import ca.concordia.app.model.GamePlayEvent;
 import ca.concordia.app.model.Player;
+import ca.concordia.app.model.GamePlayEvent.EventType;
 import ca.concordia.app.service.GamePlayService;
 import ca.concordia.app.util.Randomizer;
 
@@ -29,23 +34,55 @@ public class RandomStrategy implements PlayerStrategy{
 
 	@Override
 	public Map<String, Object> computeAttackMove(Player p) {
-		Map<String,Object> strategyRs = new HashMap<>();
-		List<Country> countries = GamePlayService.getInstance().getEligibleAttackingCountriesForPlayer(p);
-		strategyRs.put("attackCountry", countries.get(Randomizer.randomize(countries.size())));
-		countries = GamePlayService.getInstance().getEligibleAttackableCountries(
-				(Country)strategyRs.get("attackCountry"));
-		strategyRs.put("defenceCountry", countries.get(Randomizer.randomize(countries.size())));
-		List<Integer> attack = new ArrayList<>();
-		attack.add(5);
-		attack.add(4);
-		attack.add(3);
+
+		while(p.canAttack() && Randomizer.randomize(2)==0){
+
+			List<Country> countries = GamePlayService.getInstance().getEligibleAttackingCountriesForPlayer(p);
+			Country attackerCountry =  countries.get(Randomizer.randomize(countries.size()));
+			
+			countries = GamePlayService.getInstance().getEligibleAttackableCountries(attackerCountry);
+			Country defenderCountry = countries.get(Randomizer.randomize(countries.size()));
+			
+			List<Integer> attackResult = new ArrayList<>();
+			attackResult.add(Randomizer.randomize(6)+1);
+			attackResult.add(Randomizer.randomize(6)+1);
+			attackResult.add(Randomizer.randomize(6)+1);
+			
+			List<Integer> defenceResult = new ArrayList<>();
+			defenceResult.add(Randomizer.randomize(6)+1);
+			defenceResult.add(Randomizer.randomize(6)+1);
+			
+			p.doAttack(attackerCountry, defenderCountry, attackResult, defenceResult);
+			
+			if(p.country_captured==true){
+				
+				int n = attackerCountry.getNoOfArmy()-attackResult.size();
+				Integer armies = Randomizer.randomize(n)+attackResult.size();
+				
+				GamePlayService.getInstance().moveArmyFromTo(p, attackerCountry, defenderCountry, armies);
+				
+				HashMap<String, Object> eventPayload = new HashMap<>();
+				eventPayload.put("attackCountry", attackerCountry);
+				eventPayload.put("capturedCountry", defenderCountry);
+				eventPayload.put("armies", armies);
+				GamePlayEvent gpe = new GamePlayEvent(EventType.ATTACK_CAPTURE, eventPayload);
+				p.publishGamePlayEvent(gpe);
+				
+				p.country_captured = false;
+				
+				if(GamePlayService.getInstance().isThisTheEnd()){
+					eventPayload = new HashMap<>();
+					eventPayload.put("winner", p);
+					gpe = new GamePlayEvent(EventType.THE_END, eventPayload);
+					p.publishGamePlayEvent(gpe);
+					
+				}
+				
+			}
+			
+		}
 		
-		List<Integer> defence = new ArrayList<>();
-		defence.add(4);
-		defence.add(3);
-		strategyRs.put("attacks",attack);
-		strategyRs.put("defences", defence);
-		return strategyRs;
+		return null;
 	}
 
 	@Override

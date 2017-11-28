@@ -6,6 +6,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Observable;
 
+import javax.swing.JOptionPane;
+import javax.swing.plaf.basic.BasicIconFactory;
+
 import ca.concordia.app.controller.PhaseViewController;
 import ca.concordia.app.model.GamePlayEvent.EventType;
 import ca.concordia.app.service.ConsoleLoggerService;
@@ -178,14 +181,7 @@ public class Player extends Observable {
 	}
 	
 	public void strategizeAttack(){
-		while(canAttack()){
-			Map<String,Object> strategyRs = strategy.computeAttackMove(this);
-			Country attackerCountry = (Country) strategyRs.get("attackCountry");
-			Country defenderCountry = (Country) strategyRs.get("defenceCountry");
-			List<Integer> attackResult = (List<Integer>) strategyRs.get("attacks");
-			List<Integer> defenceResult = (List<Integer>) strategyRs.get("defences");
-			doAttack(attackerCountry, defenderCountry, attackResult, defenceResult);
-		}
+			strategy.computeAttackMove(this);
 	}
 	
 	/**
@@ -322,8 +318,7 @@ public class Player extends Observable {
 	 * @return
 	 */
 	public boolean canAttack(){
-		boolean result = GamePlayService.getInstance().getEligibleAttackingCountriesForPlayer(this).size()>0? true: false;
-		return result;
+		return GamePlayService.getInstance().getEligibleAttackingCountriesForPlayer(this).size()>0? true: false;
 	}
 	
 	/**

@@ -75,8 +75,75 @@ public class NewGamePhaseController implements ActionListener, MouseListener {
 		ConsoleLoggerService.getInstance(game_logger_view.console);
 		game_play_service.doStartupPhase(numPlayers,strategies);
 		current_player = game_play_service.getCurrentTurnPlayer();
-		prepareToReinforce();
+		goToNextMove();
 	}
+	
+	public void goToNextMove(){
+		
+		switch(current_player.game_phase){
+		case ATTACK:
+			if(current_player.event_log.get(current_player.event_log.size()-1).getEvent_type().equals(EventType.THE_END)){
+				JOptionPane.showMessageDialog(game_logger_view, "Game Ends");
+				System.exit(0);
+			}
+			fortifyPlayer();
+			break;
+		case FORTIFICATION:
+			prepareToReinforce();
+			break;
+		case REINFORCEMENT:
+			initiateAttack();
+			break;
+		case STARTUP:
+			prepareToReinforce();
+			break;
+		}
+		
+//		switch(current_player.event_log.get().getEvent_type()){
+//		case ATTACK_CAPTURE:
+//			fortifyPlayer();
+//			break;
+//		case ATTACK_COUNTRY:
+//			fortifyPlayer();
+//			break;
+//		case CARD_EXCHANGE:
+//			prepareToReinforce();
+//			break;
+//		case CARD_WIN:
+//			prepareToReinforce();
+//			break;
+//		case FORTIFY_COUNTRY:
+//			triggerNextPlayer();
+//			break;
+//		case GENERIC_UPDATE:
+//			break;
+//		case PLAYER_DEAD:
+//			triggerNextPlayer();
+//			break;
+//		case REFINFORCE_COUNTRY:
+//			initiateAttack();
+//			break;
+//		case REINFORCE_ARMY_ALLOCATION:
+//			initiateAttack();
+//			break;
+//		case START_ARMY_ALLOCATION:
+//			prepareToReinforce();
+//			break;
+//		case START_ARMY_COUNTRY:
+//			prepareToReinforce();
+//			break;
+//		case START_COUNTRY:
+//			prepareToReinforce();
+//			break;
+//		case THE_END:
+//			System.exit(0);
+//			break;
+//		default:
+//			break;
+//		
+//		}
+	} 
+	
 	/**
 	 * It Sets the Game phase to REINFORCEMENT and shows the card exchange view
 	 */
@@ -146,7 +213,7 @@ public class NewGamePhaseController implements ActionListener, MouseListener {
 		}
 		else{
 			current_player.strategizeReinforcement();
-			initiateAttack();
+			goToNextMove();
 		}
 	}
 	
@@ -162,7 +229,7 @@ public class NewGamePhaseController implements ActionListener, MouseListener {
 		}
 		else{
 			current_player.strategizeAttack();
-			fortifyPlayer();
+			goToNextMove();
 		}
 	}
 	
@@ -247,7 +314,7 @@ public class NewGamePhaseController implements ActionListener, MouseListener {
 			else{
 				ConsoleLoggerService.getInstance(null).write("->->"+current_player.getName()+"******REINFORCEMENT PHASE END*******\n");
 				ConsoleLoggerService.getInstance(null).write("->->"+current_player.getName()+"******ATTACK PHASE BEGIN*******\n");
-				initiateAttack();
+				goToNextMove();
 			}
 		}
 		else if(e.getSource().equals(attack_view.btn_battle)){
@@ -324,8 +391,7 @@ public class NewGamePhaseController implements ActionListener, MouseListener {
 						
 						attack_view.dispose();
 						
-						new MainController();
-						System.exit(0);
+						goToNextMove();
 					}
 					
 				}
@@ -341,7 +407,7 @@ public class NewGamePhaseController implements ActionListener, MouseListener {
 			attack_view.dispose();
 			ConsoleLoggerService.getInstance(null).write("->->"+current_player.getName()+"******ATTACK PHASE END*******\n");
 			ConsoleLoggerService.getInstance(null).write("->->"+current_player.getName()+"******FORTIFICATION PHASE BEGIN*******\n");
-			fortifyPlayer();
+			goToNextMove();
 		}
 		else if(e.getSource().equals(fortification_view.btn_submit)){
 			Country from = (Country) fortification_view.from_country.getSelectedItem();
@@ -350,7 +416,7 @@ public class NewGamePhaseController implements ActionListener, MouseListener {
 			current_player.doFortification(from, to, armies);
 			JOptionPane.showMessageDialog(fortification_view, "Fortification Successful");
 			fortification_view.dispose();
-			triggerNextPlayer();
+			goToNextMove();
 		}
 		else if(e.getSource().equals(fortification_view.btn_skip)){
 			fortification_view.dispose();
@@ -392,7 +458,7 @@ public class NewGamePhaseController implements ActionListener, MouseListener {
 
 		current_player.captureCards();
 		current_player = game_play_service.changeTurnToNextPlayer();
-		prepareToReinforce();
+		goToNextMove();
 	}
 	
 }

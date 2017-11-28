@@ -69,7 +69,7 @@ public class ConsoleLoggerService implements Observer{
 			break;
 		case ATTACK_COUNTRY:
 			write(p.getName()+" -> attacked the country -> "+e.getEvent_payload().get("defendingCountry")+
-					" -> using the country -> "+e.getEvent_payload().get("defendingCountry")+
+					" -> using the country -> "+e.getEvent_payload().get("attackingCountry")+
 					" -> with the attack moves -> "+e.getEvent_payload().get("attackThrows")+
 					" -> against defence moves -> "+e.getEvent_payload().get("defenceThrows")+
 					" -> with the outcomes -> "+e.getEvent_payload().get("attackWin")+"\n");
