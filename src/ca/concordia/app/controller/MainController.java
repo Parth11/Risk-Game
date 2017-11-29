@@ -8,6 +8,11 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
+import ca.concordia.app.model.GamePlayEvent.GameMode;
+import ca.concordia.app.service.GamePlayService;
 import ca.concordia.app.util.RiskExceptionHandler;
 import ca.concordia.app.view.MainView;
 
@@ -108,7 +113,51 @@ public class MainController implements ActionListener, MouseListener {
 			new MapEditorController(true);
 			main_view.dispose();
 		} else if (e.getSource().equals(main_view.new_game)) {
-			new NewGameSelectorController();
+			GameMode[] gameMode = { GameMode.SINGLE_GAME, GameMode.TOURNAMENT };
+
+			JFrame frame = new JFrame("Select Game Mode");
+			GameMode selectedMode = null;
+			while(selectedMode==null) 
+			{
+				selectedMode = (GameMode) JOptionPane.showInputDialog(frame, "In Which mode you like to play game?",
+						"Game Mode", JOptionPane.QUESTION_MESSAGE, null, gameMode, gameMode[0]);
+				
+				if(selectedMode!=null) 
+				{
+					
+					
+					if(selectedMode==GameMode.SINGLE_GAME) {
+						GamePlayService.getInstance().setGameMode(GameMode.SINGLE_GAME);
+						new NewGameSelectorController(1);
+						
+					}
+					else {
+						JFrame maps = new JFrame("Select Number of Maps");
+						String[] mapsArray= new String[] {"1","2","3","4","5"};
+						int nMaps=0;
+						do
+						{
+							String noOfMaps = (String) JOptionPane.showInputDialog(frame, "How many maps you want in Game?",
+									"Tournament Mode", JOptionPane.QUESTION_MESSAGE, null,mapsArray, mapsArray[0]);
+							nMaps=Integer.parseInt(noOfMaps);
+							
+							GamePlayService.getInstance().setGameMode(GameMode.TOURNAMENT);
+							
+							new NewGameSelectorController(nMaps);
+							
+						}while(nMaps<1);
+						
+					}
+					
+					
+					
+					break;
+				}
+			}
+			
+			
+			
+			
 			main_view.dispose();
 		}
 	}

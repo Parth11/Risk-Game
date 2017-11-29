@@ -12,6 +12,24 @@ import java.util.HashMap;
  */
 public class GamePlayEvent {
 
+	public enum GameMode{
+		SINGLE_GAME("Single Game"),
+		TOURNAMENT("Tournament");
+		
+		private String mode;       
+
+	    private GameMode(String s) {
+	    	mode = s;
+	    }
+
+	    public boolean equalsName(String otherName) {
+	        return mode.equals(otherName);
+	    }
+
+	    public String toString() {
+	       return this.mode;
+	    }
+	}
 	/**
 	 * an enum for the different event types
 	 *
