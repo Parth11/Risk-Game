@@ -1,6 +1,8 @@
 package ca.concordia.app.view;
 
 import java.awt.Color;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseListener;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
@@ -18,11 +20,12 @@ import ca.concordia.app.model.Country;
 import ca.concordia.app.model.GameMap;
 import ca.concordia.app.model.Player;
 import ca.concordia.app.service.GamePlayService;
+import javax.swing.JButton;
 
 /**
  * The Class defines the Phase View of the game. 
  */
-public class PhaseView extends JDialog{
+public class PhaseView extends JDialog implements IView{
 
 	private static final long serialVersionUID = 1L;
 	
@@ -85,6 +88,8 @@ public class PhaseView extends JDialog{
 	
 	/** The armies exchanged. */
 	public JTextField armies_exchanged;
+
+	public JButton btn_save_game;
 
 	/**
 	 * Create the application.
@@ -185,10 +190,6 @@ public class PhaseView extends JDialog{
 		conquest_table.setBorder(new LineBorder(new Color(0, 0, 0), 2));
 		conquest_table.setAutoCreateRowSorter(true);
 		scrollPane.setViewportView(conquest_table);
-		
-		JLabel lblConquests = new JLabel("Conquests");
-		lblConquests.setBounds(30, 238, 106, 20);
-		this.getContentPane().add(lblConquests);
 		
 		JPanel reinforce_panel = new JPanel();
 		reinforce_panel.setBounds(574, 29, 366, 107);
@@ -329,6 +330,10 @@ public class PhaseView extends JDialog{
 		getContentPane().add(armies_exchanged);
 		armies_exchanged.setColumns(10);
 		
+		btn_save_game = new JButton("Save Game");
+		btn_save_game.setBounds(40, 216, 117, 26);
+		getContentPane().add(btn_save_game);
+		
 	}
 	
 	/**
@@ -403,6 +408,16 @@ public class PhaseView extends JDialog{
 			x += e.getValue();
 			domination_panel.add(label);
 		}
+		
+	}
+
+	@Override
+	public void setActionListener(ActionListener actionListener) {
+		btn_save_game.addActionListener(actionListener);
+	}
+
+	@Override
+	public void setMouseListener(MouseListener mouseListener) {
 		
 	}
 }
