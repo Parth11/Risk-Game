@@ -3,6 +3,8 @@
  */
 package ca.concordia.app.controller;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
@@ -10,8 +12,10 @@ import java.util.Observer;
 import javax.swing.table.DefaultTableModel;
 
 import ca.concordia.app.model.Card;
+import ca.concordia.app.model.GameMap;
 import ca.concordia.app.model.GamePlayEvent;
 import ca.concordia.app.model.Player;
+import ca.concordia.app.model.SavedGame;
 import ca.concordia.app.service.GamePlayService;
 import ca.concordia.app.util.GameConstants;
 import ca.concordia.app.view.PhaseView;
@@ -21,7 +25,7 @@ import ca.concordia.app.view.PhaseView;
  * @author harvi
  *
  */
-public class PhaseViewController implements Observer{
+public class PhaseViewController implements Observer,ActionListener{
 
 	private static PhaseViewController instance;
 	
@@ -32,6 +36,7 @@ public class PhaseViewController implements Observer{
 	private PhaseViewController() {
 
 		phase_view = new PhaseView();
+		phase_view.setActionListener(this);
 		phase_view.setVisible(true);
 		
 	}
@@ -133,6 +138,17 @@ public class PhaseViewController implements Observer{
 		}
 		phase_view.revalidate();
 		phase_view.repaint();
+		
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if(e.getSource().equals(phase_view.btn_save_game)){
+			SavedGame savedGame = new SavedGame();
+			savedGame.game_map = GameMap.getInstance();
+			savedGame.game_play_service = GamePlayService.getInstance();
+			savedGame.saveThisGame();
+		}
 		
 	}
 

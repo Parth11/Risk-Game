@@ -74,11 +74,11 @@ public class ConsoleLoggerService implements Observer {
 					+ ((Country) e.getEvent_payload().get("capturedCountry")).getCountryName() + "\n");
 			break;
 		case ATTACK_COUNTRY:
-			write(p.getName() + " -> attacked the country -> " + e.getEvent_payload().get("defendingCountry")
-					+ " -> using the country -> " + e.getEvent_payload().get("defendingCountry")
-					+ " -> with the attack moves -> " + e.getEvent_payload().get("attackThrows")
-					+ " -> against defence moves -> " + e.getEvent_payload().get("defenceThrows")
-					+ " -> with the outcomes -> " + e.getEvent_payload().get("attackWin") + "\n");
+			write(p.getName()+" -> attacked the country -> "+e.getEvent_payload().get("defendingCountry")+
+					" -> using the country -> "+e.getEvent_payload().get("attackingCountry")+
+					" -> with the attack moves -> "+e.getEvent_payload().get("attackThrows")+
+					" -> against defence moves -> "+e.getEvent_payload().get("defenceThrows")+
+					" -> with the outcomes -> "+e.getEvent_payload().get("attackWin")+"\n");
 			break;
 		case CARD_EXCHANGE:
 			write(p.getName() + " -> exchanged the cards [Artillery,Infantry,Cavalry] -> "

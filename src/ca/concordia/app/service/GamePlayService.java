@@ -19,6 +19,7 @@ import ca.concordia.app.model.DiceRoller;
 import ca.concordia.app.model.GameMap;
 import ca.concordia.app.model.GamePlayEvent;
 import ca.concordia.app.model.GamePlayEvent.EventType;
+import ca.concordia.app.model.GamePlayEvent.GameMode;
 import ca.concordia.app.model.Player;
 import ca.concordia.app.strategies.PlayerStrategy;
 import ca.concordia.app.util.GameConstants;
@@ -33,6 +34,8 @@ import ca.concordia.app.util.MapValidationException;
  */
 public class GamePlayService {
 
+	private GameMode game_mode=GameMode.SINGLE_GAME;
+	
 	private static GamePlayService instance = null;
 
 	private HashMap<String, Integer> deckMap;
@@ -46,15 +49,19 @@ public class GamePlayService {
 
 	private GameMap game_map;
 
+	int maxTurns=0;
+	
 	private List<Player> players;
 
 	private Map<Player, List<Country>> player_country_map;
 
+	
 	private int turn = 0;
 
 	public int getTurn() {
 		return turn;
 	}
+	
 
 	private ConsoleLoggerService logger;
 
@@ -66,6 +73,28 @@ public class GamePlayService {
 		generateDeck();
 
 	}
+
+	public int getMaxTurns() {
+		return maxTurns;
+	}
+
+	public void setMaxTurns(int maxTurns) {
+		this.maxTurns = maxTurns;
+	}
+
+
+
+	public GameMode getGameMode() {
+		return game_mode;
+	}
+
+
+
+	public void setGameMode(GameMode game_mode) {
+		this.game_mode = game_mode;
+	}
+
+
 
 	/**
 	 * Auto Generates Deck of Cards
