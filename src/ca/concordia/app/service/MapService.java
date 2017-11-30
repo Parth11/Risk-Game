@@ -314,7 +314,7 @@ public class MapService {
 			}
 		}
 		
-		GamePlayService.getInstance().checkCountryIsConnectedOrNot();
+//		GamePlayService.getInstance().checkCountryIsConnectedOrNot();
 		
 	}
 	
