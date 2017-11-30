@@ -198,8 +198,7 @@ public class MapService {
 	 * @throws MapValidationException the map validation exception
 	 */
 	public GameMap loadMap(File mapFile) throws MapValidationException{
-		GameMap gameMap = null;
-		gameMap = GameMap.getInstance();
+		GameMap gameMap = GameMap.getInstance();
 		List<String> list = new ArrayList<>();
 
 		try (BufferedReader br = new BufferedReader(new FileReader(mapFile))) {
@@ -359,12 +358,9 @@ public class MapService {
 		
 	}
 
-	public void addTournamentMap(String absolutePath) throws MapValidationException{
+	public void addTournamentMap(String absolutePath){
 		// TODO Auto-generated method stub
-		if(!tournamentMaps.contains(absolutePath))
 			tournamentMaps.add(absolutePath);
-		else
-			throw new MapValidationException("Invalid selection of map for Tournament");
 	}
 
 }

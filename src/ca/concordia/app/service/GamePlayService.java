@@ -884,4 +884,10 @@ public class GamePlayService {
 
 		ruler.publishGamePlayEvent(gpe);
 	}
+
+
+	public void declareDraw() {
+		// TODO Auto-generated method stub
+		logger.write("Game reached max turns="+maxTurns+" . Game is draw now.");
+	}
 }

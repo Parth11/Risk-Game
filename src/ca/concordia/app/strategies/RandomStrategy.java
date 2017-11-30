@@ -43,21 +43,28 @@ public class RandomStrategy implements PlayerStrategy{
 			countries = GamePlayService.getInstance().getEligibleAttackableCountries(attackerCountry);
 			Country defenderCountry = countries.get(Randomizer.randomize(countries.size()));
 			
+			int attackerArmies=attackerCountry.getNoOfArmy();
+			attackerArmies=(attackerArmies>3)?3:(attackerArmies-1);
+			
 			List<Integer> attackResult = new ArrayList<>();
-			attackResult.add(Randomizer.randomize(6)+1);
-			attackResult.add(Randomizer.randomize(6)+1);
-			attackResult.add(Randomizer.randomize(6)+1);
+			for(int i=0;i<attackerArmies;i++) {
+				attackResult.add(Randomizer.randomize(6)+1);
+			}
+			
+			int defenderArmies=defenderCountry.getNoOfArmy();
+			defenderArmies=(defenderArmies>=2)?2:1;
 			
 			List<Integer> defenceResult = new ArrayList<>();
-			defenceResult.add(Randomizer.randomize(6)+1);
-			defenceResult.add(Randomizer.randomize(6)+1);
+			for(int i=0;i<defenderArmies;i++) {
+				defenceResult.add(Randomizer.randomize(6)+1);
+			}
 			
 			p.doAttack(attackerCountry, defenderCountry, attackResult, defenceResult);
 			
-			if(p.country_captured==true){
-				
+			if(p.country_captured)
+			{
 				int n = attackerCountry.getNoOfArmy()-attackResult.size();
-				Integer armies = Randomizer.randomize(n)+attackResult.size();
+				Integer armies = (n>0)?Randomizer.randomize(n):n+attackResult.size();
 				
 				GamePlayService.getInstance().moveArmyFromTo(p, attackerCountry, defenderCountry, armies);
 				
@@ -75,7 +82,6 @@ public class RandomStrategy implements PlayerStrategy{
 					eventPayload.put("winner", p);
 					gpe = new GamePlayEvent(EventType.THE_END, eventPayload);
 					p.publishGamePlayEvent(gpe);
-					
 				}
 				
 			}
