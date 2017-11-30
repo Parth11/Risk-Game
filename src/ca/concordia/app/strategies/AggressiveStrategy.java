@@ -39,5 +39,8 @@ public class AggressiveStrategy implements PlayerStrategy {
 	public Map<String, Object> computeFortifyMove(Player p) {
 		return new HashMap<>();
 	}
-
+	@Override
+	public String getName() {
+		return "Aggressive";
+	}
 }

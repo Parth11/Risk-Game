@@ -12,4 +12,5 @@ public interface PlayerStrategy {
 	
 	Map<String,Object> computeFortifyMove(Player p);
 	
+	String getName();
 }

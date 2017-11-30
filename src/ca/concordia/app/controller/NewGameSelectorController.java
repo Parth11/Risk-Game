@@ -133,21 +133,26 @@ public class NewGameSelectorController implements ActionListener, MouseListener 
 
 			if(GamePlayService.getInstance().getGameMode()==GameMode.TOURNAMENT) 
 			{
-				Integer numMaxTurn=Integer.parseInt(new_game_selector.noOfMaxTurn.getText());
-				
-				if(numMaxTurn>=10 && numMaxTurn<=50) {
-					GamePlayService.getInstance().setMaxTurns(numMaxTurn);
-					new_game_selector.dispose();
-					new_tournament_selector = new TournamentController(numPlayers, strategies);
+				Integer numMaxTurn=Integer.parseInt(new_game_selector.no_of_max_turn.getText());
+				Integer numGames=Integer.parseInt(new_game_selector.no_of_games.getText());
+				if(numGames>0)
+				{
+					GamePlayService.getInstance().setGames(numGames);
+					if(numMaxTurn>=10 && numMaxTurn<=50) {
+						GamePlayService.getInstance().setMaxTurns(numMaxTurn);
+						new_game_selector.dispose();
+						new_tournament_selector = new TournamentController(numPlayers, strategies);
+					}
+					else {
+						new_game_selector.max_turns.setText("Max Turn range of 10 to 50");
+					}
 				}
 				else {
-					new_game_selector.maxTurns.setText("Max Turn range of 10 to 50");
+					new_game_selector.no_of_games.setText("No of Games should be >0");
 				}
-					
 			}
 			else {
 				new_game_selector.dispose();
-
 				new_game_phase_selector = new NewGamePhaseController(numPlayers, strategies);
 			}
 			
