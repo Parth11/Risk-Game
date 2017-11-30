@@ -313,6 +313,11 @@ public class Player extends Observable {
 		return this.name.equals(((Player)obj).getName());
 	}
 	
+	@Override
+	public int hashCode() {
+		return name.hashCode();
+	}
+	
 	/**
 	 * Checks the eligibility for the attacking country 
 	 * @return

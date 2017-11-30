@@ -14,9 +14,11 @@ import javax.swing.plaf.basic.BasicIconFactory;
 import ca.concordia.app.model.Card;
 import ca.concordia.app.model.Country;
 import ca.concordia.app.model.DiceRoller;
+import ca.concordia.app.model.GameMap;
 import ca.concordia.app.model.GamePlayEvent;
 import ca.concordia.app.model.GamePlayEvent.EventType;
 import ca.concordia.app.model.Player;
+import ca.concordia.app.model.SavedGame;
 import ca.concordia.app.service.ConsoleLoggerService;
 import ca.concordia.app.service.GamePlayService;
 import ca.concordia.app.strategies.PlayerStrategy;
@@ -65,6 +67,14 @@ public class NewGamePhaseController implements ActionListener, MouseListener {
 		game_logger_view = new GameLoggerView();
 		game_play_service = GamePlayService.getInstance();
 		init(numPlayers, strategies);
+	}
+	
+	public NewGamePhaseController(SavedGame savedGame){
+		GameMap.getInstance().restoreSavedData(savedGame);
+		GamePlayService.getInstance().restoreSavedData(savedGame);
+		current_player = savedGame.getCurrent_player();
+		game_play_service = GamePlayService.getInstance();
+		goToNextMove();
 	}
 	
 	/**

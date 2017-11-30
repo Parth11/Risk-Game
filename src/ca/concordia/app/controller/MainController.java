@@ -7,13 +7,23 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import ca.concordia.app.model.SavedGame;
 import ca.concordia.app.model.GamePlayEvent.GameMode;
 import ca.concordia.app.service.GamePlayService;
+import ca.concordia.app.strategies.PlayerStrategy;
+import ca.concordia.app.util.GsonUtil;
 import ca.concordia.app.util.RiskExceptionHandler;
+import ca.concordia.app.util.StrategyAdapter;
 import ca.concordia.app.view.MainView;
 
 /**
@@ -155,9 +165,20 @@ public class MainController implements ActionListener, MouseListener {
 				}
 			}
 			
+			main_view.dispose();
+		}
+		else if(e.getSource().equals(main_view.load_game)){
+			File f = new File("D:\\saves\\1512031469762.json");
+			FileReader fr = null;
+			try {
+				fr = new FileReader(f);
+			} catch (FileNotFoundException e1) {
+				e1.printStackTrace();
+			}
+			Gson gson = GsonUtil.getGSONInstance();
+			SavedGame savedGame = gson.fromJson(fr, SavedGame.class);
 			
-			
-			
+			new NewGamePhaseController(savedGame);
 			main_view.dispose();
 		}
 	}

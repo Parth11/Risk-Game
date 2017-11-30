@@ -145,8 +145,6 @@ public class PhaseViewController implements Observer,ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource().equals(phase_view.btn_save_game)){
 			SavedGame savedGame = new SavedGame();
-			savedGame.game_map = GameMap.getInstance();
-			savedGame.game_play_service = GamePlayService.getInstance();
 			savedGame.saveThisGame();
 		}
 		

@@ -40,4 +40,7 @@ public class AggressiveStrategy implements PlayerStrategy {
 		return new HashMap<>();
 	}
 
+	public String getName() {
+		return "Aggressive";
+	}
 }

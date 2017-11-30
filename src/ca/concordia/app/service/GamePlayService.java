@@ -21,6 +21,7 @@ import ca.concordia.app.model.GamePlayEvent;
 import ca.concordia.app.model.GamePlayEvent.EventType;
 import ca.concordia.app.model.GamePlayEvent.GameMode;
 import ca.concordia.app.model.Player;
+import ca.concordia.app.model.SavedGame;
 import ca.concordia.app.strategies.PlayerStrategy;
 import ca.concordia.app.util.GameConstants;
 import ca.concordia.app.util.GamePhase;
@@ -39,11 +40,6 @@ public class GamePlayService {
 	
 	private HashMap<String,Integer> deckMap;
 
-	/**
-	 * A object of JDialog 
-	 */
-	public JDialog game_play_frame;
-
 	private int number_of_players;
 
 	private GameMap game_map;
@@ -54,6 +50,7 @@ public class GamePlayService {
 
 	private Map<Player, List<Country>> player_country_map;
 
+	public int no_of_games=0;
 	
 	private int turn = 0;
 
@@ -448,6 +445,10 @@ public class GamePlayService {
 	 * @return the countries conquered by
 	 */
 	public List<Country> getCountriesConqueredBy(Player p) {
+		for(Player pl : player_country_map.keySet()){
+			List<Country> ctr = player_country_map.get(pl);
+			p.equals(pl);
+		}
 		return player_country_map.get(p);
 	}
 
@@ -883,5 +884,48 @@ public class GamePlayService {
 		GamePlayEvent gpe = new GamePlayEvent(EventType.PLAYER_DEAD, eventPayload );
 
 		ruler.publishGamePlayEvent(gpe);
+	}
+	
+	public void copySaveData(SavedGame savedGame){
+		savedGame.setDeckMap(deckMap);
+		savedGame.setMaxTurns(maxTurns);
+		savedGame.setNumber_of_players(number_of_players);
+		savedGame.setPlayer_country_map(player_country_map);
+		savedGame.setPlayers(players);
+		savedGame.setTurn(turn);
+		savedGame.setCurrent_player(getCurrentTurnPlayer());
+	}
+
+	public void restoreSavedData(SavedGame savedGame){
+		deckMap = savedGame.getDeckMap();
+		maxTurns = savedGame.getMaxTurns();
+		number_of_players = savedGame.getNumber_of_players();
+		player_country_map = savedGame.getPlayer_country_map();
+		players = savedGame.getPlayers();
+		turn = savedGame.getTurn();
+		game_map = GameMap.getInstance();
+	}
+	
+	public void declareDraw() {
+		// TODO Auto-generated method stub
+		logger.write("Game reached max turns="+maxTurns+" . Game is draw now.");
+	}
+
+
+	public void setGames(Integer numGames) {
+		// TODO Auto-generated method stub
+		no_of_games=numGames;
+	}
+
+
+	public void declareWin() {
+		// TODO Auto-generated method stub
+		logger.write("Game won by "+getCurrentTurnPlayer().getName());
+	}
+
+
+	public void write(String text) {
+		// TODO Auto-generated method stub
+		logger.write(text);
 	}
 }
