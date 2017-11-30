@@ -906,6 +906,8 @@ public class GamePlayService {
 		game_map = GameMap.getInstance();
 	}
 	
+
+
 	public void declareDraw() {
 		// TODO Auto-generated method stub
 		logger.write("Game reached max turns="+maxTurns+" . Game is draw now.");
