@@ -160,7 +160,7 @@ public class Player extends Observable {
 		
 		Map<String,Object> strategyRs = strategy.computeReinforcementMove(this);
 		
-		doReinforcement((Country) strategyRs.get("country"), this.getTotalArmies());
+		//doReinforcement((Country) strategyRs.get("country"), this.getTotalArmies());
 	}
 	
 	/**

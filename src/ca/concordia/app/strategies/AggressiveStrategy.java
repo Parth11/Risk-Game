@@ -11,7 +11,9 @@ import java.util.Map;
 
 import ca.concordia.app.model.Country;
 import ca.concordia.app.model.DiceRoller;
+import ca.concordia.app.model.GamePlayEvent;
 import ca.concordia.app.model.Player;
+import ca.concordia.app.model.GamePlayEvent.EventType;
 import ca.concordia.app.service.GamePlayService;
 import ca.concordia.app.util.Randomizer;
 import ca.concordia.app.view.AttackInputView;
@@ -49,8 +51,41 @@ public class AggressiveStrategy implements PlayerStrategy {
 		
 		strategyRs.put("attackCountry", strongestCountry);
 		strategyRs.put("defenceCountry", defendingCountry);
-		DiceRoller attackRoller = GamePlayService.getInstance().getAttackDiceRoller(p, strongestCountry);
 		
+		
+		while(strongestCountry.getNoOfArmy() > 1 && !defendingCountry.getRuler().getName().equals(strongestCountry.getRuler().getName())){
+
+			DiceRoller attackRoller = GamePlayService.getInstance().getAttackDiceRoller(p, strongestCountry);
+			DiceRoller defenceRoller = GamePlayService.getInstance().getDefenceDiceRoller(p, defendingCountry);
+			
+			List<Integer> attackResult = attackRoller.rollAll();
+			List<Integer> defenceResult = defenceRoller.rollAll();
+			
+			p.doAttack(strongestCountry, defendingCountry, attackResult, defenceResult);
+			
+			if(p.country_captured==true){
+					
+				GamePlayService.getInstance().moveArmyFromTo(p, strongestCountry, defendingCountry, 1);
+				
+				HashMap<String, Object> eventPayload = new HashMap<>();
+				eventPayload.put("attackCountry", strongestCountry);
+				eventPayload.put("capturedCountry", defendingCountry);
+				eventPayload.put("armies", 1);
+				GamePlayEvent gpe = new GamePlayEvent(EventType.ATTACK_CAPTURE, eventPayload);
+				p.publishGamePlayEvent(gpe);
+				
+				p.country_captured = false;
+				
+				if(GamePlayService.getInstance().isThisTheEnd()){
+					eventPayload = new HashMap<>();
+					eventPayload.put("winner", p);
+					gpe = new GamePlayEvent(EventType.THE_END, eventPayload);
+					p.publishGamePlayEvent(gpe);
+					
+				}		
+			}
+			
+		}
 		
 		// check if defender ruler has Human strategy or not
 //		if(defendingCountry.getRuler().strategy==null){
@@ -60,16 +95,7 @@ public class AggressiveStrategy implements PlayerStrategy {
 //			attack_view.setVisible(true);
 //		}
 		
-		
-		DiceRoller defenceRoller = GamePlayService.getInstance().getAttackDiceRoller(p, defendingCountry);		
-		
-		
-		List<Integer> attacks = attackRoller.rollAll();
-		List<Integer> defences = defenceRoller.rollAll();
-		
-		strategyRs.put("attacks", attacks);
-		strategyRs.put("defences", defences);
-		return strategyRs;
+		return null;
 
 		
 	}

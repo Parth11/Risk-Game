@@ -29,6 +29,11 @@ public class RandomStrategy implements PlayerStrategy {
 		Map<String, Object> strategyRs = new HashMap<>();
 		List<Country> countries = GamePlayService.getInstance().getCountriesConqueredBy(p);
 		strategyRs.put("country", countries.get(Randomizer.randomize(countries.size())));
+		
+		Country randomCountry = countries.get(Randomizer.randomize(countries.size()));
+		int randomArmies = Randomizer.randomize(GamePlayService.getInstance().getReinforcementArmyForPlayer(p));
+		p.doReinforcement(randomCountry, randomArmies);
+		
 		return strategyRs;
 	}
 
@@ -105,16 +110,16 @@ public class RandomStrategy implements PlayerStrategy {
 			return null;
 		}
 		
-		Country from = countrySelectionFiltered.get(Randomizer.randomize(countrySelectionFiltered.size()));
+		Country fromCountry = countrySelectionFiltered.get(Randomizer.randomize(countrySelectionFiltered.size()));
 
 		countrySelectionFiltered.clear();
 
-		List<Country> countries = GamePlayService.getInstance().getCountriesConqueredBy(from.getRuler());
+		List<Country> countries = GamePlayService.getInstance().getCountriesConqueredBy(fromCountry.getRuler());
 		
-		int index = countries.indexOf(from);
+		int index = countries.indexOf(fromCountry);
 		
 		for (int i = 0; i < countries.size(); i++) {
-			if (i != index && GamePlayService.getInstance().isConnected(from, countries.get(i), from.getRuler())) {
+			if (i != index && GamePlayService.getInstance().isConnected(fromCountry, countries.get(i), fromCountry.getRuler())) {
 				countrySelectionFiltered.add(countries.get(i));
 			}
 		}
@@ -123,12 +128,14 @@ public class RandomStrategy implements PlayerStrategy {
 			return null;
 		}
 
-		Country to = countrySelectionFiltered.get(Randomizer.randomize(countrySelectionFiltered.size()));
+		Country toCountry = countrySelectionFiltered.get(Randomizer.randomize(countrySelectionFiltered.size()));
 
-		int armies = from.getNoOfArmy() - Randomizer.randomize(from.getNoOfArmy()-1);
+		int armies = fromCountry.getNoOfArmy() - Randomizer.randomize(fromCountry.getNoOfArmy()-1);
+		
+		p.doFortification(fromCountry, toCountry, armies);
 
-		strategyRs.put("from", from);
-		strategyRs.put("to", to);
+		strategyRs.put("from", fromCountry);
+		strategyRs.put("to", toCountry);
 		strategyRs.put("armies", armies);
 		return strategyRs;
 

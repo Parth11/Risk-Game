@@ -39,7 +39,7 @@ public class CheaterStrategy implements PlayerStrategy {
 		// computing logic for doubling the armies
 		for(Country c : GamePlayService.getInstance().getCountriesConqueredBy(p)) {
 			int armies = c.getNoOfArmy();
-			c.setNoOfArmy(2 * armies);
+			p.doReinforcement(c, armies);
 		}
 		
 		return strategyAs;
@@ -59,7 +59,27 @@ public class CheaterStrategy implements PlayerStrategy {
 			List<Country> countries = GameMap.getInstance().getNeighbourCountries(c1);
 			for(Country c2 : countries) {
 				
-				//Check defender is eliminated from the game or not
+				if(!c2.getRuler().getName().equalsIgnoreCase(c1.getRuler().getName())) {
+				 
+				// 1. Remove a country from defender's country list
+				GamePlayService.getInstance().unmapPlayerToCountry(c2.getRuler(), c2);
+
+				// 2. Add defending country in attacker country list
+				GamePlayService.getInstance().mapPlayerToCountry(c1.getRuler(), c2);
+
+				// 3. Check defender is eleminated from the game or not
+				if (GamePlayService.getInstance().getCountriesConqueredBy(c2.getRuler()).size() == 0) {
+					// Remove this player from the player list
+					GamePlayService.getInstance().knockPlayerOut(c2.getRuler());
+				}
+				
+				
+				c2.setRuler(c1.getRuler(), 1);
+				
+				// after this cheater player won't need any cards because by cheating he/she is winning.
+				
+				}
+				/*//Check defender is eliminated from the game or not
 				if (GamePlayService.getInstance().getCountriesConqueredBy(c2.getRuler()).size() != 0) {
 					if(!c2.getRuler().getName().equalsIgnoreCase(c1.getRuler().getName())) {														
 						c1.setNoOfArmy(c1.getNoOfArmy()-1);
@@ -72,9 +92,9 @@ public class CheaterStrategy implements PlayerStrategy {
 				}
 				
 				if(GamePlayService.getInstance().isThisTheEnd()) {
-					//JOptionPane.showMessageDialog(attack_view, "YOU WIN", "The End", JOptionPane.INFORMATION_MESSAGE);
+					
 					System.out.println("You win!");
-				}
+				}*/
 				
 			}
 		}
@@ -106,7 +126,8 @@ public class CheaterStrategy implements PlayerStrategy {
 		}
 		
 		for(Country c : eligibleFortifyCountries) {
-			c.setNoOfArmy(2 * c.getNoOfArmy());
+			//c.setNoOfArmy(2 * c.getNoOfArmy());
+			c.addArmies(c.getNoOfArmy());
 		}
 		
 		return null;
