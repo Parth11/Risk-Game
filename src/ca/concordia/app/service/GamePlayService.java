@@ -54,6 +54,7 @@ public class GamePlayService {
 
 	private Map<Player, List<Country>> player_country_map;
 
+	public int no_of_games=0;
 	
 	private int turn = 0;
 
@@ -883,5 +884,29 @@ public class GamePlayService {
 		GamePlayEvent gpe = new GamePlayEvent(EventType.PLAYER_DEAD, eventPayload );
 
 		ruler.publishGamePlayEvent(gpe);
+	}
+
+
+	public void declareDraw() {
+		// TODO Auto-generated method stub
+		logger.write("Game reached max turns="+maxTurns+" . Game is draw now.");
+	}
+
+
+	public void setGames(Integer numGames) {
+		// TODO Auto-generated method stub
+		no_of_games=numGames;
+	}
+
+
+	public void declareWin() {
+		// TODO Auto-generated method stub
+		logger.write("Game won by "+getCurrentTurnPlayer().getName());
+	}
+
+
+	public void write(String text) {
+		// TODO Auto-generated method stub
+		logger.write(text);
 	}
 }
