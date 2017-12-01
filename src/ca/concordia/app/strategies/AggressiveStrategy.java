@@ -19,6 +19,9 @@ import ca.concordia.app.util.Randomizer;
 import ca.concordia.app.view.AttackInputView;
 
 /**
+ * This class implements the aggressive strategy
+ * An aggressive computer player strategy that focuses on attack (reinforces its strongest country, then always attack with it until it cannot attack anymore, then fortifies in order to maximize aggregation of forces in one country).
+ * 
  * @author harvi
  *
  */
@@ -27,6 +30,10 @@ public class AggressiveStrategy implements PlayerStrategy {
 	//An aggressive computer player strategy that focuses on attack (reinforces its strongest country, then always attack with it until it cannot attack anymore, then fortifies in order to maximize aggregation of forces in one country).
 	/* (non-Javadoc)
 	 * @see ca.concordia.app.strategies.PlayerStrategy#computeReinforcementMove(ca.concordia.app.model.Player)
+	 */
+	/**
+	 * This method compute the reinforcement move
+	 * @param p player object
 	 */
 	@Override
 	public Map<String, Object> computeReinforcementMove(Player p) {
@@ -39,6 +46,11 @@ public class AggressiveStrategy implements PlayerStrategy {
 
 	/* (non-Javadoc)
 	 * @see ca.concordia.app.strategies.PlayerStrategy#computeAttackMove(ca.concordia.app.model.Player)
+	 */
+	/**
+	 * This method compute the attack move
+	 * @param p player object
+	 * @return null
 	 */
 	@Override
 	public Map<String, Object> computeAttackMove(Player p) {
@@ -97,6 +109,11 @@ public class AggressiveStrategy implements PlayerStrategy {
 	/* (non-Javadoc)
 	 * @see ca.concordia.app.strategies.PlayerStrategy#computeFortifyMove(ca.concordia.app.model.Player)
 	 */
+	/**
+	 * this method compute fortify move
+	 * @param p player object
+	 * @return strategies
+	 */
 	@Override
 	public Map<String, Object> computeFortifyMove(Player p) {
 		
@@ -144,6 +161,10 @@ public class AggressiveStrategy implements PlayerStrategy {
 		return strategyRs;
 		
 	}
+	/**
+	 * get the name of the strategy
+	 * @return Aggressive
+	 */
 	@Override
 	public String getName() {
 		return "Aggressive";
