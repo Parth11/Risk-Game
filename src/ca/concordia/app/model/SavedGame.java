@@ -50,7 +50,7 @@ public class SavedGame implements Serializable {
 	
 	/**
 	 * This method will save the game
-	 * @param saveFile
+	 * @param saveFile save file
 	 */
 	public void saveThisGame(File saveFile){
 		for(Player p :GamePlayService.getInstance().getPlayers()){
@@ -102,7 +102,7 @@ public class SavedGame implements Serializable {
 	
 	/**
 	 * set the continents 
-	 * @param continents
+	 * @param continents the continent
 	 */
 	public void setContinents(List<Continent> continents) {
 		this.continents = continents;
@@ -110,7 +110,7 @@ public class SavedGame implements Serializable {
 	
 	/**
 	 * hashmap to get territories
-	 * @return territories
+	 * @return territories the territory
 	 */
 	public HashMap<Country, ArrayList<String>> getTerritories() {
 		return territories;
@@ -118,7 +118,7 @@ public class SavedGame implements Serializable {
 	
 	/**
 	 * sets the territories
-	 * @param territories
+	 * @param territories the territory
 	 */
 	public void setTerritories(HashMap<Country, ArrayList<String>> territories) {
 		this.territories = territories;
@@ -126,7 +126,7 @@ public class SavedGame implements Serializable {
 
 	/**
 	 * gets the deck map 
-	 * @return deckMap
+	 * @return deckMap 
 	 */
 	public HashMap<String, Integer> getDeckMap() {
 		return deckMap;
@@ -134,7 +134,7 @@ public class SavedGame implements Serializable {
 	
 	/**
 	 * set the deckMap
-	 * @param deckMap
+	 * @param deckMap the deck 
 	 */
 	public void setDeckMap(HashMap<String, Integer> deckMap) {
 		this.deckMap = deckMap;
@@ -150,7 +150,7 @@ public class SavedGame implements Serializable {
 	
 	/**
 	 * set number of players 
-	 * @param number_of_players
+	 * @param number_of_players the players
 	 */
 	public void setNumber_of_players(int number_of_players) {
 		this.number_of_players = number_of_players;
@@ -222,7 +222,7 @@ public class SavedGame implements Serializable {
 	
 	/**
 	 * gets current player
-	 * @return
+	 * @return the current player.
 	 */
 	public Player getCurrent_player() {
 		return current_player;
@@ -238,7 +238,7 @@ public class SavedGame implements Serializable {
 	
 	/**
 	 * get the game log
-	 * @return game_log
+	 * @return game_log the game log
 	 */
 	public List<GameLogEvent> getGame_log() {
 		return game_log;

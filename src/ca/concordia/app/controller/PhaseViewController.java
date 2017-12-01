@@ -55,8 +55,8 @@ public class PhaseViewController implements Observer,ActionListener{
 	
 	/**
 	 * An in-build java method of Observer class which publishes event whenever the update is notified
-	 * @param o
-	 * @param arg 
+	 * @param o variable
+	 * @param arg  variable 
 	 */
 	@Override
 	public void update(Observable o, Object arg) {

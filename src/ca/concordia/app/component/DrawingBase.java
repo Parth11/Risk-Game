@@ -52,7 +52,7 @@ public class DrawingBase extends JPanel {
 
 	/**
 	 * For painting the component.
-	 * @param g 
+	 * @param g  the graphics
 	 */
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
@@ -87,14 +87,14 @@ public class DrawingBase extends JPanel {
 	/**
 	 * Sets the y.
 	 *
-	 * @param y
-	 *            the new y
+	 * @param y the new y
 	 */
 	public void setY(int y) {
 		this.y = y;
 	}
 
 	/**
+	 * gives in string format
 	 * @return String
 	 */
 	public String toString() {
@@ -104,11 +104,10 @@ public class DrawingBase extends JPanel {
 
 	/**
 	 * Draw country on the UI as a dot.
-	 *
-	 * @param x
-	 *            the x
-	 * @param y
-	 *            the y
+	 *@param countryName the country name
+	 * @param x the x
+	 * @param y the y
+	 * @param color the color
 	 */
 
 	public void drawCountry(String countryName, int x, int y, Color color) {
@@ -122,9 +121,8 @@ public class DrawingBase extends JPanel {
 	}
 
 	/**
-	 * Connect neighbours on the map as per user input.
-	 *
-	 * @param name
+	 * Connect neighbors on the map as per user input.
+	 * @param name the name	
 	 *  
 	 */
 	public void connectNeighbours(String name) {

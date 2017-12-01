@@ -160,6 +160,7 @@ public class Country implements Serializable{
 	/**
 	 * Set the ruler
 	 * @param ruler the ruler to set
+	 * @param noOfArmies the number of armies
 	 */
 	public void setRuler(Player ruler,int noOfArmies) {
 		this.ruler = ruler;

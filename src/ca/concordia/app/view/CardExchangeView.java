@@ -118,7 +118,7 @@ public class CardExchangeView extends JDialog implements IView {
 
 	/**
 	 * Adds the action listener.
-	 * @param ActionListener actionListener
+	 * @param actionListener the Action listener
 	 */
 	@Override
 	public void setActionListener(ActionListener actionListener) {
@@ -128,7 +128,7 @@ public class CardExchangeView extends JDialog implements IView {
 	
 	/**
 	 * sets Mouse listener.
-	 * @param MouseListener mouseListener
+	 * @param mouseListener the mouse listener
 	 */
 	@Override
 	public void setMouseListener(MouseListener mouseListener) {

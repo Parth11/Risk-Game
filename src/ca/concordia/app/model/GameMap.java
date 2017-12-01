@@ -165,7 +165,7 @@ public class GameMap {
 	
 	/**
 	 * Restore the saved data of the game
-	 * @param savedGame
+	 * @param savedGame save game
 	 */
 	public void restoreSavedData(SavedGame savedGame){
 		continents = savedGame.getContinents();

@@ -69,6 +69,7 @@ public class NewGameSelectorView extends JFrame implements IView {
 
 	/**
 	 * Create the view for selecting New Game
+	 * @param noOfMaps the number of maps
 	 */
 	public NewGameSelectorView(int noOfMaps) {
 		setTitle("Start Game");
@@ -286,7 +287,7 @@ public class NewGameSelectorView extends JFrame implements IView {
 	/**
 	 * calls the setActionlistener
 	 * 
-	 * @param actionListener
+	 * @param actionListener the action listener
 	 */
 	@Override
 	public void setActionListener(ActionListener actionListener) {
