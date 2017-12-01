@@ -389,7 +389,6 @@ public class MapService {
 	 * This method will reset the map
 	 */
 	public void resetMap() {
-		// TODO Auto-generated method stub
 		instance=null;
 	}
 
