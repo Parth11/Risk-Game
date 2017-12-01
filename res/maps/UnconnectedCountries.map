@@ -1,0 +1,17 @@
+[Map]
+author=Team 6
+warn=yes
+image=noname.bmp
+wrap=no
+scroll=horizontal
+
+[Continents]
+C1=5
+C2=10
+
+[Territories]
+Bangladesh,504,402,C1,China,SriLanka
+SriLanka,293,410,C1,India,Bangladesh
+
+China,500,240,C2,Bangladesh
+India,296,241,C2,SriLanka

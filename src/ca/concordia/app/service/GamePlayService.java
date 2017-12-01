@@ -310,7 +310,6 @@ public class GamePlayService {
 			eventPayload.put("countryName", c.getCountryName());
 			GamePlayEvent gpe = new GamePlayEvent(EventType.START_COUNTRY, eventPayload );
 			p.publishGamePlayEvent(gpe);
-			//logger.write(p.getName()+" -> controls the country -> "+c.getCountryName()+"\n");
 			j++;
 		}
 	}
@@ -875,6 +874,33 @@ public class GamePlayService {
 		GamePlayEvent gpe = new GamePlayEvent(EventType.PLAYER_DEAD, eventPayload );
 
 		ruler.publishGamePlayEvent(gpe);
+	}
+	
+	/**
+	 *  Get the weakest country for the player
+	 *  
+	 *  @return weakestCountry return the weakest country
+	 * 
+	 * */
+	public Country getWeakestCountry(Player p) {
+
+		List<Country> playerCountries = GamePlayService.getInstance().getCountriesConqueredBy(p);
+
+		Country weakestCountry = null;
+		
+		int minArmy = Integer.MAX_VALUE;
+		
+		for (Country country : playerCountries) {
+			
+			int playerArmy = country.getNoOfArmy();
+			
+			if (playerArmy < minArmy) {
+				minArmy = playerArmy;
+				weakestCountry = country;
+			}
+		}
+
+		return weakestCountry;
 	}
 	
 	public void copySaveData(SavedGame savedGame){

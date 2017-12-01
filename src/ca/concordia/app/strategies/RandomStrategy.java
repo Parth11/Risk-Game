@@ -22,20 +22,26 @@ import ca.concordia.app.util.Randomizer;
  * @author harvi
  *
  */
-public class RandomStrategy implements PlayerStrategy{
+public class RandomStrategy implements PlayerStrategy {
 
 	public final String NAME = "Random";
 	
 	@Override
 	public Map<String, Object> computeReinforcementMove(Player p) {
-		Map<String,Object> strategyRs = new HashMap<>();
+		Map<String, Object> strategyRs = new HashMap<>();
 		List<Country> countries = GamePlayService.getInstance().getCountriesConqueredBy(p);
 		strategyRs.put("country", countries.get(Randomizer.randomize(countries.size())));
+		
+		Country randomCountry = countries.get(Randomizer.randomize(countries.size()));
+		int randomArmies = Randomizer.randomize(GamePlayService.getInstance().getReinforcementArmyForPlayer(p));
+		p.doReinforcement(randomCountry, randomArmies);
+		
 		return strategyRs;
 	}
 
 	@Override
 	public Map<String, Object> computeAttackMove(Player p) {
+
 
 		while(p.canAttack() && Randomizer.randomize(2)==0){
 
@@ -96,44 +102,51 @@ public class RandomStrategy implements PlayerStrategy{
 	@Override
 	public Map<String, Object> computeFortifyMove(Player p) {
 
-		Map<String,Object> strategyRs = new HashMap<>();
-		
+		Map<String, Object> strategyRs = new HashMap<>();
+
 		List<Country> countrySelection = GamePlayService.getInstance().getCountriesConqueredBy(p);
+		
 		List<Country> countrySelectionFiltered = new ArrayList<>();
-		for(Country c : countrySelection){
-			if(c.getNoOfArmy()>1){
+		
+		for (Country c : countrySelection) {
+			if (c.getNoOfArmy() > 1) {
 				countrySelectionFiltered.add(c);
 			}
 		}
-		
-		if(countrySelectionFiltered.isEmpty()){
+
+		if (countrySelectionFiltered.isEmpty()) {
 			return null;
 		}
-		Country from = countrySelectionFiltered.get(Randomizer.randomize(countrySelectionFiltered.size()));
 		
+		Country fromCountry = countrySelectionFiltered.get(Randomizer.randomize(countrySelectionFiltered.size()));
+
 		countrySelectionFiltered.clear();
+
+		List<Country> countries = GamePlayService.getInstance().getCountriesConqueredBy(fromCountry.getRuler());
 		
-		List<Country> countries = GamePlayService.getInstance().getCountriesConqueredBy(from.getRuler());
-		int index = countries.indexOf(from);
+		int index = countries.indexOf(fromCountry);
+		
 		for (int i = 0; i < countries.size(); i++) {
-			if (i != index && GamePlayService.getInstance().isConnected(from, countries.get(i), from.getRuler())) {
+			if (i != index && GamePlayService.getInstance().isConnected(fromCountry, countries.get(i), fromCountry.getRuler())) {
 				countrySelectionFiltered.add(countries.get(i));
 			}
-		} 
-		
-		if(countrySelectionFiltered.isEmpty()){
+		}
+
+		if (countrySelectionFiltered.isEmpty()) {
 			return null;
 		}
+
+		Country toCountry = countrySelectionFiltered.get(Randomizer.randomize(countrySelectionFiltered.size()));
+
+		int armies = fromCountry.getNoOfArmy() - Randomizer.randomize(fromCountry.getNoOfArmy()-1);
 		
-		Country to  = countrySelectionFiltered.get(Randomizer.randomize(countrySelectionFiltered.size()));
-		
-		int armies = from.getNoOfArmy() - Randomizer.randomize(from.getNoOfArmy());
-		
-		strategyRs.put("from", from);
-		strategyRs.put("to", to);
+		p.doFortification(fromCountry, toCountry, armies);
+
+		strategyRs.put("from", fromCountry);
+		strategyRs.put("to", toCountry);
 		strategyRs.put("armies", armies);
 		return strategyRs;
-	
+
 	}
 	@Override
 	public String getName() {

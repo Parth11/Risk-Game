@@ -162,7 +162,7 @@ public class Player extends Observable implements Serializable{
 		
 		Map<String,Object> strategyRs = strategy.computeReinforcementMove(this);
 		
-		doReinforcement((Country) strategyRs.get("country"), this.getTotalArmies());
+		//doReinforcement((Country) strategyRs.get("country"), this.getTotalArmies());
 	}
 	
 	/**
@@ -184,6 +184,14 @@ public class Player extends Observable implements Serializable{
 	
 	public void strategizeAttack(){
 			strategy.computeAttackMove(this);
+			if(GamePlayService.getInstance().isThisTheEnd()) {
+				HashMap<String, Object> eventPayload = new HashMap<>();
+				eventPayload = new HashMap<>();
+				eventPayload.put("winner", GamePlayService.getInstance().getCurrentTurnPlayer());
+				GamePlayEvent gpe = new GamePlayEvent(EventType.ATTACK_CAPTURE, eventPayload);
+				gpe = new GamePlayEvent(EventType.THE_END, eventPayload);
+				GamePlayService.getInstance().getCurrentTurnPlayer().publishGamePlayEvent(gpe);
+			}
 	}
 	
 	/**
@@ -253,15 +261,15 @@ public class Player extends Observable implements Serializable{
 	public void strategizeFortification(){
 		Map<String,Object> strategyRs = strategy.computeFortifyMove(this);
 	
-		if(strategyRs!=null){
-			doFortification((Country) strategyRs.get("from"),
-					(Country) strategyRs.get("to"), 
-						(Integer) strategyRs.get("armies"));
-		}
-		else{
-			ConsoleLoggerService.getInstance(null).write(this.getName()+
-					" -> does not have eligible countries to fortify -> Skipping Fortification \n");
-		}
+//		if(strategyRs!=null){
+//			doFortification((Country) strategyRs.get("from"),
+//					(Country) strategyRs.get("to"), 
+//						(Integer) strategyRs.get("armies"));
+//		}
+//		else{
+//			ConsoleLoggerService.getInstance(null).write(this.getName()+
+//					" -> does not have eligible countries to fortify -> Skipping Fortification \n");
+//		}
 		
 	}	
 	/**

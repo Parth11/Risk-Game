@@ -15,6 +15,11 @@ import ca.concordia.app.model.GameMap;
 import ca.concordia.app.model.Player;
 import ca.concordia.app.service.GamePlayService;
 import ca.concordia.app.service.MapService;
+import ca.concordia.app.strategies.AggressiveStrategy;
+import ca.concordia.app.strategies.BenevolentStrategy;
+import ca.concordia.app.strategies.CheaterStrategy;
+import ca.concordia.app.strategies.PlayerStrategy;
+import ca.concordia.app.strategies.RandomStrategy;
 import ca.concordia.app.util.GameConstants;
 import ca.concordia.app.util.MapValidationException;
 
@@ -30,6 +35,7 @@ public class PlayerTest {
 	private MapService map_service;
 	private List<Player> players;
 	private List<Country> country;
+	private List<PlayerStrategy> strategies = new ArrayList<>();
 	
 	@Before
 	public void init() throws MapValidationException, URISyntaxException {
@@ -37,7 +43,11 @@ public class PlayerTest {
 		game_map = GameMap.getInstance();
 		game_play = GamePlayService.getInstance();
 		game_map = map_service.loadMap("maps/Canada.map");
-		game_play.doStartupPhase(4,null);
+		 strategies.add(new BenevolentStrategy());
+		    strategies.add(new CheaterStrategy());
+		    strategies.add(new AggressiveStrategy());
+		    strategies.add(new RandomStrategy());
+		game_play.doStartupPhase(4,strategies);
 		players = game_play.getPlayers();
 		country = game_map.getCountries();
 

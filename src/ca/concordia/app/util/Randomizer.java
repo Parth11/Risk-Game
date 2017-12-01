@@ -13,8 +13,6 @@ public class Randomizer {
 
 	static Random r = new Random();
 
-	
-	
 	public static int randomize(int n){
 		return r.nextInt(n);
 	}

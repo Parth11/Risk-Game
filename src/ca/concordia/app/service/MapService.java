@@ -210,8 +210,29 @@ public class MapService {
 		}
 
 		extractFileInformation(gameMap, list);
+		validateContinentNeighbours(gameMap);
 			
 		return gameMap;
+	}
+
+	private void validateContinentNeighbours(GameMap gameMap) throws MapValidationException{
+		// TODO Auto-generated method stub
+		List<Continent> continents=gameMap.getContinents();
+		int neighbourCount=0;
+		for(Continent continent: continents){
+			List<Country> countryList=gameMap.getCountriesByContinent(continent.getContinentName());
+			for(Country c: countryList){
+				List<Country> neighbours=gameMap.getNeighbourCountries(c);
+				neighbourCount=0;
+				for(Country neighbour:neighbours){
+					if(neighbour.getContinentName().equals(continent.getContinentName())){
+						neighbourCount++;
+					}
+				}
+			}
+			if(neighbourCount==0)
+				throw new MapValidationException("Disconnected Countries belongs to same Continent");
+		}
 	}
 
 	/**
@@ -286,7 +307,7 @@ public class MapService {
 				throw new MapValidationException("Map does not contain valid continent");
 			}
 			int control_value=Integer.parseInt(metaData[1]);
-			if(control_value<=0)
+			if(control_value<0)
 			{	
 				throw new MapValidationException("Map does not contain valid control value");
 			}
@@ -312,6 +333,7 @@ public class MapService {
 				}
 			}
 		}
+		
 	}
 	
 	/**
