@@ -65,7 +65,12 @@ public class ConsoleLoggerService implements Observer {
 		updateConsoleForEvent(p, e);
 		
 	}
-
+	
+	/**
+	 * this method will update the console for event
+	 * @param p
+	 * @param e
+	 */
 	public void updateConsoleForEvent(Player p, GamePlayEvent e) {
 		switch(e.getEvent_type()){
 		case START_ARMY_ALLOCATION:
