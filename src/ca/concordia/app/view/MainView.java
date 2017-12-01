@@ -67,7 +67,7 @@ public class MainView extends JFrame implements IView{
 
 	/**
 	 * calls setActionlistener java method
-	 * @param actionListener 
+	 * @param actionListener the listener
 	 */
 	@Override
 	public void setActionListener(ActionListener actionListener) {
@@ -82,7 +82,7 @@ public class MainView extends JFrame implements IView{
 	 */
 	/**
 	 * sets mouse Listener 
-	 * @param mouseListener
+	 * @param mouseListener the listener
 	 */
 	@Override
 	public void setMouseListener(MouseListener mouseListener) {

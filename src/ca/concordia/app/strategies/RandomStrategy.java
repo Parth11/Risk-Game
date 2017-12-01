@@ -19,13 +19,22 @@ import ca.concordia.app.service.GamePlayService;
 import ca.concordia.app.util.Randomizer;
 
 /**
+ * This class implements the Benevolent Strategy.
  * @author harvi
  *
  */
 public class RandomStrategy implements PlayerStrategy {
-
+	
+	/**
+	 * the name of the strategy
+	 */
 	public final String NAME = "Random";
 	
+	/**
+	 * reinforcement implementation
+	 * @param p the player
+	 * @return the list
+	 */
 	@Override
 	public Map<String, Object> computeReinforcementMove(Player p) {
 		Map<String, Object> strategyRs = new HashMap<>();
@@ -45,7 +54,11 @@ public class RandomStrategy implements PlayerStrategy {
 		
 		return strategyRs;
 	}
-
+	
+	/**
+	 * Attack implementation
+	 * @param p the player
+	 */
 	@Override
 	public Map<String, Object> computeAttackMove(Player p) {
 
@@ -105,7 +118,12 @@ public class RandomStrategy implements PlayerStrategy {
 		
 		return null;
 	}
-
+	
+	/**
+	 * fortify implementation
+	 * @param p the player.
+	 * @return the list.
+	 */
 	@Override
 	public Map<String, Object> computeFortifyMove(Player p) {
 
@@ -158,6 +176,11 @@ public class RandomStrategy implements PlayerStrategy {
 		return strategyRs;
 
 	}
+		
+	/**
+	 * Gives the name of the strategy
+	 * @return the strategy
+	 */
 	@Override
 	public String getName() {
 		return "Random";

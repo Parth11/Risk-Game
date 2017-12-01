@@ -35,7 +35,8 @@ public class AggressiveStrategy implements PlayerStrategy {
 	public Map<String, Object> computeReinforcementMove(Player p) {
 
 		Map<String, Object> strategyAs = new HashMap<>();
-		Country strongesCountry = GamePlayService.getInstance().getStrongestCountry(p);
+
+    Country strongesCountry = GamePlayService.getInstance().getStrongestCountry(p);
 		strategyAs.put("country", strongesCountry);
 		strategyAs.put("beforeArmies", strongesCountry.getNoOfArmy());
 

@@ -49,7 +49,7 @@ public class GameMap {
 	}
 	/**
 	 * sets the countries which are parsed the the countries list.
-	 * @param countries
+	 * @param countries the countries to set
 	 */
 	public void setCountries(List<Country> countries) {
 		this.countries = countries;
@@ -64,7 +64,7 @@ public class GameMap {
 	
 	/**
 	 * Sets the continents which are parsed the the continents list.
-	 * @param continents
+	 * @param continents the continent to set
 	 */
 	public void setContinents(List<Continent> continents) {
 		this.continents = continents;
@@ -80,7 +80,7 @@ public class GameMap {
 
 	/**
 	 * Sets the territories which are parsed the the continents list.
-	 * @param territories 
+	 * @param territories the territories to set
 	 */
 	public void setTerritories(HashMap<Country, ArrayList<String>> territories) {
 		this.territories = territories;
@@ -88,7 +88,7 @@ public class GameMap {
 	
 	/**
 	 * gets the country by name
-	 * @param countryName
+	 * @param countryName the country name
 	 * @return the country by name
 	 */
 	public Country getCountryByName(String countryName){
@@ -100,7 +100,7 @@ public class GameMap {
 	}
 	/**
 	 * gets the continent by name
-	 * @param continentName
+	 * @param continentName the continent name
 	 * @return Continent by name
 	 */
 	public Continent getContinentByName(String continentName) {
@@ -113,8 +113,8 @@ public class GameMap {
 	}
 	
 	/**
-	 * gets the country neighbours
-	 * @param c
+	 * gets the country neighbors
+	 * @param c the country variable
 	 * @return Country neighbor as per the file loaded.
 	 */
 	public String getCountryNeighboursAsCSV(Country c){
@@ -127,7 +127,7 @@ public class GameMap {
 	
 	/**
 	 * gets the countries in the continent
-	 * @param continentName
+	 * @param continentName the continent name
 	 * @return Countries in the continent
 	 */
 	public List<Country> getCountriesByContinent(String continentName) {
@@ -142,7 +142,7 @@ public class GameMap {
 	
 	/**
 	 * get the neighboring countries
-	 * @param country
+	 * @param country the country variable
 	 * @return Neighboring countries
 	 */
 	public List<Country> getNeighbourCountries(Country country){
@@ -155,7 +155,7 @@ public class GameMap {
 	
 	/**
 	 * This method copies the data of the saved game
-	 * @param savedGame
+	 * @param savedGame variable of type SaveGame
 	 */
 	public void copySavedData(SavedGame savedGame){
 		savedGame.setContinents(continents);
@@ -165,7 +165,7 @@ public class GameMap {
 	
 	/**
 	 * Restore the saved data of the game
-	 * @param savedGame
+	 * @param savedGame save game
 	 */
 	public void restoreSavedData(SavedGame savedGame){
 		continents = savedGame.getContinents();

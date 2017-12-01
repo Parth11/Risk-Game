@@ -50,7 +50,7 @@ public class SavedGame implements Serializable {
 	
 	/**
 	 * This method will save the game
-	 * @param saveFile
+	 * @param saveFile save file
 	 */
 	public void saveThisGame(File saveFile){
 		for(Player p :GamePlayService.getInstance().getPlayers()){
@@ -86,7 +86,7 @@ public class SavedGame implements Serializable {
 	
 	/**
 	 * sets the countries
-	 * @param countries
+	 * @param countries list 
 	 */
 	public void setCountries(List<Country> countries) {
 		this.countries = countries;
@@ -102,7 +102,7 @@ public class SavedGame implements Serializable {
 	
 	/**
 	 * set the continents 
-	 * @param continents
+	 * @param continents the continent
 	 */
 	public void setContinents(List<Continent> continents) {
 		this.continents = continents;
@@ -110,7 +110,7 @@ public class SavedGame implements Serializable {
 	
 	/**
 	 * hashmap to get territories
-	 * @return territories
+	 * @return territories the territory
 	 */
 	public HashMap<Country, ArrayList<String>> getTerritories() {
 		return territories;
@@ -118,7 +118,7 @@ public class SavedGame implements Serializable {
 	
 	/**
 	 * sets the territories
-	 * @param territories
+	 * @param territories the territory
 	 */
 	public void setTerritories(HashMap<Country, ArrayList<String>> territories) {
 		this.territories = territories;
@@ -126,7 +126,7 @@ public class SavedGame implements Serializable {
 
 	/**
 	 * gets the deck map 
-	 * @return deckMap
+	 * @return deckMap 
 	 */
 	public HashMap<String, Integer> getDeckMap() {
 		return deckMap;
@@ -134,7 +134,7 @@ public class SavedGame implements Serializable {
 	
 	/**
 	 * set the deckMap
-	 * @param deckMap
+	 * @param deckMap the deck 
 	 */
 	public void setDeckMap(HashMap<String, Integer> deckMap) {
 		this.deckMap = deckMap;
@@ -150,7 +150,7 @@ public class SavedGame implements Serializable {
 	
 	/**
 	 * set number of players 
-	 * @param number_of_players
+	 * @param number_of_players the players
 	 */
 	public void setNumber_of_players(int number_of_players) {
 		this.number_of_players = number_of_players;
@@ -166,7 +166,7 @@ public class SavedGame implements Serializable {
 	
 	/**
 	 * set max turns
-	 * @param maxTurns
+	 * @param maxTurns the maximum turn
 	 */
 	public void setMaxTurns(int maxTurns) {
 		this.maxTurns = maxTurns;
@@ -182,7 +182,7 @@ public class SavedGame implements Serializable {
 	
 	/**
 	 * set the players
-	 * @param players
+	 * @param players the list of players
 	 */
 	public void setPlayers(List<Player> players) {
 		this.players = players;
@@ -198,7 +198,7 @@ public class SavedGame implements Serializable {
 	
 	/**
 	 * sets the player country map
-	 * @param player_country_map
+	 * @param player_country_map player map
 	 */
 	public void setPlayer_country_map(Map<Player, List<Country>> player_country_map) {
 		this.player_country_map = player_country_map;
@@ -214,7 +214,7 @@ public class SavedGame implements Serializable {
 	
 	/**
 	 * set the turn
-	 * @param turn
+	 * @param turn the number of turns
 	 */
 	public void setTurn(int turn) {
 		this.turn = turn;
@@ -222,7 +222,7 @@ public class SavedGame implements Serializable {
 	
 	/**
 	 * gets current player
-	 * @return
+	 * @return the current player.
 	 */
 	public Player getCurrent_player() {
 		return current_player;
@@ -230,7 +230,7 @@ public class SavedGame implements Serializable {
 	
 	/**
 	 * Set the current player
-	 * @param current_player
+	 * @param current_player variable of type player
 	 */
 	public void setCurrent_player(Player current_player) {
 		this.current_player = current_player;
@@ -238,7 +238,7 @@ public class SavedGame implements Serializable {
 	
 	/**
 	 * get the game log
-	 * @return game_log
+	 * @return game_log the game log
 	 */
 	public List<GameLogEvent> getGame_log() {
 		return game_log;
@@ -246,7 +246,7 @@ public class SavedGame implements Serializable {
 	
 	/**
 	 * sets the game log
-	 * @param game_log
+	 * @param game_log the game log
 	 */
 	public void setGame_log(List<GameLogEvent> game_log) {
 		this.game_log = game_log;

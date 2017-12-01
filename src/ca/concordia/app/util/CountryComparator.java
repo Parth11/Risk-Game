@@ -18,6 +18,10 @@ public class CountryComparator implements Comparator<Country>{
 	 */
 
 	@Override
+	/**
+	 * Compare countries
+	 * return c country
+	 */
 	public int compare(Country o1, Country o2) {
 		
 		int c;

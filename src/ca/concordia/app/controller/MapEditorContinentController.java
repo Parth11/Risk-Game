@@ -45,7 +45,7 @@ public class MapEditorContinentController implements ActionListener, MouseListen
 
 	/**
 	 * Calls the mouseClicked method of java which responds to the user input.
-	 * @param e
+	 * @param e variable of type mouse event. 
 	 */
 	@Override
 	public void mouseClicked(MouseEvent e) {
@@ -60,7 +60,7 @@ public class MapEditorContinentController implements ActionListener, MouseListen
 
 	/**
 	 * Mouse pressed event 
-	 * @param e
+	 * @param e variable of type mouse event. 
 	 */
 	@Override
 	public void mousePressed(MouseEvent e) {
@@ -69,7 +69,7 @@ public class MapEditorContinentController implements ActionListener, MouseListen
 
 	/**
 	 * mouse released event
-	 * @param e
+	 * @param e variable of type mouse event. 
 	 */
 	@Override
 	public void mouseReleased(MouseEvent e) {
@@ -78,7 +78,7 @@ public class MapEditorContinentController implements ActionListener, MouseListen
 
 	/**
 	 * mouse entered event
-	 * @param e
+	 * @param e variable of type mouse event. 
 	 */
 	@Override
 	public void mouseEntered(MouseEvent e) {
@@ -87,7 +87,7 @@ public class MapEditorContinentController implements ActionListener, MouseListen
 
 	/**
 	 *  mouse exited event
-	 *  @param e
+	 *  @param e variable of type mouse event. 
 	 */
 	@Override
 	public void mouseExited(MouseEvent e) {
@@ -99,7 +99,7 @@ public class MapEditorContinentController implements ActionListener, MouseListen
 	 * Calls the actionPerformed method of java.
 	 * Access the overall functionality of MapEditorController.java
 	 * 
-	 * @param e
+	 * @param e variable of type Action event. 
 	 * 
 	 */
 	@Override

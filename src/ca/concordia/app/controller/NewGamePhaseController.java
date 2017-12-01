@@ -61,7 +61,8 @@ public class NewGamePhaseController implements ActionListener, MouseListener {
 	
 	/**
 	 * Opens the game logger window, the game play window and the game play service window.
-	 * @param numPlayers strategies
+	 * @param numPlayers  number of players
+	 * @param strategies the strategy
 	 */
 	public NewGamePhaseController(Integer numPlayers, List<? extends PlayerStrategy> strategies) {
 		game_logger_view = new GameLoggerView();
@@ -71,7 +72,7 @@ public class NewGamePhaseController implements ActionListener, MouseListener {
 	
 	/**
 	 * This method controls the new Game phase
-	 * @param savedGame
+	 * @param savedGame variable of type SaveGame
 	 */
 	public NewGamePhaseController(SavedGame savedGame){
 		game_logger_view = new GameLoggerView();
@@ -243,7 +244,7 @@ public class NewGamePhaseController implements ActionListener, MouseListener {
 	
 	/**
 	 * mouse clicked event
-	 * @param e
+	 * @param e mouse event 
 	 */
 	@Override
 	public void mouseClicked(MouseEvent e) {
@@ -252,7 +253,7 @@ public class NewGamePhaseController implements ActionListener, MouseListener {
 
 	/**
 	 * mouse pressed event
-	 * @param e
+	 * @param e mouse event
 	 */
 	@Override
 	public void mousePressed(MouseEvent e) {
@@ -262,7 +263,7 @@ public class NewGamePhaseController implements ActionListener, MouseListener {
 	
 	/**
 	 * mouse released event
-	 * @param e
+	 * @param e mouse event
 	 */
 	@Override
 	public void mouseReleased(MouseEvent e) {
@@ -271,7 +272,7 @@ public class NewGamePhaseController implements ActionListener, MouseListener {
 
 	/**
 	 * mouse entered event
-	 * @param e
+	 * @param e mouse event
 	 */
 	@Override
 	public void mouseEntered(MouseEvent e) {
@@ -280,7 +281,7 @@ public class NewGamePhaseController implements ActionListener, MouseListener {
 
 	/**
 	 * mouse exited event
-	 * @param e
+	 * @param e mouse event
 	 */
 	@Override
 	public void mouseExited(MouseEvent e) {
@@ -290,7 +291,7 @@ public class NewGamePhaseController implements ActionListener, MouseListener {
 	
 	/**
 	 * Gets the country on which you want to put armies on, attack initiation, and fortification initiation.
-	 * @param e
+	 * @param e action event
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {

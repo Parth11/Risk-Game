@@ -17,7 +17,8 @@ public class RiskExceptionHandler implements UncaughtExceptionHandler {
 	
 	/**
 	 * calls the uncaughtException java method
-	 * @param t, e
+	 * @param t the thread variable
+	 * @param e the throwable variable
 	 */
 	@Override
 	public void uncaughtException(Thread t, Throwable e) {

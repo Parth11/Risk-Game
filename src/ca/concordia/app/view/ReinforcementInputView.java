@@ -78,7 +78,7 @@ public class ReinforcementInputView extends JDialog implements IView{
 	 */
 	/**
 	 * sets action listener
-	 * @param actionListener
+	 * @param actionListener the listener
 	 */
 	@Override
 	public void setActionListener(ActionListener actionListener) {
@@ -90,7 +90,7 @@ public class ReinforcementInputView extends JDialog implements IView{
 	 */
 	/**
 	 * sets mouse listener 
-	 * @param mouseListener 
+	 * @param mouseListener  the listener
 	 */
 	@Override
 	public void setMouseListener(MouseListener mouseListener) {

@@ -39,7 +39,8 @@ public class Player extends Observable implements Serializable{
 	
 	/**
 	 * Parameterized constructor Which sets the attributes of the player.
-	 * @param name
+	 * @param name the player name
+	 * @param strategy players strategy
 	 */
 	public Player(String name, PlayerStrategy strategy) {
 		this.name = name;
@@ -60,7 +61,7 @@ public class Player extends Observable implements Serializable{
 
 	/**
 	 * Sets the reinforce card
-	 * @param reinforceArmyforCard
+	 * @param reinforceArmyforCard the cards
 	 */
 	public void setReinforceArmyforCard(int reinforceArmyforCard) {
 		this.reinforce_army_for_card = reinforceArmyforCard;
@@ -68,7 +69,7 @@ public class Player extends Observable implements Serializable{
 	
 	/**
 	 * returns the name of the player
-	 * @return name
+	 * @return name the name of the card
 	 */
 	public String getName() {
 		return name;
@@ -147,7 +148,7 @@ public class Player extends Observable implements Serializable{
 	
 	/**
 	 * Adds the card in the list 
-	 * @param card
+	 * @param card the card variable
 	 */
 	public void addCard(Card card) {
 		cards_list.add(card);
@@ -160,13 +161,12 @@ public class Player extends Observable implements Serializable{
 		
 		Map<String,Object> strategyRs = strategy.computeReinforcementMove(this);
 		
-		//doReinforcement((Country) strategyRs.get("country"), this.getTotalArmies());
 	}
 	
 	/**
 	 * Does the Reinforcement for the player
-	 * @param country
-	 * @param armiesWishToReinforce
+	 * @param country the country to reinforce
+	 * @param armiesWishToReinforce nuber of armies
 	 */
 	public void doReinforcement(Country country, int armiesWishToReinforce) {
 
@@ -185,22 +185,14 @@ public class Player extends Observable implements Serializable{
 	 */
 	public void strategizeAttack(){
 			strategy.computeAttackMove(this);
-			if(GamePlayService.getInstance().isThisTheEnd()) {
-				HashMap<String, Object> eventPayload = new HashMap<>();
-				eventPayload = new HashMap<>();
-				eventPayload.put("winner", GamePlayService.getInstance().getCurrentTurnPlayer());
-				GamePlayEvent gpe = new GamePlayEvent(EventType.ATTACK_CAPTURE, eventPayload);
-				gpe = new GamePlayEvent(EventType.THE_END, eventPayload);
-				GamePlayService.getInstance().getCurrentTurnPlayer().publishGamePlayEvent(gpe);
-			}
 	}
 	
 	/**
 	 * Initiates Battle between two players with their selected country
-	 * @param attackerCountry
-	 * @param defenderCountry
-	 * @param attackResult
-	 * @param defenceResult
+	 * @param attackerCountry the attacking country
+	 * @param defenderCountry the defending country
+	 * @param attackResult the attack result
+	 * @param defenceResult the defense result
 	 */
 	public void doAttack(Country attackerCountry, Country defenderCountry, List<Integer> attackResult,
 			List<Integer> defenceResult) {
@@ -278,9 +270,9 @@ public class Player extends Observable implements Serializable{
 	}	
 	/**
 	 * Does the Fortification for the Player.
-	 * @param fromCountry
-	 * @param toCountry
-	 * @param armies
+	 * @param fromCountry country to move armies from
+	 * @param toCountry country to put armies in
+	 * @param armies the number of armies
 	 */
 	public void doFortification(Country fromCountry, Country toCountry, Integer armies) {
 
@@ -295,15 +287,15 @@ public class Player extends Observable implements Serializable{
 	}
 	/**
 	 * Sets the current phase of the player.
-	 * @param currentPhase
+	 * @param currentPhase the phase
 	 */
 	public void setCurrentPhase(GamePhase currentPhase){
 		this.game_phase = currentPhase;
 	}
 	
 	/**
-	 * Publishes the event and calls the <code>notifyObservers</> method
-	 * @param gamePlayEvent
+	 * Publishes the event and calls the notifyObservers method
+	 * @param gamePlayEvent the event
 	 */
 	public void publishGamePlayEvent(GamePlayEvent gamePlayEvent){
 		this.event_log.add(gamePlayEvent);
@@ -348,9 +340,9 @@ public class Player extends Observable implements Serializable{
 	
 	/**
 	 * Reimbursed Cards for getting army
-	 * @param a
-	 * @param i
-	 * @param c
+	 * @param a card type
+	 * @param i card type
+	 * @param c card type
 	 */
 	public void reimburseCards(int a, int i, int c) {
 		

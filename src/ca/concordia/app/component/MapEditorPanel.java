@@ -28,13 +28,15 @@ public class MapEditorPanel extends JPanel implements IView {
 	 */
 	public DrawingBase map_area;
 	
+	/**
+	 * variable of type Image
+	 */
 	Image image;
 
 	/**
 	 * Instantiates a new map editor panel.
 	 *
-	 * @throws IOException
-	 *             Signals that an I/O exception has occurred.
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	public MapEditorPanel() throws IOException {
 		setLayout(new BorderLayout());
@@ -56,7 +58,7 @@ public class MapEditorPanel extends JPanel implements IView {
 	
 	/**
 	 * For painting the components
-	 * @param g
+	 * @param g the graphics variable
 	 */
 	
 	@Override
@@ -67,7 +69,7 @@ public class MapEditorPanel extends JPanel implements IView {
 
 	/**
 	 * To set the ActionListner.
-	 * @param actionListener.
+	 * @param actionListener variable of type ActionListener. 
 	 */
 	@Override
 	public void setActionListener(ActionListener actionListener) {
@@ -76,7 +78,7 @@ public class MapEditorPanel extends JPanel implements IView {
 
 	/**
 	 * To set the MouseListner event.
-	 * @param mouseListener.
+	 * @param mouseListener variable of type mouse listener. 
 	 */
 	@Override
 	public void setMouseListener(MouseListener mouseListener) {

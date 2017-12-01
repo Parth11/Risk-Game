@@ -12,7 +12,9 @@ import javax.swing.JOptionPane;
 
 import ca.concordia.app.model.Country;
 import ca.concordia.app.model.GameMap;
+import ca.concordia.app.model.GamePlayEvent;
 import ca.concordia.app.model.Player;
+import ca.concordia.app.model.GamePlayEvent.EventType;
 import ca.concordia.app.service.ConsoleLoggerService;
 import ca.concordia.app.service.GamePlayService;
 
@@ -26,8 +28,9 @@ import ca.concordia.app.service.GamePlayService;
  */
 public class CheaterStrategy implements PlayerStrategy {
 
-	/* (non-Javadoc)
-	 * @see ca.concordia.app.strategies.PlayerStrategy#computeReinforcementMove(ca.concordia.app.model.Player)
+	/**
+	 * reinforcement implementation
+	 * @param p the player
 	 */
 	@Override
 	public Map<String, Object> computeReinforcementMove(Player p) {
@@ -53,8 +56,9 @@ public class CheaterStrategy implements PlayerStrategy {
 
 	}
 
-	/* (non-Javadoc)
-	 * @see ca.concordia.app.strategies.PlayerStrategy#computeAttackMove(ca.concordia.app.model.Player)
+	/**
+	 * attack implementation
+	 * @param p the player
 	 */
 	@Override
 	public Map<String, Object> computeAttackMove(Player p) {
@@ -93,14 +97,23 @@ public class CheaterStrategy implements PlayerStrategy {
 			}			
 			
 		}
+		
+	}
+	
+	if(GamePlayService.getInstance().isThisTheEnd()){
+		HashMap<String, Object> eventPayload = new HashMap<>();
+		eventPayload.put("winner", p);
+		GamePlayEvent gpe = new GamePlayEvent(EventType.THE_END, eventPayload);
+		p.publishGamePlayEvent(gpe);
 	}
 
 	return null;
 }
 
 
-	/* (non-Javadoc)
-	 * @see ca.concordia.app.strategies.PlayerStrategy#computeFortifyMove(ca.concordia.app.model.Player)
+	/**
+	 * fortify implementation
+	 * @param p the player
 	 */
 	@Override
 	public Map<String, Object> computeFortifyMove(Player p) {
@@ -135,6 +148,11 @@ public class CheaterStrategy implements PlayerStrategy {
 		
 		return strategyCs;
 	}
+	
+	/**
+	 * Give the strategy as a string
+	 * @return the strategy
+	 */
 	@Override
 	public String getName() {
 		return "Cheater";

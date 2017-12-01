@@ -37,6 +37,7 @@ public class NewGameSelectorController implements ActionListener, MouseListener 
 
 	/**
 	 * Instantiates a new new game selector controller.
+	 * @param noOfMaps number of maps
 	 */
 	public NewGameSelectorController(int noOfMaps) {
 		new_game_selector = new NewGameSelectorView(noOfMaps);
@@ -49,7 +50,7 @@ public class NewGameSelectorController implements ActionListener, MouseListener 
 	/**
 	 * mouse clicked event
 	 * 
-	 * @param e
+	 * @param e mouse event
 	 */
 	@Override
 	public void mouseClicked(MouseEvent e) {
@@ -59,7 +60,7 @@ public class NewGameSelectorController implements ActionListener, MouseListener 
 	/**
 	 * mouse clicked pressed
 	 * 
-	 * @param e
+	 * @param e mouse event
 	 */
 	@Override
 	public void mousePressed(MouseEvent e) {
@@ -69,7 +70,7 @@ public class NewGameSelectorController implements ActionListener, MouseListener 
 	/**
 	 * mouse clicked released
 	 * 
-	 * @param e
+	 * @param e mouse event
 	 */
 	@Override
 	public void mouseReleased(MouseEvent e) {
@@ -79,7 +80,7 @@ public class NewGameSelectorController implements ActionListener, MouseListener 
 	/**
 	 * mouse clicked entered
 	 * 
-	 * @param e
+	 * @param e mouse event
 	 */
 	@Override
 	public void mouseEntered(MouseEvent e) {
@@ -88,8 +89,7 @@ public class NewGameSelectorController implements ActionListener, MouseListener 
 
 	/**
 	 * mouse clicked exited
-	 * 
-	 * @param e
+	 * @param e mouse event
 	 */
 	@Override
 	public void mouseExited(MouseEvent e) {
@@ -100,7 +100,7 @@ public class NewGameSelectorController implements ActionListener, MouseListener 
 	 * Calls the actionPerformed method of java during game start phase. Selects the
 	 * map on which the game will be played.
 	 * 
-	 * @param e
+	 * @param e action event
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -131,6 +131,9 @@ public class NewGameSelectorController implements ActionListener, MouseListener 
 
 			List<? extends PlayerStrategy> strategies = new_game_selector.getStrategies();
 
+			TournamentConfiguration.getInstance().setNum_players(numPlayers);
+			TournamentConfiguration.getInstance().setStrategies(strategies);
+			
 			if (GamePlayService.getInstance().getGameMode() == GameMode.TOURNAMENT) {
 				Integer numMaxTurn = Integer.parseInt(new_game_selector.no_of_max_turn.getText());
 				Integer numGames = Integer.parseInt(new_game_selector.no_of_games.getText());
