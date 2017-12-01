@@ -918,6 +918,10 @@ public class GamePlayService {
 			p.addObserver(ConsoleLoggerService.getInstance(null));
 		}
 		
+		ConsoleLoggerService cls = ConsoleLoggerService.getInstance(null);
+		for(GameLogEvent gle : game_log){
+			cls.updateConsoleForEvent(gle.getPlayer(), gle.getGame_event());
+		}
 	}
 	
 

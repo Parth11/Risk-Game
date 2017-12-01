@@ -63,10 +63,12 @@ public class SavedGame implements Serializable {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		gson.toJson(this, fw);
 		try {
+			gson.toJson(this, fw);
 			fw.close();
 		} catch (IOException e) {
+			e.printStackTrace();
+		}catch(Exception e){
 			e.printStackTrace();
 		}
 		

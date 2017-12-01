@@ -75,6 +75,19 @@ public class NewGamePhaseController implements ActionListener, MouseListener {
 		GameMap.getInstance().restoreSavedData(savedGame);
 		GamePlayService.getInstance().restoreSavedData(savedGame);
 		current_player = savedGame.getCurrent_player();
+		switch(current_player.game_phase){
+		case ATTACK:
+			current_player.game_phase = GamePhase.REINFORCEMENT;
+			break;
+		case FORTIFICATION:
+			current_player.game_phase = GamePhase.ATTACK;
+			break;
+		case REINFORCEMENT:
+			current_player.game_phase = GamePhase.FORTIFICATION;
+			break;
+		case STARTUP:
+			break;
+		}
 		game_play_service = GamePlayService.getInstance();
 		goToNextMove();
 	}
@@ -98,12 +111,15 @@ public class NewGamePhaseController implements ActionListener, MouseListener {
 				JOptionPane.showMessageDialog(game_logger_view, "Game Ends");
 				System.exit(0);
 			}
+			current_player.game_phase = GamePhase.FORTIFICATION;
 			fortifyPlayer();
 			break;
 		case FORTIFICATION:
+			current_player.game_phase = GamePhase.REINFORCEMENT;
 			prepareToReinforce();
 			break;
 		case REINFORCEMENT:
+			current_player.game_phase = GamePhase.ATTACK;
 			initiateAttack();
 			break;
 		case STARTUP:
@@ -111,49 +127,6 @@ public class NewGamePhaseController implements ActionListener, MouseListener {
 			break;
 		}
 		
-//		switch(current_player.event_log.get().getEvent_type()){
-//		case ATTACK_CAPTURE:
-//			fortifyPlayer();
-//			break;
-//		case ATTACK_COUNTRY:
-//			fortifyPlayer();
-//			break;
-//		case CARD_EXCHANGE:
-//			prepareToReinforce();
-//			break;
-//		case CARD_WIN:
-//			prepareToReinforce();
-//			break;
-//		case FORTIFY_COUNTRY:
-//			triggerNextPlayer();
-//			break;
-//		case GENERIC_UPDATE:
-//			break;
-//		case PLAYER_DEAD:
-//			triggerNextPlayer();
-//			break;
-//		case REFINFORCE_COUNTRY:
-//			initiateAttack();
-//			break;
-//		case REINFORCE_ARMY_ALLOCATION:
-//			initiateAttack();
-//			break;
-//		case START_ARMY_ALLOCATION:
-//			prepareToReinforce();
-//			break;
-//		case START_ARMY_COUNTRY:
-//			prepareToReinforce();
-//			break;
-//		case START_COUNTRY:
-//			prepareToReinforce();
-//			break;
-//		case THE_END:
-//			System.exit(0);
-//			break;
-//		default:
-//			break;
-//		
-//		}
 	} 
 	
 	/**
