@@ -1,6 +1,7 @@
 package ca.concordia.app.controller;
 
 import java.awt.event.ActionEvent;
+
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -27,6 +28,11 @@ import ca.concordia.app.view.FortificationInputView;
 import ca.concordia.app.view.GameLoggerView;
 import ca.concordia.app.view.ReinforcementInputView;
 
+/**
+ * This class implements Tournament Controller
+ * @author Hardik Harvi
+ *
+ */
 public class TournamentController implements ActionListener, MouseListener {
 
 	GameLoggerView game_logger_view;
@@ -59,7 +65,10 @@ public class TournamentController implements ActionListener, MouseListener {
 	
 	 List<? extends PlayerStrategy> strategies;
 	 int player_count=0;
-
+	
+	 /**
+	  * Constructor of the class TournamentController
+	  */
 	public TournamentController() {
 		game_logger_view = new GameLoggerView();
 		game_play_service = GamePlayService.getInstance();
@@ -67,7 +76,12 @@ public class TournamentController implements ActionListener, MouseListener {
 		player_count = TournamentConfiguration.getInstance().getNum_players();
 		init(player_count, strategies);
 	}
-
+	
+	/**
+	 * Initializes GamePlayService methods used
+	 * @param numPlayers
+	 * @param strategies
+	 */
 	private void init(Integer numPlayers, List<? extends PlayerStrategy> strategies) {
 		tournament_game++;
 		tournament_game_turns = 0;
@@ -77,7 +91,10 @@ public class TournamentController implements ActionListener, MouseListener {
 		current_player = game_play_service.getCurrentTurnPlayer();
 		goToNextMove();
 	}
-
+	
+	/**
+	 * This method takes to the next move
+	 */
 	public void goToNextMove() {
 
 		switch (current_player.game_phase) {
@@ -111,7 +128,9 @@ public class TournamentController implements ActionListener, MouseListener {
 	}
 
 	
-
+	/**
+	 * This method prepares to Reinforce
+	 */
 	private void prepareToReinforce() {
 		if (tournament_game_turns < TournamentConfiguration.getInstance().getMax_turns()) 
 		{
@@ -164,7 +183,10 @@ public class TournamentController implements ActionListener, MouseListener {
 		}
 
 	}
-
+	
+	/**
+	 * This method reinforce player
+	 */
 	private void reinforcePlayer() {
 		current_player.setTotalArmies(reinforcement_armies);
 		HashMap<String, Object> eventPayload = new HashMap<>();
@@ -174,7 +196,10 @@ public class TournamentController implements ActionListener, MouseListener {
 		current_player.strategizeReinforcement();
 		goToNextMove();
 	}
-
+	
+	/**
+	 * This method will initiate attack
+	 */
 	private void initiateAttack() {
 		
 		current_player.setCurrentPhase(GamePhase.ATTACK);
@@ -182,13 +207,19 @@ public class TournamentController implements ActionListener, MouseListener {
 		goToNextMove();
 		
 	}
-
+	
+	/**
+	 * This method will fortify 
+	 */
 	private void fortifyPlayer() {
 		current_player.setCurrentPhase(GamePhase.FORTIFICATION);
 		current_player.strategizeFortification();
 		triggerNextPlayer();
 	}
-
+	
+	/**
+	 * This method triggers next player
+	 */
 	private void triggerNextPlayer() {
 
 		ConsoleLoggerService.getInstance(null).write("->->" + current_player.getName() + "******FORTIFICATION PHASE END*******\n");
@@ -197,41 +228,69 @@ public class TournamentController implements ActionListener, MouseListener {
 		goToNextMove();
 	}
 	
+	/**
+	 * This method will show the result log
+	 */
 	private void ShowResultLog() {
 		// TODO Auto-generated method stub
 		game_play_service.displayResults();
 	}
 	
+	/**
+	 * Mouse clicked event
+	 * @param e mouse event
+	 */
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
 
 	}
-
+	
+	/**
+	 * Mouse pressed event
+	 * @param e mouse event
+	 */
 	@Override
 	public void mousePressed(MouseEvent e) {
 		// TODO Auto-generated method stub
 
 	}
-
+	
+	/**
+	 * Mouse Release event
+	 * @param e mouse event
+	 */
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		// TODO Auto-generated method stub
 
 	}
-
+	
+	/**
+	 * mouse enter event
+	 * @param e mouse event
+	 */
 	@Override
 	public void mouseEntered(MouseEvent e) {
 		// TODO Auto-generated method stub
 
 	}
-
+	
+	
+	/**
+	 * Mouse exit event
+	 * @param e mouse event
+	 */
 	@Override
 	public void mouseExited(MouseEvent e) {
 		// TODO Auto-generated method stub
 
 	}
-
+	
+	/**
+	 * Action perform event
+	 * @param e action event
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
