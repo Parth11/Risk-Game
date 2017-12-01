@@ -47,6 +47,11 @@ public class AggressiveStrategyTest {
 
 	}
 
+	/**
+	 * 	Testing the Reinforcement move for the aggressive player
+	 * 
+	 * */
+	
 	@Test
 	public void testcomputeReinforcementMove() {
 				
@@ -62,19 +67,11 @@ public class AggressiveStrategyTest {
 		
 	}
 	
-	@Test
-	public void testcomputeAttackMove() {
-		strategy.computeReinforcementMove(players.get(0));		
-		
-		Country strongestCountry = game_play.getStrongestCountry(players.get(0));
-		strongestCountry.setNoOfArmy(25);
-		
-		Country defendingCountry = GamePlayService.getInstance().getEligibleAttackableCountries(strongestCountry).get(0);
-		defendingCountry.setNoOfArmy(1);
-		
-		
-	}
-	
+
+	/**
+	 * 	Testing the Fortificatiob move for the aggressive player
+	 * 
+	 * */	
 	@Test
 	public void testcomputeFortifyMove() {
 		

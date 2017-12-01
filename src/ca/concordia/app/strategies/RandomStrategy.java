@@ -55,6 +55,7 @@ public class RandomStrategy implements PlayerStrategy {
 			List<Country> countries = GamePlayService.getInstance().getEligibleAttackingCountriesForPlayer(p);
 			Country attackerCountry =  countries.get(Randomizer.randomize(countries.size()));
 			
+			
 			countries = GamePlayService.getInstance().getEligibleAttackableCountries(attackerCountry);
 			Country defenderCountry = countries.get(Randomizer.randomize(countries.size()));
 			
@@ -98,7 +99,6 @@ public class RandomStrategy implements PlayerStrategy {
 					gpe = new GamePlayEvent(EventType.THE_END, eventPayload);
 					p.publishGamePlayEvent(gpe);
 				}
-				
 			}
 			
 		}

@@ -61,14 +61,14 @@ public class AggressiveStrategy implements PlayerStrategy {
 		Country strongestCountry = GamePlayService.getInstance().getStrongestCountry(p);
 
 		if (strongestCountry != null) {
-			if (GamePlayService.getInstance().getEligibleAttackableCountries(strongestCountry).isEmpty()) {
+			if (!GamePlayService.getInstance().getEligibleAttackableCountries(strongestCountry).isEmpty()) {
 
 				Country defendingCountry = GamePlayService.getInstance()
 						.getEligibleAttackableCountries(strongestCountry).get(0);
 
-				strategyRs.put("attackCountry", strongestCountry);
-				strategyRs.put("defenceCountry", defendingCountry);
-
+				
+				strategyRs.put("beforeAttackCountry", strongestCountry);
+				strategyRs.put("beforeDefenceCountry", defendingCountry);
 				while (strongestCountry.getNoOfArmy() > 1
 						&& !defendingCountry.getRuler().getName().equals(strongestCountry.getRuler().getName())) {
 
@@ -78,8 +78,8 @@ public class AggressiveStrategy implements PlayerStrategy {
 					List<Integer> attackResult = attackRoller.rollAll();
 					List<Integer> defenceResult = defenceRoller.rollAll();
 
+					
 					p.doAttack(strongestCountry, defendingCountry, attackResult, defenceResult);
-
 					if (p.country_captured == true) {
 
 						GamePlayService.getInstance().moveArmyFromTo(p, strongestCountry, defendingCountry, 1);
