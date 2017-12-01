@@ -78,13 +78,14 @@ public class BenevolentStrategyTest {
 	
 	@Test
 	public void testcomputeFortifyMove() {
-		strategy.computeReinforcementMove(players.get(0));		
+
+		Map<String, Object> strategyAs = strategies.get(0).computeFortifyMove(players.get(0));				
 		
-		Country strongestCountry = game_play.getStrongestCountry(players.get(0));
-		strongestCountry.setNoOfArmy(25);
+		int fromArmies = (int) strategyAs.get("fromBeforeArmies");		
+		int afterArmies = (int) strategyAs.get("fromAfterArmies");
+		int fortifiesArmies = (int) strategyAs.get("armies");
 		
-		Country defendingCountry = GamePlayService.getInstance().getEligibleAttackableCountries(strongestCountry).get(0);
-		defendingCountry.setNoOfArmy(1);
+		assertEquals(fromArmies, afterArmies+fortifiesArmies);
 		
 		
 	}

@@ -126,7 +126,8 @@ public class RandomStrategy implements PlayerStrategy {
 		}
 		
 		Country fromCountry = countrySelectionFiltered.get(Randomizer.randomize(countrySelectionFiltered.size()));
-
+		strategyRs.put("fromBeforeArmies", fromCountry.getNoOfArmy());
+		
 		countrySelectionFiltered.clear();
 
 		List<Country> countries = GamePlayService.getInstance().getCountriesConqueredBy(fromCountry.getRuler());
@@ -144,11 +145,13 @@ public class RandomStrategy implements PlayerStrategy {
 		}
 
 		Country toCountry = countrySelectionFiltered.get(Randomizer.randomize(countrySelectionFiltered.size()));
-
+		strategyRs.put("toBeforeArmies", toCountry.getNoOfArmy());
+		
 		int armies = fromCountry.getNoOfArmy() - Randomizer.randomize(fromCountry.getNoOfArmy()-1);
 		
 		p.doFortification(fromCountry, toCountry, armies);
 
+		strategyRs.put("fromAfterArmies", fromCountry.getNoOfArmy());
 		strategyRs.put("from", fromCountry);
 		strategyRs.put("to", toCountry);
 		strategyRs.put("armies", armies);
