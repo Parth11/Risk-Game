@@ -46,6 +46,10 @@ public class CheaterStrategyTest {
 
 	}
 
+	/**
+	 * 	Testing the Reinforcement move for the cheater player
+	 * 
+	 * */
 	@Test
 	public void testcomputeReinforcementMove() {
 		
@@ -64,19 +68,10 @@ public class CheaterStrategyTest {
 		
 	}
 	
-	@Test
-	public void testcomputeAttackMove() {
-		strategy.computeReinforcementMove(players.get(0));		
-		
-		Country strongestCountry = game_play.getStrongestCountry(players.get(0));
-		strongestCountry.setNoOfArmy(25);
-		
-		Country defendingCountry = GamePlayService.getInstance().getEligibleAttackableCountries(strongestCountry).get(0);
-		defendingCountry.setNoOfArmy(1);
-		
-		
-	}
-	
+	/**
+	 * 	Testing the Fortify move for the cheater player
+	 * 
+	 * */
 	@Test
 	public void testcomputeFortifyMove() {
 		Map<String, Object> strategyAs = strategies.get(0).computeFortifyMove(players.get(0));

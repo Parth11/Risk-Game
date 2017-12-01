@@ -88,8 +88,6 @@ public class PlayerTest {
 		defense.add(2);
 		
 		players.get(0).doAttack(c1, c2, attack, defense);
-		System.out.println(c1.getNoOfArmy());
-		System.out.println(c2.getNoOfArmy());
 		
 		String afterC2Ruler = c2.getRuler().getName();
 		

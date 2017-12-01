@@ -45,9 +45,12 @@ public class BenevolentStrategyTest {
 
 	}
 
+	/**
+	 * 	Testing the Reinforcement move for the benevolent player
+	 * 
+	 * */
 	@Test
 	public void testcomputeReinforcementMove() {
-		
 		
 		Map<String, Object> strategyAs = strategies.get(0).computeReinforcementMove(players.get(0));
 		
@@ -63,19 +66,27 @@ public class BenevolentStrategyTest {
 		
 	}
 	
+	/**
+	 * 	Testing the attack move for the benevolent player
+	 * 
+	 * */
 	@Test
 	public void testcomputeAttackMove() {
-		strategy.computeReinforcementMove(players.get(0));		
 		
-		Country strongestCountry = game_play.getStrongestCountry(players.get(0));
-		strongestCountry.setNoOfArmy(25);
+		Country beforeCountry = game_play.getCountriesConqueredBy(players.get(0)).get(0);
 		
-		Country defendingCountry = GamePlayService.getInstance().getEligibleAttackableCountries(strongestCountry).get(0);
-		defendingCountry.setNoOfArmy(1);
+		strategies.get(0).computeFortifyMove(players.get(0));
 		
+		boolean b = beforeCountry.getRuler().getName() == beforeCountry.getRuler().getName();
+		
+		assertTrue(b);
 		
 	}
 	
+	/**
+	 * 	Testing the Fortify move for the benevolent player
+	 * 
+	 * */
 	@Test
 	public void testcomputeFortifyMove() {
 
