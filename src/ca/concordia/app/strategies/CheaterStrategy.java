@@ -82,9 +82,7 @@ public class CheaterStrategy implements PlayerStrategy {
 				GamePlayService.getInstance().knockPlayerOut(countries.get(j).getRuler());
 			}
 							
-			countries.get(j).setRuler(playerCountries.get(i).getRuler(), 1);
-			
-			
+			countries.get(j).setRuler(playerCountries.get(i).getRuler(), 1);						
 			
 			// after this cheater player won't need any cards because by cheating he/she is winning.
 			
