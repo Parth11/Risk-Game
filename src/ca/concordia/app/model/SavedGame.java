@@ -166,7 +166,7 @@ public class SavedGame implements Serializable {
 	
 	/**
 	 * set max turns
-	 * @param maxTurns
+	 * @param maxTurns the maximum turn
 	 */
 	public void setMaxTurns(int maxTurns) {
 		this.maxTurns = maxTurns;
@@ -182,7 +182,7 @@ public class SavedGame implements Serializable {
 	
 	/**
 	 * set the players
-	 * @param players
+	 * @param players the list of players
 	 */
 	public void setPlayers(List<Player> players) {
 		this.players = players;
@@ -214,7 +214,7 @@ public class SavedGame implements Serializable {
 	
 	/**
 	 * set the turn
-	 * @param turn
+	 * @param turn the number of turns
 	 */
 	public void setTurn(int turn) {
 		this.turn = turn;
@@ -230,7 +230,7 @@ public class SavedGame implements Serializable {
 	
 	/**
 	 * Set the current player
-	 * @param current_player
+	 * @param current_player variable of type player
 	 */
 	public void setCurrent_player(Player current_player) {
 		this.current_player = current_player;
@@ -246,7 +246,7 @@ public class SavedGame implements Serializable {
 	
 	/**
 	 * sets the game log
-	 * @param game_log
+	 * @param game_log the game log
 	 */
 	public void setGame_log(List<GameLogEvent> game_log) {
 		this.game_log = game_log;
