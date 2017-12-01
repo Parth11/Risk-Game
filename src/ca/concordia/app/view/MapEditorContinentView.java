@@ -174,6 +174,10 @@ public class MapEditorContinentView extends JFrame implements IView {
 	/* (non-Javadoc)
 	 * @see ca.concordia.app.view.IView#setActionListener(java.awt.event.ActionListener)
 	 */
+	/**
+	 * sets action listener 
+	 * @param actionListener
+	 */
 	@Override
 	public void setActionListener(ActionListener actionListener) {
 		next_button.addActionListener(actionListener);
@@ -185,6 +189,10 @@ public class MapEditorContinentView extends JFrame implements IView {
 
 	/* (non-Javadoc)
 	 * @see ca.concordia.app.view.IView#setMouseListener(java.awt.event.MouseListener)
+	 */
+	/**
+	 * sets the mouse listener
+	 * @param mouseListener
 	 */
 	@Override
 	public void setMouseListener(MouseListener mouseListener) {

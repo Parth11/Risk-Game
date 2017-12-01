@@ -12,7 +12,9 @@ import javax.swing.JOptionPane;
 
 import ca.concordia.app.model.Country;
 import ca.concordia.app.model.GameMap;
+import ca.concordia.app.model.GamePlayEvent;
 import ca.concordia.app.model.Player;
+import ca.concordia.app.model.GamePlayEvent.EventType;
 import ca.concordia.app.service.ConsoleLoggerService;
 import ca.concordia.app.service.GamePlayService;
 
@@ -41,10 +43,14 @@ public class CheaterStrategy implements PlayerStrategy {
 		// computing logic for doubling the armies
 		List<Country> playerCountries = GamePlayService.getInstance().getCountriesConqueredBy(p);
 		
+		strategyAs.put("beforeArmies", playerCountries.get(0).getNoOfArmy());
+		
 		for(Country c : playerCountries) {
 			int armies = c.getNoOfArmy();
 			p.doReinforcement(c, armies);
 		}
+		
+		strategyAs.put("afterArmies", playerCountries.get(0).getNoOfArmy());
 		
 		return strategyAs;
 
@@ -91,6 +97,14 @@ public class CheaterStrategy implements PlayerStrategy {
 			}			
 			
 		}
+		
+	}
+	
+	if(GamePlayService.getInstance().isThisTheEnd()){
+		HashMap<String, Object> eventPayload = new HashMap<>();
+		eventPayload.put("winner", p);
+		GamePlayEvent gpe = new GamePlayEvent(EventType.THE_END, eventPayload);
+		p.publishGamePlayEvent(gpe);
 	}
 
 	return null;
@@ -104,6 +118,8 @@ public class CheaterStrategy implements PlayerStrategy {
 	@Override
 	public Map<String, Object> computeFortifyMove(Player p) {
 		// TODO Auto-generated method stub
+		
+		Map<String, Object> strategyCs = new HashMap<>();
 		
 		List<Country> playerCountries = GamePlayService.getInstance().getCountriesConqueredBy(p);
 		
@@ -121,12 +137,16 @@ public class CheaterStrategy implements PlayerStrategy {
 			}
 		}
 		
+		strategyCs.put("fromBeforeArmies", eligibleFortifyCountries.get(0).getNoOfArmy());
+		
 		for(Country c : eligibleFortifyCountries) {
 			//c.setNoOfArmy(2 * c.getNoOfArmy());
 			c.addArmies(c.getNoOfArmy());
 		}
 		
-		return null;
+		strategyCs.put("fromAfterArmies", eligibleFortifyCountries.get(0).getNoOfArmy());
+		
+		return strategyCs;
 	}
 	
 	/**

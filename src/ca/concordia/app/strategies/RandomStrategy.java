@@ -39,11 +39,18 @@ public class RandomStrategy implements PlayerStrategy {
 	public Map<String, Object> computeReinforcementMove(Player p) {
 		Map<String, Object> strategyRs = new HashMap<>();
 		List<Country> countries = GamePlayService.getInstance().getCountriesConqueredBy(p);
+		
 		strategyRs.put("country", countries.get(Randomizer.randomize(countries.size())));
 		
 		Country randomCountry = countries.get(Randomizer.randomize(countries.size()));
+		
+		strategyRs.put("beforeArmies", randomCountry.getNoOfArmy());
+		
 		int randomArmies = Randomizer.randomize(GamePlayService.getInstance().getReinforcementArmyForPlayer(p));
+		
 		p.doReinforcement(randomCountry, randomArmies);
+		
+		strategyRs.put("afterArmies", randomCountry.getNoOfArmy());
 		
 		return strategyRs;
 	}
@@ -137,7 +144,8 @@ public class RandomStrategy implements PlayerStrategy {
 		}
 		
 		Country fromCountry = countrySelectionFiltered.get(Randomizer.randomize(countrySelectionFiltered.size()));
-
+		strategyRs.put("fromBeforeArmies", fromCountry.getNoOfArmy());
+		
 		countrySelectionFiltered.clear();
 
 		List<Country> countries = GamePlayService.getInstance().getCountriesConqueredBy(fromCountry.getRuler());
@@ -155,11 +163,13 @@ public class RandomStrategy implements PlayerStrategy {
 		}
 
 		Country toCountry = countrySelectionFiltered.get(Randomizer.randomize(countrySelectionFiltered.size()));
-
+		strategyRs.put("toBeforeArmies", toCountry.getNoOfArmy());
+		
 		int armies = fromCountry.getNoOfArmy() - Randomizer.randomize(fromCountry.getNoOfArmy()-1);
 		
 		p.doFortification(fromCountry, toCountry, armies);
 
+		strategyRs.put("fromAfterArmies", fromCountry.getNoOfArmy());
 		strategyRs.put("from", fromCountry);
 		strategyRs.put("to", toCountry);
 		strategyRs.put("armies", armies);

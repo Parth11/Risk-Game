@@ -15,6 +15,7 @@ import javax.swing.JButton;
 
 /**
  * The Class CardExchangeView contains detail of the card exchange view.
+ * @author Harvi
  */
 public class CardExchangeView extends JDialog implements IView {
 

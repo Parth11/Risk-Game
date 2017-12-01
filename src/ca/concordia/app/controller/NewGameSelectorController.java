@@ -131,6 +131,9 @@ public class NewGameSelectorController implements ActionListener, MouseListener 
 
 			List<? extends PlayerStrategy> strategies = new_game_selector.getStrategies();
 
+			TournamentConfiguration.getInstance().setNum_players(numPlayers);
+			TournamentConfiguration.getInstance().setStrategies(strategies);
+			
 			if (GamePlayService.getInstance().getGameMode() == GameMode.TOURNAMENT) {
 				Integer numMaxTurn = Integer.parseInt(new_game_selector.no_of_max_turn.getText());
 				Integer numGames = Integer.parseInt(new_game_selector.no_of_games.getText());

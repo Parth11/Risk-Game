@@ -12,6 +12,7 @@ import java.util.Random;
 import java.util.Set;
 
 import javax.swing.JDialog;
+import javax.swing.JOptionPane;
 
 import ca.concordia.app.controller.PhaseViewController;
 import ca.concordia.app.model.Card;
@@ -26,6 +27,7 @@ import ca.concordia.app.model.GamePlayEvent.GameMode;
 import ca.concordia.app.model.Player;
 import ca.concordia.app.model.SavedGame;
 import ca.concordia.app.model.TournamentConfiguration;
+import ca.concordia.app.model.TournamentResult;
 import ca.concordia.app.strategies.PlayerStrategy;
 import ca.concordia.app.util.GameConstants;
 import ca.concordia.app.util.GamePhase;
@@ -261,7 +263,8 @@ public class GamePlayService {
 	 * allocating countries to players and it will add armies using round-robin fashion.
 	 * 
 	 * @param numberOfPlayers the number of players
-	 * @param strategies the strategy 
+	 * @param game_play_view 
+	 * @return true, if successful
 	 */
 	public void doStartupPhase(int numberOfPlayers, List<? extends PlayerStrategy> strategies) {
 		
@@ -1016,60 +1019,7 @@ public class GamePlayService {
 	 * This method will display the result
 	 */
 	public void displayResults() {
-//		int gameCount=0;
-//		for(int i=0;i<tournamentMaps.size();i++) {
-//			
-//			HashMap<Integer, String> gameMapResults= new HashMap<>();
-//			gameMapResults=tournamentResults.get(tournamentMaps.get(i));
-//			for(int j=1;j<=gameMapResults.size();j++) {
-//				gameCount++;
-//				write("Game "+gameCount+"-> with "+tournamentMaps.get(i).getName()+":"+gameMapResults.get(j));
-//			}
-//			
-//		}
-	}
 
-	/**
-	 * This method will load next game map
-	 */
-	public void loadNextGameMap() {
-		
-//		try {
-//			for(int i=0;i<TournamentConfiguration.getInstance().getTournament_maps().size();i++) {
-//				HashMap<Integer, String> gameMapResults= new HashMap<>();
-//				gameMapResults=tournamentResults.get(tournamentMaps.get(i));
-//				for (int j= 1;j<=no_of_games;j++) 
-//				{
-//					if(gameMapResults.get(j)==null)
-//					{
-//						currentMap=tournamentMaps.get(i);
-//						break;
-//					}
-//					else if(gameMapResults.size()==no_of_games ){
-//						
-//						if(tournamentMaps.indexOf(currentMap)<(tournamentMaps.size()-1))
-//							currentMap=tournamentMaps.get(i+1);
-//						else
-//							currentMap=null;
-//						break;
-//					}
-//				}
-//				if(currentMap!=null){
-//					break;
-//				}
-//				
-//			}
-//			
-//			if(currentMap!=null) {
-//				//MapService.getInstance().resetMap();
-//				MapService.getInstance().loadMap(currentMap);
-//			}else {
-//				System.out.println("All map games are performeed.");
-//			}
-//		} catch (MapValidationException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
 	}
 	/**
 	 * This method log the game event
@@ -1079,6 +1029,10 @@ public class GamePlayService {
 	public void logGameEvent(Player player, GamePlayEvent event){
 		GameLogEvent gle = new GameLogEvent(player, event);
 		game_log.add(gle);
+	}
+	
+	public void resetGame(){
+		instance = null;
 	}
 	
 }
