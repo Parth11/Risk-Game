@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 
+import javax.swing.JFileChooser;
 import javax.swing.table.DefaultTableModel;
 
 import ca.concordia.app.model.Card;
@@ -144,10 +145,14 @@ public class PhaseViewController implements Observer,ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource().equals(phase_view.btn_save_game)){
-			SavedGame savedGame = new SavedGame();
-			savedGame.game_map = GameMap.getInstance();
-			savedGame.game_play_service = GamePlayService.getInstance();
-			savedGame.saveThisGame();
+			
+			JFileChooser file = new JFileChooser();
+			int retVal = file.showSaveDialog(phase_view);
+			
+			if(retVal == JFileChooser.APPROVE_OPTION){
+				SavedGame savedGame = new SavedGame();
+				savedGame.saveThisGame(file.getSelectedFile());
+			}
 		}
 		
 	}

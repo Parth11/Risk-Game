@@ -152,4 +152,16 @@ public class GameMap {
 		}
 		return neighbourCountry;
 	}
+	
+	public void copySavedData(SavedGame savedGame){
+		savedGame.setContinents(continents);
+		savedGame.setCountries(countries);
+		savedGame.setTerritories(territories);
+	}
+	
+	public void restoreSavedData(SavedGame savedGame){
+		continents = savedGame.getContinents();
+		countries = savedGame.getCountries();
+		territories = savedGame.getTerritories();
+	}
 }

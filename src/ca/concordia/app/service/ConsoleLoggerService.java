@@ -57,6 +57,11 @@ public class ConsoleLoggerService implements Observer{
 		Player p =  (Player) o;
 		GamePlayEvent e = p.event_log.get(p.event_log.size()-1);
 		
+		updateConsoleForEvent(p, e);
+		
+	}
+
+	public void updateConsoleForEvent(Player p, GamePlayEvent e) {
 		switch(e.getEvent_type()){
 		case START_ARMY_ALLOCATION:
 			write(p.getName()+" -> Receives -> "+e.getEvent_payload().get("initialArmies")+"\n");
@@ -106,7 +111,6 @@ public class ConsoleLoggerService implements Observer{
 			break;
 		
 		}
-		
 	}
 
 }

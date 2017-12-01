@@ -1,13 +1,11 @@
 package ca.concordia.app.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Observable;
-
-import javax.swing.JOptionPane;
-import javax.swing.plaf.basic.BasicIconFactory;
 
 import ca.concordia.app.controller.PhaseViewController;
 import ca.concordia.app.model.GamePlayEvent.EventType;
@@ -22,11 +20,15 @@ import ca.concordia.app.util.GamePhase;
  * The Class Player which does Attack Reinforcement and Fortification. 
  * It will the Observable as it will notify based on the atate of the player
  *
- * @author Parth Nayak
+ * @author harvi
  */
-public class Player extends Observable {
+public class Player extends Observable implements Serializable{
 
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 9179169374855185777L;
 	public String name;
 	public int total_armies;
 	public int reinforce_army_for_card =0;
@@ -295,6 +297,7 @@ public class Player extends Observable {
 		this.event_log.add(gamePlayEvent);
 		this.setChanged();
 		this.notifyObservers();
+		GamePlayService.getInstance().logGameEvent(this, gamePlayEvent);
 	}
 	
 	/**
@@ -311,6 +314,11 @@ public class Player extends Observable {
 	@Override
 	public boolean equals(Object obj) {
 		return this.name.equals(((Player)obj).getName());
+	}
+	
+	@Override
+	public int hashCode() {
+		return name.hashCode();
 	}
 	
 	/**

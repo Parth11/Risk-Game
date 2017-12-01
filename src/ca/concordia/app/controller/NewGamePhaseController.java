@@ -14,9 +14,11 @@ import javax.swing.plaf.basic.BasicIconFactory;
 import ca.concordia.app.model.Card;
 import ca.concordia.app.model.Country;
 import ca.concordia.app.model.DiceRoller;
+import ca.concordia.app.model.GameMap;
 import ca.concordia.app.model.GamePlayEvent;
 import ca.concordia.app.model.GamePlayEvent.EventType;
 import ca.concordia.app.model.Player;
+import ca.concordia.app.model.SavedGame;
 import ca.concordia.app.service.ConsoleLoggerService;
 import ca.concordia.app.service.GamePlayService;
 import ca.concordia.app.strategies.PlayerStrategy;
@@ -67,6 +69,30 @@ public class NewGamePhaseController implements ActionListener, MouseListener {
 		init(numPlayers, strategies);
 	}
 	
+	public NewGamePhaseController(SavedGame savedGame){
+		game_logger_view = new GameLoggerView();
+		ConsoleLoggerService.getInstance(game_logger_view.console);
+		GameMap.getInstance().restoreSavedData(savedGame);
+		GamePlayService.getInstance().restoreSavedData(savedGame);
+		current_player = savedGame.getCurrent_player();
+		switch(current_player.game_phase){
+		case ATTACK:
+			current_player.game_phase = GamePhase.REINFORCEMENT;
+			break;
+		case FORTIFICATION:
+			current_player.game_phase = GamePhase.ATTACK;
+			break;
+		case REINFORCEMENT:
+			current_player.game_phase = GamePhase.FORTIFICATION;
+			break;
+		case STARTUP:
+			break;
+		}
+		game_play_service = GamePlayService.getInstance();
+		PhaseViewController.getInstance().update(current_player, null);
+		goToNextMove();
+	}
+	
 	/**
 	 * Initiates the game logger view and calls the <code>prepareToReinforce</code> method
 	 * @param numPlayers
@@ -86,12 +112,15 @@ public class NewGamePhaseController implements ActionListener, MouseListener {
 				JOptionPane.showMessageDialog(game_logger_view, "Game Ends");
 				System.exit(0);
 			}
+			current_player.game_phase = GamePhase.FORTIFICATION;
 			fortifyPlayer();
 			break;
 		case FORTIFICATION:
+			current_player.game_phase = GamePhase.REINFORCEMENT;
 			prepareToReinforce();
 			break;
 		case REINFORCEMENT:
+			current_player.game_phase = GamePhase.ATTACK;
 			initiateAttack();
 			break;
 		case STARTUP:
@@ -99,49 +128,6 @@ public class NewGamePhaseController implements ActionListener, MouseListener {
 			break;
 		}
 		
-//		switch(current_player.event_log.get().getEvent_type()){
-//		case ATTACK_CAPTURE:
-//			fortifyPlayer();
-//			break;
-//		case ATTACK_COUNTRY:
-//			fortifyPlayer();
-//			break;
-//		case CARD_EXCHANGE:
-//			prepareToReinforce();
-//			break;
-//		case CARD_WIN:
-//			prepareToReinforce();
-//			break;
-//		case FORTIFY_COUNTRY:
-//			triggerNextPlayer();
-//			break;
-//		case GENERIC_UPDATE:
-//			break;
-//		case PLAYER_DEAD:
-//			triggerNextPlayer();
-//			break;
-//		case REFINFORCE_COUNTRY:
-//			initiateAttack();
-//			break;
-//		case REINFORCE_ARMY_ALLOCATION:
-//			initiateAttack();
-//			break;
-//		case START_ARMY_ALLOCATION:
-//			prepareToReinforce();
-//			break;
-//		case START_ARMY_COUNTRY:
-//			prepareToReinforce();
-//			break;
-//		case START_COUNTRY:
-//			prepareToReinforce();
-//			break;
-//		case THE_END:
-//			System.exit(0);
-//			break;
-//		default:
-//			break;
-//		
-//		}
 	} 
 	
 	/**
@@ -301,7 +287,7 @@ public class NewGamePhaseController implements ActionListener, MouseListener {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if(e.getSource().equals(reinforcement_view.btn_submit)){
+		if(reinforcement_view!=null && e.getSource().equals(reinforcement_view.btn_submit)){
 			Country c = (Country) reinforcement_view.country_list.getSelectedItem();
 			int armiesToReinforce = (int) reinforcement_view.armies_list.getSelectedItem();
 			reinforcement_armies -= armiesToReinforce;
@@ -317,7 +303,7 @@ public class NewGamePhaseController implements ActionListener, MouseListener {
 				goToNextMove();
 			}
 		}
-		else if(e.getSource().equals(attack_view.btn_battle)){
+		else if(attack_view!=null && e.getSource().equals(attack_view.btn_battle)){
 			if(game_play_service.canWar((Country)attack_view.attack_country.getSelectedItem(), 
 												(Country)attack_view.defence_country.getSelectedItem())){
 				
@@ -403,13 +389,13 @@ public class NewGamePhaseController implements ActionListener, MouseListener {
 				return;
 			}
 		}	
-		else if(e.getSource().equals(attack_view.btn_submit)){
+		else if(attack_view!=null && e.getSource().equals(attack_view.btn_submit)){
 			attack_view.dispose();
 			ConsoleLoggerService.getInstance(null).write("->->"+current_player.getName()+"******ATTACK PHASE END*******\n");
 			ConsoleLoggerService.getInstance(null).write("->->"+current_player.getName()+"******FORTIFICATION PHASE BEGIN*******\n");
 			goToNextMove();
 		}
-		else if(e.getSource().equals(fortification_view.btn_submit)){
+		else if(fortification_view!=null && e.getSource().equals(fortification_view.btn_submit)){
 			Country from = (Country) fortification_view.from_country.getSelectedItem();
 			Country to = (Country) fortification_view.to_country.getSelectedItem();
 			Integer armies = (Integer) fortification_view.armies.getSelectedItem();
@@ -418,11 +404,11 @@ public class NewGamePhaseController implements ActionListener, MouseListener {
 			fortification_view.dispose();
 			goToNextMove();
 		}
-		else if(e.getSource().equals(fortification_view.btn_skip)){
+		else if(fortification_view!=null && e.getSource().equals(fortification_view.btn_skip)){
 			fortification_view.dispose();
 			triggerNextPlayer();
 		}
-		else if(e.getSource().equals(card_exchange_view.btn_exchange)){
+		else if(card_exchange_view!=null && e.getSource().equals(card_exchange_view.btn_exchange)){
 			Integer a =  card_exchange_view.num_artillery.getSelectedItem()!=null?(Integer) card_exchange_view.num_artillery.getSelectedItem():0;
 			Integer i = card_exchange_view.num_infantry.getSelectedItem()!=null?(Integer) card_exchange_view.num_infantry.getSelectedItem():0;
 			Integer c =card_exchange_view.num_cavalry.getSelectedItem()!=null?(Integer) card_exchange_view.num_cavalry.getSelectedItem():0;
@@ -444,7 +430,7 @@ public class NewGamePhaseController implements ActionListener, MouseListener {
 				reinforcePlayer();
 			}
 		}
-		else if(e.getSource().equals(card_exchange_view.btn_skip)){
+		else if(card_exchange_view!=null && e.getSource().equals(card_exchange_view.btn_skip)){
 			card_exchange_view.dispose();
 			reinforcement_armies = game_play_service.getReinforcementArmyForPlayer(current_player);
 			current_player.setCurrentPhase(GamePhase.REINFORCEMENT);

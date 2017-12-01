@@ -13,15 +13,18 @@ import java.util.Set;
 
 import javax.swing.JDialog;
 
+import ca.concordia.app.controller.PhaseViewController;
 import ca.concordia.app.model.Card;
 import ca.concordia.app.model.Continent;
 import ca.concordia.app.model.Country;
 import ca.concordia.app.model.DiceRoller;
+import ca.concordia.app.model.GameLogEvent;
 import ca.concordia.app.model.GameMap;
 import ca.concordia.app.model.GamePlayEvent;
 import ca.concordia.app.model.GamePlayEvent.EventType;
 import ca.concordia.app.model.GamePlayEvent.GameMode;
 import ca.concordia.app.model.Player;
+import ca.concordia.app.model.SavedGame;
 import ca.concordia.app.strategies.PlayerStrategy;
 import ca.concordia.app.util.GameConstants;
 import ca.concordia.app.util.GamePhase;
@@ -47,11 +50,6 @@ public class GamePlayService {
 	
 	public File currentMap;
 
-	/**
-	 * A object of JDialog 
-	 */
-	public JDialog game_play_frame;
-
 	private int number_of_players;
 
 	private GameMap game_map;
@@ -72,11 +70,15 @@ public class GamePlayService {
 	
 
 	private ConsoleLoggerService logger;
+	
+	public List<GameLogEvent> game_log;
+	
 
 	private GamePlayService() {
 		game_map = GameMap.getInstance();
 		players = new ArrayList<>();
 		player_country_map = new HashMap<>();
+		game_log = new ArrayList<GameLogEvent>();
 		logger = ConsoleLoggerService.getInstance(null);
 		generateDeck();
 		
@@ -893,16 +895,47 @@ public class GamePlayService {
 
 		ruler.publishGamePlayEvent(gpe);
 	}
+	
+	public void copySaveData(SavedGame savedGame){
+		savedGame.setDeckMap(deckMap);
+		savedGame.setMaxTurns(maxTurns);
+		savedGame.setNumber_of_players(number_of_players);
+		savedGame.setPlayer_country_map(player_country_map);
+		savedGame.setPlayers(players);
+		savedGame.setTurn(turn);
+		savedGame.setCurrent_player(getCurrentTurnPlayer());
+		savedGame.setGame_log(game_log);
+	}
+
+	public void restoreSavedData(SavedGame savedGame){
+		deckMap = savedGame.getDeckMap();
+		maxTurns = savedGame.getMaxTurns();
+		number_of_players = savedGame.getNumber_of_players();
+		player_country_map = savedGame.getPlayer_country_map();
+		players = savedGame.getPlayers();
+		turn = savedGame.getTurn();
+		game_map = GameMap.getInstance();
+		game_log = savedGame.getGame_log();
+		
+		for(Player p : players){
+			p.addObserver(PhaseViewController.getInstance());
+			p.addObserver(ConsoleLoggerService.getInstance(null));
+		}
+		
+		ConsoleLoggerService cls = ConsoleLoggerService.getInstance(null);
+		for(GameLogEvent gle : game_log){
+			cls.updateConsoleForEvent(gle.getPlayer(), gle.getGame_event());
+		}
+	}
+	
 
 
 	public void declareDraw() {
-		// TODO Auto-generated method stub
 		logger.write("Game reached max turns="+maxTurns+" . Game is draw now.");
 	}
 
 
 	public void setGames(Integer numGames) {
-		// TODO Auto-generated method stub
 		no_of_games=numGames;
 		for(int i=0;i<tournamentMaps.size();i++) {
 			HashMap<Integer, String> gameMapResults= new HashMap<>();
@@ -915,13 +948,11 @@ public class GamePlayService {
 
 
 	public void declareWin() {
-		// TODO Auto-generated method stub
 		logger.write("Game won by "+getCurrentTurnPlayer().getName());
 	}
 
 
 	public void write(String text) {
-		// TODO Auto-generated method stub
 		logger.write(text);
 	}
 	
@@ -1001,4 +1032,10 @@ public class GamePlayService {
 			e.printStackTrace();
 		}
 	}
+	
+	public void logGameEvent(Player player, GamePlayEvent event){
+		GameLogEvent gle = new GameLogEvent(player, event);
+		game_log.add(gle);
+	}
+	
 }

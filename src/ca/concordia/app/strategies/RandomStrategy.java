@@ -24,6 +24,8 @@ import ca.concordia.app.util.Randomizer;
  */
 public class RandomStrategy implements PlayerStrategy{
 
+	public final String NAME = "Random";
+	
 	@Override
 	public Map<String, Object> computeReinforcementMove(Player p) {
 		Map<String,Object> strategyRs = new HashMap<>();
