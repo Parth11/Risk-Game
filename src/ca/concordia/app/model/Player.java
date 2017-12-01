@@ -24,10 +24,6 @@ import ca.concordia.app.util.GamePhase;
  */
 public class Player extends Observable implements Serializable{
 
-	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 9179169374855185777L;
 	public String name;
 	public int total_armies;
@@ -157,7 +153,9 @@ public class Player extends Observable implements Serializable{
 		cards_list.add(card);
 	}
 	
-	
+	/**
+	 * This method strategize's the reinforcement
+	 */
 	public void strategizeReinforcement(){
 		
 		Map<String,Object> strategyRs = strategy.computeReinforcementMove(this);
@@ -182,6 +180,9 @@ public class Player extends Observable implements Serializable{
 		
 	}
 	
+	/**
+	 * This method strategize's attack
+	 */
 	public void strategizeAttack(){
 			strategy.computeAttackMove(this);
 			if(GamePlayService.getInstance().isThisTheEnd()) {
@@ -258,6 +259,9 @@ public class Player extends Observable implements Serializable{
 
 	}
 	
+	/**
+	 * This method strategize's fortification
+	 */
 	public void strategizeFortification(){
 		Map<String,Object> strategyRs = strategy.computeFortifyMove(this);
 	
@@ -310,6 +314,7 @@ public class Player extends Observable implements Serializable{
 	
 	/**
 	 * return name in String format
+	 * @return name
 	 */
 	@Override
 	public String toString() {
@@ -317,6 +322,7 @@ public class Player extends Observable implements Serializable{
 	}
 	
 	/**
+	 * Compare player name
 	 *@return true or False 
 	 */
 	@Override
@@ -324,6 +330,9 @@ public class Player extends Observable implements Serializable{
 		return this.name.equals(((Player)obj).getName());
 	}
 	
+	/**
+	 * hash code for the name
+	 */
 	@Override
 	public int hashCode() {
 		return name.hashCode();
@@ -331,7 +340,7 @@ public class Player extends Observable implements Serializable{
 	
 	/**
 	 * Checks the eligibility for the attacking country 
-	 * @return
+	 * @return true or false
 	 */
 	public boolean canAttack(){
 		return GamePlayService.getInstance().getEligibleAttackingCountriesForPlayer(this).size()>0? true: false;

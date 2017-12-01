@@ -34,6 +34,7 @@ public class Card {
 	}
 	
 	/**
+	 * Compares the card type
 	 * @return True or False 
 	 */
 	@Override
@@ -42,6 +43,7 @@ public class Card {
 	}
 	
 	/**
+	 * Card type value is returned in String
 	 * @return the card type in String format
 	 */
 	@Override
