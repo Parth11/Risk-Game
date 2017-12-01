@@ -50,7 +50,7 @@ public class NewGameSelectorController implements ActionListener, MouseListener 
 	/**
 	 * mouse clicked event
 	 * 
-	 * @param e
+	 * @param e mouse event
 	 */
 	@Override
 	public void mouseClicked(MouseEvent e) {
@@ -60,7 +60,7 @@ public class NewGameSelectorController implements ActionListener, MouseListener 
 	/**
 	 * mouse clicked pressed
 	 * 
-	 * @param e
+	 * @param e mouse event
 	 */
 	@Override
 	public void mousePressed(MouseEvent e) {
@@ -70,7 +70,7 @@ public class NewGameSelectorController implements ActionListener, MouseListener 
 	/**
 	 * mouse clicked released
 	 * 
-	 * @param e
+	 * @param e mouse event
 	 */
 	@Override
 	public void mouseReleased(MouseEvent e) {
@@ -80,7 +80,7 @@ public class NewGameSelectorController implements ActionListener, MouseListener 
 	/**
 	 * mouse clicked entered
 	 * 
-	 * @param e
+	 * @param e mouse event
 	 */
 	@Override
 	public void mouseEntered(MouseEvent e) {

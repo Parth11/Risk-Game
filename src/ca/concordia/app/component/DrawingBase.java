@@ -95,7 +95,7 @@ public class DrawingBase extends JPanel {
 
 	/**
 	 * gives in string format
-	 * @return String
+	 * @return in String format 
 	 */
 	public String toString() {
 		return "(" + getX() + "," + getY() + ")";

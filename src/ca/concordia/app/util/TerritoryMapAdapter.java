@@ -30,9 +30,9 @@ public class TerritoryMapAdapter implements JsonSerializer<HashMap<Country, Arra
     
     /**
      * This method gives the class Name 
-     * @param className
-     * @return Class
-     * @throws JsonParseException
+     * @param className the class name
+     * @return Class the class
+     * @throws JsonParseException message
      */
     public Class getObjectClass(String className) {
         try {
@@ -46,7 +46,7 @@ public class TerritoryMapAdapter implements JsonSerializer<HashMap<Country, Arra
 	/**
 	 * This method deserialize
 	 * @param json typeOfT context
-	 * @throws JsonParseException
+	 * @throws JsonParseException message
 	 */
 	public HashMap<Country, ArrayList<String>> deserialize(JsonElement json, Type typeOfT,
 			JsonDeserializationContext context) throws JsonParseException {

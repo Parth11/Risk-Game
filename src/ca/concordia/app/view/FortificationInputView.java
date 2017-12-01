@@ -134,7 +134,7 @@ public class FortificationInputView extends JDialog implements IView {
 	 */
 	/**
 	 * sets the action Listener
-	 * @param actionListener 
+	 * @param actionListener the event
 	 */
 	@Override
 	public void setActionListener(ActionListener actionListener) {
@@ -147,7 +147,7 @@ public class FortificationInputView extends JDialog implements IView {
 	 */
 	/**
 	 * sets Mouse listener
-	 * @param mouseListener
+	 * @param mouseListener the listener
 	 */
 	@Override
 	public void setMouseListener(MouseListener mouseListener) {

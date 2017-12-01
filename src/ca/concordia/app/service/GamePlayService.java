@@ -263,8 +263,7 @@ public class GamePlayService {
 	 * allocating countries to players and it will add armies using round-robin fashion.
 	 * 
 	 * @param numberOfPlayers the number of players
-	 * @param game_play_view 
-	 * @return true, if successful
+	 * @param strategies strategies of game 
 	 */
 	public void doStartupPhase(int numberOfPlayers, List<? extends PlayerStrategy> strategies) {
 		
