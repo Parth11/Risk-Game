@@ -5,5 +5,6 @@ ca.concordia.app.model.test
 ca.concordia.app.service
 ca.concordia.app.service.test
 ca.concordia.app.strategies
+ca.concordia.app.strategies.test
 ca.concordia.app.util
 ca.concordia.app.view
