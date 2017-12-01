@@ -11,6 +11,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
@@ -168,18 +169,24 @@ public class MainController implements ActionListener, MouseListener {
 			main_view.dispose();
 		}
 		else if(e.getSource().equals(main_view.load_game)){
-			File f = new File("D:\\saves\\1512031469762.json");
-			FileReader fr = null;
-			try {
-				fr = new FileReader(f);
-			} catch (FileNotFoundException e1) {
-				e1.printStackTrace();
-			}
-			Gson gson = GsonUtil.getGSONInstance();
-			SavedGame savedGame = gson.fromJson(fr, SavedGame.class);
+			JFileChooser file = new JFileChooser();
+			int retVal = file.showOpenDialog(main_view);
 			
-			new NewGamePhaseController(savedGame);
-			main_view.dispose();
+			if(retVal == JFileChooser.APPROVE_OPTION){
+				File f = file.getSelectedFile();
+				FileReader fr = null;
+				try {
+					fr = new FileReader(f);
+				} catch (FileNotFoundException e1) {
+					e1.printStackTrace();
+				}
+				Gson gson = GsonUtil.getGSONInstance();
+				SavedGame savedGame = gson.fromJson(fr, SavedGame.class);
+				
+				new NewGamePhaseController(savedGame);
+				main_view.dispose();
+			}
+			
 		}
 	}
 

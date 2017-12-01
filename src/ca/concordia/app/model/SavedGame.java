@@ -48,7 +48,9 @@ public class SavedGame implements Serializable {
 	
 	private Player current_player;
 	
-	public void saveThisGame(){
+	private List<GameLogEvent> game_log;
+	
+	public void saveThisGame(File saveFile){
 		for(Player p :GamePlayService.getInstance().getPlayers()){
 			p.deleteObservers();
 		}
@@ -57,7 +59,7 @@ public class SavedGame implements Serializable {
 		Gson gson = GsonUtil.getGSONInstance();
 		FileWriter fw = null;
 		try {
-			fw = new FileWriter(new File("D:\\saves\\"+System.currentTimeMillis()+".json"));
+			fw = new FileWriter(saveFile);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -148,6 +150,14 @@ public class SavedGame implements Serializable {
 
 	public void setCurrent_player(Player current_player) {
 		this.current_player = current_player;
+	}
+
+	public List<GameLogEvent> getGame_log() {
+		return game_log;
+	}
+
+	public void setGame_log(List<GameLogEvent> game_log) {
+		this.game_log = game_log;
 	}
 	
 }

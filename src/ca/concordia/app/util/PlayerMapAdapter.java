@@ -16,6 +16,7 @@ import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 import com.google.gson.internal.LinkedTreeMap;
+import com.google.gson.reflect.TypeToken;
 
 import ca.concordia.app.model.Country;
 import ca.concordia.app.model.Player;
@@ -44,10 +45,11 @@ public class PlayerMapAdapter implements JsonSerializer<Map<Player, List<Country
         Class klass = getObjectClass(className);
         HashMap<LinkedTreeMap,List<Country>> map = context.deserialize(jsonObject.get(DATA), klass);
         Map<Player, List<Country>> returnMap = new HashMap<>();
+        Type listType = new TypeToken<List<Country>>(){}.getType();
         for(LinkedTreeMap k : map.keySet()){
-        	List<Country> v = map.get(k);
         	Player p = gson.fromJson(gson.toJsonTree(k).getAsJsonObject(), Player.class);
-        	returnMap.put(p, v);
+        	List<Country> c = gson.fromJson(gson.toJsonTree(map.get(k)).getAsJsonArray(), listType);
+        	returnMap.put(p, c);
         }
         return returnMap;
 	}

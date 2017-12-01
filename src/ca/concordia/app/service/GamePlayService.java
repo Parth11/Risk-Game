@@ -12,10 +12,12 @@ import java.util.Set;
 
 import javax.swing.JDialog;
 
+import ca.concordia.app.controller.PhaseViewController;
 import ca.concordia.app.model.Card;
 import ca.concordia.app.model.Continent;
 import ca.concordia.app.model.Country;
 import ca.concordia.app.model.DiceRoller;
+import ca.concordia.app.model.GameLogEvent;
 import ca.concordia.app.model.GameMap;
 import ca.concordia.app.model.GamePlayEvent;
 import ca.concordia.app.model.GamePlayEvent.EventType;
@@ -60,11 +62,15 @@ public class GamePlayService {
 	
 
 	private ConsoleLoggerService logger;
+	
+	public List<GameLogEvent> game_log;
+	
 
 	private GamePlayService() {
 		game_map = GameMap.getInstance();
 		players = new ArrayList<>();
 		player_country_map = new HashMap<>();
+		game_log = new ArrayList<GameLogEvent>();
 		logger = ConsoleLoggerService.getInstance(null);
 		generateDeck();
 		
@@ -894,6 +900,7 @@ public class GamePlayService {
 		savedGame.setPlayers(players);
 		savedGame.setTurn(turn);
 		savedGame.setCurrent_player(getCurrentTurnPlayer());
+		savedGame.setGame_log(game_log);
 	}
 
 	public void restoreSavedData(SavedGame savedGame){
@@ -904,30 +911,39 @@ public class GamePlayService {
 		players = savedGame.getPlayers();
 		turn = savedGame.getTurn();
 		game_map = GameMap.getInstance();
+		game_log = savedGame.getGame_log();
+		
+		for(Player p : players){
+			p.addObserver(PhaseViewController.getInstance());
+			p.addObserver(ConsoleLoggerService.getInstance(null));
+		}
+		
 	}
 	
 
 
 	public void declareDraw() {
-		// TODO Auto-generated method stub
 		logger.write("Game reached max turns="+maxTurns+" . Game is draw now.");
 	}
 
 
 	public void setGames(Integer numGames) {
-		// TODO Auto-generated method stub
 		no_of_games=numGames;
 	}
 
 
 	public void declareWin() {
-		// TODO Auto-generated method stub
 		logger.write("Game won by "+getCurrentTurnPlayer().getName());
 	}
 
 
 	public void write(String text) {
-		// TODO Auto-generated method stub
 		logger.write(text);
 	}
+	
+	public void logGameEvent(Player player, GamePlayEvent event){
+		GameLogEvent gle = new GameLogEvent(player, event);
+		game_log.add(gle);
+	}
+	
 }

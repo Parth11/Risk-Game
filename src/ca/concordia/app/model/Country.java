@@ -1,13 +1,20 @@
 
 package ca.concordia.app.model;
 
+import java.io.Serializable;
+
 /**
  * This class contains the Country data along with getters and setters.
  * @author harvi
  *
  */
-public class Country {
+public class Country implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8218595675913048375L;
+
 	private String country_name;
 
 	private int loc_x;
@@ -109,6 +116,11 @@ public class Country {
 		  }
 	      return false;
 	  }
+	  
+	  @Override
+	public int hashCode() {
+		return country_name.hashCode();
+	}
 	  
 	  /**
 	   * @return the name of the country object.
