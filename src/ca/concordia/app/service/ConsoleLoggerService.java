@@ -59,7 +59,6 @@ public class ConsoleLoggerService implements Observer {
 	 */
 	@Override
 	public void update(Observable o, Object arg) {
-<<<<<<< HEAD
 		Player p =  (Player) o;
 		GamePlayEvent e = p.event_log.get(p.event_log.size()-1);
 		
@@ -69,12 +68,6 @@ public class ConsoleLoggerService implements Observer {
 
 	public void updateConsoleForEvent(Player p, GamePlayEvent e) {
 		switch(e.getEvent_type()){
-=======
-		Player p = (Player) o;
-		GamePlayEvent e = p.event_log.get(p.event_log.size() - 1);
-
-		switch (e.getEvent_type()) {
->>>>>>> refs/remotes/origin/DifferentStrstergyImplementation
 		case START_ARMY_ALLOCATION:
 			write(p.getName() + " -> Receives -> " + e.getEvent_payload().get("initialArmies") + "\n");
 			break;
@@ -126,10 +119,6 @@ public class ConsoleLoggerService implements Observer {
 			break;
 
 		}
-<<<<<<< HEAD
-=======
-
->>>>>>> refs/remotes/origin/DifferentStrstergyImplementation
 	}
 
 }

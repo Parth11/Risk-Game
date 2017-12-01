@@ -877,6 +877,33 @@ public class GamePlayService {
 	}
 	
 	/**
+	 *  Get the strongest country for the player
+	 *  
+	 *  @return strongestCountry return the strongest country
+	 * 
+	 * */
+	public Country getStrongestCountry(Player p) {
+
+		List<Country> playerCountries = GamePlayService.getInstance().getCountriesConqueredBy(p);
+
+		Country strongestCountry = null;
+		
+		int maxArmy = 0;
+		
+		for (Country country : playerCountries) {
+			
+			int playerArmy = country.getNoOfArmy();
+			
+			if (playerArmy > maxArmy) {
+				maxArmy = playerArmy;
+				strongestCountry = country;
+			}
+		}
+
+		return strongestCountry;
+}
+	
+	/**
 	 *  Get the weakest country for the player
 	 *  
 	 *  @return weakestCountry return the weakest country
