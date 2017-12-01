@@ -50,7 +50,7 @@ public class TournamentConfiguration {
 	
 	/**
 	 * sets the number of player
-	 * @param num_players
+	 * @param num_players the number of players
 	 */
 	public void setNum_players(int num_players) {
 		this.num_players = num_players;
@@ -66,7 +66,7 @@ public class TournamentConfiguration {
 	
 	/**
 	 * set the strategies
-	 * @param strategies
+	 * @param strategies list of strategy
 	 */
 	public void setStrategies(List<? extends PlayerStrategy> strategies) {
 		this.strategies = strategies;
@@ -74,7 +74,7 @@ public class TournamentConfiguration {
 	
 	/**
 	 * get the max turn
-	 * @return max_turns
+	 * @return max_turns the maximum turn
 	 */
 	public int getMax_turns() {
 		return max_turns;
@@ -82,7 +82,7 @@ public class TournamentConfiguration {
 	
 	/**
 	 * set the max turn 
-	 * @param max_turns
+	 * @param max_turns  the maximum turn
 	 */
 	public void setMax_turns(int max_turns) {
 		this.max_turns = max_turns;
@@ -90,7 +90,7 @@ public class TournamentConfiguration {
 	
 	/**
 	 * get the number of games
-	 * @return num_games
+	 * @return num_games 
 	 */
 	public int getNum_games() {
 		return num_games;
@@ -98,7 +98,7 @@ public class TournamentConfiguration {
 	
 	/**
 	 * set the number of games
-	 * @param num_games
+	 * @param num_games the number of games
 	 */
 	public void setNum_games(int num_games) {
 		this.num_games = num_games;
@@ -114,7 +114,7 @@ public class TournamentConfiguration {
 	
 	/**
 	 * set the tournament map
-	 * @param tournament_maps
+	 * @param tournament_maps the list
 	 */
 	public void setTournament_maps(List<File> tournament_maps) {
 		this.tournament_maps = tournament_maps;
@@ -122,7 +122,7 @@ public class TournamentConfiguration {
 	
 	/**
 	 * add the map file
-	 * @param mapFile
+	 * @param mapFile the map file
 	 */
 	public void addMap(File mapFile){
 		this.tournament_maps.add(mapFile);

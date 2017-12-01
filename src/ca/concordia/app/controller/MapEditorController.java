@@ -109,7 +109,7 @@ public class MapEditorController implements ActionListener, MouseListener{
 
 	/**
 	 * Calls the mouseClicked method of java.
-	 * @param e
+	 * @param e variable of type mouse event. 
 	 */
 	@Override
 	public void mouseClicked(MouseEvent e) {
@@ -124,7 +124,7 @@ public class MapEditorController implements ActionListener, MouseListener{
 
 	/**
 	 * mouse pressed event
-	 * @param e
+	 * @param e variable of type mouse event.
 	 */
 	@Override
 	public void mousePressed(MouseEvent e) {
@@ -133,7 +133,7 @@ public class MapEditorController implements ActionListener, MouseListener{
 
 	/**
 	 * mouse released event
-	 * @param e
+	 * @param e variable of type mouse event.
 	 */
 	@Override
 	public void mouseReleased(MouseEvent e) {
@@ -142,7 +142,7 @@ public class MapEditorController implements ActionListener, MouseListener{
 
 	/**
 	 * mouse entered event
-	 * @param e
+	 * @param e variable of type mouse event.
 	 */
 	@Override
 	public void mouseEntered(MouseEvent e) {
@@ -151,7 +151,7 @@ public class MapEditorController implements ActionListener, MouseListener{
 
 	/**
 	 * mouse exited event
-	 * @param e
+	 * @param e variable of type mouse event.
 	 */
 	@Override
 	public void mouseExited(MouseEvent e) {
@@ -161,7 +161,7 @@ public class MapEditorController implements ActionListener, MouseListener{
 
 	/**
 	 * calls the method actionPerformed for map editing.
-	 * @param e
+	 * @param e variable of type action event.
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {

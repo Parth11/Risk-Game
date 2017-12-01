@@ -13,8 +13,8 @@ public class GameLogEvent {
 	
 	/**
 	 * Constructor of class GameLogEvent
-	 * @param player
-	 * @param game_event
+	 * @param player the player variable
+	 * @param game_event the game event
 	 */
 	public GameLogEvent(Player player, GamePlayEvent game_event) {
 		this.player = player;
@@ -31,7 +31,7 @@ public class GameLogEvent {
 	
 	/**
 	 * set the player
-	 * @param player
+	 * @param player the player
 	 */
 	public void setPlayer(Player player) {
 		this.player = player;
@@ -47,7 +47,7 @@ public class GameLogEvent {
 	
 	/**
 	 * set the game event for play
-	 * @param game_event
+	 * @param game_event the game event
 	 */
 	public void setGame_event(GamePlayEvent game_event) {
 		this.game_event = game_event;

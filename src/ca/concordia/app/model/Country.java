@@ -26,10 +26,10 @@ public class Country implements Serializable{
 	
 	/**
 	 * Parameterized Constructor
-	 * @param countryName
-	 * @param locX
-	 * @param locy
-	 * @param continentName
+	 * @param countryName the country name
+	 * @param locX the x coordinate
+	 * @param locy the y coordinate
+	 * @param continentName the continent name
 	 */
 	public Country(String countryName, int locX, int locy, String continentName) {
 		this.country_name = countryName;
@@ -48,7 +48,7 @@ public class Country implements Serializable{
 	
 	/**
 	 * Sets the name of the Country.
-	 * @param countryName
+	 * @param countryName the country name
 	 */
 	public void setCountryName(String countryName) {
 		this.country_name = countryName;
@@ -64,7 +64,7 @@ public class Country implements Serializable{
 
 	/**
 	 * Sets the location at x coordinate
-	 * @param locX
+	 * @param locX the x coordinate
 	 */
 	public void setLocX(int locX) {
 		this.loc_x = locX;
@@ -80,7 +80,7 @@ public class Country implements Serializable{
 
 	/**
 	 * sets the location at y coordinate
-	 * @param locY
+	 * @param locY the y coordinate
 	 */
 	public void setLocY(int locY) {
 		this.loc_y = locY;
@@ -96,7 +96,7 @@ public class Country implements Serializable{
 
 	/**
 	 * Sets the Continent name.
-	 * @param continentName
+	 * @param continentName the continent name
 	 */
 	public void setContinentName(String continentName) {
 		this.continent_name = continentName;
@@ -118,7 +118,7 @@ public class Country implements Serializable{
 	  
 	  /**
 	   * country name hash code
-	   * @return country_name
+	   * @return country_name the country name
 	   */
 	  @Override
 	public int hashCode() {
@@ -160,6 +160,7 @@ public class Country implements Serializable{
 	/**
 	 * Set the ruler
 	 * @param ruler the ruler to set
+	 * @param noOfArmies the number of armies
 	 */
 	public void setRuler(Player ruler,int noOfArmies) {
 		this.ruler = ruler;
@@ -168,14 +169,14 @@ public class Country implements Serializable{
 	
 	/**
 	 * Add Armies
-	 * @param noOfArmies
+	 * @param noOfArmies the number of armies
 	 */
 	public void addArmies(int noOfArmies){
 		this.no_of_army+=noOfArmies;
 	}
 	/**
 	 * Remove Armies
-	 * @param noOfArmies
+	 * @param noOfArmies the number of armies
 	 */
 	public void removeArmies(int noOfArmies){
 		this.no_of_army-=noOfArmies;

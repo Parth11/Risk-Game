@@ -42,8 +42,7 @@ public class MainController implements ActionListener, MouseListener {
 	/**
 	 * The main method.
 	 *
-	 * @param args
-	 *            the arguments
+	 * @param args the arguments
 	 */
 	public static void main(String[] args) {
 		new MainController();
@@ -64,7 +63,7 @@ public class MainController implements ActionListener, MouseListener {
 
 	/**
 	 * Mouse click event
-	 * @param e
+	 * @param e variable of type mouse event. 
 	 */
 	@Override
 	public void mouseClicked(MouseEvent e) {
@@ -73,7 +72,7 @@ public class MainController implements ActionListener, MouseListener {
 
 	/**
 	 * Mouse pressed event 
-	 * @param e
+	 * @param e variable of type mouse event. 
 	 */
 	@Override
 	public void mousePressed(MouseEvent e) {
@@ -82,7 +81,7 @@ public class MainController implements ActionListener, MouseListener {
 
 	/**
 	 * Mouse released event 
-	 * @param e
+	 * @param e variable of type mouse event. 
 	 */
 	@Override
 	public void mouseReleased(MouseEvent e) {
@@ -91,7 +90,7 @@ public class MainController implements ActionListener, MouseListener {
 
 	/**
 	 * Mouse Entered event
-	 * @param e
+	 * @param e variable of type mouse event. 
 	 */
 	@Override
 	public void mouseEntered(MouseEvent e) {
@@ -100,7 +99,7 @@ public class MainController implements ActionListener, MouseListener {
 
 	/**
 	 * Mouse Exited event
-	 * @param e
+	 * @param e variable of type mouse event. 
 	 */
 	@Override
 	public void mouseExited(MouseEvent e) {
@@ -111,7 +110,7 @@ public class MainController implements ActionListener, MouseListener {
 	
 	/**
 	 * Calls the actionPerformed method of java.
-	 * @param e
+	 * @param e variable of type ActionEvent. 
 	 * 
 	 */
 	@Override

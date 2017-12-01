@@ -18,9 +18,7 @@ public class DiceRoller {
 
 	/**
 	 * Parameterized constructor
-	 * 
-	 * @param game
-	 * @param noOfDice
+	 * @param noOfDice the number of dice
 	 */
 	public DiceRoller(int noOfDice) {
 		this.no_of_dice = noOfDice;
@@ -29,9 +27,8 @@ public class DiceRoller {
 
 	/**
 	 * Roll the dice
-	 * 
-	 * @param diesNo
-	 * @return
+	 * @param diesNo the dice number
+	 * @return the dice value
 	 */
 	public int roll(int diesNo) {
 		return (int) ((Math.random() * 6) + 1);

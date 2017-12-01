@@ -18,11 +18,22 @@ import com.google.gson.internal.LinkedTreeMap;
 
 import ca.concordia.app.model.Country;
 
+/**
+ * This class implements the territory Map adapter
+ * @author harvi
+ *
+ */
 public class TerritoryMapAdapter implements JsonSerializer<HashMap<Country, ArrayList<String>>>,JsonDeserializer<HashMap<Country, ArrayList<String>>> {
 
 	static final String CLASSNAME = "CLASSNAME";
     static final String DATA = "DATA";
     
+    /**
+     * This method gives the class Name 
+     * @param className
+     * @return Class
+     * @throws JsonParseException
+     */
     public Class getObjectClass(String className) {
         try {
             return Class.forName(className);
@@ -32,6 +43,11 @@ public class TerritoryMapAdapter implements JsonSerializer<HashMap<Country, Arra
     }
     
 	@Override
+	/**
+	 * This method deserialize
+	 * @param json typeOfT context
+	 * @throws JsonParseException
+	 */
 	public HashMap<Country, ArrayList<String>> deserialize(JsonElement json, Type typeOfT,
 			JsonDeserializationContext context) throws JsonParseException {
 		
@@ -50,7 +66,12 @@ public class TerritoryMapAdapter implements JsonSerializer<HashMap<Country, Arra
         }
         return returnMap;
 	}
-
+	
+	/**
+	 * This methos serialize JsonElement
+	 * @param src typeOfSrc context
+	 * @return jsonObject
+	 */
 	@Override
 	public JsonElement serialize(HashMap<Country, ArrayList<String>> src, Type typeOfSrc,
 			JsonSerializationContext context) {

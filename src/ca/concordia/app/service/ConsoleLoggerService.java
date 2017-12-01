@@ -68,8 +68,8 @@ public class ConsoleLoggerService implements Observer {
 	
 	/**
 	 * this method will update the console for event
-	 * @param p
-	 * @param e
+	 * @param p the player
+	 * @param e the game event
 	 */
 	public void updateConsoleForEvent(Player p, GamePlayEvent e) {
 		switch(e.getEvent_type()){

@@ -26,7 +26,7 @@ public class GamePlayEvent {
 	    }
 	    /**
 	     * Compares the other name
-	     * @param otherName
+	     * @param otherName the other name
 	     * @return mode which equal to the other name 
 	     */
 	    public boolean equalsName(String otherName) {
@@ -63,8 +63,8 @@ public class GamePlayEvent {
 	
 	/**
 	 * Parameterized constructor
-	 * @param eventType
-	 * @param eventPayload
+	 * @param eventType the event type
+	 * @param eventPayload the event payload
 	 */
 	public GamePlayEvent(EventType eventType, HashMap<String,Object> eventPayload){
 		this.event_type = eventType;
@@ -85,7 +85,7 @@ public class GamePlayEvent {
 
 	/**
 	 * Sets the event type
-	 * @param event_type
+	 * @param event_type the event 
 	 */
 	public void setEvent_type(EventType event_type) {
 		this.event_type = event_type;
@@ -101,7 +101,7 @@ public class GamePlayEvent {
 	
 	/**
 	 * Sets the event load 
-	 * @param event_payload
+	 * @param event_payload the event payload
 	 */
 	public void setEvent_payload(HashMap<String, Object> event_payload) {
 		this.event_payload = event_payload;
