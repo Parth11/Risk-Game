@@ -13,6 +13,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import ca.concordia.app.model.GamePlayEvent.GameMode;
+import ca.concordia.app.model.TournamentConfiguration;
 import ca.concordia.app.service.GamePlayService;
 import ca.concordia.app.service.MapService;
 import ca.concordia.app.strategies.PlayerStrategy;
@@ -119,7 +120,7 @@ public class NewGameSelectorController implements ActionListener, MouseListener 
 					JOptionPane.showMessageDialog(new_game_selector, "Map Loaded Successfully! Click Next to Play!",
 							"Map Loaded", JOptionPane.INFORMATION_MESSAGE);
 				} else {
-					LoadTournamentMap(mapFile);
+					loadTournamentMap(mapFile);
 
 				}
 
@@ -134,11 +135,11 @@ public class NewGameSelectorController implements ActionListener, MouseListener 
 				Integer numMaxTurn = Integer.parseInt(new_game_selector.no_of_max_turn.getText());
 				Integer numGames = Integer.parseInt(new_game_selector.no_of_games.getText());
 				if (numGames > 0) {
-					GamePlayService.getInstance().setGames(numGames);
+					TournamentConfiguration.getInstance().setNum_games(numGames);
 					if (numMaxTurn >= 10 && numMaxTurn <= 50) {
-						GamePlayService.getInstance().setMaxTurns(numMaxTurn);
+						TournamentConfiguration.getInstance().setMax_turns(numMaxTurn);
 						new_game_selector.dispose();
-						new_tournament_selector = new TournamentController(numPlayers, strategies);
+						new_tournament_selector = new TournamentController();
 					} else {
 						new_game_selector.max_turns.setText("Max Turn range of 10 to 50");
 					}
@@ -158,7 +159,7 @@ public class NewGameSelectorController implements ActionListener, MouseListener 
 
 			if (retVal == JFileChooser.APPROVE_OPTION) {
 				File mapFile = new_game_selector.choose_map.getSelectedFile();
-				LoadTournamentMap(mapFile);
+				loadTournamentMap(mapFile);
 
 			}
 		} else if (e.getSource().equals(new_game_selector.browse_map3)) {
@@ -166,7 +167,7 @@ public class NewGameSelectorController implements ActionListener, MouseListener 
 
 			if (retVal == JFileChooser.APPROVE_OPTION) {
 				File mapFile = new_game_selector.choose_map.getSelectedFile();
-				LoadTournamentMap(mapFile);
+				loadTournamentMap(mapFile);
 
 			}
 		} else if (e.getSource().equals(new_game_selector.browse_map4)) {
@@ -174,7 +175,7 @@ public class NewGameSelectorController implements ActionListener, MouseListener 
 
 			if (retVal == JFileChooser.APPROVE_OPTION) {
 				File mapFile = new_game_selector.choose_map.getSelectedFile();
-				LoadTournamentMap(mapFile);
+				loadTournamentMap(mapFile);
 
 			}
 		} else if (e.getSource().equals(new_game_selector.browse_map5)) {
@@ -182,14 +183,13 @@ public class NewGameSelectorController implements ActionListener, MouseListener 
 
 			if (retVal == JFileChooser.APPROVE_OPTION) {
 				File mapFile = new_game_selector.choose_map.getSelectedFile();
-				LoadTournamentMap(mapFile);
+				loadTournamentMap(mapFile);
 
 			}
 		}
 	}
 
-	private void LoadTournamentMap(File mapFile) {
-		// TODO Auto-generated method stub
+	private void loadTournamentMap(File mapFile) {
 		try {
 			GamePlayService.getInstance().addTournamentMap(mapFile);
 			JOptionPane.showMessageDialog(new_game_selector, "Map Loaded Successfully!", "Map Loaded",

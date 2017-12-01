@@ -14,6 +14,7 @@ import ca.concordia.app.model.Card;
 import ca.concordia.app.model.Country;
 import ca.concordia.app.model.GamePlayEvent;
 import ca.concordia.app.model.Player;
+import ca.concordia.app.model.TournamentConfiguration;
 import ca.concordia.app.model.GamePlayEvent.EventType;
 import ca.concordia.app.service.ConsoleLoggerService;
 import ca.concordia.app.service.GamePlayService;
@@ -32,7 +33,7 @@ public class TournamentController implements ActionListener, MouseListener {
 
 	int tournament_game_turns = 0;
 
-	int tournament_game=0;
+	int tournament_game = 0;
 	
 	ReinforcementInputView reinforcement_view;
 
@@ -59,17 +60,17 @@ public class TournamentController implements ActionListener, MouseListener {
 	 List<? extends PlayerStrategy> strategies;
 	 int player_count=0;
 
-	public TournamentController(Integer numPlayers, List<? extends PlayerStrategy> strats) {
+	public TournamentController() {
 		game_logger_view = new GameLoggerView();
 		game_play_service = GamePlayService.getInstance();
-		strategies=strats;
-		player_count=numPlayers;
-		init(numPlayers, strats);
+		strategies = TournamentConfiguration.getInstance().getStrategies();
+		player_count = TournamentConfiguration.getInstance().getNum_players();
+		init(player_count, strategies);
 	}
 
 	private void init(Integer numPlayers, List<? extends PlayerStrategy> strategies) {
-		// TODO Auto-generated method stub
 		tournament_game++;
+		tournament_game_turns = 0;
 		ConsoleLoggerService.getInstance(game_logger_view.console);
 		game_play_service.loadNextGameMap();
 		game_play_service.doStartupPhase(numPlayers, strategies);
@@ -85,12 +86,12 @@ public class TournamentController implements ActionListener, MouseListener {
 				
 				game_results.put(tournament_game, "WIN by "+current_player.getName()+"->"+current_player.strategy.getName());
 				game_play_service.declareWin();
-				if(GamePlayService.getInstance().no_of_games>tournament_game) 
+				if(TournamentConfiguration.getInstance().getNum_games()>tournament_game) 
 				{
 					init(player_count, strategies);
 				}
 				else {
-					GamePlayService.getInstance().saveMapResults(game_results);
+					//GamePlayService.getInstance().saveMapResults(game_results);
 					JOptionPane.showMessageDialog(game_logger_view, "Tournament Ends");
 					ShowResultLog();
 				}
@@ -112,7 +113,7 @@ public class TournamentController implements ActionListener, MouseListener {
 	
 
 	private void prepareToReinforce() {
-		if (tournament_game_turns < game_play_service.getMaxTurns()) 
+		if (tournament_game_turns < TournamentConfiguration.getInstance().getMax_turns()) 
 		{
 			tournament_game_turns++;
 			ConsoleLoggerService.getInstance(null).write("->->" + current_player.getName() + "******REINFORCEMENT PHASE BEGIN*******\n");
@@ -153,10 +154,10 @@ public class TournamentController implements ActionListener, MouseListener {
 		
 			game_results.put(tournament_game, "DRAW by "+current_player.getName()+"->"+current_player.strategy.getName());
 			game_play_service.declareDraw();
-			if(GamePlayService.getInstance().no_of_games>tournament_game) {
+			if(TournamentConfiguration.getInstance().getNum_games()>tournament_game) {
 				init(player_count, strategies);
 			}else {
-				GamePlayService.getInstance().saveMapResults(game_results);
+//				GamePlayService.getInstance().saveMapResults(game_results);
 				JOptionPane.showMessageDialog(game_logger_view, "Tournament Ends");
 				ShowResultLog();
 			}
