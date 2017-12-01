@@ -26,8 +26,9 @@ import ca.concordia.app.service.GamePlayService;
  */
 public class CheaterStrategy implements PlayerStrategy {
 
-	/* (non-Javadoc)
-	 * @see ca.concordia.app.strategies.PlayerStrategy#computeReinforcementMove(ca.concordia.app.model.Player)
+	/**
+	 * reinforcement implementation
+	 * @param p the player
 	 */
 	@Override
 	public Map<String, Object> computeReinforcementMove(Player p) {
@@ -49,8 +50,9 @@ public class CheaterStrategy implements PlayerStrategy {
 
 	}
 
-	/* (non-Javadoc)
-	 * @see ca.concordia.app.strategies.PlayerStrategy#computeAttackMove(ca.concordia.app.model.Player)
+	/**
+	 * attack implementation
+	 * @param p the player
 	 */
 	@Override
 	public Map<String, Object> computeAttackMove(Player p) {
@@ -95,8 +97,9 @@ public class CheaterStrategy implements PlayerStrategy {
 }
 
 
-	/* (non-Javadoc)
-	 * @see ca.concordia.app.strategies.PlayerStrategy#computeFortifyMove(ca.concordia.app.model.Player)
+	/**
+	 * fortify implementation
+	 * @param p the player
 	 */
 	@Override
 	public Map<String, Object> computeFortifyMove(Player p) {
@@ -125,6 +128,11 @@ public class CheaterStrategy implements PlayerStrategy {
 		
 		return null;
 	}
+	
+	/**
+	 * Give the strategy as a string
+	 * @return the strategy
+	 */
 	@Override
 	public String getName() {
 		return "Cheater";

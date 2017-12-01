@@ -11,7 +11,9 @@ import java.util.Random;
  *
  */
 public class Randomizer {
-
+	/**
+	 * a random object
+	 */
 	static Random r = new Random();
 	
 	/**

@@ -24,17 +24,17 @@ import ca.concordia.app.service.GamePlayService;
  */
 public class BenevolentStrategy implements PlayerStrategy {
 
-	/* (non-Javadoc)
-	 * @see ca.concordia.app.strategies.PlayerStrategy#computeReinforcementMove(ca.concordia.app.model.Player)
-	 */
+	
 	/**
 	 * This method computes the reinforcement move
 	 * @param p player object
 	 */
 	@Override
 	public Map<String, Object> computeReinforcementMove(Player p) {
-		//New Strategy Pattern
 		
+		/**
+		 * The List
+		 */
 		Map<String, Object> strategyAs = new HashMap<>();
 		
 		
@@ -49,8 +49,9 @@ public class BenevolentStrategy implements PlayerStrategy {
 		
 	}
 
-	/* (non-Javadoc)
-	 * @see ca.concordia.app.strategies.PlayerStrategy#computeAttackMove(ca.concordia.app.model.Player)
+	/**
+	 * attack implementation
+	 * @param p the variable of type player
 	 */
 	@Override
 	public Map<String, Object> computeAttackMove(Player p) {
@@ -61,8 +62,9 @@ public class BenevolentStrategy implements PlayerStrategy {
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see ca.concordia.app.strategies.PlayerStrategy#computeFortifyMove(ca.concordia.app.model.Player)
+	/**
+	 * fortification implementation
+	 * @param p the variable of type player
 	 */
 	@Override
 	public Map<String, Object> computeFortifyMove(Player p) {
@@ -116,6 +118,11 @@ public class BenevolentStrategy implements PlayerStrategy {
 		return strategyRs;
 
 	}
+	
+	/**
+	 * gives the name of the strategy
+	 * @return the strategy
+	 */
 	@Override
 	public String getName() {
 		return "Benevolent";
