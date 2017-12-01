@@ -11,7 +11,7 @@ import ca.concordia.app.model.test.PlayerTest;
 
 @RunWith(Suite.class)
 @SuiteClasses({ GamePlayServiceTest.class, MapServiceValidationsTest.class, TestCreateServiceMap.class,DiceRollerTest.class,
-	GameMapTest.class,PlayerTest.class})
+	GameMapTest.class,PlayerTest.class, TestCreateServiceMap.class})
 public class RiskTestSuite {
 
 }

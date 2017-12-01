@@ -57,15 +57,9 @@ public class MapServiceValidationsTest extends MapService {
 	 * @throws MapValidationException the map validation exception
 	 * @throws URISyntaxException the URI syntax exception
 	 */
-	@Test(expected = MapValidationException.class)
+	@Test
 	public void testConnectedMap1() throws MapValidationException, URISyntaxException {
-		try {
 			MapService.getInstance().loadMap("maps/Montreal.map");
-		} catch (MapValidationException e) {
-			System.out.println(this.getClass().getName() + " : " + e.getMessage());
-			throw e;
-		}
-
 	}
 
 	/**
