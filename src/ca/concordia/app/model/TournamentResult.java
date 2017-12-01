@@ -8,7 +8,9 @@ public class TournamentResult {
 
 	private static TournamentResult instance = null;
 	
-	public Map<Integer,List<String>> results;
+	public Map<String,List<String>> results;
+	
+	public boolean end = false;
 	
 	private TournamentResult(){
 		results = new HashMap<>();

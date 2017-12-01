@@ -381,7 +381,6 @@ public class MapService {
 	}
 
 	public void resetMap() {
-		// TODO Auto-generated method stub
 		instance=null;
 	}
 

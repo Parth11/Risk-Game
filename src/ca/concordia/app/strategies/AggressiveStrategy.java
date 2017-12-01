@@ -52,7 +52,7 @@ public class AggressiveStrategy implements PlayerStrategy {
 		Country strongestCountry = GamePlayService.getInstance().getStrongestCountry(p);
 		
 		if(strongestCountry != null) {
-			if(GamePlayService.getInstance().getEligibleAttackableCountries(strongestCountry)!=null) {
+			if(!GamePlayService.getInstance().getEligibleAttackableCountries(strongestCountry).isEmpty()) {
 		Country defendingCountry = GamePlayService.getInstance().getEligibleAttackableCountries(strongestCountry).get(0);
 		
 		Map<String, Object> strategyRs = new HashMap<>();

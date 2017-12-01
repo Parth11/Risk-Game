@@ -12,6 +12,7 @@ import java.util.Random;
 import java.util.Set;
 
 import javax.swing.JDialog;
+import javax.swing.JOptionPane;
 
 import ca.concordia.app.controller.PhaseViewController;
 import ca.concordia.app.model.Card;
@@ -999,32 +1000,13 @@ public class GamePlayService {
 	}
 
 
-	public void loadNextGameMap() throws MapValidationException {
-		
-		MapService.getInstance().resetMap();
-		
-		TournamentConfiguration config = TournamentConfiguration.getInstance();
-		
-		TournamentResult result = TournamentResult.getInstance();
-		
-		int mapNo = -1;
-		
-		for(Entry<Integer, List<String>> e : result.results.entrySet()){
-			if(e.getValue().size()<config.getNum_games()){
-				mapNo = e.getKey();
-				break;
-			}
-		}
-		
-		if(mapNo != -1){
-			MapService.getInstance().loadMap(config.getTournament_maps().get(mapNo));
-		}
-	
-	}
-	
 	public void logGameEvent(Player player, GamePlayEvent event){
 		GameLogEvent gle = new GameLogEvent(player, event);
 		game_log.add(gle);
+	}
+	
+	public void resetGame(){
+		instance = null;
 	}
 	
 }

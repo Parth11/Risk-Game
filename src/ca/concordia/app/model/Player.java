@@ -183,14 +183,6 @@ public class Player extends Observable implements Serializable{
 	
 	public void strategizeAttack(){
 			strategy.computeAttackMove(this);
-			if(GamePlayService.getInstance().isThisTheEnd()) {
-				HashMap<String, Object> eventPayload = new HashMap<>();
-				eventPayload = new HashMap<>();
-				eventPayload.put("winner", GamePlayService.getInstance().getCurrentTurnPlayer());
-				GamePlayEvent gpe = new GamePlayEvent(EventType.ATTACK_CAPTURE, eventPayload);
-				gpe = new GamePlayEvent(EventType.THE_END, eventPayload);
-				GamePlayService.getInstance().getCurrentTurnPlayer().publishGamePlayEvent(gpe);
-			}
 	}
 	
 	/**

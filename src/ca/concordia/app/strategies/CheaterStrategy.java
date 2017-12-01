@@ -12,7 +12,9 @@ import javax.swing.JOptionPane;
 
 import ca.concordia.app.model.Country;
 import ca.concordia.app.model.GameMap;
+import ca.concordia.app.model.GamePlayEvent;
 import ca.concordia.app.model.Player;
+import ca.concordia.app.model.GamePlayEvent.EventType;
 import ca.concordia.app.service.ConsoleLoggerService;
 import ca.concordia.app.service.GamePlayService;
 
@@ -89,6 +91,14 @@ public class CheaterStrategy implements PlayerStrategy {
 			}			
 			
 		}
+		
+	}
+	
+	if(GamePlayService.getInstance().isThisTheEnd()){
+		HashMap<String, Object> eventPayload = new HashMap<>();
+		eventPayload.put("winner", p);
+		GamePlayEvent gpe = new GamePlayEvent(EventType.THE_END, eventPayload);
+		p.publishGamePlayEvent(gpe);
 	}
 
 	return null;
