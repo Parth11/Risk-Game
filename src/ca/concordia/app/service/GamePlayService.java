@@ -688,27 +688,7 @@ public class GamePlayService {
 		return false;
 	}
 	
-	public void checkCountryIsConnectedOrNot() throws MapValidationException {
-		// Checking country connected or not in the continent
-		List<Continent> continent = GameMap.getInstance().getContinents();
-		for (int i = 0; i < continent.size(); i++) {
-			List<Country> countries = GameMap.getInstance()
-					.getCountriesByContinent(continent.get(i).getContinentName());
-
-			for (int j = 0; j < countries.size() - 1; j++) {
-				Country c1 = countries.get(j);
-				Country c2 = countries.get(j + 1);
-				if (GamePlayService.getInstance().isConnected(c1, c2, countries)) {
-					continue;
-				} else {
-					System.out.println("Countries are not connected");
-					throw new MapValidationException(c1 + " and " + c2 + " are not connected in the Map");
-
-				}
-			}
-		}
-	}
-
+	
 	/**
 	 * Who winning after attacking.
 	 *
