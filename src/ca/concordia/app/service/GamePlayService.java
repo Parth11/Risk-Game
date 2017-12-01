@@ -952,7 +952,7 @@ public class GamePlayService {
 
 		Country strongestCountry = null;
 		
-		int maxArmy = 1;
+		int maxArmy = 0;
 		
 		for (Country country : playerCountries) {
 			
@@ -973,7 +973,7 @@ public class GamePlayService {
 
 		Country weakestCountry = null;
 		
-		int minArmy = 1;
+		int minArmy = Integer.MAX_VALUE;
 		
 		for (Country country : playerCountries) {
 			
