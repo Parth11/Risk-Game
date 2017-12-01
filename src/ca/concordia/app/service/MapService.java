@@ -31,7 +31,7 @@ public class MapService {
 	/** The instance. */
 	public static MapService instance;
 	
-	public ArrayList<String> tournamentMaps= new ArrayList<>();
+	
 	
 	/**
 	 * Gets the single instance of MapService.
@@ -358,9 +358,11 @@ public class MapService {
 		
 	}
 
-	public void addTournamentMap(String absolutePath){
+	public void resetMap() {
 		// TODO Auto-generated method stub
-			tournamentMaps.add(absolutePath);
+		instance=null;
 	}
+
+
 
 }
