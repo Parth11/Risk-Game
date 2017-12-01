@@ -26,6 +26,7 @@ import ca.concordia.app.model.GamePlayEvent.GameMode;
 import ca.concordia.app.model.Player;
 import ca.concordia.app.model.SavedGame;
 import ca.concordia.app.model.TournamentConfiguration;
+import ca.concordia.app.model.TournamentResult;
 import ca.concordia.app.strategies.PlayerStrategy;
 import ca.concordia.app.util.GameConstants;
 import ca.concordia.app.util.GamePhase;
@@ -998,44 +999,27 @@ public class GamePlayService {
 	}
 
 
-	public void loadNextGameMap() {
+	public void loadNextGameMap() throws MapValidationException {
 		
-//		try {
-//			for(int i=0;i<TournamentConfiguration.getInstance().getTournament_maps().size();i++) {
-//				HashMap<Integer, String> gameMapResults= new HashMap<>();
-//				gameMapResults=tournamentResults.get(tournamentMaps.get(i));
-//				for (int j= 1;j<=no_of_games;j++) 
-//				{
-//					if(gameMapResults.get(j)==null)
-//					{
-//						currentMap=tournamentMaps.get(i);
-//						break;
-//					}
-//					else if(gameMapResults.size()==no_of_games ){
-//						
-//						if(tournamentMaps.indexOf(currentMap)<(tournamentMaps.size()-1))
-//							currentMap=tournamentMaps.get(i+1);
-//						else
-//							currentMap=null;
-//						break;
-//					}
-//				}
-//				if(currentMap!=null){
-//					break;
-//				}
-//				
-//			}
-//			
-//			if(currentMap!=null) {
-//				//MapService.getInstance().resetMap();
-//				MapService.getInstance().loadMap(currentMap);
-//			}else {
-//				System.out.println("All map games are performeed.");
-//			}
-//		} catch (MapValidationException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
+		MapService.getInstance().resetMap();
+		
+		TournamentConfiguration config = TournamentConfiguration.getInstance();
+		
+		TournamentResult result = TournamentResult.getInstance();
+		
+		int mapNo = -1;
+		
+		for(Entry<Integer, List<String>> e : result.results.entrySet()){
+			if(e.getValue().size()<config.getNum_games()){
+				mapNo = e.getKey();
+				break;
+			}
+		}
+		
+		if(mapNo != -1){
+			MapService.getInstance().loadMap(config.getTournament_maps().get(mapNo));
+		}
+	
 	}
 	
 	public void logGameEvent(Player player, GamePlayEvent event){

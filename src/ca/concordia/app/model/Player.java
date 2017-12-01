@@ -162,7 +162,6 @@ public class Player extends Observable implements Serializable{
 		
 		Map<String,Object> strategyRs = strategy.computeReinforcementMove(this);
 		
-		//doReinforcement((Country) strategyRs.get("country"), this.getTotalArmies());
 	}
 	
 	/**

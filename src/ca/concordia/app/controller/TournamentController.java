@@ -15,12 +15,14 @@ import ca.concordia.app.model.Country;
 import ca.concordia.app.model.GamePlayEvent;
 import ca.concordia.app.model.Player;
 import ca.concordia.app.model.TournamentConfiguration;
+import ca.concordia.app.model.TournamentResult;
 import ca.concordia.app.model.GamePlayEvent.EventType;
 import ca.concordia.app.service.ConsoleLoggerService;
 import ca.concordia.app.service.GamePlayService;
 import ca.concordia.app.strategies.PlayerStrategy;
 import ca.concordia.app.util.GameConstants;
 import ca.concordia.app.util.GamePhase;
+import ca.concordia.app.util.MapValidationException;
 import ca.concordia.app.view.AttackInputView;
 import ca.concordia.app.view.CardExchangeView;
 import ca.concordia.app.view.FortificationInputView;
@@ -34,7 +36,7 @@ public class TournamentController implements ActionListener, MouseListener {
 	int tournament_game_turns = 0;
 
 	int tournament_game = 0;
-	
+
 	ReinforcementInputView reinforcement_view;
 
 	FortificationInputView fortification_view;
@@ -54,17 +56,23 @@ public class TournamentController implements ActionListener, MouseListener {
 	Country to_country;
 
 	List<Player> players = new ArrayList<>();
-	
-	HashMap<Integer, String> game_results= new HashMap<>();
-	
-	 List<? extends PlayerStrategy> strategies;
-	 int player_count=0;
 
+	List<? extends PlayerStrategy> strategies;
+
+	int player_count = 0;
+
+	TournamentResult tournament_result = TournamentResult.getInstance();
+	
+	TournamentConfiguration tournament_config = TournamentConfiguration.getInstance();
+	
 	public TournamentController() {
+		for(int i=1;i<=tournament_config.getTournament_maps().size();i++){
+			tournament_result.results.put(i, new ArrayList<String>());
+		}
 		game_logger_view = new GameLoggerView();
 		game_play_service = GamePlayService.getInstance();
-		strategies = TournamentConfiguration.getInstance().getStrategies();
-		player_count = TournamentConfiguration.getInstance().getNum_players();
+		strategies = tournament_config.getStrategies();
+		player_count = tournament_config.getNum_players();
 		init(player_count, strategies);
 	}
 
@@ -72,7 +80,11 @@ public class TournamentController implements ActionListener, MouseListener {
 		tournament_game++;
 		tournament_game_turns = 0;
 		ConsoleLoggerService.getInstance(game_logger_view.console);
-		game_play_service.loadNextGameMap();
+		try {
+			game_play_service.loadNextGameMap();
+		} catch (MapValidationException e) {
+			e.printStackTrace();
+		}
 		game_play_service.doStartupPhase(numPlayers, strategies);
 		current_player = game_play_service.getCurrentTurnPlayer();
 		goToNextMove();
@@ -82,16 +94,15 @@ public class TournamentController implements ActionListener, MouseListener {
 
 		switch (current_player.game_phase) {
 		case ATTACK:
-			if (current_player.event_log.get(current_player.event_log.size() - 1).getEvent_type().equals(EventType.THE_END)) {
-				
-				game_results.put(tournament_game, "WIN by "+current_player.getName()+"->"+current_player.strategy.getName());
+			if (current_player.event_log.get(current_player.event_log.size() - 1).getEvent_type()
+					.equals(EventType.THE_END)) {
+
+				tournament_result.results.get((tournament_game/tournament_config.getTournament_maps().size())+1).add(current_player.getName());
 				game_play_service.declareWin();
-				if(TournamentConfiguration.getInstance().getNum_games()>tournament_game) 
-				{
+				if (TournamentConfiguration.getInstance().getNum_games() > tournament_game) {
 					init(player_count, strategies);
-				}
-				else {
-					//GamePlayService.getInstance().saveMapResults(game_results);
+				} else {
+					// GamePlayService.getInstance().saveMapResults(game_results);
 					JOptionPane.showMessageDialog(game_logger_view, "Tournament Ends");
 					ShowResultLog();
 				}
@@ -110,18 +121,15 @@ public class TournamentController implements ActionListener, MouseListener {
 		}
 	}
 
-	
-
 	private void prepareToReinforce() {
-		if (tournament_game_turns < TournamentConfiguration.getInstance().getMax_turns()) 
-		{
+		if (tournament_game_turns < TournamentConfiguration.getInstance().getMax_turns()) {
 			tournament_game_turns++;
-			ConsoleLoggerService.getInstance(null).write("->->" + current_player.getName() + "******REINFORCEMENT PHASE BEGIN*******\n");
+			ConsoleLoggerService.getInstance(null)
+					.write("->->" + current_player.getName() + "******REINFORCEMENT PHASE BEGIN*******\n");
 			current_player.setCurrentPhase(GamePhase.REINFORCEMENT);
 			GamePlayEvent gpe = new GamePlayEvent(EventType.GENERIC_UPDATE, new HashMap<>());
 			current_player.publishGamePlayEvent(gpe);
-			if (game_play_service.showCardExchangeView(current_player)) 
-			{
+			if (game_play_service.showCardExchangeView(current_player)) {
 				int a = 0, i = 0, c = 0;
 				for (Card cd : current_player.getCards()) {
 					switch (cd.getCardType()) {
@@ -145,19 +153,18 @@ public class TournamentController implements ActionListener, MouseListener {
 				} else if (a >= 1 && i >= 1 && c >= 1) {
 					current_player.reimburseCards(1, 1, 1);
 				}
-			} 
+			}
 			reinforcement_armies = game_play_service.getReinforcementArmyForPlayer(current_player);
 			reinforcePlayer();
 
 		} else {
-			
-		
-			game_results.put(tournament_game, "DRAW by "+current_player.getName()+"->"+current_player.strategy.getName());
+
+			tournament_result.results.get((tournament_game/tournament_config.getTournament_maps().size())+1).add("Draw");
 			game_play_service.declareDraw();
-			if(TournamentConfiguration.getInstance().getNum_games()>tournament_game) {
+			if (TournamentConfiguration.getInstance().getNum_games() > tournament_game) {
 				init(player_count, strategies);
-			}else {
-//				GamePlayService.getInstance().saveMapResults(game_results);
+			} else {
+				// GamePlayService.getInstance().saveMapResults(game_results);
 				JOptionPane.showMessageDialog(game_logger_view, "Tournament Ends");
 				ShowResultLog();
 			}
@@ -176,11 +183,11 @@ public class TournamentController implements ActionListener, MouseListener {
 	}
 
 	private void initiateAttack() {
-		
+
 		current_player.setCurrentPhase(GamePhase.ATTACK);
 		current_player.strategizeAttack();
 		goToNextMove();
-		
+
 	}
 
 	private void fortifyPlayer() {
@@ -191,17 +198,18 @@ public class TournamentController implements ActionListener, MouseListener {
 
 	private void triggerNextPlayer() {
 
-		ConsoleLoggerService.getInstance(null).write("->->" + current_player.getName() + "******FORTIFICATION PHASE END*******\n");
+		ConsoleLoggerService.getInstance(null)
+				.write("->->" + current_player.getName() + "******FORTIFICATION PHASE END*******\n");
 		current_player.captureCards();
 		current_player = game_play_service.changeTurnToNextPlayer();
 		goToNextMove();
 	}
-	
+
 	private void ShowResultLog() {
 		// TODO Auto-generated method stub
 		game_play_service.displayResults();
 	}
-	
+
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
