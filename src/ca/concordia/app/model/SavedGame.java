@@ -86,7 +86,7 @@ public class SavedGame implements Serializable {
 	
 	/**
 	 * sets the countries
-	 * @param countries
+	 * @param countries list 
 	 */
 	public void setCountries(List<Country> countries) {
 		this.countries = countries;
@@ -198,7 +198,7 @@ public class SavedGame implements Serializable {
 	
 	/**
 	 * sets the player country map
-	 * @param player_country_map
+	 * @param player_country_map player map
 	 */
 	public void setPlayer_country_map(Map<Player, List<Country>> player_country_map) {
 		this.player_country_map = player_country_map;

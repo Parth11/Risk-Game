@@ -23,6 +23,7 @@ public class GsonUtil {
 	
 	/**
 	 * get Gson instance
+	 * @return GsonBuilder builder of Gson
 	 */
 	public static Gson getGSONInstance(){
 		Type type = new TypeToken<HashMap<Country, ArrayList<String>>>(){}.getType();

@@ -92,7 +92,7 @@ public class GamePlayService {
 	
 	/**
 	 * sets the game mode
-	 * @param game_mode
+	 * @param game_mode game mode
 	 */
 	public void setGameMode(GameMode game_mode) {
 		this.game_mode = game_mode;
@@ -147,7 +147,7 @@ public class GamePlayService {
 
 	/**
 	 * Removes the cards for the master deck
-	 * @param cardType
+	 * @param cardType string card
 	 */
 	public void removeCardsfromDeck(String cardType )
 	{
@@ -157,7 +157,7 @@ public class GamePlayService {
 	
 	/**
 	 * Adds the cards to the master deck
-	 * @param cardType
+	 * @param cardType string card type
 	 */
 	public void addCardsToDeck(String cardType )
 	{
@@ -167,11 +167,11 @@ public class GamePlayService {
 	
 	/**
 	 * Criteria for card reimbursement
-	 * @param player
-	 * @param a
-	 * @param i
-	 * @param c
-	 * @return
+	 * @param player the player	
+	 * @param a integer a
+	 * @param i integer i
+	 * @param c integer c
+	 * @return true or false
 	 */
 	public boolean cardReimbursement(Player player, int a, int i, int c) {
 		boolean flag = false;
@@ -261,8 +261,7 @@ public class GamePlayService {
 	 * allocating countries to players and it will add armies using round-robin fashion.
 	 * 
 	 * @param numberOfPlayers the number of players
-	 * @param game_play_view 
-	 * @return true, if successful
+	 * @param strategies the strategy 
 	 */
 	public void doStartupPhase(int numberOfPlayers, List<? extends PlayerStrategy> strategies) {
 		
@@ -400,7 +399,7 @@ public class GamePlayService {
 
 	/**
 	 * To Show the card exchange view
-	 * @param p
+	 * @param p the player
 	 * @return true or false
 	 */
 	public boolean showCardExchangeView(Player p) {
@@ -692,9 +691,8 @@ public class GamePlayService {
 	/**
 	 * Getting the attack dice limit.
 	 *
-	 * @param p the p
-	 * @param c the c
-	 * @return the attack dice limit
+	 * @param c the country
+	 * @return number of army 
 	 */
 	public int getAttackDiceLimit(Country c) {
 		if (player_country_map.get(c.getRuler()).contains(c) && c.getNoOfArmy() > 1) {
@@ -707,8 +705,7 @@ public class GamePlayService {
 	/**
 	 * Getting the defence dice limit.
 	 *
-	 * @param p the p
-	 * @param c the c
+	 * @param c the country
 	 * @return the defence dice limit
 	 */
 	public int getDefenceDiceLimit(Country c) {
@@ -811,10 +808,9 @@ public class GamePlayService {
 
 	/**
 	 * Initiates the game play.
-	 * @param gamePlayView object of NewGamPlayView
 	 *
-	 * @param player
-	 * @return
+	 * @param player the Player
+	 * @return s string country allocation
 	 */
 	public String printCountryAllocationToConsole(Player player) {
 
@@ -829,7 +825,7 @@ public class GamePlayService {
 	
 	/**
 	 * Check if the attacking country is a neighbor and of the current player
-	 * @param p
+	 * @param p the player
 	 * @return The Attacking List
 	 */
 	public List<Country> getEligibleAttackingCountriesForPlayer(Player p){
@@ -850,7 +846,7 @@ public class GamePlayService {
 	
 	/**
 	 * Check if the attacked country is a neighbor and of differnt ruler
-	 * @param c
+	 * @param c country
 	 * @return List of Attackable countries
 	 */
 	public List<Country> getEligibleAttackableCountries(Country c){
@@ -892,7 +888,7 @@ public class GamePlayService {
 	
 	/**
 	 *  Get the strongest country for the player
-	 *  
+	 *  @param p player
 	 *  @return strongestCountry return the strongest country
 	 * 
 	 * */
@@ -919,7 +915,7 @@ public class GamePlayService {
 	
 	/**
 	 *  Get the weakest country for the player
-	 *  
+	 *  @param p the Player
 	 *  @return weakestCountry return the weakest country
 	 * 
 	 * */
@@ -946,7 +942,7 @@ public class GamePlayService {
 		
 	/**
 	 * this method copy the save data
-	 * @param savedGame
+	 * @param savedGame Saved Game
 	 */
 	public void copySaveData(SavedGame savedGame){
 		savedGame.setDeckMap(deckMap);
@@ -960,7 +956,7 @@ public class GamePlayService {
 	
 	/**
 	 * Restore the saved data
-	 * @param savedGame
+	 * @param savedGame Saved Game 
 	 */
 	public void restoreSavedData(SavedGame savedGame){
 		deckMap = savedGame.getDeckMap();
@@ -999,7 +995,7 @@ public class GamePlayService {
 
 	/**
 	 * write the text
-	 * @param text
+	 * @param text String
 	 */
 	public void write(String text) {
 		logger.write(text);
@@ -1007,8 +1003,8 @@ public class GamePlayService {
 	
 	/**
 	 * This method will add tournament map
-	 * @param mapFile
-	 * @throws MapValidationException
+	 * @param mapFile Map File
+	 * @throws MapValidationException validate map
 	 */
 	public void addTournamentMap(File mapFile) throws MapValidationException{
 			MapService.getInstance().loadMap(mapFile);
@@ -1077,8 +1073,8 @@ public class GamePlayService {
 	}
 	/**
 	 * This method log the game event
-	 * @param player
-	 * @param event
+	 * @param player Player
+	 * @param event game play event
 	 */
 	public void logGameEvent(Player player, GamePlayEvent event){
 		GameLogEvent gle = new GameLogEvent(player, event);

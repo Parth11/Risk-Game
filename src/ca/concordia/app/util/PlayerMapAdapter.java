@@ -33,9 +33,9 @@ public class PlayerMapAdapter implements JsonSerializer<Map<Player, List<Country
     
     /**
      * gets the object of className
-     * @param className
-     * @return className
-     * @throws JsonParseException 
+     * @param className name of class
+     * @return className name of class
+     * @throws JsonParseException Exception in Json Parsing
      */
     public Class getObjectClass(String className) {
         try {
@@ -48,7 +48,7 @@ public class PlayerMapAdapter implements JsonSerializer<Map<Player, List<Country
     /**
      * deserialize 
      * @param json typeOfT context
-     * @throws JsonParseException
+     * @throws JsonParseException Exception on Json Parsing
      * @return returnMap
      */
 	@Override

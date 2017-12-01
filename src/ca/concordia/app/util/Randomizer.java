@@ -18,7 +18,7 @@ public class Randomizer {
 	
 	/**
 	 * this method randomize
-	 * @param n
+	 * @param n 
 	 * @return
 	 */
 	public static int randomize(int n){
