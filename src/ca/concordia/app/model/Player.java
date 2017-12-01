@@ -253,15 +253,15 @@ public class Player extends Observable implements Serializable{
 	public void strategizeFortification(){
 		Map<String,Object> strategyRs = strategy.computeFortifyMove(this);
 	
-		if(strategyRs!=null){
-			doFortification((Country) strategyRs.get("from"),
-					(Country) strategyRs.get("to"), 
-						(Integer) strategyRs.get("armies"));
-		}
-		else{
-			ConsoleLoggerService.getInstance(null).write(this.getName()+
-					" -> does not have eligible countries to fortify -> Skipping Fortification \n");
-		}
+//		if(strategyRs!=null){
+//			doFortification((Country) strategyRs.get("from"),
+//					(Country) strategyRs.get("to"), 
+//						(Integer) strategyRs.get("armies"));
+//		}
+//		else{
+//			ConsoleLoggerService.getInstance(null).write(this.getName()+
+//					" -> does not have eligible countries to fortify -> Skipping Fortification \n");
+//		}
 		
 	}	
 	/**

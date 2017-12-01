@@ -87,17 +87,8 @@ public class AggressiveStrategy implements PlayerStrategy {
 			
 		}
 		
-		// check if defender ruler has Human strategy or not
-//		if(defendingCountry.getRuler().strategy==null){
-//			
-//			AttackInputView attack_view = new AttackInputView(defendingCountry.getRuler());
-//			attack_view.setActionListener(this);
-//			attack_view.setVisible(true);
-//		}
-		
 		return null;
-
-		
+	
 	}
 
 	/* (non-Javadoc)
@@ -141,6 +132,8 @@ public class AggressiveStrategy implements PlayerStrategy {
 		Country to = countrySelectionFiltered.get(0);
 
 		int armies = from.getNoOfArmy() - (from.getNoOfArmy()-1);
+		
+		p.doFortification(from, to, armies);
 
 		strategyRs.put("from", from);
 		strategyRs.put("to", to);
