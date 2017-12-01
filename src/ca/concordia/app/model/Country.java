@@ -109,7 +109,7 @@ public class Country implements Serializable{
 	  public boolean equals(Object obj) {
 		  
 		  if(obj instanceof Country){
-			  if(this.country_name.equals(((Country) obj).getCountryName())){
+			  if(this.country_name.equalsIgnoreCase(((Country) obj).getCountryName())){
 				return true;  
 			  }
 		  }
