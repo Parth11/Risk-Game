@@ -61,7 +61,7 @@ public class NewGamePhaseController implements ActionListener, MouseListener {
 	
 	/**
 	 * Opens the game logger window, the game play window and the game play service window.
-	 * @param numPlayers
+	 * @param numPlayers strategies
 	 */
 	public NewGamePhaseController(Integer numPlayers, List<? extends PlayerStrategy> strategies) {
 		game_logger_view = new GameLoggerView();
@@ -69,6 +69,10 @@ public class NewGamePhaseController implements ActionListener, MouseListener {
 		init(numPlayers, strategies);
 	}
 	
+	/**
+	 * This method controls the new Game phase
+	 * @param savedGame
+	 */
 	public NewGamePhaseController(SavedGame savedGame){
 		game_logger_view = new GameLoggerView();
 		ConsoleLoggerService.getInstance(game_logger_view.console);
@@ -104,6 +108,9 @@ public class NewGamePhaseController implements ActionListener, MouseListener {
 		goToNextMove();
 	}
 	
+	/**
+	 * This method takes to the next move
+	 */
 	public void goToNextMove(){
 		
 		switch(current_player.game_phase){
@@ -438,6 +445,9 @@ public class NewGamePhaseController implements ActionListener, MouseListener {
 		}
 	}
 
+	/**
+	 * This method triggers the next player
+	 */
 	private void triggerNextPlayer() {
 		
 		ConsoleLoggerService.getInstance(null).write("->->"+current_player.getName()+"******FORTIFICATION PHASE END*******\n");

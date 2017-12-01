@@ -18,14 +18,12 @@ import ca.concordia.app.service.GamePlayService;
 import ca.concordia.app.util.GsonUtil;
 
 /**
+ * This class handles the saved game
  * @author harvi
  *
  */
 public class SavedGame implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -8451620048455126517L;
 
 	private List<Country> countries;
@@ -50,6 +48,10 @@ public class SavedGame implements Serializable {
 	
 	private List<GameLogEvent> game_log;
 	
+	/**
+	 * This method will save the game
+	 * @param saveFile
+	 */
 	public void saveThisGame(File saveFile){
 		for(Player p :GamePlayService.getInstance().getPlayers()){
 			p.deleteObservers();
@@ -73,91 +75,179 @@ public class SavedGame implements Serializable {
 		}
 		
 	}
-
+	
+	/**
+	 * get the countries
+	 * @return countries
+	 */
 	public List<Country> getCountries() {
 		return countries;
 	}
-
+	
+	/**
+	 * sets the countries
+	 * @param countries
+	 */
 	public void setCountries(List<Country> countries) {
 		this.countries = countries;
 	}
-
+	
+	/**
+	 * 	gets the continents
+	 * @return continents
+	 */
 	public List<Continent> getContinents() {
 		return continents;
 	}
-
+	
+	/**
+	 * set the continents 
+	 * @param continents
+	 */
 	public void setContinents(List<Continent> continents) {
 		this.continents = continents;
 	}
-
+	
+	/**
+	 * hashmap to get territories
+	 * @return territories
+	 */
 	public HashMap<Country, ArrayList<String>> getTerritories() {
 		return territories;
 	}
-
+	
+	/**
+	 * sets the territories
+	 * @param territories
+	 */
 	public void setTerritories(HashMap<Country, ArrayList<String>> territories) {
 		this.territories = territories;
 	}
 
+	/**
+	 * gets the deck map 
+	 * @return deckMap
+	 */
 	public HashMap<String, Integer> getDeckMap() {
 		return deckMap;
 	}
-
+	
+	/**
+	 * set the deckMap
+	 * @param deckMap
+	 */
 	public void setDeckMap(HashMap<String, Integer> deckMap) {
 		this.deckMap = deckMap;
 	}
-
+	
+	/**
+	 * get the number of players
+	 * @return number_of_players
+	 */
 	public int getNumber_of_players() {
 		return number_of_players;
 	}
-
+	
+	/**
+	 * set number of players 
+	 * @param number_of_players
+	 */
 	public void setNumber_of_players(int number_of_players) {
 		this.number_of_players = number_of_players;
 	}
-
+	
+	/**
+	 * get max turns
+	 * @return maxTurns
+	 */
 	public int getMaxTurns() {
 		return maxTurns;
 	}
-
+	
+	/**
+	 * set max turns
+	 * @param maxTurns
+	 */
 	public void setMaxTurns(int maxTurns) {
 		this.maxTurns = maxTurns;
 	}
-
+	
+	/**
+	 * get the players
+	 * @return players
+	 */
 	public List<Player> getPlayers() {
 		return players;
 	}
-
+	
+	/**
+	 * set the players
+	 * @param players
+	 */
 	public void setPlayers(List<Player> players) {
 		this.players = players;
 	}
 
+	/**
+	 * gets player country map
+	 * @return player_country_map
+	 */
 	public Map<Player, List<Country>> getPlayer_country_map() {
 		return player_country_map;
 	}
-
+	
+	/**
+	 * sets the player country map
+	 * @param player_country_map
+	 */
 	public void setPlayer_country_map(Map<Player, List<Country>> player_country_map) {
 		this.player_country_map = player_country_map;
 	}
-
+	
+	/**
+	 * get the turn
+	 * @return turn
+	 */
 	public int getTurn() {
 		return turn;
 	}
-
+	
+	/**
+	 * set the turn
+	 * @param turn
+	 */
 	public void setTurn(int turn) {
 		this.turn = turn;
 	}
-
+	
+	/**
+	 * gets current player
+	 * @return
+	 */
 	public Player getCurrent_player() {
 		return current_player;
 	}
-
+	
+	/**
+	 * Set the current player
+	 * @param current_player
+	 */
 	public void setCurrent_player(Player current_player) {
 		this.current_player = current_player;
 	}
-
+	
+	/**
+	 * get the game log
+	 * @return game_log
+	 */
 	public List<GameLogEvent> getGame_log() {
 		return game_log;
 	}
-
+	
+	/**
+	 * sets the game log
+	 * @param game_log
+	 */
 	public void setGame_log(List<GameLogEvent> game_log) {
 		this.game_log = game_log;
 	}

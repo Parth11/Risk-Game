@@ -16,18 +16,20 @@ import ca.concordia.app.service.ConsoleLoggerService;
 import ca.concordia.app.service.GamePlayService;
 
 /**
+ * This class implements the Benevolent Strategy
+ * A benevolent computer player strategy that focuses on protecting its weak countries 
+ * (reinforces its weakest countries, never attacks, then fortifies in order to move armies to weaker countries).
  * @author harvi
  *
  */
 public class BenevolentStrategy implements PlayerStrategy {
 
-	/**
-	 * A benevolent computer player strategy that focuses on protecting its weak countries 
-	 * (reinforces its weakest countries, never attacks, then fortifies in order to move armies to weaker countries).
-	 * */
-	
 	/* (non-Javadoc)
 	 * @see ca.concordia.app.strategies.PlayerStrategy#computeReinforcementMove(ca.concordia.app.model.Player)
+	 */
+	/**
+	 * This method computes the reinforcement move
+	 * @param p player object
 	 */
 	@Override
 	public Map<String, Object> computeReinforcementMove(Player p) {

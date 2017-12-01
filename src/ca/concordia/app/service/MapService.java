@@ -25,6 +25,7 @@ import ca.concordia.app.util.RiskExceptionHandler;
 
 /**
  * The Class MapService.
+ * @author Harvi
  */
 public class MapService {
 
@@ -214,7 +215,11 @@ public class MapService {
 			
 		return gameMap;
 	}
-
+	/**
+	 * This method will validate the continent neighbours
+	 * @param gameMap
+	 * @throws MapValidationException
+	 */
 	private void validateContinentNeighbours(GameMap gameMap) throws MapValidationException{
 		// TODO Auto-generated method stub
 		List<Continent> continents=gameMap.getContinents();
@@ -379,7 +384,10 @@ public class MapService {
 		}
 		
 	}
-
+	
+	/**
+	 * This method will reset the map
+	 */
 	public void resetMap() {
 		// TODO Auto-generated method stub
 		instance=null;
