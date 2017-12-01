@@ -22,6 +22,7 @@ import ca.concordia.app.service.GamePlayService;
 
 /**
  * The Class FortificationInputView , describes UI for the Fortification.
+ * @author Harvi
  */
 public class FortificationInputView extends JDialog implements IView {
 
@@ -131,6 +132,10 @@ public class FortificationInputView extends JDialog implements IView {
 	/* (non-Javadoc)
 	 * @see ca.concordia.app.view.IView#setActionListener(java.awt.event.ActionListener)
 	 */
+	/**
+	 * sets the action Listener
+	 * @param actionListener 
+	 */
 	@Override
 	public void setActionListener(ActionListener actionListener) {
 		btn_submit.addActionListener(actionListener);
@@ -139,6 +144,10 @@ public class FortificationInputView extends JDialog implements IView {
 
 	/* (non-Javadoc)
 	 * @see ca.concordia.app.view.IView#setMouseListener(java.awt.event.MouseListener)
+	 */
+	/**
+	 * sets Mouse listener
+	 * @param mouseListener
 	 */
 	@Override
 	public void setMouseListener(MouseListener mouseListener) {

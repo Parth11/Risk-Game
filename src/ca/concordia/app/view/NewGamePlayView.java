@@ -52,7 +52,10 @@ public class NewGamePlayView extends JFrame implements IView {
 		setBounds(0, 0, 1300, 900);
 		initialize();
 	}
-
+	
+	/**
+	 * Initializes close operation
+	 */
 	private void initialize() {
 		this.setVisible(true);
 		setBounds(100, 100, 1300, 900);
@@ -63,7 +66,10 @@ public class NewGamePlayView extends JFrame implements IView {
 	/* (non-Javadoc)
 	 * @see ca.concordia.app.view.IView#setActionListener(java.awt.event.ActionListener)
 	 */
-
+	/**
+	 * sets the action Listener
+	 * @param actionListener listen action
+	 */
 	@Override
 	public void setActionListener(ActionListener actionListener) {
 
@@ -72,6 +78,10 @@ public class NewGamePlayView extends JFrame implements IView {
 
 	/* (non-Javadoc)
 	 * @see ca.concordia.app.view.IView#setMouseListener(java.awt.event.MouseListener)
+	 */
+	/**
+	 * set mouse listener
+	 * @param mouseListener check mouse action
 	 */
 	@Override
 	public void setMouseListener(MouseListener mouseListener) {

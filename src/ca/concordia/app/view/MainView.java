@@ -67,6 +67,7 @@ public class MainView extends JFrame implements IView{
 
 	/**
 	 * calls setActionlistener java method
+	 * @param actionListener 
 	 */
 	@Override
 	public void setActionListener(ActionListener actionListener) {
@@ -78,6 +79,10 @@ public class MainView extends JFrame implements IView{
 
 	/* (non-Javadoc)
 	 * @see ca.concordia.app.view.IView#setMouseListener(java.awt.event.MouseListener)
+	 */
+	/**
+	 * sets mouse Listener 
+	 * @param mouseListener
 	 */
 	@Override
 	public void setMouseListener(MouseListener mouseListener) {

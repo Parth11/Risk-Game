@@ -21,6 +21,7 @@ import ca.concordia.app.service.GamePlayService;
 
 /**
  * The Class AttackInputView.
+ * @author Harvi
  */
 public class AttackInputView extends JDialog implements IView{
 
@@ -206,14 +207,20 @@ public class AttackInputView extends JDialog implements IView{
 		}
 	}
 
-
+	/**
+	 * sets the action listener
+	 * @param actionListener tracks the action
+	 */
 	@Override
 	public void setActionListener(ActionListener actionListener) {
 		btn_battle.addActionListener(actionListener);
 		btn_submit.addActionListener(actionListener);
 	}
 
-
+	/**
+	 * sets the mouse listener
+	 * @param mouseListener
+	 */
 	@Override
 	public void setMouseListener(MouseListener mouseListener) {
 		

@@ -24,6 +24,7 @@ import javax.swing.JButton;
 
 /**
  * The Class defines the Phase View of the game. 
+ * @author Harvi
  */
 public class PhaseView extends JDialog implements IView{
 
@@ -412,10 +413,18 @@ public class PhaseView extends JDialog implements IView{
 	}
 
 	@Override
+	/**
+	 * sets the action listener
+	 * @param actionListener action listener
+	 */
 	public void setActionListener(ActionListener actionListener) {
 		btn_save_game.addActionListener(actionListener);
 	}
-
+	
+	/**
+	 * sets mouse listener 
+	 * @param mouseListener 
+	 */
 	@Override
 	public void setMouseListener(MouseListener mouseListener) {
 		
