@@ -13,6 +13,7 @@ import javax.swing.JOptionPane;
 import ca.concordia.app.model.Country;
 import ca.concordia.app.model.GameMap;
 import ca.concordia.app.model.Player;
+import ca.concordia.app.service.ConsoleLoggerService;
 import ca.concordia.app.service.GamePlayService;
 
 /**
@@ -37,7 +38,9 @@ public class CheaterStrategy implements PlayerStrategy {
 		strategyAs.put("country", GamePlayService.getInstance().getCountriesConqueredBy(p));
 		
 		// computing logic for doubling the armies
-		for(Country c : GamePlayService.getInstance().getCountriesConqueredBy(p)) {
+		List<Country> playerCountries = GamePlayService.getInstance().getCountriesConqueredBy(p);
+		
+		for(Country c : playerCountries) {
 			int armies = c.getNoOfArmy();
 			p.doReinforcement(c, armies);
 		}
@@ -51,56 +54,48 @@ public class CheaterStrategy implements PlayerStrategy {
 	 */
 	@Override
 	public Map<String, Object> computeAttackMove(Player p) {
-		// TODO Auto-generated method stub				
+	// TODO Auto-generated method stub				
+	
+	List<Country> playerCountries = GamePlayService.getInstance().getCountriesConqueredBy(p);
+	
+	//for(Country c1 : playerCountries) 
+	
+	for(int i = 0; i < playerCountries.size(); i++){
 		
-		List<Country> playerCountries = GamePlayService.getInstance().getCountriesConqueredBy(p);
+		List<Country> countries = GameMap.getInstance().getNeighbourCountries(playerCountries.get(i));
 		
-		for(Country c1 : playerCountries) {
-			List<Country> countries = GameMap.getInstance().getNeighbourCountries(c1);
-			for(Country c2 : countries) {
-				
-				if(!c2.getRuler().getName().equalsIgnoreCase(c1.getRuler().getName())) {
-				 
-				// 1. Remove a country from defender's country list
-				GamePlayService.getInstance().unmapPlayerToCountry(c2.getRuler(), c2);
+		//for(Country c2 : countries) 
+		
+		for(int j = 0; j < countries.size(); j++){
+			
+			if(!countries.get(j).getRuler().getName().equalsIgnoreCase(playerCountries.get(i).getRuler().getName())) {
+			 
+			// 1. Remove a country from defender's country list
+			GamePlayService.getInstance().unmapPlayerToCountry(countries.get(j).getRuler(), countries.get(j));
 
-				// 2. Add defending country in attacker country list
-				GamePlayService.getInstance().mapPlayerToCountry(c1.getRuler(), c2);
+			// 2. Add defending country in attacker country list
+			GamePlayService.getInstance().mapPlayerToCountry(playerCountries.get(i).getRuler(), countries.get(j));
 
-				// 3. Check defender is eleminated from the game or not
-				if (GamePlayService.getInstance().getCountriesConqueredBy(c2.getRuler()).size() == 0) {
-					// Remove this player from the player list
-					GamePlayService.getInstance().knockPlayerOut(c2.getRuler());
-				}
-				
-				
-				c2.setRuler(c1.getRuler(), 1);
-				
-				// after this cheater player won't need any cards because by cheating he/she is winning.
-				
-				}
-				/*//Check defender is eliminated from the game or not
-				if (GamePlayService.getInstance().getCountriesConqueredBy(c2.getRuler()).size() != 0) {
-					if(!c2.getRuler().getName().equalsIgnoreCase(c1.getRuler().getName())) {														
-						c1.setNoOfArmy(c1.getNoOfArmy()-1);
-						c2.setRuler(c1.getRuler(), 1);
-						}	
-				}
-				else {
-					// Remove this player from the player list
-					GamePlayService.getInstance().knockPlayerOut(c2.getRuler());
-				}
-				
-				if(GamePlayService.getInstance().isThisTheEnd()) {
-					
-					System.out.println("You win!");
-				}*/
-				
+			// 3. Check defender is eleminated from the game or not
+			if (GamePlayService.getInstance().getCountriesConqueredBy(countries.get(j).getRuler()).size() == 0) {
+				// Remove this player from the player list
+				GamePlayService.getInstance().knockPlayerOut(countries.get(j).getRuler());
 			}
+							
+			countries.get(j).setRuler(playerCountries.get(i).getRuler(), 1);
+			
+			
+			
+			// after this cheater player won't need any cards because by cheating he/she is winning.
+			
+			}			
+			
 		}
-
-		return null;
 	}
+
+	return null;
+}
+
 
 	/* (non-Javadoc)
 	 * @see ca.concordia.app.strategies.PlayerStrategy#computeFortifyMove(ca.concordia.app.model.Player)
