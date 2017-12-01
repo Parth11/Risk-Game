@@ -219,7 +219,7 @@ public class AttackInputView extends JDialog implements IView{
 
 	/**
 	 * sets the mouse listener
-	 * @param mouseListener
+	 * @param mouseListener event
 	 */
 	@Override
 	public void setMouseListener(MouseListener mouseListener) {

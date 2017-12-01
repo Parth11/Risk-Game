@@ -57,7 +57,7 @@ public class StrategyAdapter implements JsonSerializer<PlayerStrategy>,JsonDeser
 	
 	/**
 	 * get className 
-	 * @param className
+	 * @param className the class name
 	 * @return className
 	 */
 	public Class getObjectClass(String className) {

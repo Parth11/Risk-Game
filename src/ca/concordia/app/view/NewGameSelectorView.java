@@ -315,7 +315,7 @@ public class NewGameSelectorView extends JFrame implements IView {
 	 */
 	/**
 	 * sets mouse listener
-	 * @param mouseListener
+	 * @param mouseListener the listener
 	 */
 	@Override
 	public void setMouseListener(MouseListener mouseListener) {

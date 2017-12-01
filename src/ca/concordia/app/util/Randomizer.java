@@ -18,8 +18,8 @@ public class Randomizer {
 	
 	/**
 	 * this method randomize
-	 * @param n 
-	 * @return
+	 * @param n variable of type int
+	 * @return the random number
 	 */
 	public static int randomize(int n){
 		return r.nextInt(n);
