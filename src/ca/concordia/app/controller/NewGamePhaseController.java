@@ -89,6 +89,7 @@ public class NewGamePhaseController implements ActionListener, MouseListener {
 			break;
 		}
 		game_play_service = GamePlayService.getInstance();
+		PhaseViewController.getInstance().update(current_player, null);
 		goToNextMove();
 	}
 	
