@@ -46,6 +46,7 @@ public class AggressiveStrategy implements PlayerStrategy {
 		Country strongestCountry = GamePlayService.getInstance().getStrongestCountry(p);
 		
 		if(strongestCountry != null) {
+			if(GamePlayService.getInstance().getEligibleAttackableCountries(strongestCountry)!=null) {
 		Country defendingCountry = GamePlayService.getInstance().getEligibleAttackableCountries(strongestCountry).get(0);
 		
 		Map<String, Object> strategyRs = new HashMap<>();
@@ -53,7 +54,7 @@ public class AggressiveStrategy implements PlayerStrategy {
 		strategyRs.put("attackCountry", strongestCountry);
 		strategyRs.put("defenceCountry", defendingCountry);
 		
-		
+		 
 		while(strongestCountry.getNoOfArmy() > 1 && !defendingCountry.getRuler().getName().equals(strongestCountry.getRuler().getName())){
 
 			DiceRoller attackRoller = GamePlayService.getInstance().getAttackDiceRoller(p, strongestCountry);
@@ -87,6 +88,7 @@ public class AggressiveStrategy implements PlayerStrategy {
 			}
 			
 		}
+			}
 		}
 		return null;
 	
