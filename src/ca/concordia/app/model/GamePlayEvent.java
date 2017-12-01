@@ -6,12 +6,15 @@ package ca.concordia.app.model;
 import java.util.HashMap;
 
 /**
- * Events which helps trigger the Observer Pattern
+ * The class GamePlay Event has Events which helps trigger the Observer Pattern
  * @author harvi
  *
  */
 public class GamePlayEvent {
 
+	/**
+	 * Enum GameMode defines the collection of constant
+	 */
 	public enum GameMode{
 		SINGLE_GAME("Single Game"),
 		TOURNAMENT("Tournament");
@@ -21,11 +24,19 @@ public class GamePlayEvent {
 	    private GameMode(String s) {
 	    	mode = s;
 	    }
-
+	    /**
+	     * Compares the other name
+	     * @param otherName
+	     * @return mode which equal to the other name 
+	     */
 	    public boolean equalsName(String otherName) {
 	        return mode.equals(otherName);
 	    }
-
+	    
+	    /**
+	     * other name in the string
+	     * @return mode
+	     */
 	    public String toString() {
 	       return this.mode;
 	    }
@@ -65,7 +76,7 @@ public class GamePlayEvent {
 	private HashMap<String,Object> event_payload;
 
 	/**
-	 * 
+	 * gets the event type
 	 * @return the event type
 	 */
 	public EventType getEvent_type() {
@@ -81,7 +92,7 @@ public class GamePlayEvent {
 	}
 
 	/**
-	 * 
+	 * hashmap for the get event payload
 	 * @return the event_payload
 	 */
 	public HashMap<String, Object> getEvent_payload() {

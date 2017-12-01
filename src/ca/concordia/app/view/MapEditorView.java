@@ -156,6 +156,10 @@ public class MapEditorView extends JFrame implements IView {
 	/* (non-Javadoc)
 	 * @see ca.concordia.app.view.IView#setMouseListener(java.awt.event.MouseListener)
 	 */
+	/**
+	 * sets the mouse listener 
+	 * @param mouseListener mouse listener
+	 */
 	@Override
 	public void setMouseListener(MouseListener mouseListener) {
 		map_area.setMouseListener(mouseListener);

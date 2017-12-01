@@ -14,6 +14,7 @@ import ca.concordia.app.model.Country;
 
 /**
  * The Class ReinforcementInputView.
+ * @author Harvi
  */
 public class ReinforcementInputView extends JDialog implements IView{
 
@@ -75,6 +76,10 @@ public class ReinforcementInputView extends JDialog implements IView{
 	/* (non-Javadoc)
 	 * @see ca.concordia.app.view.IView#setActionListener(java.awt.event.ActionListener)
 	 */
+	/**
+	 * sets action listener
+	 * @param actionListener
+	 */
 	@Override
 	public void setActionListener(ActionListener actionListener) {
 		btn_submit.addActionListener(actionListener);
@@ -82,6 +87,10 @@ public class ReinforcementInputView extends JDialog implements IView{
 
 	/* (non-Javadoc)
 	 * @see ca.concordia.app.view.IView#setMouseListener(java.awt.event.MouseListener)
+	 */
+	/**
+	 * sets mouse listener 
+	 * @param mouseListener 
 	 */
 	@Override
 	public void setMouseListener(MouseListener mouseListener) {

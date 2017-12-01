@@ -56,7 +56,11 @@ public class GamePlayService {
 	private Map<Player, List<Country>> player_country_map;
 
 	private int turn = 0;
-
+	
+	/**
+	 * this method will get turn 
+	 * @return turn
+	 */
 	public int getTurn() {
 		return turn;
 	}
@@ -66,7 +70,9 @@ public class GamePlayService {
 	
 	public List<GameLogEvent> game_log;
 	
-
+	/**
+	 * Constructor of the GamePlaySrvice
+	 */
 	private GamePlayService() {
 		game_map = GameMap.getInstance();
 		players = new ArrayList<>();
@@ -77,13 +83,19 @@ public class GamePlayService {
 		
 	}
 	
-	
+	/**
+	 * get the game mode 
+	 * @return game_mode
+	 */
 	public GameMode getGameMode() {
 		return game_mode;
 	}
 
-
-
+	
+	/**
+	 * sets the game mode
+	 * @param game_mode
+	 */
 	public void setGameMode(GameMode game_mode) {
 		this.game_mode = game_mode;
 	}
@@ -121,12 +133,14 @@ public class GamePlayService {
 	
 	/**
 	* returns the deck of cards
+	* @return deckMap
 	*/
 	public HashMap<String, Integer> getDeckMap() {
 		return deckMap;
 	}
 
 	/**
+	 * sets the Deck map
 	* @param deckMap sets the deck of cards
 	*/
 	public void setDeckMap(HashMap<String, Integer> deckMap) {
@@ -182,7 +196,7 @@ public class GamePlayService {
 	
 	/**
 	 * Randomly generates cards Strings
-	 * @return
+	 * @return cardName
 	 */
 	public String generateCard() {
 		
@@ -389,7 +403,7 @@ public class GamePlayService {
 	/**
 	 * To Show the card exchange view
 	 * @param p
-	 * @return
+	 * @return true or false
 	 */
 	public boolean showCardExchangeView(Player p) {
 		int infantary=0;
@@ -931,7 +945,11 @@ public class GamePlayService {
 
 		return weakestCountry;
 	}
-	
+		
+	/**
+	 * this method copy the save data
+	 * @param savedGame
+	 */
 	public void copySaveData(SavedGame savedGame){
 		savedGame.setDeckMap(deckMap);
 		savedGame.setNumber_of_players(number_of_players);
@@ -941,7 +959,11 @@ public class GamePlayService {
 		savedGame.setCurrent_player(getCurrentTurnPlayer());
 		savedGame.setGame_log(game_log);
 	}
-
+	
+	/**
+	 * Restore the saved data
+	 * @param savedGame
+	 */
 	public void restoreSavedData(SavedGame savedGame){
 		deckMap = savedGame.getDeckMap();
 		number_of_players = savedGame.getNumber_of_players();
@@ -962,29 +984,43 @@ public class GamePlayService {
 		}
 	}
 	
-
-
+	
+	/**
+	 * declares the draw
+	 */
 	public void declareDraw() {
 		logger.write("Game reached max turns="+TournamentConfiguration.getInstance().getMax_turns()+" . Game is draw now.");
 	}
 
-
+	/**
+	 * Declares the Win
+	 */
 	public void declareWin() {
 		logger.write("Game won by "+getCurrentTurnPlayer().getName());
 	}
 
-
+	/**
+	 * write the text
+	 * @param text
+	 */
 	public void write(String text) {
 		logger.write(text);
 	}
 	
+	/**
+	 * This method will add tournament map
+	 * @param mapFile
+	 * @throws MapValidationException
+	 */
 	public void addTournamentMap(File mapFile) throws MapValidationException{
 			MapService.getInstance().loadMap(mapFile);
 			MapService.getInstance().resetMap();
 			TournamentConfiguration.getInstance().getTournament_maps().add(mapFile);
 	}
 	
-
+	/**
+	 * This method will display the result
+	 */
 	public void displayResults() {
 //		int gameCount=0;
 //		for(int i=0;i<tournamentMaps.size();i++) {

@@ -277,7 +277,10 @@ public class NewGameSelectorView extends JFrame implements IView {
 
 		initialize();
 	}
-
+	
+	/**
+	 * initialize close operation & set bounds
+	 */
 	private void initialize() {
 		setBounds(100, 100, 1147, 798);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -309,11 +312,18 @@ public class NewGameSelectorView extends JFrame implements IView {
 	 * @see
 	 * ca.concordia.app.view.IView#setMouseListener(java.awt.event.MouseListener)
 	 */
+	/**
+	 * sets mouse listener
+	 * @param mouseListener
+	 */
 	@Override
 	public void setMouseListener(MouseListener mouseListener) {
 
 	}
-
+	/**
+	 * This method gets the strategies 
+	 * @return strategies
+	 */
 	public List<PlayerStrategy> getStrategies() {
 		List<PlayerStrategy> strategies = new ArrayList<>();
 		switch (Integer.parseInt(num_players.getSelectedItem().toString())) {

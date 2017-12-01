@@ -10,9 +10,6 @@ import java.io.Serializable;
  */
 public class Country implements Serializable{
 	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 8218595675913048375L;
 
 	private String country_name;
@@ -42,7 +39,7 @@ public class Country implements Serializable{
 	}
 
 	/**
-	 * 
+	 * this method gets country name
 	 * @return The name of the Country
 	 */
 	public String getCountryName() {
@@ -58,7 +55,7 @@ public class Country implements Serializable{
 	}
 
 	/**
-	 * 
+	 * gets the location of X coordinate
 	 * @return The location at X coordinate
 	 */
 	public int getLocX() {
@@ -74,6 +71,7 @@ public class Country implements Serializable{
 	}
 
 	/**
+	 * gets the Y coordinate 
 	 * @return the location at Y coordinate
 	 */
 	public int getLocY() {
@@ -89,7 +87,7 @@ public class Country implements Serializable{
 	}
 	
 	/**
-	 * 
+	 * gets the continent name
 	 * @return The  continent name
 	 */
 	public String getContinentName() {
@@ -105,6 +103,7 @@ public class Country implements Serializable{
 	}
 	
 	  /**
+	   * compare the country name
 	   * returns boolean true if country names are equal.
 	   */
 	  public boolean equals(Object obj) {
@@ -117,12 +116,17 @@ public class Country implements Serializable{
 	      return false;
 	  }
 	  
+	  /**
+	   * country name hash code
+	   * @return country_name
+	   */
 	  @Override
 	public int hashCode() {
 		return country_name.hashCode();
 	}
 	  
 	  /**
+	   * Country name in the string 
 	   * @return the name of the country object.
 	   */
 	  public String toString(){
@@ -130,6 +134,7 @@ public class Country implements Serializable{
 	  }
 
 	/**
+	 * get number of army 
 	 * @return the no_of_army
 	 */
 	public int getNoOfArmy() {
@@ -137,6 +142,7 @@ public class Country implements Serializable{
 	}
 
 	/**
+	 * set the number of army 
 	 * @param no_of_army the no_of_army to set
 	 */
 	public void setNoOfArmy(int no_of_army) {
@@ -144,6 +150,7 @@ public class Country implements Serializable{
 	}
 
 	/**
+	 * get the ruler
 	 * @return the ruler
 	 */
 	public Player getRuler() {

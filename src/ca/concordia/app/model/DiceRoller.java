@@ -8,8 +8,6 @@ import java.util.List;
  * For Rolling Dice during attack phase
  * 
  * @author Parth Nayak
- * 
- * 
  */
 
 public class DiceRoller {
@@ -40,7 +38,7 @@ public class DiceRoller {
 	}
 
 	/**
-	 * 
+	 * rolls the dice
 	 * @return the result as a List
 	 */
 	public List<Integer> rollAll() {
@@ -52,6 +50,7 @@ public class DiceRoller {
 	}
 
 	/**
+	 * Dice value in the string format
 	 * @return the dice value in String format
 	 */
 	@Override

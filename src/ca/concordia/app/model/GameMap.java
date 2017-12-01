@@ -41,7 +41,7 @@ public class GameMap {
 	}
 	
 	/**
-	 * 
+	 * gets the list of the countries
 	 * @return the country list
 	 */
 	public List<Country> getCountries() {
@@ -55,7 +55,7 @@ public class GameMap {
 		this.countries = countries;
 	}
 	/**
-	 * 
+	 *Gets the list of the Continents 
 	 * @return the continent list.
 	 */
 	public List<Continent> getContinents() {
@@ -71,7 +71,7 @@ public class GameMap {
 	}
 	
 	/**
-	 * 
+	 * get the territories
 	 * @return The territories list
 	 */
 	public HashMap<Country, ArrayList<String>> getTerritories() {
@@ -87,7 +87,7 @@ public class GameMap {
 	}
 	
 	/**
-	 * 
+	 * gets the country by name
 	 * @param countryName
 	 * @return the country by name
 	 */
@@ -99,7 +99,7 @@ public class GameMap {
 		return null;
 	}
 	/**
-	 * 
+	 * gets the continent by name
 	 * @param continentName
 	 * @return Continent by name
 	 */
@@ -113,7 +113,7 @@ public class GameMap {
 	}
 	
 	/**
-	 * 
+	 * gets the country neighbours
 	 * @param c
 	 * @return Country neighbor as per the file loaded.
 	 */
@@ -126,7 +126,7 @@ public class GameMap {
 	}
 	
 	/**
-	 * 
+	 * gets the countries in the continent
 	 * @param continentName
 	 * @return Countries in the continent
 	 */
@@ -141,7 +141,7 @@ public class GameMap {
 	}
 	
 	/**
-	 * 
+	 * get the neighboring countries
 	 * @param country
 	 * @return Neighboring countries
 	 */
@@ -153,12 +153,20 @@ public class GameMap {
 		return neighbourCountry;
 	}
 	
+	/**
+	 * This method copies the data of the saved game
+	 * @param savedGame
+	 */
 	public void copySavedData(SavedGame savedGame){
 		savedGame.setContinents(continents);
 		savedGame.setCountries(countries);
 		savedGame.setTerritories(territories);
 	}
 	
+	/**
+	 * Restore the saved data of the game
+	 * @param savedGame
+	 */
 	public void restoreSavedData(SavedGame savedGame){
 		continents = savedGame.getContinents();
 		countries = savedGame.getCountries();

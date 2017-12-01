@@ -30,7 +30,7 @@ public class Continent {
 	}
 
 	/**
-	 * 
+	 * this method gets the Continent name
 	 * @return the continent name.
 	 */
 	public String getContinentName() {
@@ -46,7 +46,7 @@ public class Continent {
 	}
 
 	/**
-	 * 
+	 * this method gets the Control value
 	 * @return the control value of the continent.
 	 */
 	public int getControlValue() {
@@ -61,7 +61,7 @@ public class Continent {
 		this.control_value = controlValue;
 	}
 	/**
-	 * 
+	 * This method get color of the continent
 	 * @return the color which will be used for defining the continent. 
 	 */
 	public Color getColor() {
@@ -77,6 +77,7 @@ public class Continent {
 	}
 
 	/**
+	 * Compares the value of continents
 	 * @return boolean value True if the two continents are same.
 	 */
 	public boolean equals(Object obj) {

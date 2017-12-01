@@ -16,18 +16,20 @@ import ca.concordia.app.service.ConsoleLoggerService;
 import ca.concordia.app.service.GamePlayService;
 
 /**
+ * This class implements the Benevolent Strategy
+ * A benevolent computer player strategy that focuses on protecting its weak countries 
+ * (reinforces its weakest countries, never attacks, then fortifies in order to move armies to weaker countries).
  * @author harvi
  *
  */
 public class BenevolentStrategy implements PlayerStrategy {
 
-	/**
-	 * A benevolent computer player strategy that focuses on protecting its weak countries 
-	 * (reinforces its weakest countries, never attacks, then fortifies in order to move armies to weaker countries).
-	 * */
-	
 	/* (non-Javadoc)
 	 * @see ca.concordia.app.strategies.PlayerStrategy#computeReinforcementMove(ca.concordia.app.model.Player)
+	 */
+	/**
+	 * This method computes the reinforcement move
+	 * @param p player object
 	 */
 	@Override
 	public Map<String, Object> computeReinforcementMove(Player p) {
@@ -35,13 +37,16 @@ public class BenevolentStrategy implements PlayerStrategy {
 		
 		Map<String, Object> strategyAs = new HashMap<>();
 		
-		
 		Country reinforcementCountry = GamePlayService.getInstance().getWeakestCountry(p);
-		int reinforcementArmies = GamePlayService.getInstance().getReinforcementArmyForPlayer(p);
 		
 		strategyAs.put("country", reinforcementCountry);
+		strategyAs.put("beforeArmies", reinforcementCountry.getNoOfArmy());
+		
+		int reinforcementArmies = GamePlayService.getInstance().getReinforcementArmyForPlayer(p);				
 		
 		p.doReinforcement(reinforcementCountry, reinforcementArmies);
+		
+		strategyAs.put("afterArmies", reinforcementCountry.getNoOfArmy());
 		
 		return strategyAs;
 		
@@ -88,6 +93,7 @@ public class BenevolentStrategy implements PlayerStrategy {
 		}
 
 		Country toCountry = GamePlayService.getInstance().getWeakestCountry(p);
+		strategyRs.put("toBeforeArmies", toCountry.getNoOfArmy());
 		
 		//adding those countries which are connected to weakest country who has more than one army on it.
 		for (int i = 0; i < countrySelectionFiltered.size(); i++) {
@@ -102,12 +108,14 @@ public class BenevolentStrategy implements PlayerStrategy {
 
 		//choosing the first index from the list
 		Country fromCountry = fortificationEligibleCountries.get(0);
+		strategyRs.put("fromBeforeArmies", fromCountry.getNoOfArmy());
 
 		//leaving one army behind and move rest of it to the weakest country
 		int armies = (fromCountry.getNoOfArmy()-1);
 		
 		p.doFortification(fromCountry, toCountry, armies);
 
+		strategyRs.put("fromAfterArmies", fromCountry.getNoOfArmy());
 		strategyRs.put("from", fromCountry);
 		strategyRs.put("to", toCountry);
 		strategyRs.put("armies", armies);
