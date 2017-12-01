@@ -106,6 +106,8 @@ public class CheaterStrategy implements PlayerStrategy {
 	public Map<String, Object> computeFortifyMove(Player p) {
 		// TODO Auto-generated method stub
 		
+		Map<String, Object> strategyCs = new HashMap<>();
+		
 		List<Country> playerCountries = GamePlayService.getInstance().getCountriesConqueredBy(p);
 		
 		List<Country> eligibleFortifyCountries = new ArrayList<>();
@@ -122,12 +124,16 @@ public class CheaterStrategy implements PlayerStrategy {
 			}
 		}
 		
+		strategyCs.put("fromBeforeArmies", eligibleFortifyCountries.get(0).getNoOfArmy());
+		
 		for(Country c : eligibleFortifyCountries) {
 			//c.setNoOfArmy(2 * c.getNoOfArmy());
 			c.addArmies(c.getNoOfArmy());
 		}
 		
-		return null;
+		strategyCs.put("fromAfterArmies", eligibleFortifyCountries.get(0).getNoOfArmy());
+		
+		return strategyCs;
 	}
 	@Override
 	public String getName() {
