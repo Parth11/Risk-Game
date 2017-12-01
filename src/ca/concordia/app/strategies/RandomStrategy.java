@@ -30,11 +30,18 @@ public class RandomStrategy implements PlayerStrategy {
 	public Map<String, Object> computeReinforcementMove(Player p) {
 		Map<String, Object> strategyRs = new HashMap<>();
 		List<Country> countries = GamePlayService.getInstance().getCountriesConqueredBy(p);
+		
 		strategyRs.put("country", countries.get(Randomizer.randomize(countries.size())));
 		
 		Country randomCountry = countries.get(Randomizer.randomize(countries.size()));
+		
+		strategyRs.put("beforeArmies", randomCountry.getNoOfArmy());
+		
 		int randomArmies = Randomizer.randomize(GamePlayService.getInstance().getReinforcementArmyForPlayer(p));
+		
 		p.doReinforcement(randomCountry, randomArmies);
+		
+		strategyRs.put("afterArmies", randomCountry.getNoOfArmy());
 		
 		return strategyRs;
 	}

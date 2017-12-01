@@ -40,10 +40,14 @@ public class CheaterStrategy implements PlayerStrategy {
 		// computing logic for doubling the armies
 		List<Country> playerCountries = GamePlayService.getInstance().getCountriesConqueredBy(p);
 		
+		strategyAs.put("beforeArmies", playerCountries.get(0).getNoOfArmy());
+		
 		for(Country c : playerCountries) {
 			int armies = c.getNoOfArmy();
 			p.doReinforcement(c, armies);
 		}
+		
+		strategyAs.put("afterArmies", playerCountries.get(0).getNoOfArmy());
 		
 		return strategyAs;
 

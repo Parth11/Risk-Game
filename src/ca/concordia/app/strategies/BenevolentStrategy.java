@@ -35,13 +35,16 @@ public class BenevolentStrategy implements PlayerStrategy {
 		
 		Map<String, Object> strategyAs = new HashMap<>();
 		
-		
 		Country reinforcementCountry = GamePlayService.getInstance().getWeakestCountry(p);
-		int reinforcementArmies = GamePlayService.getInstance().getReinforcementArmyForPlayer(p);
 		
 		strategyAs.put("country", reinforcementCountry);
+		strategyAs.put("beforeArmies", reinforcementCountry.getNoOfArmy());
+		
+		int reinforcementArmies = GamePlayService.getInstance().getReinforcementArmyForPlayer(p);				
 		
 		p.doReinforcement(reinforcementCountry, reinforcementArmies);
+		
+		strategyAs.put("afterArmies", reinforcementCountry.getNoOfArmy());
 		
 		return strategyAs;
 		
