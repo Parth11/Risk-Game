@@ -12,6 +12,8 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
+import ca.concordia.app.model.GamePlayEvent.GameMode;
+import ca.concordia.app.service.GamePlayService;
 import ca.concordia.app.strategies.PlayerStrategy;
 import ca.concordia.app.strategies.StrategyFactory;
 import ca.concordia.app.strategies.StrategyFactory.Strategy;
@@ -34,9 +36,12 @@ public class NewGameSelectorView extends JFrame implements IView {
 	/** The browse map. */
 	public JButton browse_map1, browse_map2, browse_map3, browse_map4, browse_map5;
 	
-	public JTextField noOfMaxTurn;
-	public JLabel maxTurns;
+	public JTextField no_of_max_turn;
+	public JLabel max_turns;
 
+	public JTextField no_of_games;
+	public JLabel no_games;
+	
 	/** The next button. */
 	public JButton next_button;
 
@@ -48,7 +53,10 @@ public class NewGameSelectorView extends JFrame implements IView {
 
 	private JComboBox<Strategy> strategy_1, strategy_2, strategy_3, strategy_4, strategy_5, strategy_6;
 
-	Strategy[] strategies = { Strategy.HUMAN, Strategy.AGGRESSIVE, Strategy.BENEVOLENT, Strategy.RANDOM,
+	Strategy[] single_strategies = { Strategy.HUMAN, Strategy.AGGRESSIVE, Strategy.BENEVOLENT, Strategy.RANDOM,
+			Strategy.CHEATER };
+	
+	Strategy[] tournament_strategies = { Strategy.AGGRESSIVE, Strategy.BENEVOLENT, Strategy.RANDOM,
 			Strategy.CHEATER };
 
 	public JFileChooser choose_map;
@@ -112,17 +120,45 @@ public class NewGameSelectorView extends JFrame implements IView {
 		browse_map5.setBounds(610, 65, 100, 25);
 		getContentPane().add(browse_map5);
 
-		maxTurns = new JLabel("Maximum number of Turns?");
-		maxTurns.setBounds(720, 65, 180, 25);
-		getContentPane().add(maxTurns);
+		max_turns = new JLabel("Maximum number of Turns?");
+		max_turns.setBounds(720, 65, 180, 25);
+		getContentPane().add(max_turns);
 		
-		noOfMaxTurn = new JTextField();
-		noOfMaxTurn.setColumns(10);
-		noOfMaxTurn.setBounds(910, 65, 60, 25);
-		getContentPane().add(noOfMaxTurn);
+		no_of_max_turn = new JTextField();
+		no_of_max_turn.setColumns(10);
+		no_of_max_turn.setBounds(910, 65, 60, 25);
+		no_of_max_turn.setText("10");
+		getContentPane().add(no_of_max_turn);
+		
+		no_games = new JLabel("Number of Games");
+		no_games.setBounds(720, 105, 180, 25);
+		getContentPane().add(no_games);
+		
+		no_of_games = new JTextField();
+		no_of_games.setColumns(10);
+		no_of_games.setBounds(910, 105, 60, 25);
+		no_of_games.setText("1");
+		getContentPane().add(no_of_games);
+		
+		Strategy[] strategies;
+		if(GamePlayService.getInstance().getGameMode()==GameMode.TOURNAMENT) 
+		{
+			strategies=tournament_strategies;
+			max_turns.setVisible(true);
+			no_of_max_turn.setVisible(true);
+			no_of_games.setVisible(true);
+			no_games.setVisible(true);
+		}
+		else 
+		{
+			strategies=single_strategies;
+			max_turns.setVisible(false);
+			no_of_max_turn.setVisible(false);
+			no_of_games.setVisible(false);
+			no_games.setVisible(false);
+		}
 		
 		if (no_of_maps == 1) {
-
 			label_map_file2.setVisible(false);
 			browse_map2.setVisible(false);
 
@@ -135,12 +171,10 @@ public class NewGameSelectorView extends JFrame implements IView {
 			label_map_file5.setVisible(false);
 			browse_map5.setVisible(false);
 			
-			maxTurns.setVisible(false);
-			noOfMaxTurn.setVisible(false);
+			
 		} else {
 			
-			maxTurns.setVisible(true);
-			noOfMaxTurn.setVisible(true);
+			
 			switch (no_of_maps) 
 			{
 			case 2:
@@ -211,12 +245,12 @@ public class NewGameSelectorView extends JFrame implements IView {
 
 		strategy_1 = new JComboBox<Strategy>(strategies);
 		strategy_1.setBounds(207, 25, 135, 26);
-		strategy_1.setSelectedIndex(0);
+		strategy_1.setSelectedIndex(2);
 		panel.add(strategy_1);
 
 		strategy_2 = new JComboBox<Strategy>(strategies);
 		strategy_2.setBounds(207, 75, 135, 26);
-		strategy_2.setSelectedIndex(1);
+		strategy_2.setSelectedIndex(2);
 		panel.add(strategy_2);
 
 		strategy_3 = new JComboBox<Strategy>(strategies);
@@ -226,17 +260,17 @@ public class NewGameSelectorView extends JFrame implements IView {
 
 		strategy_4 = new JComboBox<Strategy>(strategies);
 		strategy_4.setBounds(207, 175, 135, 26);
-		strategy_4.setSelectedIndex(3);
+		strategy_4.setSelectedIndex(2);
 		panel.add(strategy_4);
 
 		strategy_5 = new JComboBox<Strategy>(strategies);
 		strategy_5.setBounds(207, 225, 135, 26);
-		strategy_5.setSelectedIndex(4);
+		strategy_5.setSelectedIndex(2);
 		panel.add(strategy_5);
 
 		strategy_6 = new JComboBox<Strategy>(strategies);
 		strategy_6.setBounds(207, 275, 135, 26);
-		strategy_6.setSelectedIndex(0);
+		strategy_6.setSelectedIndex(2);
 		panel.add(strategy_6);
 
 		choose_map = new JFileChooser();

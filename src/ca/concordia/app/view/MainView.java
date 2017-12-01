@@ -19,6 +19,8 @@ public class MainView extends JFrame implements IView{
 	/** The edit map. */
 	public JButton new_game,create_map,edit_map;
 
+	public JButton load_game;
+
 	/**
 	 * Launch the application.
 	 *
@@ -41,22 +43,26 @@ public class MainView extends JFrame implements IView{
 	 */
 	private void initialize() {
 		
-		this.setBounds(100, 100, 1280, 763);
+		this.setBounds(100, 100, 659, 503);
 		setTitle("Risk");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.getContentPane().setLayout(null);
 		
 		new_game = new JButton("New Game");
-		new_game.setBounds(164, 290, 213, 109);
+		new_game.setBounds(62, 75, 213, 109);
 		this.getContentPane().add(new_game);
 		
 		create_map = new JButton("Create Map");
-		create_map.setBounds(521, 290, 199, 109);
+		create_map.setBounds(62, 255, 199, 109);
 		this.getContentPane().add(create_map);
 		
 		edit_map = new JButton("Edit Map");
-		edit_map.setBounds(886, 290, 213, 109);
+		edit_map.setBounds(348, 255, 213, 109);
 		this.getContentPane().add(edit_map);
+		
+		load_game = new JButton("Load Game");
+		load_game.setBounds(348, 75, 213, 109);
+		getContentPane().add(load_game);
 	}
 
 	/**
@@ -67,6 +73,7 @@ public class MainView extends JFrame implements IView{
 		new_game.addActionListener(actionListener);
 		create_map.addActionListener(actionListener);
 		edit_map.addActionListener(actionListener);
+		load_game.addActionListener(actionListener);
 	}
 
 	/* (non-Javadoc)
@@ -76,5 +83,4 @@ public class MainView extends JFrame implements IView{
 	public void setMouseListener(MouseListener mouseListener) {
 		
 	}
-
 }

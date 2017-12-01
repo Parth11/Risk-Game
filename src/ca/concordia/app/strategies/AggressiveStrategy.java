@@ -148,5 +148,8 @@ public class AggressiveStrategy implements PlayerStrategy {
 		return strategyRs;
 		
 	}
-
+	@Override
+	public String getName() {
+		return "Aggressive";
+	}
 }

@@ -114,5 +114,9 @@ public class BenevolentStrategy implements PlayerStrategy {
 		return strategyRs;
 
 	}
+	@Override
+	public String getName() {
+		return "Benevolent";
+	}
 
 }

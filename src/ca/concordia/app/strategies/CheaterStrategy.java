@@ -132,5 +132,8 @@ public class CheaterStrategy implements PlayerStrategy {
 		
 		return null;
 	}
-
+	@Override
+	public String getName() {
+		return "Cheater";
+	}
 }
