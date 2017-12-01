@@ -43,6 +43,7 @@ public class DrawingBase extends JPanel {
 	}
 
 	/**
+	 * This method gets the dimensions
 	 * @return Dimension
 	 */
 	public Dimension getPreferredSize() {
@@ -59,6 +60,7 @@ public class DrawingBase extends JPanel {
 	}
 
 	/**
+	 * This method gets the X coordinates
 	 * @return x
 	 */
 	public int getX() {
@@ -68,14 +70,14 @@ public class DrawingBase extends JPanel {
 	/**
 	 * Sets the x.
 	 *
-	 * @param x
-	 *            the new x
+	 * @param x the new x
 	 */
 	public void setX(int x) {
 		this.x = x;
 	}
 
 	/**
+	 * This method gets the Y coordinate
 	 * @return y
 	 */
 	public int getY() {
