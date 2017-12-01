@@ -49,19 +49,13 @@ public class AggressiveStrategyTest {
 
 	@Test
 	public void testcomputeReinforcementMove() {
-		
-		System.out.println(strategies.get(0).getName());
-		
+				
 		Map<String, Object> strategyAs = strategies.get(0).computeReinforcementMove(players.get(0));
 		
 		int beforeArmies = (int) strategyAs.get("beforeArmies");
-		
-		System.out.println(beforeArmies);
-		
+				
 		int afterArmies = (int) strategyAs.get("afterArmies");
-		
-		System.out.println(afterArmies);
-		
+				
 		boolean b = afterArmies>beforeArmies;
 		
 		assertTrue(b);
@@ -83,14 +77,14 @@ public class AggressiveStrategyTest {
 	
 	@Test
 	public void testcomputeFortifyMove() {
-		strategy.computeReinforcementMove(players.get(0));		
 		
-		Country strongestCountry = game_play.getStrongestCountry(players.get(0));
-		strongestCountry.setNoOfArmy(25);
+		Map<String, Object> strategyAs = strategies.get(0).computeFortifyMove(players.get(0));				
 		
-		Country defendingCountry = GamePlayService.getInstance().getEligibleAttackableCountries(strongestCountry).get(0);
-		defendingCountry.setNoOfArmy(1);
+		int fromArmies = (int) strategyAs.get("fromBeforeArmies");		
+		int afterArmies = (int) strategyAs.get("fromAfterArmies");
+		int fortifiesArmies = (int) strategyAs.get("armies");
 		
+		assertEquals(fromArmies, afterArmies+fortifiesArmies);
 		
 	}
 

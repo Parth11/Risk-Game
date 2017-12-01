@@ -140,6 +140,7 @@ public class AggressiveStrategy implements PlayerStrategy {
 		}
 
 		Country from = countrySelectionFiltered.get(0);
+		strategyRs.put("fromBeforeArmies", from.getNoOfArmy());
 
 		countrySelectionFiltered.clear();
 
@@ -157,11 +158,13 @@ public class AggressiveStrategy implements PlayerStrategy {
 		}
 
 		Country to = countrySelectionFiltered.get(0);
+		
+		strategyRs.put("toBeforeArmies", to.getNoOfArmy());
 
-		int armies = from.getNoOfArmy() - (from.getNoOfArmy() - 1);
+		int armies = from.getNoOfArmy() - (from.getNoOfArmy() - 1);		
 
 		p.doFortification(from, to, armies);
-
+		strategyRs.put("fromAfterArmies", from.getNoOfArmy());
 		strategyRs.put("from", from);
 		strategyRs.put("to", to);
 		strategyRs.put("armies", armies);

@@ -32,6 +32,7 @@ public class RandomStrategyTest {
 	
 	@Before
 	public void init() throws MapValidationException, URISyntaxException {
+
 		map_service = MapService.getInstance();
 		game_map = GameMap.getInstance();
 		game_play = GamePlayService.getInstance();
