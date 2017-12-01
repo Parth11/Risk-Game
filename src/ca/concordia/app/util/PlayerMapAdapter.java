@@ -21,11 +21,22 @@ import com.google.gson.reflect.TypeToken;
 import ca.concordia.app.model.Country;
 import ca.concordia.app.model.Player;
 
+/**
+ * This Class implements the PlayerMapAdapter
+ * @author Harvi
+ *
+ */
 public class PlayerMapAdapter implements JsonSerializer<Map<Player, List<Country>>>,JsonDeserializer<Map<Player, List<Country>>>{
 
 	static final String CLASSNAME = "CLASSNAME";
     static final String DATA = "DATA";
     
+    /**
+     * gets the object of className
+     * @param className
+     * @return className
+     * @throws JsonParseException 
+     */
     public Class getObjectClass(String className) {
         try {
             return Class.forName(className);
@@ -34,6 +45,12 @@ public class PlayerMapAdapter implements JsonSerializer<Map<Player, List<Country
             }
     }
 	
+    /**
+     * deserialize 
+     * @param json typeOfT context
+     * @throws JsonParseException
+     * @return returnMap
+     */
 	@Override
 	public Map<Player, List<Country>> deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
 			throws JsonParseException {
@@ -53,7 +70,12 @@ public class PlayerMapAdapter implements JsonSerializer<Map<Player, List<Country
         }
         return returnMap;
 	}
-
+	
+	/**
+	 * Serialize
+	 * @param src typeOfSrc context
+	 * @return jsonObject
+	 */
 	@Override
 	public JsonElement serialize(Map<Player, List<Country>> src, Type typeOfSrc, JsonSerializationContext context) {
 		JsonObject jsonObject = new JsonObject();

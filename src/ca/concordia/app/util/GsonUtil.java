@@ -14,8 +14,16 @@ import ca.concordia.app.model.Country;
 import ca.concordia.app.model.Player;
 import ca.concordia.app.strategies.PlayerStrategy;
 
+/**
+ * The class for the Gson utility
+ * @author harvi
+ *
+ */
 public class GsonUtil {
 	
+	/**
+	 * get Gson instance
+	 */
 	public static Gson getGSONInstance(){
 		Type type = new TypeToken<HashMap<Country, ArrayList<String>>>(){}.getType();
 		Type type1 = new TypeToken<Map<Player, List<Country>>>(){}.getType();
