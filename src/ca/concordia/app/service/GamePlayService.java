@@ -946,6 +946,12 @@ public class GamePlayService {
 		ruler.publishGamePlayEvent(gpe);
 	}
 	
+	/**
+	 *  Get the strongest country for the player
+	 *  
+	 *  @return strongestCountry return the strongest country
+	 * 
+	 * */
 	public Country getStrongestCountry(Player p) {
 
 		List<Country> playerCountries = GamePlayService.getInstance().getCountriesConqueredBy(p);
@@ -967,6 +973,12 @@ public class GamePlayService {
 		return strongestCountry;
 	}
 	
+	/**
+	 *  Get the weakest country for the player
+	 *  
+	 *  @return weakestCountry return the weakest country
+	 * 
+	 * */
 	public Country getWeakestCountry(Player p) {
 
 		List<Country> playerCountries = GamePlayService.getInstance().getCountriesConqueredBy(p);
