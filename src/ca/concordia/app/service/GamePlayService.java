@@ -1,5 +1,6 @@
 package ca.concordia.app.service;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -24,6 +25,7 @@ import ca.concordia.app.model.Player;
 import ca.concordia.app.strategies.PlayerStrategy;
 import ca.concordia.app.util.GameConstants;
 import ca.concordia.app.util.GamePhase;
+import ca.concordia.app.util.MapValidationException;
 
 
 /**
@@ -38,6 +40,12 @@ public class GamePlayService {
 	private static GamePlayService instance = null;
 	
 	private HashMap<String,Integer> deckMap;
+	
+	public ArrayList<File> tournamentMaps= new ArrayList();
+	
+	public HashMap<File, HashMap<Integer, String>> tournamentResults= new HashMap<File,HashMap<Integer, String>>();
+	
+	public File currentMap;
 
 	/**
 	 * A object of JDialog 
@@ -896,6 +904,13 @@ public class GamePlayService {
 	public void setGames(Integer numGames) {
 		// TODO Auto-generated method stub
 		no_of_games=numGames;
+		for(int i=0;i<tournamentMaps.size();i++) {
+			HashMap<Integer, String> gameMapResults= new HashMap<>();
+			for(int j=0;j<no_of_games;j++) {
+				gameMapResults.put((j+1), null);
+			}
+			tournamentResults.put(tournamentMaps.get(i), gameMapResults);
+		}
 	}
 
 
@@ -908,5 +923,82 @@ public class GamePlayService {
 	public void write(String text) {
 		// TODO Auto-generated method stub
 		logger.write(text);
+	}
+	
+	public void addTournamentMap(File mapFile){
+		// TODO Auto-generated method stub
+		try {
+			MapService.getInstance().loadMap(mapFile);
+			MapService.getInstance().resetMap();
+			tournamentMaps.add(mapFile);
+		} catch (MapValidationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}		
+	}
+	
+	public HashMap<File, HashMap<Integer, String>> getResults() {
+		return tournamentResults;
+	}
+
+
+	public void saveMapResults(HashMap<Integer, String> game_results) {
+		// TODO Auto-generated method stub
+		tournamentResults.put(currentMap, game_results);
+	}
+
+
+	public void displayResults() {
+		// TODO Auto-generated method stub
+		int gameCount=0;
+		for(int i=0;i<tournamentMaps.size();i++) {
+			
+			HashMap<Integer, String> gameMapResults= new HashMap<>();
+			gameMapResults=tournamentResults.get(tournamentMaps.get(i));
+			for(int j=1;j<=gameMapResults.size();j++) {
+				gameCount++;
+				write("Game "+gameCount+"-> with "+tournamentMaps.get(i).getName()+":"+gameMapResults.get(j));
+			}
+			
+		}
+	}
+
+
+	public void loadNextGameMap() {
+		// TODO Auto-generated method stub
+		
+		try {
+			for(int i=0;i<tournamentMaps.size();i++) {
+				HashMap<Integer, String> gameMapResults= new HashMap<>();
+				gameMapResults=tournamentResults.get(tournamentMaps.get(i));
+				for (int j= 1;j<=no_of_games;j++) 
+				{
+					if(gameMapResults.get(j)==null)
+					{
+						currentMap=tournamentMaps.get(i);
+						break;
+					}
+					else if(gameMapResults.size()==no_of_games ){
+						
+						if(tournamentMaps.indexOf(currentMap)<(tournamentMaps.size()-1))
+							currentMap=tournamentMaps.get(i+1);
+						else
+							currentMap=null;
+						break;
+					}
+				}
+				
+			}
+			
+			if(currentMap!=null) {
+				//MapService.getInstance().resetMap();
+				MapService.getInstance().loadMap(currentMap);
+			}else {
+				System.out.println("All map games are performeed.");
+			}
+		} catch (MapValidationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

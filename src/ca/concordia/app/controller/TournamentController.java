@@ -71,6 +71,7 @@ public class TournamentController implements ActionListener, MouseListener {
 		// TODO Auto-generated method stub
 		tournament_game++;
 		ConsoleLoggerService.getInstance(game_logger_view.console);
+		game_play_service.loadNextGameMap();
 		game_play_service.doStartupPhase(numPlayers, strategies);
 		current_player = game_play_service.getCurrentTurnPlayer();
 		goToNextMove();
@@ -84,14 +85,15 @@ public class TournamentController implements ActionListener, MouseListener {
 				
 				game_results.put(tournament_game, "WIN by "+current_player.getName()+"->"+current_player.strategy.getName());
 				game_play_service.declareWin();
-				if(GamePlayService.getInstance().no_of_games>tournament_game) {
+				if(GamePlayService.getInstance().no_of_games>tournament_game) 
+				{
 					init(player_count, strategies);
 				}
 				else {
+					GamePlayService.getInstance().saveMapResults(game_results);
 					JOptionPane.showMessageDialog(game_logger_view, "Tournament Ends");
-					ShowResultLog(game_results);
+					ShowResultLog();
 				}
-				
 			}
 			fortifyPlayer();
 			break;
@@ -154,8 +156,9 @@ public class TournamentController implements ActionListener, MouseListener {
 			if(GamePlayService.getInstance().no_of_games>tournament_game) {
 				init(player_count, strategies);
 			}else {
+				GamePlayService.getInstance().saveMapResults(game_results);
 				JOptionPane.showMessageDialog(game_logger_view, "Tournament Ends");
-				ShowResultLog(game_results);
+				ShowResultLog();
 			}
 		}
 
@@ -193,11 +196,9 @@ public class TournamentController implements ActionListener, MouseListener {
 		goToNextMove();
 	}
 	
-	private void ShowResultLog(HashMap<Integer, String> game_results) {
+	private void ShowResultLog() {
 		// TODO Auto-generated method stub
-		for(int i=0;i<game_results.size();i++) {
-			game_play_service.write("Game "+(i+1)+"->"+game_results.get((i+1)));
-		}
+		game_play_service.displayResults();
 	}
 	
 	@Override
